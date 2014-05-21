@@ -9,6 +9,7 @@ angular.module('sellIn', [
         'polaris.directives.commonFooter',
         'polaris.directives.tabs',
         'polaris.directives.pagination',
+        'sellIn.directives.dealerInfo',
         'sellIn.resources.dealerProfiles',
         'sellIn.resources.dealer',
         'sellIn.pages.dealerProfileSummary',
@@ -20,10 +21,10 @@ angular.module('sellIn', [
                 templateUrl: 'js/pages/dealer-summary/profile-summary.html',
                 controller: 'dealerProfileSummaryCtrl'
             })
-//            .when('/dealerProfile/:id', {
-//                templateUrl: 'js/pages/profile-detail/profile-detail.html',
-//                controller: 'profileController'
-//            })
+            .when('/dealerProfile/:id', {
+                templateUrl: 'js/pages/profile-detail/profile-detail-template.html',
+                controller: 'profileController'
+            })
             .otherwise({
                 redirectTo: '/dealerSummary'
             });
