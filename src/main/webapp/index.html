@@ -1,0 +1,98 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <title>Inventory Profile Sell-In</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" media="screen, print" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+<!--    <link rel="stylesheet" media="screen, print" href="bower_components/datatables/media/css/jquery.dataTables.css" /> -->
+    <!-- endbower -->
+
+<!--    <link rel="stylesheet" type="text/css" media="screen, print" href="bower_components/datatables-bootstrap3/BS3/assets/css/datatables.css"> -->
+    <link rel="stylesheet" type="text/css" media="screen, print" href="bower_components/jquery-ui/themes/base/jquery-ui.css">
+    <!-- endbuild -->
+
+    <link rel="stylesheet" media="screen, print" href="css/bootstrap.css">
+    <link rel="stylesheet" media="screen, print" href="css/datatables.css">
+    <link rel="stylesheet" media="screen, print" href="css/core-dealerdev.css">
+    <link rel="stylesheet" media="screen, print" href="css/application-theme.css">
+<!--    <link rel="stylesheet" href="css/main.css"> -->
+    <!-- endbuild -->
+
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/datatables/media/js/jquery.dataTables.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <!-- endbower -->
+
+    <script src="bower_components/datatables-bootstrap3/BS3/assets/js/datatables.js"></script>
+    <!-- endbuild -->
+
+    <!-- namespace utilities -->
+    <script src="js/utilities/namespace/sellIn_namespace.js"></script>
+    <script src="js/utilities/namespace/namespace_creator.js"></script>
+    <script src="js/utilities/namespace/namespace_interface.js"></script>
+    <script src="js/utilities/namespace/section_deriver.js"></script>
+    <script src="js/initialize_namespace.js"></script>
+
+    <!-- common components -->
+    <script src="js/directives/header/common-header-controller.js"></script>
+    <script src="js/directives/header/common-header-directive.js"></script>
+    <script src="js/directives/header/common-header-module.js"></script>
+    <script src="js/directives/search/common-search-directive.js"></script>
+    <script src="js/directives/search/common-search-module.js"></script>
+    <script src="js/directives/footer/common-footer-directive.js"></script>
+    <script src="js/directives/footer/common-footer-module.js"></script>
+    <script src="js/directives/tabs/tabs-directive.js"></script>
+    <script src="js/directives/tabs/tabs-controller.js"></script>
+    <script src="js/directives/tabs/tabs-module.js"></script>
+    <script src="js/directives/pagination/common-items-per-page-directive.js"></script>
+    <script src="js/directives/pagination/common-page-controls-directive.js"></script>
+    <script src="js/directives/pagination/common-pagination-module.js"></script>
+
+    <!-- dealer profiles resources -->
+    <script src="js/resources/profile/dealer-profiles-resource.js"></script>
+    <script src="js/resources/profile/dealer-profiles-resource-module.js"></script>
+
+    <script src="js/resources/dealer/dealer-resource.js"></script>
+    <script src="js/resources/dealer/dealer-resource-module.js"></script>
+
+    <!-- dealer profile summary page -->
+    <script src="js/pages/dealer-summary/profile-summary-controller.js"></script>
+    <script src="js/pages/dealer-summary/profile-summary-module.js"></script>
+
+    <script src="js/pages/profile-detail/profile-detail-controller.js"></script>
+    <script src="js/pages/profile-detail/profile-detail-module.js"></script>
+
+    <script src="js/app.js"></script>
+    <!-- endbuild -->
+</head>
+<body ng-app="sellIn" ng-class="">
+<!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<!-- Add your site or application content here -->
+<div  id="page-wrapper">
+    <ng-view></ng-view>
+</div>
+</body>
+</html>

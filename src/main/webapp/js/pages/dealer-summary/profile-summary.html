@@ -1,0 +1,78 @@
+<common-header></common-header>
+<section class="cntr-main-wrapper">
+    <div class="cntr-main-content">
+        <!-- Page title -->
+        <div class="row">
+            <div class="col-md-8">
+                <h2>Inventory Profile Summary</h2>
+            </div>
+        </div>
+        <!-- Page Tabs -->
+        <tabs></tabs>
+        <!-- Search and Items-Per-Page -->
+        <div class="row">
+            <common-search></common-search>
+            <items-per-page></items-per-page>
+        </div>
+        <!-- Data table -->
+        <div class="col-md-12">
+            <div id="activeObjectsTable_processing" class="dataTables_processing" style="visibility: hidden;">Processing...</div>
+            <table id="activeObjectsTable"
+                   class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
+                   aria-describedby="activeObjectsTable_info">
+                <thead>
+                <tr role="row">
+                    <th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" rowspan="1"
+                        colspan="1" aria-sort="ascending" aria-label="Date : activate to sort column descending" style="width: 10%;">
+                        Date
+                    </th>
+                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" rowspan="1"
+                        colspan="1" aria-label="Inventory Profile : activate to sort column ascending" style="width: 50%;">
+                        Inventory Profile
+                    </th>
+                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" rowspan="1"
+                        colspan="1" aria-label="Status : activate to sort column ascending" style="width: 10%;">
+                        Status
+                    </th>
+                </tr>
+                </thead>
+                <tbody role="alert" aria-live="polite" aria-relevant="all">
+                <tr class="odd">
+                    <td class=" sorting_1"><a href="#" onclick="">4/30/2014</a></td>
+                    <td class="">ATV Inventory Profile 04/30/2014</td>
+                    <td class=""><span style="color:#3AB050">Not Started</span></td>
+                </tr>
+                <tr class="odd">
+                    <td class=" sorting_1"><a href="#" onclick="">4/30/2014</a></td>
+                    <td class="">Ranger Inventory Profile 04/30/2014</td>
+                    <td class=""><span style="color:#3AB050">Not Started</span></td>
+                </tr>
+                <tr class="odd">
+                    <td class=" sorting_1"><a href="#" onclick="">4/30/2014</a></td>
+                    <td class="">RZR Inventory Profile 04/30/2014</td>
+                    <td class=""><span style="color:#3AB050">Not Started</span></td>
+                </tr>
+                <tr class="odd">
+                    <td class=" sorting_1"><a href="#" onclick="">4/30/2014</a></td>
+                    <td class="">Victory Inventory Profile 04/30/2014</td>
+                    <td class=""><span style="color:#3AB050">Not Started</span></td>
+                </tr>
+                <tr class="odd">
+                    <td class=" sorting_1"><a href="#" onclick="">4/30/2014</a></td>
+                    <td class="">Indian Inventory Profile 04/30/2014</td>
+                    <td class=""><span style="color:#3AB050">Not Started</span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- Data table summary and Page Controls -->
+        <div class="row row-padding">
+            <div class="col-md-6">
+                <div class="dataTables_info" id="activeObjectsTable_info">Showing 1 to 5 of 5 items</div>
+            </div>
+            <page-controls></page-controls>
+        </div>
+    </div>
+</section>
+<!-- Footer -->
+<common-footer></common-footer>

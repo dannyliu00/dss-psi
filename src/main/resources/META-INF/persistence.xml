@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+    <persistence-unit name="DealerExtPU" transaction-type="JTA">
+        <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+        <jta-data-source>sql/PolarisDealersExtension</jta-data-source>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <!-- OpenJPA Specific -->
+            <property name="openjpa.TransactionMode" value="managed" />
+			<property name="openjpa.ConnectionFactoryMode" value="managed" />
+			<property name="openjpa.ConnectionDriverName" value="net.sourceforge.jtds.jdbcx.JtdsDataSource"/>
+            <property name="openjpa.jdbc.DBDictionary" value="org.apache.openjpa.jdbc.sql.SQLServerDictionary"/>
+            <property name="openjpa.ConnectionFactoryProperties" value="PrintParameters=true" />
+        </properties>
+    </persistence-unit>
+    <persistence-unit name="DealerPU" transaction-type="JTA">
+        <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+        <jta-data-source>sql/PolarisDealers</jta-data-source>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <!-- OpenJPA Specific -->
+            <property name="openjpa.TransactionMode" value="managed" />
+			<property name="openjpa.ConnectionFactoryMode" value="managed" />
+			<property name="openjpa.ConnectionDriverName" value="net.sourceforge.jtds.jdbcx.JtdsDataSource"/>
+            <property name="openjpa.jdbc.DBDictionary" value="org.apache.openjpa.jdbc.sql.SQLServerDictionary"/>
+            <property name="openjpa.ConnectionFactoryProperties" value="PrintParameters=true" />
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="AS400PU" transaction-type="JTA">
+        <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+        <jta-data-source>as400/POLMPLSPGA</jta-data-source>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <!-- OpenJPA Specific -->
+            <property name="openjpa.TransactionMode" value="managed" />
+			<property name="openjpa.ConnectionFactoryMode" value="managed" />
+            <property name="openjpa.jdbc.DBDictionary" value="org.apache.openjpa.jdbc.sql.DB2Dictionary"/>
+            <property name="openjpa.ConnectionFactoryProperties" value="PrintParameters=true" />
+            <!-- <property name="openjpa.jdbc.JDBCListeners" value="com.polaris.pga.orderform.util.JdbcListener"></property> -->
+        </properties>
+    </persistence-unit>
+    
+    <persistence-unit name="DealerCommonPU" transaction-type="JTA">
+        <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+        <jta-data-source>sql/PolarisDealersCommon</jta-data-source>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <!-- OpenJPA Specific -->
+            <property name="openjpa.TransactionMode" value="managed" />
+			<property name="openjpa.ConnectionFactoryMode" value="managed" />
+			<property name="openjpa.ConnectionDriverName" value="net.sourceforge.jtds.jdbcx.JtdsDataSource"/>
+            <property name="openjpa.jdbc.DBDictionary" value="org.apache.openjpa.jdbc.sql.SQLServerDictionary"/>
+            <property name="openjpa.ConnectionFactoryProperties" value="PrintParameters=true" />
+        </properties>
+    </persistence-unit>
+</persistence>

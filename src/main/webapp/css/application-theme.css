@@ -1,0 +1,372 @@
+/************ APPLICATION THEME CSS CODE ****************/
+/*****  Note: Place all CSS code specific to the application in this file.
+If CSS is specific to all DEX web applications place it in the "core-dealerdev.css" file.
+ *****/
+
+/*** TABLE COLUMN STYLES FOR MONEY ***/
+.money {
+    text-align: right; /*  Custom CSS to align the totals columns. */
+}
+
+/*** ORDER FORM CUSTOM STYLES - order-form.jsp ***/
+
+/* Available Items Table */
+.appdata-table-input-length {
+    width:70px;
+    display: inline-block;
+}
+
+.appdata-table-input-search {
+    width:225px;
+    display: inline-block;
+}
+
+.table-available-items ul.item-info-supplemental {
+    font-size:11px;
+    margin-top:5px;
+    margin-bottom:0;
+    margin-left:0;
+    padding-left:0;
+    list-style-type:none;
+}
+
+.available-items-input-quantity {
+    /*max-width: 75px;
+    display:inline-block;*/
+}
+
+/* Import Items List Styles */
+.import-items-input-quantity {
+    /*max-width: 75px;
+    display:inline-block*/;
+}
+
+/* Order Form Messages */
+.ctr-order-form-messages {
+    display:none; /* Hide the Order Form Messages when the page is loaded */
+}
+
+.order-form-messages {
+    color: #FF0000; /*red*/
+}
+
+.order-form-shipment-messages {
+    color: #b03060; /*maroon*/
+}
+
+/* Filters Container */
+
+/* Filters Panel Styles */
+.cntr-filters {
+    background-color: #FAFBFD;
+}
+
+.cntr-filters-panel {
+    margin-bottom:0px; 
+}
+
+.filters-applied-group {
+    display:inline-block;
+    border: 1px solid #CCC;
+    margin-right: 6px;
+    padding:2px;
+    background-color:#FFF;
+    margin-top: 12px;
+}
+
+/* Filters - Mega Menu Styles */
+.filters-dialog-group {
+    display: inline-block;
+}
+
+.filters-dialog-hide {
+    display:none;
+}
+
+.filters-dialog {
+    border: 1px solid #CCC;
+    z-index:6500;
+    position:absolute;
+    background: #FFF;
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border-top-left-radius: 0;
+    min-height:200px;
+    margin-top: 0;
+    border-radius: 4px;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+
+.filters-dialog-header {
+    border-bottom: 1px solid #CCC;
+    padding:6px 12px;
+    background-color: #E7E7E7;
+}
+
+.filters-dialog-body {
+    padding:6px 12px;
+}
+
+.filters-select-filter-by {
+    width:200px;
+}
+
+.filters-dialog-ctr-products {
+    border:1px solid #CCC;
+    height:100px;
+    overflow-y: scroll;
+    margin-bottom:20px;
+    padding: 0px 12px;
+}
+
+.filters-dialog-ctr-pga {
+    border:1px solid #CCC;
+    height:100px;
+    overflow-y: scroll;
+    padding: 0px 12px;
+}
+
+.filters-dialog-ctr-commodities {
+    border:1px solid #CCC;
+    height:237px;
+    overflow-y: scroll;
+    padding: 0px 12px;
+}
+
+@media (max-width: 767px) {
+  .filters-dialog {
+    left:0;
+  }
+}
+
+/* Definition List Styles */
+@media (min-width: 992px) {
+
+    .ctr-order-form-details dt { /* Order Form - Details Panel Specific Style */
+        width:125px;
+    }
+
+    .ctr-order-form-details dd { /* Order Form - Details Panel Specific Style */
+        margin-left:145px;
+    }
+}
+
+/*** DSM ORDER FORMS SUMMARY CUSTOM STYLES - order-forms-summary.jsp ***/
+.ctr-order-form-info {
+    font-weight: bold;
+    height:31px;
+    vertical-align: middle;
+}
+
+.ctr-order-form-info .control-label {
+    text-align:left;
+}
+
+
+
+/**
+Copyright (c) 2012 Marco Pegoraro, http://movableapp.com/
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+WHERE TO FIND MEDIA TABLE:
+https://github.com/thepeg/MediaTable
+http://consulenza-web.com/jquery/MediaTable/
+http://www.consulenza-web.com/2012/01/mediatable-jquery-plugin/
+
+**/
+
+/* -----[[     S T R U C T U R E     ]]------------ */
+
+/**
+ * Structural Style
+ */
+ .mediaTable {
+    width:100%;
+    border-collapse:collapse;
+}
+.mediaTableWrapper {
+    position: relative;
+}
+.mediaTableWrapperWithMenu {
+    padding-top:3em;
+}
+.mediaTableMenuClosed ul {
+    display:none;
+}
+
+/**
+ * Active Media Table Rules
+ * theese rules are applied to a table activated by the jQuery plugin.
+ */
+ .activeMediaTable th, .activeMediaTable td {
+    display: none;
+}
+.activeMediaTable th.essential, .activeMediaTable td.essential {
+    display: table-cell;
+    _display:block;
+    /* IE6 Hack */
+}
+/* IE7 Hack */
+ *+html .activeMediaTable th.essential, *+html .activeMediaTable td.essential {
+    display:block
+}
+/* -----[[     B R E A K      P O I N T S     ]]------------ */
+ @media screen and (min-width: 992px) { /* Replaced "min-width: 768px" in order to support iPad portrait mode and medium devices. */
+    .activeMediaTable th.optional, .activeMediaTable td.optional {
+        display: table-cell;
+        _display:block;
+        /* IE6 Hack */
+    }
+    /* IE7 Hack */
+    *+html .activeMediaTable th.optional, *+html .activeMediaTable td.optional {
+        display:block
+    }
+}
+@media screen and (min-width: 1024px) {
+    .activeMediaTable th, .activeMediaTable td {
+        display: table-cell;
+        _display:block;
+        /* IE6 Hack */
+    }
+    /* IE7 Hack */
+    *+html .activeMediaTable th, *+html .activeMediaTable td {
+        display:block
+    }
+}
+/* -----[[     T H E M I N G     ]]------------ */
+
+/**
+ * Table Style*/
+ 
+ table.mediaTable thead th {
+}
+table.mediaTable th, table.mediaTable td {
+}
+table.mediaTable th:first-child, table.mediaTable td:first-child {
+}
+table.mediaTable tbody th, table.mediaTable td {
+}
+
+
+/**
+ * mediaTable Menu Style - Custom Style and Placement inside a different element
+ */
+
+ /* CSS for Custom Placement of "Display" button in the DOM */
+.mediaTable-display-column-btn {
+    position: relative;
+    display: inline-block;
+    /* Width and Height are dynamically set in JS 
+    width: 136px;
+    height: 31px; 
+    */
+    vertical-align: middle;
+}
+
+ .mediaTable-display-column-btn .mediaTableMenu {
+    position:absolute;
+    top:0;
+    overflow:hidden;
+    border: 1px solid #ccc;
+    z-index:6000;
+    background: #FFF;
+    box-sizing: border-box;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+
+ .mediaTable-display-column-btn .mediaTableMenuClosed {
+    box-shadow:none;
+    border:none;
+}
+.mediaTable-display-column-btn .mediaTableMenu a {
+    display: block;
+}
+
+.mediaTable-display-column-btn .mediaTableMenu ul {
+    list-style-position:outside;
+    list-style:none;
+    margin:0;
+    padding:0 0.5em;
+}
+.mediaTable-display-column-btn .mediaTableMenuClosed a {
+}
+.mediaTable-display-column-btn .mediaTableMenu ul li {
+    line-height: 2em;
+}
+.mediaTable-display-column-btn .mediaTableMenu ul li label {
+    cursor:pointer;
+}
+
+/**
+ * mediaTable Menu Style - Default Style and Placement
+ */
+.mediaTableWrapper .mediaTableMenu {
+    position:absolute;
+    top:0;
+    right:0;
+    background: #fff;
+    border:1px solid #aaa;
+    border-radius:5px;
+    overflow:hidden;
+    box-shadow:2px 2px 4px #ddd;
+    z-index: 6000;
+}
+.mediaTableWrapper .mediaTableMenu a {
+    display: block;
+    background: #ddd;
+    padding:0.5em;
+    cursor:pointer;
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-top-left-radius: 5px;
+    -moz-border-radius-topright: 5px;
+    -moz-border-radius-topleft: 5px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+.mediaTableWrapper .mediaTableMenu ul {
+    list-style-position:outside;
+    list-style:none;
+    margin:0;
+    padding:0 0.5em;
+}
+.mediaTableWrapper .mediaTableMenuClosed a {
+    border-radius:5px;
+}
+.mediaTableWrapper .mediaTableMenu ul li {
+    line-height: 2em;
+}
+.mediaTableWrapper .mediaTableMenu ul li label {
+    cursor:pointer;
+}
+
+
+
+/*div.ui-dialog {
+	z-index:10000 !important;
+}*/

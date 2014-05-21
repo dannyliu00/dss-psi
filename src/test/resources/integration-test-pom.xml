@@ -1,0 +1,123 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.polaris.pga</groupId>
+	<artifactId>orderform</artifactId>
+	<version>1.0</version>
+	<packaging>war</packaging>
+
+	<name>PG&amp;A-OrderForm</name>
+
+	<properties>
+		<was.server.location>C:/work/wlp/wlp-pga-managedbymaven</was.server.location>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jtds.version>1.2.8</jtds.version>
+		<java.version>1.6</java.version>
+		<jee.version>7.0</jee.version>
+		<jt400.version>6.0</jt400.version>
+		<openjpa.version>2.2.2</openjpa.version>
+		<wink.version>1.4</wink.version>
+		<junit.version>4.11</junit.version>
+		<sl4j.version>1.6.1</sl4j.version>
+		<log4j.version>1.2.16</log4j.version>
+		<jstl.version>1.2</jstl.version>
+		<surefire.version>2.16</surefire.version>
+		<shrinkwrap.resolvers.version>2.0.0</shrinkwrap.resolvers.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax.transaction</groupId>
+			<artifactId>jta</artifactId>
+			<version>1.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>6.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.spockframework</groupId>
+			<artifactId>spock-maven</artifactId>
+			<version>0.7-groovy-2.0</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>surefire-junit47</artifactId>
+					<groupId>org.apache.maven.surefire</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- JSTL implementation -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>${jstl.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- ubiquitous logging framework -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<finalName>dealerform</finalName>
+		
+	</build>
+
+	<profiles>
+		<profile>
+			<id>integration-tests</id>
+			<activation>
+				<property>
+					<name>integration-tests</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>${surefire.version}</version>
+						<dependencies>
+							<dependency>
+								<groupId>org.apache.maven.surefire</groupId>
+								<artifactId>surefire-api</artifactId>
+								<version>${surefire.version}</version>
+							</dependency>
+							<dependency>
+								<groupId>org.apache.maven.surefire</groupId>
+								<artifactId>surefire-junit47</artifactId>
+								<version>${surefire.version}</version>
+							</dependency>
+						</dependencies>
+						<executions>
+							<execution>
+								<phase>integration-test</phase>
+								<goals>
+									<goal>test</goal>
+								</goals>
+								<configuration>
+									<excludes>
+										<exclude>none</exclude>
+									</excludes>
+									<includes>
+										<include>**/*IntTest.class</include>
+									</includes>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>

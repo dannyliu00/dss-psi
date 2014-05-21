@@ -1,0 +1,54 @@
+<server description="PGA Server">
+
+    <!-- Enable features -->
+    <featureManager>
+        <feature>jsp-2.2</feature>
+        <feature>localConnector-1.0</feature>
+    	<feature>jaxws-2.2</feature>
+		<feature>jdbc-4.0</feature>
+		<feature>jpa-2.0</feature>
+		<feature>jaxrs-1.1</feature>
+		<feature>jndi-1.0</feature>
+		<feature>ejbLite-3.1</feature>
+		<feature>managedBeans-1.0</feature>
+	    <feature>jsf-2.0</feature>
+        <feature>cdi-1.0</feature>
+    </featureManager>
+
+    <httpEndpoint host="localhost" httpPort="39080" httpsPort="39443" id="defaultHttpEndpoint"/>
+
+    <applicationMonitor updateTrigger="mbean"/>
+
+    <library id="as400JDBCLibs">
+        <fileset dir="libs" includes="jt400.jar"/>
+    </library>
+	<library id="MSSQLJDBCLibs">
+        <fileset dir="libs" includes="sqljdbc4.jar"/>
+    </library>
+    <library id="MSSQL2008JDBCLibs">
+        <fileset dir="libs" includes="jtds-1.2.8.jar"/>
+    </library>
+	
+	<dataSource id="polarisDealersExtDb" jndiName="sql/PolarisDealersExtension" type="javax.sql.DataSource">
+        <jdbcDriver libraryRef="MSSQLJDBCLibs"/>
+        <connectionManager maxPoolSize="20" minPoolSize="5"/>
+        <properties.microsoft.sqlserver databaseName="PolarisDealersExtension" password="G7v2x3i1" serverName="mpl1devsql007.polarisdev.com" user="PolarisWebExtn"/>
+    </dataSource>
+    
+    <dataSource id="as400jdbc" jndiName="as400/POLMPLS" type="javax.sql.DataSource">
+        <jdbcDriver libraryRef="as400JDBCLibs"/>
+        <connectionManager maxPoolSize="20" minPoolSize="5"/>
+        <properties.db2.i.toolbox naming="system" password="webteam26" serverName="S102PC4M.POLARISIND.COM" translateBinary="true" user="webteam"/>
+    </dataSource>
+    
+    <dataSource id="polarisDealersDb" jndiName="jdbc/SessionDB" type="javax.sql.DataSource">
+        <jdbcDriver libraryRef="MSSQL2008JDBCLibs" 
+                javax.sql.DataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource" javax.sql.ConnectionPoolDataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource" javax.sql.XADataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource"/>
+        <connectionManager maxPoolSize="20" minPoolSize="5"/>
+        <properties  databaseName="PolarisDealers" password="webguest" serverName="mpl1devsql003.polarisind.com" user="PolarisWeb"></properties>
+    </dataSource>
+
+    <!--  <application type="war" contextRoot="orderform" id="dealerform" location="PGAOrderForm.war" name="PGAOrderForm"/> -->
+    <logging traceSpecification="openjpa=all"/>
+
+</server>
