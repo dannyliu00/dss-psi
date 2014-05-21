@@ -8,7 +8,7 @@ import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
-import com.polaris.app.config.spring.TestAppSpringConfig;
+
 import com.polaris.psi.config.spring.AppSpringConfig;
 import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
 
