@@ -4,12 +4,12 @@
         <!-- Page title -->
         <div class="row">
             <div class="col-md-8">
-                <h2>Victory Inventory Profile 04/30/14</h2>
+                <h2>{{profile.name}}</h2>
             </div>
         </div>
-        <dealer-info></dealer-info>
+        <dealer-info dealer="dealer"></dealer-info>
         <div class="pull-right">
-            <button type="button" class="btn btn-default btn-sm" ng-click="#/dealerSummary">Return to Summary</button>
+            <button type="button" class="btn btn-default btn-sm" ng-click="toSummary(dealer.dealerId)">Return to Summary</button>
         </div>
         <!-- Search and Items-Per-Page -->
         <div class="row">
@@ -31,20 +31,15 @@
                         Order Segment
                     </th>
                     <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" style="width: 33%" >
-                        Window<br/>Recommendation - Qty
+                        "Window"<br/>Recommendation - Qty
                     </th>
                 </tr>
                 </thead>
-                <tbody role="alert" aria-live="polite" aria-relevant="all">
-                <tr class="odd">
-                    <td class="">Cruiser</td>
-                    <td class="">Judge</td>
-                    <td class="text-center"><span>0&nbsp;&nbsp;&nbsp;&nbsp;<input type="text"></span></td>
-                </tr>
-                <tr class="even">
-                    <td class=" sorting_1">Cruiser</td>
-                    <td class="">Vegas 8-Ball</td>
-                    <td class="text-center"><span>1&nbsp;&nbsp;&nbsp;&nbsp;<input type="text"></span></td>
+                <tbody ng-repeat="segment in profile.segments" role="alert" aria-live="polite" aria-relevant="all">
+                <tr ng-repeat="orderSegment in segment.orderSegments" class="odd">
+                    <td class="">{{segment.name}}</td>
+                    <td class="">{{orderSegment.name}}</td>
+                    <td class="text-center"><span>{{orderSegment.recommendedQty}}&nbsp;&nbsp;&nbsp;&nbsp;<input class="text-center" type="text" ng-model="actualGrandTotal" ng-change="getActualGrandTotal();" value="{{orderSegment.actualQty}}"></span></td>
                 </tr>
                 </tbody>
             </table>
@@ -79,32 +74,22 @@
                         </tr>
                         </thead>
                         <tbody role="alert" aria-live="polite" aria-relevant="all">
-                        <tr class="odd">
-                            <td class="">Cruiser</td>
-                            <td class="text-center">3</td>
-                            <td class="text-center">21</td>
-                        </tr>
-                        <tr class="even">
-                            <td class="">Bagger</td>
-                            <td class="text-center">4</td>
-                            <td class="text-center">5</td>
-                        </tr>
-                        <tr class="even">
-                            <td class="">Tourintg</td>
-                            <td class="text-center">3</td>
-                            <td class="text-center">2</td>
+                        <tr ng-repeat="segment in profile.segments" class="odd">
+                            <td class="">{{segment.name}}</td>
+                            <td class="text-center">{{segment.recommendedQty}}</td>
+                            <td class="text-center"></td>
                         </tr>
                         <tr class="even">
                             <td class="">Grand Total</td>
-                            <td class="text-center">10</td>
-                            <td class="text-center">28</td>
+                            <td class="text-center">{{recGrandTotal}}</td>
+                            <td class="text-center">{{actualGrandTotal}}</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="pull-right">
-                <button type="button" class="btn btn-default btn-sm" ng-click="#/dealerSummary">Return to Summary</button>
+                <button type="button" class="btn btn-default btn-sm" ng-click="toSummary(dealer.dealerId)">Return to Summary</button>
             </div>
         </div>
     </div>
