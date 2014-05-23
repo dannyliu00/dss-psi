@@ -21,7 +21,7 @@ angular.module('sellIn', [
                 templateUrl: 'js/pages/dealer-summary/profile-summary.html',
                 controller: 'dealerProfileSummaryCtrl'
             })
-            .when('/dealerProfile/:id', {
+            .when('/dealerProfile/:dealerId', {
                 templateUrl: 'js/pages/profile-detail/profile-detail-template.html',
                 controller: 'profileController'
             })

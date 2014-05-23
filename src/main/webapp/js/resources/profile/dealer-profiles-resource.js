@@ -5,11 +5,8 @@
         this.resource = $resource(profilesUrl);
     }
 
-    DealerProfilesResource.prototype.query = function(dealer) {
-        return this.resource.query(dealer).$promise;
-    };
-
     DealerProfilesResource.prototype.get = function(profile) {
+        console.log(profile);
         return this.resource.get(profile).$promise;
     };
 
