@@ -1,7 +1,7 @@
 (function() {
     var profile = sellInNamespace('sellIn.pages.profile');
 
-    function ProfileController($scope, $routeParams, $location, dealerResource, dealerProfilesResource) {
+    function ProfileController($scope, $routeParams, dealerResource, dealerProfilesResource) {
         $scope.dealer = {dealerId: 2021900, name: 'ENGELHART MOTORSPORTS', city: 'MADISON', state: 'WI', zip: '53713', dsm: 'JESS PFEIFER'};
         var dealer = {dealerId: $routeParams.dealerId};
         dealerResource.get(dealer).then(function(returnedDealer) {
@@ -57,7 +57,7 @@
             }
 
             return total;
-        }
+        };
 
         function getRecSegmentTotal(segment) {
             var total = 0;
@@ -79,10 +79,6 @@
 
         $scope.recGrandTotal = getRecGrandTotal();
         $scope.actualGrandTotal = $scope.getActualGrandTotal();
-
-        $scope.toSummary = function(dealerId) {
-            $location.path('#/dealerSummary/dealerId');
-        }
     }
 
     profile.ProfileController = ProfileController;

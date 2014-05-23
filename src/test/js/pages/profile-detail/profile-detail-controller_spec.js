@@ -1,9 +1,10 @@
 (function() {
+    var profile = sellInNamespace('sellIn.pages.profile');
 
     describe('ProfileController', function() {
-        var scope, routeParams, dealerResource, profileResource, expectedDealerId, expectedProfileId;
+        var scope, routeParams, dealerResource, dealerProfilesResource, expectedDealerId, expectedProfileId;
         var expectedDealerDeferred, expectedProfileDeferred;
-        var controller, ctrl;
+        var ctrl;
 
         beforeEach(function() {
             angular.mock.module('sellIn.pages.profile');
@@ -13,36 +14,32 @@
                 $provide.decorator('dealerResource', [function() {
                     return dealerResource;
                 }]);
-                profileResource = jasmine.createSpyObj('profileResource', ['get']);
-                $provide.decorator('profileResource', [function() {
-                    return profileResource;
+                dealerProfilesResource = jasmine.createSpyObj('dealerProfilesResource', ['get']);
+                $provide.decorator('dealerProfilesResource', [function() {
+                    return dealerProfilesResource;
                 }]);
             });
 
             expectedProfileId = 999;
             expectedDealerId = 111;
             routeParams = {dealerId: expectedDealerId, profileId: expectedProfileId};
-
-            angular.mock.inject(function($injector) {
-                var controller = $injector.get('$controller');
-                ctrl = controller('sellIn.pages.profile.ProfileController', {$scope: scope});
-            });
         });
 
-        beforeEach(inject(function($rootScope, dealerResource, profileResource, $q) {
+        beforeEach(inject(function($q, dealerResource, dealerProfilesResource) {
             expectedDealerDeferred = $q.defer();
             dealerResource.get.andReturn(expectedDealerDeferred.promise);
 
             expectedProfileDeferred = $q.defer();
-            profileResource.get.andReturn(expectedProfileDeferred.promise);
+            dealerProfilesResource.get.andReturn(expectedProfileDeferred.promise);
 
-            scope = $rootScope.new();
+            scope = {};
         }));
 
         describe('constructor', function() {
-            it('initializes dealer on scope', inject(function($rootScope, dealerResource) {
-                ctrl = new profile.ProfileController(scope, routeParams, dealerResource, profileResource);
+            it('initializes dealer on scope', inject(function(dealerResource, dealerProfilesResource) {
+                ctrl = new profile.ProfileController(scope, routeParams, dealerResource, dealerProfilesResource);
                 expect(dealerResource.get).toHaveBeenCalled();
+                expect(dealerProfilesResource.get).toHaveBeenCalled();
                 expect(scope.dealer).toBeDefined();
                 expect(scope.profile).toBeDefined();
             }));
