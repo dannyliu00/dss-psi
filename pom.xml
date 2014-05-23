@@ -12,7 +12,7 @@
 	<properties>
 		<was.server.location>C:/servers/wlp</was.server.location>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<pwf.version>1.0.32</pwf.version>
+		<pwf.version>1.0.37</pwf.version>
 		<jtds.version>1.3.1</jtds.version>
 		<java.version>1.7</java.version>
 		<jt400.version>6.0</jt400.version>
