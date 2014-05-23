@@ -15,29 +15,29 @@ import javax.persistence.Table;
  * @author bericks
  *
  */
-@Entity
-@Table(name = "<TABLE_NAME>")
+//@Entity
+//@Table(name = "<TBL_DEALER>")
 public class Dealer implements Serializable {
 
 	private static final long serialVersionUID = 8391382100485071545L;
 
-	@Id
-	@Column(name = "<COL_NAME>")
+//	@Id
+//	@Column(name = "<COL_NAME1>")
 	private Integer dealerId;
 
-	@Column(name = "<COL_NAME>")
+//	@Column(name = "<COL_NAME2>")
 	private String name;
 
-	@Column(name = "<COL_NAME>")
+//	@Column(name = "<COL_NAME3>")
 	private Integer company;
 	
-	@Column(name = "<COL_NAME>")
+//	@Column(name = "<COL_NAME4>")
 	private String city;
 
-	@Column(name = "<COL_NAME>")
+//	@Column(name = "<COL_NAME5>")
 	private String state;
 
-	@Column(name = "<COL_NAME>")
+//	@Column(name = "<COL_NAME6>")
 	private String zip;
 	
 	private List<InventoryProfile> profiles;

@@ -14,23 +14,23 @@ import javax.persistence.Table;
  * @author bericks
  *
  */
-@Entity
-@Table(name = "<TABLE_NAME>")
+//@Entity
+//@Table(name = "<TBL_ORDR_SEG>")
 public class OrderSegment implements Serializable {
 
 	private static final long serialVersionUID = -4692650680058882881L;
 	
-	@Id
-	@Column(name = "<COL_NAME>")
+//	@Id
+//	@Column(name = "<COL_NAME1>")
 	private int orderSegmentId;
 	
-	@Column(name = "<COL_NAME>")
+//	@Column(name = "<COL_NAME2>")
 	private String name;
 	
-	@Column(name = "<COL_NAME>")
+//	@Column(name = "<COL_NAME3>")
 	private int actualQty;
 	
-	@Column(name = "<COL_NAME>")
+//	@Column(name = "<COL_NAME4>")
 	private int recommendedQty;
 
 	/**
