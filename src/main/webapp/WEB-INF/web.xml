@@ -15,12 +15,14 @@
     </servlet-mapping>
 
     <!-- Servlet filter for application authentication -->
+<!-- 
     <filter>
         <filter-name>SessionFilter</filter-name>
         <filter-class>com.polaris.pwf.filter.SessionFilter</filter-class>
     </filter>
-
+ -->
     <!-- URL's we want to lock down -->
+<!-- 
     <filter-mapping>
         <filter-name>SessionFilter</filter-name>
         <url-pattern>/</url-pattern>
@@ -31,7 +33,7 @@
         <url-pattern>/admin/*</url-pattern>
         <url-pattern>/forward</url-pattern>
     </filter-mapping>
-
+ -->
     <session-config>
         <session-timeout>60</session-timeout>
     </session-config>
