@@ -42,7 +42,7 @@ var FilePatterns = {
 	],
 
 	specs: [
-		'test/**/*_spec.js'
+		'src/test/js/**/*_spec.js'
 	],
 
 	generatedSource: [
