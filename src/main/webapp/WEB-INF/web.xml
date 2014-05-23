@@ -2,18 +2,22 @@
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
-    <!-- JAX-RS implementation -->
-    <servlet>
-        <servlet-name>javax.ws.rs.core.Application</servlet-name>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
-    <!-- URL mapping for JAX-RS services -->
-    <servlet-mapping>
-        <servlet-name>javax.ws.rs.core.Application</servlet-name>
-        <url-pattern>/webapi/*</url-pattern>
-    </servlet-mapping>
-
+	<!-- Jersey REST implementation -->
+	<servlet>
+	    <servlet-name>Jersey REST</servlet-name>
+	    <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+	    <init-param>
+	        <param-name>com.sun.jersey.config.property.packages</param-name>
+	        <param-value>com.polaris.psi.resource</param-value>
+	    </init-param>
+	    <load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+	    <servlet-name>Jersey REST</servlet-name>
+	    <url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+	
     <!-- Servlet filter for application authentication -->
 <!-- 
     <filter>
