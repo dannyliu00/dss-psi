@@ -3,6 +3,8 @@
  */
 package com.polaris.psi.resource;
 
+import groovy.util.logging.Slf4j;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -13,12 +15,16 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.springframework.stereotype.Component;
+
 import com.polaris.psi.model.InventoryProfile;
 
 /**
  * @author bericks
  *
  */
+@Slf4j
+@Component
 @Path("/profiles")
 public class ProfilesResource {
 
