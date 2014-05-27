@@ -3,5 +3,5 @@
 
     angular.module('sellIn.resources.dealer', ['ngResource'])
         .service('dealerResource', dealer.DealerResource)
-        .constant('dealerUrl', '/dss-psi/rest/dealers/:dealerId');
+        .constant('dealerUrl', '/dss-psi/webapi/dealers/:dealerId');
 })();

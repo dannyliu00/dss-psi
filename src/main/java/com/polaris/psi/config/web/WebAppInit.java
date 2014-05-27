@@ -6,15 +6,13 @@ import javax.servlet.ServletRegistration;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.filter.DelegatingFilterProxy;
-
+import org.springframework.web.servlet.DispatcherServlet;
 
 import com.polaris.psi.config.spring.AppSpringConfig;
+import com.polaris.psi.config.spring.MvcConfig;
 import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
 
 public class WebAppInit implements WebApplicationInitializer {
-	
-	private final static String[] protectedUrls = new String[] {"/webapi1/*"};
 	
 	@Override
 	public void onStartup(ServletContext servletContext) {
@@ -26,21 +24,22 @@ public class WebAppInit implements WebApplicationInitializer {
 		// Manage the lifecycle of the root application context.
 		servletContext.addListener(new ContextLoaderListener(rootContext));
 
-		servletContext.addFilter("sessionFilter", new DelegatingFilterProxy("sessionFilter")).addMappingForUrlPatterns(null, false, protectedUrls);
-/*		servletContext.addFilter("statsFilter",
-				"com.polaris.dealerform.servlet.StatsFilter")
-				.addMappingForUrlPatterns(null, false,  "/form/*", "/dealer/*", "/dsm/*",
-						"/admin/*", "/webapi/*");
-
-		servletContext.addFilter("localizationFilter",
-				"com.polaris.dealerform.servlet.LocalizationFilter")
-				.addMappingForUrlPatterns(null, false, "/*");*/
+		//Uncomment the following to have session filtering based on your DEX login
+		//String[] protectedUrls = new String[] { "/webapi/*" };
+		//servletContext.addFilter("sessionFilter", new DelegatingFilterProxy("sessionFilter")).addMappingForUrlPatterns(null, false, protectedUrls);
 
 		// Register and map the dispatcher servlet.
-		ServletRegistration.Dynamic jerseyDispatcherServlet = servletContext.addServlet(
-				"jerseyDispatcherServlet", SpringServlet.class);
+		ServletRegistration.Dynamic jerseyDispatcherServlet = servletContext.addServlet("jerseyDispatcherServlet", SpringServlet.class);
 		jerseyDispatcherServlet.setLoadOnStartup(1);
 		jerseyDispatcherServlet.addMapping("/webapi/*");
+
+		// MVC Configuration
+//		AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
+//		dispatcherContext.register(MvcConfig.class);
+//
+//		ServletRegistration.Dynamic registration = servletContext.addServlet("dispatcher", new DispatcherServlet(dispatcherContext));
+//		registration.setLoadOnStartup(1);
+//		registration.addMapping("/*");
 
 		rootContext.registerShutdownHook();
 	}

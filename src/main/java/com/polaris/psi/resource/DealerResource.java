@@ -3,11 +3,15 @@
  */
 package com.polaris.psi.resource;
 
+import groovy.util.logging.Slf4j;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import org.springframework.stereotype.Component;
 
 import com.polaris.psi.model.Dealer;
 
@@ -15,6 +19,8 @@ import com.polaris.psi.model.Dealer;
  * @author bericks
  *
  */
+@Slf4j
+@Component
 @Path("/dealers")
 public class DealerResource {
 
