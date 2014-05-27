@@ -81,12 +81,12 @@
 		</dependency>
 
 		<!-- <dependency> <groupId>org.glassfish.main.extras</groupId> <artifactId>glassfish-embedded-all</artifactId> 
-			<version>3.1.2.2</version> <scope>provided</scope> </dependency>
+			<version>3.1.2.2</version> <scope>provided</scope> </dependency> -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.2.4</version>
-		</dependency>  -->
+		</dependency> 
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
@@ -151,16 +151,13 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.6.1</version>
 		</dependency>
-<!-- 
 		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
 			<version>1.1.2</version>
 			<scope>provided</scope>
 		</dependency>
- -->
 		<!-- itext, option to add PDF export -->
-<!-- 
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itextpdf</artifactId>
@@ -180,7 +177,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
- -->
+
 		<!-- until Java 8, we use this -->
 		<dependency>
 			<groupId>joda-time</groupId>
@@ -207,7 +204,6 @@
 			<version>2.2.2</version>
 			<scope>provided</scope>
 		</dependency>
-<!-- 
 		<dependency>
 			<groupId>org.jboss.arquillian.junit</groupId>
 			<artifactId>arquillian-junit-container</artifactId>
@@ -226,19 +222,16 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
- -->
 		<dependency>
 			<groupId>org.jboss.shrinkwrap.resolver</groupId>
 			<artifactId>shrinkwrap-resolver-impl-maven</artifactId>
 			<scope>test</scope>
 		</dependency>
-<!-- 
 		<dependency>
 			<groupId>org.jboss.arquillian.protocol</groupId>
 			<artifactId>arquillian-protocol-servlet</artifactId>
 			<scope>test</scope>
 		</dependency>
- -->
 		<dependency>
 			<groupId>net.sourceforge.jtds</groupId>
 			<artifactId>jtds</artifactId>
@@ -321,7 +314,6 @@
 		</dependency>
 
         <!-- HTTPClient -->
-<!-- 
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
@@ -332,7 +324,6 @@
             <artifactId>httpclient</artifactId>
             <version>4.1.2</version>
         </dependency>
- -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -355,7 +346,7 @@
 			</releases>
 		</pluginRepository>
 	</pluginRepositories>
-<!-- 
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -367,7 +358,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
- -->
+
 	<build>
 		<finalName>dss-psi</finalName>
 		<plugins>
@@ -432,7 +423,7 @@
 				<version>1.1</version>
 				<configuration>
 					<serverHome>${was.server.location}</serverHome>
-					<serverName>psi</serverName>
+					<serverName>server1</serverName>
 					<appArchive>${project.build.directory}/${project.build.finalName}.${project.packaging}</appArchive>
 				</configuration>
 				<executions>
