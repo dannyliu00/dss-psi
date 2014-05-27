@@ -6,10 +6,8 @@ import javax.servlet.ServletRegistration;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.servlet.DispatcherServlet;
 
 import com.polaris.psi.config.spring.AppSpringConfig;
-import com.polaris.psi.config.spring.MvcConfig;
 import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
 
 public class WebAppInit implements WebApplicationInitializer {
