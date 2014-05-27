@@ -10,7 +10,7 @@ angular.module('sellIn', [
         'polaris.directives.tabs',
         'polaris.directives.pagination',
         'sellIn.directives.dealerInfo',
-        'sellIn.resources.dealerProfiles',
+        'sellIn.resources.dealerProfile',
         'sellIn.resources.dealer',
         'sellIn.pages.dealerProfileSummary',
         'sellIn.pages.profile'

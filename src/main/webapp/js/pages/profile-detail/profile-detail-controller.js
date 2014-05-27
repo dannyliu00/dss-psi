@@ -1,14 +1,14 @@
 (function() {
     var profile = sellInNamespace('sellIn.pages.profile');
 
-    function ProfileController($scope, $routeParams, $location, dealerResource, dealerProfilesResource) {
+    function ProfileController($scope, $routeParams, $location, dealerResource, dealerProfileResource) {
         var dealer = {dealerId: $routeParams.dealerId};
         dealerResource.get(dealer).then(function(returnedDealer) {
             $scope.dealer = returnedDealer;
         });
 
         var profile = {profileId: 1234};
-        dealerProfilesResource.get(profile).then(function(returnedProfile) {
+        dealerProfileResource.get(profile).then(function(returnedProfile) {
             $scope.profile = returnedProfile;
         });
 

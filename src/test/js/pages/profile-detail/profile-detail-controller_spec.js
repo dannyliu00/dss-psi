@@ -2,7 +2,7 @@
     var profile = sellInNamespace('sellIn.pages.profile');
 
     describe('ProfileController', function() {
-        var scope, routeParams, location, dealerResource, dealerProfilesResource, expectedDealerId, expectedProfileId;
+        var scope, routeParams, location, dealerResource, dealerProfileResource, expectedDealerId, expectedProfileId;
         var expectedDealerDeferred, expectedProfileDeferred;
         var ctrl;
 
@@ -14,9 +14,9 @@
                 $provide.decorator('dealerResource', [function() {
                     return dealerResource;
                 }]);
-                dealerProfilesResource = jasmine.createSpyObj('dealerProfilesResource', ['get']);
-                $provide.decorator('dealerProfilesResource', [function() {
-                    return dealerProfilesResource;
+                dealerProfileResource = jasmine.createSpyObj('dealerProfileResource', ['get']);
+                $provide.decorator('dealerProfileResource', [function() {
+                    return dealerProfileResource;
                 }]);
             });
 
@@ -25,24 +25,24 @@
             routeParams = {dealerId: expectedDealerId, profileId: expectedProfileId};
         });
 
-        beforeEach(inject(function($q, $rootScope, $location, dealerResource, dealerProfilesResource) {
+        beforeEach(inject(function($q, $rootScope, $location, dealerResource, dealerProfileResource) {
             expectedDealerDeferred = $q.defer();
             dealerResource.get.andReturn(expectedDealerDeferred.promise);
 
             expectedProfileDeferred = $q.defer();
-            dealerProfilesResource.get.andReturn(expectedProfileDeferred.promise);
+            dealerProfileResource.get.andReturn(expectedProfileDeferred.promise);
 
             location = $location;
             scope = {};
         }));
 
         describe('constructor', function() {
-            it('initializes dealer on scope', inject(function(dealerResource, dealerProfilesResource) {
-                ctrl = new profile.ProfileController(scope, routeParams, location, dealerResource, dealerProfilesResource);
+            it('initializes dealer on scope', inject(function(dealerResource, dealerProfileResource) {
+                ctrl = new profile.ProfileController(scope, routeParams, location, dealerResource, dealerProfileResource);
                 var expectedDealer = {dealerId: expectedDealerId};
                 var expectedProfile = {profileId: expectedProfileId};
                 expect(dealerResource.get).toHaveBeenCalledWith(expectedDealer);
-                expect(dealerProfilesResource.get).toHaveBeenCalledWith(expectedProfile);
+                expect(dealerProfileResource.get).toHaveBeenCalledWith(expectedProfile);
             }));
         });
     });

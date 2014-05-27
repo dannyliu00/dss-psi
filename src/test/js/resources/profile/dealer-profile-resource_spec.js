@@ -1,8 +1,8 @@
-describe('DealerProfilesResource', function() {
+describe('DealerProfileResource', function() {
     var httpBackend;
 
     beforeEach(function() {
-        angular.mock.module('sellIn.resources.dealerProfiles');
+        angular.mock.module('sellIn.resources.dealerProfile');
 
         angular.mock.inject(function($injector) {
             httpBackend = $injector.get('$httpBackend');
@@ -15,16 +15,17 @@ describe('DealerProfilesResource', function() {
     });
 
     describe('get', function() {
-        it('returns a promise with a single profile of a specified dealer', inject(function(dealerProfilesResource, profilesUrl) {
+        it('returns a promise with a single profile of a specified dealer', inject(function(dealerProfileResource, profileUrl) {
             var profileId = 999;
+
             var profile = {profileId: profileId};
-            var expectedRequest = profilesUrl.replace(':profileId', profileId);
+            var expectedRequest = profileUrl.replace(':profileId', profileId);
             var expectedProfile = { name: 'U.T. Victory Profile'};
 
             httpBackend.when('GET', expectedRequest).respond(expectedProfile);
             httpBackend.expectGET(expectedRequest);
 
-            var promise = dealerProfilesResource.get(profile);
+            var promise = dealerProfileResource.get(profile);
 
             promise.then(function(actualProfile) {
                 expect(actualProfile.name).toEqual(expectedProfile.name);
