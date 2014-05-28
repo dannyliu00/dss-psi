@@ -28,15 +28,6 @@ public class OrderSegment implements Serializable {
 //	@Column(name = "<COL_NAME4>")
 	private int recommendedQty;
 	
-	private Segment segment;
-	
-	public OrderSegment() {
-	}
-
-	public OrderSegment(int orderSegmentId, String name, int recommendedQty, int actualQty, Segment segment) {
-		this.orderSegmentId = orderSegmentId;
-	}
-	
 	/**
 	 * @return the orderSegmentId
 	 */
@@ -91,20 +82,6 @@ public class OrderSegment implements Serializable {
 	 */
 	public void setRecommendedQty(int recommendedQty) {
 		this.recommendedQty = recommendedQty;
-	}
-
-	/**
-	 * @return the segment
-	 */
-	public Segment getSegment() {
-		return segment;
-	}
-
-	/**
-	 * @param segment the segment to set
-	 */
-	public void setSegment(Segment segment) {
-		this.segment = segment;
 	}
 
 }
