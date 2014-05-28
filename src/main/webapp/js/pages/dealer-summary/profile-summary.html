@@ -37,10 +37,10 @@
                 </tr>
                 </thead>
                 <tbody role="alert" aria-live="polite" aria-relevant="all">
-                <tr class="odd">
-                    <td class=" sorting_1"><a ng-href="#/dealerProfile/1234" >4/30/2014</a></td>
-                    <td class=""><a ng-href="#/dealerProfile/1234" >Victory Inventory Profile 04/30/2014</a></td>
-                    <td class=""><a ng-href="#/dealerProfile/1234" ><span style="color:#3AB050">Not Started</span></a></td>
+                <tr ng-repeat="profile in profiles" >
+                    <td class=" sorting_1"><a ng-href="#/dealerProfile/1234" >{{profile.modifiedDate | date : 'mediumDate'}}</a></td>
+                    <td class=""><a ng-href="#/dealerProfile/1234" >{{profile.name}}</a></td>
+                    <td class=""><a ng-href="#/dealerProfile/1234" ><span style="color:#3AB050">{{profile.status}}</span></a></td>
                 </tr>
                 </tbody>
             </table>

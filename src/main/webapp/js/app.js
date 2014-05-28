@@ -18,7 +18,7 @@ angular.module('sellIn', [
     ])
     .config(function ($routeProvider) {
         $routeProvider
-            .when('/dealerSummary', {
+            .when('/dealerSummary/:dealerId', {
                 templateUrl: 'js/pages/dealer-summary/profile-summary.html',
                 controller: 'dealerProfileSummaryCtrl'
             })
@@ -27,6 +27,6 @@ angular.module('sellIn', [
                 controller: 'profileController'
             })
             .otherwise({
-                redirectTo: '/dealerSummary'
+                redirectTo: '/dealerSummary/2021900'
             });
     });
