@@ -29,6 +29,9 @@ public class OrderSegment implements Serializable {
 	private int recommendedQty;
 	
 	private Segment segment;
+	
+	public OrderSegment() {
+	}
 
 	public OrderSegment(int orderSegmentId, String name, int recommendedQty, int actualQty, Segment segment) {
 		this.orderSegmentId = orderSegmentId;
