@@ -10,6 +10,16 @@
         var profile = {profileId: 1234};
         dealerProfileResource.get(profile).then(function(returnedProfile) {
             $scope.profile = returnedProfile;
+            $scope.segments = returnedProfile.segments;
+
+            var orderSegments = [];
+            for(var i = 0; i < returnedProfile.segments.length; i++) {
+                var os = returnedProfile.segments[i].orderSegments;
+                for(var j = 0; j < os.length; j++) {
+                    orderSegments.push(os[j]);
+                }
+            }
+            $scope.orderSegments = orderSegments;
         });
 
         $scope.toSummary = function(dealerId) {

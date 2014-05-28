@@ -8,98 +8,13 @@
             </div>
         </div>
         <dealer-info dealer="dealer"></dealer-info>
-        <div class="pull-right">
-            <button type="button" class="btn btn-default btn-sm" ng-click="toSummary(dealer.dealerId)">Return to Summary</button>
-        </div>
-        <!-- Search and Items-Per-Page -->
-        <div class="row">
-            <common-search></common-search>
-            <items-per-page></items-per-page>
-        </div>
-        <!-- Data table -->
         <div class="container-full">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Profile Details</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="col-md-12">
-                        <div id="activeObjectsTable_processing" class="dataTables_processing" style="visibility: hidden;">Processing...</div>
-                        <table id="activeObjectsTable"
-                               class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
-                               aria-describedby="activeObjectsTable_info">
-                            <thead>
-                            <tr role="row">
-                                <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" style="width: 33%" >
-                                    Segment
-                                </th>
-                                <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" style="width: 33%" >
-                                    Order Segment
-                                </th>
-                                <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" style="width: 33%" >
-                                    "Window"<br/>Recommendation - Qty
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody ng-repeat="segment in profile.segments" role="alert" aria-live="polite" aria-relevant="all">
-                            <tr ng-repeat="orderSegment in segment.orderSegments" class="odd">
-                                <td class="">{{segment.name}}</td>
-                                <td class="">{{orderSegment.name}}</td>
-                                <td class="text-center"><span>{{orderSegment.recommendedQty}}&nbsp;&nbsp;&nbsp;&nbsp;<input class="text-center" type="text" ng-model="actualGrandTotal" ng-change="getActualGrandTotal();" value="{{orderSegment.actualQty}}"></span></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+            <p><button type="button" class="btn btn-default btn-sm" ng-click="toSummary(dealer.dealerId)">Return to Summary</button></p>
         </div>
-        <!-- Data table summary and Page Controls -->
-        <div class="row row-padding">
-            <div class="col-md-6">
-                <div class="dataTables_info" id="activeObjectsTable_info">Showing 1 to 12 of 12 items</div>
-            </div>
-            <page-controls></page-controls>
-        </div>
+        <!-- Data and Summary tables -->
+        <motorcycle-profile-details profile="profile" segments="segments" orderSegments="orderSegments"></motorcycle-profile-details>
         <div class="container-full">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Profile Totals</h3>
-                </div>
-                <div class="panel-body">
-                    <table id="activeObjectsSummaryTable"
-                           class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
-                           aria-describedby="activeObjectsSummaryTable">
-                        <thead>
-                        <tr role="row">
-                            <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
-                                Segment
-                            </th>
-                            <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
-                                Window<br/>Recommendation
-                            </th>
-                            <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
-                                Window<br/>Qty
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody role="alert" aria-live="polite" aria-relevant="all">
-                        <tr ng-repeat="segment in profile.segments" class="odd">
-                            <td class="">{{segment.name}}</td>
-                            <td class="text-center">{{segment.recommendedQty}}</td>
-                            <td class="text-center"></td>
-                        </tr>
-                        <tr class="even">
-                            <td class="">Grand Total</td>
-                            <td class="text-center">{{recGrandTotal}}</td>
-                            <td class="text-center">{{actualGrandTotal}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="pull-right">
-                <button type="button" class="btn btn-default btn-sm" ng-click="toSummary(dealer.dealerId)">Return to Summary</button>
-            </div>
+            <p><button type="button" class="btn btn-default btn-sm" ng-click="toSummary(dealer.dealerId)">Return to Summary</button></p>
         </div>
     </div>
 </section>

@@ -1,0 +1,75 @@
+<div class="container-full">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Profile Details</h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12">
+                <div id="activeObjectsTable_processing" class="dataTables_processing" style="visibility: hidden;">Processing...</div>
+                <table datatable dt-options="dtOptions" id="activeObjectsTable"
+                       class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
+                       aria-describedby="activeObjectsTable_info">
+                    <thead>
+                    <tr role="row">
+                        <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
+                            Segment
+                        </th>
+                        <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
+                            Order Segment
+                        </th>
+                        <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
+                            "Window"<br/>Recommendation - Qty
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody role="alert" aria-live="polite" aria-relevant="all">
+                    <tr ng-repeat="orderSegment in orderSegments" class="odd">
+                        <td class="">{{segment.name}}</td>
+                        <td class="">{{orderSegment.name}}</td>
+                        <td class="text-center"><span>{{orderSegment.recommendedQty}}&nbsp;&nbsp;&nbsp;&nbsp;<input value="{{orderSegment.actualQty}}" class="text-center" type="text" id="os_{{orderSegment.name}}"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Data table summary and Page Controls -->
+<div class="container-full">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Profile Totals</h3>
+        </div>
+        <div class="panel-body">
+            <table id="activeObjectsSummaryTable"
+                   class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
+                   aria-describedby="activeObjectsSummaryTable">
+                <thead>
+                <tr role="row">
+                    <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
+                        Segment
+                    </th>
+                    <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
+                        Window<br/>Recommendation
+                    </th>
+                    <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
+                        Window<br/>Qty
+                    </th>
+                </tr>
+                </thead>
+                <tbody role="alert" aria-live="polite" aria-relevant="all">
+                <tr ng-repeat="segment in segments" class="odd">
+                    <td class="">{{segment.name}}</td>
+                    <td class="text-center">{{segment.recommendedQty}}</td>
+                    <td class="text-center"></td>
+                </tr>
+                <tr class="even">
+                    <td class="">Grand Total</td>
+                    <td class="text-center">{{recGrandTotal}}</td>
+                    <td class="text-center">{{actualGrandTotal}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
