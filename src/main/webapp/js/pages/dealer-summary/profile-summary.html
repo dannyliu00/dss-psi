@@ -38,9 +38,9 @@
                 </thead>
                 <tbody role="alert" aria-live="polite" aria-relevant="all">
                 <tr ng-repeat="profile in profiles" >
-                    <td class=" sorting_1"><a ng-href="#/dealerProfile/1234" >{{profile.modifiedDate | date : 'mediumDate'}}</a></td>
-                    <td class=""><a ng-href="#/dealerProfile/1234" >{{profile.name}}</a></td>
-                    <td class=""><a ng-href="#/dealerProfile/1234" ><span style="color:#3AB050">{{profile.status}}</span></a></td>
+                    <td class=" sorting_1"><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.type)" >{{profile.modifiedDate | date : 'mediumDate'}}</a></td>
+                    <td class=""><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.type)" >{{profile.name}}</a></td>
+                    <td class=""><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.type)" ><span style="color:#3AB050">{{profile.status}}</span></a></td>
                 </tr>
                 </tbody>
             </table>

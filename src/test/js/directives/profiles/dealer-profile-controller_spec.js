@@ -8,7 +8,7 @@
         beforeEach(function() {
             DTOptionsBuilder = jasmine.createSpyObj('DTOptionsBuilder', ['newOptions']);
 
-            DTOptions = jasmine.createSpyObj('DTOptions', ['withPaginationType', 'withDisplayLength']);
+            DTOptions = jasmine.createSpyObj('DTOptions', ['withPaginationType', 'withDisplayLength', 'withBootstrap']);
             DTOptionsBuilder.newOptions.andReturn(DTOptions);
             DTOptions.withPaginationType.andReturn(DTOptions);
             DTOptions.withDisplayLength.andReturn(DTOptions);
@@ -21,6 +21,7 @@
             expect(DTOptionsBuilder.newOptions).toHaveBeenCalled();
             expect(DTOptions.withPaginationType).toHaveBeenCalled();
             expect(DTOptions.withDisplayLength).toHaveBeenCalled();
+            expect(DTOptions.withBootstrap).toHaveBeenCalled();
         });
     });
 })();

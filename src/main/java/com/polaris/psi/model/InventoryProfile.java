@@ -27,6 +27,9 @@ public class InventoryProfile implements Serializable {
 	private int profileId;
 	
 //	@Column(name = "<COL_NAME2>")
+	private String type;
+	
+//	@Column(name = "<COL_NAME2>")
 	private String name;
 	
 //	@Column(name = "<COL_NAME3>")
@@ -49,6 +52,20 @@ public class InventoryProfile implements Serializable {
 	 */
 	public void setProfileId(int profileId) {
 		this.profileId = profileId;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	/**

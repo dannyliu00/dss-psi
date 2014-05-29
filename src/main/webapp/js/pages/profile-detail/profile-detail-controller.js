@@ -1,7 +1,9 @@
 (function() {
     var profile = sellInNamespace('sellIn.pages.profile');
 
-    function ProfileController($scope, $routeParams, $location, dealerResource, dealerProfileResource) {
+    function ProfileController($scope, $routeParams, $location, dealerResource, dealerProfileResource, orderSegmentResourceMapper) {
+        this.orderSegmentResourceMapper = orderSegmentResourceMapper;
+
         var dealer = {dealerId: $routeParams.dealerId};
         dealerResource.get(dealer).then(function(returnedDealer) {
             $scope.dealer = returnedDealer;
@@ -16,7 +18,7 @@
             for(var i = 0; i < returnedProfile.segments.length; i++) {
                 var os = returnedProfile.segments[i].orderSegments;
                 for(var j = 0; j < os.length; j++) {
-                    orderSegments.push(os[j]);
+                    orderSegments.push(orderSegmentResourceMapper.mapFromRest(os[j], returnedProfile.segments[i]));
                 }
             }
             $scope.orderSegments = orderSegments;
