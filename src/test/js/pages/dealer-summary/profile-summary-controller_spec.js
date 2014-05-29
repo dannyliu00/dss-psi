@@ -5,7 +5,7 @@
     var dealerProfileSummary = sellInNamespace('sellIn.pages.dealerProfileSummary');
 
     describe('DealerProfileSummaryCtrl', function() {
-        var scope, routeParams, dealerResource, dealerProfilesResource, expectedDealerId;
+        var scope, routeParams, location, dealerResource, dealerProfilesResource, expectedDealerId, expectedUrl;
         var expectedDealerDeferred, expectedProfilesDeferred;
         var ctrl;
 
@@ -23,11 +23,14 @@
                 }]);
             });
 
+            location = jasmine.createSpyObj('location', ['path']);
+
             expectedDealerId = 111;
             routeParams = {dealerId: expectedDealerId};
+            expectedUrl = '/segment1/:dealerId/segment2/:profileId/segment3/:type';
         });
 
-        beforeEach(inject(function ($q, $rootScope, $location, dealerResource, dealerProfilesResource) {
+        beforeEach(inject(function ($q, $rootScope, dealerResource, dealerProfilesResource) {
             expectedDealerDeferred = $q.defer();
             dealerResource.get.andReturn(expectedDealerDeferred.promise);
 
@@ -39,11 +42,12 @@
 
         describe('constructor', function () {
             it('initializes dealer on scope', inject(function (dealerResource, dealerProfilesResource) {
-                ctrl = new dealerProfileSummary.DealerProfileSummaryCtrl(scope, routeParams, dealerResource, dealerProfilesResource);
+                ctrl = new dealerProfileSummary.DealerProfileSummaryCtrl(scope, routeParams, location, dealerResource, dealerProfilesResource, expectedUrl);
                 var expectedDealer = {dealerId: expectedDealerId};
                 expect(dealerResource.get).toHaveBeenCalledWith(expectedDealer);
                 expect(dealerProfilesResource.query).toHaveBeenCalledWith(expectedDealer);
             }));
         });
+
     });
 })();

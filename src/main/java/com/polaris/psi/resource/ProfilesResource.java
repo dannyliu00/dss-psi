@@ -39,13 +39,24 @@ public class ProfilesResource {
 	private List<InventoryProfile> buildProfiles(int dealerId) {
 		List<InventoryProfile> profiles = new ArrayList<InventoryProfile>();
 		InventoryProfile victory = new InventoryProfile();
-		Calendar modified = Calendar.getInstance();
-		modified.set(2014, 3, 30);
-		victory.setModifiedDate(modified.getTime());
+		Calendar victoryModified = Calendar.getInstance();
+		victoryModified.set(2014, 3, 30);
+		victory.setModifiedDate(victoryModified.getTime());
+		victory.setType("MOTORCYCLE");
 		victory.setName("Victory Inventory Profile 04/30/14");
 		victory.setProfileId(999);
 		victory.setStatus("Not Started");
 		profiles.add(victory);
+		
+		InventoryProfile rangerXP = new InventoryProfile();
+		Calendar rangerModified = Calendar.getInstance();
+		rangerModified.set(2014, 3, 30);
+		rangerXP.setModifiedDate(rangerModified.getTime());
+		rangerXP.setType("ATV");
+		rangerXP.setName("Ranger XP Inventory Profile 04/30/14");
+		rangerXP.setProfileId(998);
+		rangerXP.setStatus("Not Started");
+		profiles.add(rangerXP);
 		
 		return profiles;
 	}

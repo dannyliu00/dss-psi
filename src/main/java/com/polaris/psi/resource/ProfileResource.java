@@ -41,6 +41,7 @@ public class ProfileResource {
 	private InventoryProfile buildProfile(int profileId) {
 		InventoryProfile profile = new InventoryProfile();
 		profile.setModifiedDate(new Date());
+		profile.setType("MOTORYCYCLE");
 		profile.setName("Victory Inventory Profile 04/30/14");
 		profile.setProfileId(profileId);
 		profile.setStatus("Not Started");
