@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.polaris.psi.model;
+package com.polaris.psi.resource.dto;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,7 +17,7 @@ import javax.persistence.Table;
  */
 //@Entity
 //@Table(name = "<TBL_DEALER>")
-public class Dealer implements Serializable {
+public class DealerDTO implements Serializable {
 
 	private static final long serialVersionUID = 8391382100485071545L;
 
@@ -40,7 +40,7 @@ public class Dealer implements Serializable {
 //	@Column(name = "<COL_NAME6>")
 	private String zip;
 	
-	private List<InventoryProfile> profiles;
+	private List<InventoryProfileDTO> profiles;
 
 	/**
 	 * @return the dealerId
@@ -129,14 +129,14 @@ public class Dealer implements Serializable {
 	/**
 	 * @return the profiles
 	 */
-	public List<InventoryProfile> getProfiles() {
+	public List<InventoryProfileDTO> getProfiles() {
 		return profiles;
 	}
 
 	/**
 	 * @param profiles the profiles to set
 	 */
-	public void setProfiles(List<InventoryProfile> profiles) {
+	public void setProfiles(List<InventoryProfileDTO> profiles) {
 		this.profiles = profiles;
 	}
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.polaris.psi.model;
+package com.polaris.psi.resource.dto;
 
 import java.io.Serializable;
 

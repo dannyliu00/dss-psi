@@ -17,7 +17,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.stereotype.Component;
 
-import com.polaris.psi.model.InventoryProfile;
+import com.polaris.psi.resource.dto.InventoryProfileDTO;
 
 /**
  * @author bericks
@@ -31,28 +31,28 @@ public class ProfilesResource {
 	@GET
     @Path("/{dealerId}")
     @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public List<InventoryProfile> getProfiles(@PathParam("dealerId") int dealerId) {
+	public List<InventoryProfileDTO> getProfiles(@PathParam("dealerId") int dealerId) {
 		
 		return buildProfiles(dealerId);
 	}
 	
-	private List<InventoryProfile> buildProfiles(int dealerId) {
-		List<InventoryProfile> profiles = new ArrayList<InventoryProfile>();
-		InventoryProfile victory = new InventoryProfile();
+	private List<InventoryProfileDTO> buildProfiles(int dealerId) {
+		List<InventoryProfileDTO> profiles = new ArrayList<InventoryProfileDTO>();
+		InventoryProfileDTO victory = new InventoryProfileDTO();
 		Calendar victoryModified = Calendar.getInstance();
 		victoryModified.set(2014, 3, 30);
 		victory.setModifiedDate(victoryModified.getTime());
-		victory.setType("MOTORCYCLE");
+		victory.setType("motorcycle");
 		victory.setName("Victory Inventory Profile 04/30/14");
 		victory.setProfileId(999);
 		victory.setStatus("Not Started");
 		profiles.add(victory);
 		
-		InventoryProfile rangerXP = new InventoryProfile();
+		InventoryProfileDTO rangerXP = new InventoryProfileDTO();
 		Calendar rangerModified = Calendar.getInstance();
 		rangerModified.set(2014, 3, 30);
 		rangerXP.setModifiedDate(rangerModified.getTime());
-		rangerXP.setType("ATV");
+		rangerXP.setType("atv");
 		rangerXP.setName("Ranger XP Inventory Profile 04/30/14");
 		rangerXP.setProfileId(998);
 		rangerXP.setStatus("Not Started");

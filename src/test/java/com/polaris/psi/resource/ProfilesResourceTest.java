@@ -9,7 +9,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.polaris.psi.model.InventoryProfile;
+import com.polaris.psi.resource.dto.InventoryProfileDTO;
 
 public class ProfilesResourceTest {
 
@@ -36,10 +36,10 @@ public class ProfilesResourceTest {
 	@Test
 	public void testGetProfiles() {
 		int id = 999;
-		List<InventoryProfile> results = resource.getProfiles(id);
+		List<InventoryProfileDTO> results = resource.getProfiles(id);
 		
 		assertTrue(results.size() == 2);
-		InventoryProfile result = results.get(0);
+		InventoryProfileDTO result = results.get(0);
 		assertTrue(result.getType().equals(expectedType));
 		assertTrue(result.getName().equals(expectedName));
 		assertTrue(result.getProfileId() == expectedId);

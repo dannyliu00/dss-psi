@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.polaris.psi.model;
+package com.polaris.psi.resource.dto;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -18,7 +18,7 @@ import javax.persistence.Table;
  */
 //@Entity
 //@Table(name = "<TBL_INV_PROF>")
-public class InventoryProfile implements Serializable {
+public class InventoryProfileDTO implements Serializable {
 
 	private static final long serialVersionUID = -159439629357551617L;
 
@@ -38,7 +38,7 @@ public class InventoryProfile implements Serializable {
 //	@Column(name = "<COL_NAME4>")
 	private String status;
 	
-	private List<Segment> segments;
+	private List<SegmentDTO> segments;
 
 	/**
 	 * @return the profileId
@@ -113,14 +113,14 @@ public class InventoryProfile implements Serializable {
 	/**
 	 * @return the segments
 	 */
-	public List<Segment> getSegments() {
+	public List<SegmentDTO> getSegments() {
 		return segments;
 	}
 
 	/**
 	 * @param segments the segments to set
 	 */
-	public void setSegments(List<Segment> segments) {
+	public void setSegments(List<SegmentDTO> segments) {
 		this.segments = segments;
 	}
 
