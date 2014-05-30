@@ -55,35 +55,41 @@
             var total = 0;
             for(var i=0; i < segment.orderSegments.length; i++) {
                 var orderSegment = segment.orderSegments[i];
-                orderSegment.recommendedQty = getRecommendedQuantities(orderSegment);
+                getComplianceValues(orderSegment);
                 total = total + orderSegment.recommendedQty;
             }
 
             return total;
         }
 
-        function getRecommendedQuantities(orderSegment) {
-            var total = 0;
+        function getComplianceValues(orderSegment) {
+            var rQty = 0;
+            var minQty = 0;
+            var maxQty = 0;
+
             for(var i=0; i < orderSegment.quantities.length; i++) {
-                var qty = orderSegment.quantities[i].recommended;
-                total = total + qty;
+                rQty = rQty + orderSegment.quantities[i].recommended;
+                minQty = minQty + orderSegment.quantities[i].minimum;
+                maxQty = maxQty + orderSegment.quantities[i].maximum;
             }
 
-            return total;
+            orderSegment.recommendedQty = rQty;
+            orderSegment.minimumQty = minQty;
+            orderSegment.maximumQty = maxQty;
         }
 
         function getActualSegmentTotal(segment) {
             var total = 0;
             for(var i=0; i < segment.orderSegments.length; i++) {
                 var orderSegment = segment.orderSegments[i];
-                orderSegment.actualQty = getActualQuantities(orderSegment);
+                orderSegment.actualQty = getActualValues(orderSegment);
                 total = total + orderSegment.actualQty;
             }
 
             return total;
         }
 
-        function getActualQuantities(orderSegment) {
+        function getActualValues(orderSegment) {
             var total = 0;
             for(var i=0; i < orderSegment.quantities.length; i++) {
                 var qty = orderSegment.quantities[i].actual;

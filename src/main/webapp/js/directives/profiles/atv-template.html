@@ -22,9 +22,9 @@
                     <tbody role="alert" aria-live="polite" aria-relevant="all">
                     <tr ng-repeat="orderSegment in orderSegments" class="odd">
                         <td class="">{{orderSegment.name}}</td>
-                        <td class="text-center"><span>{{orderSegment.minRecommend}} - {{orderSegment.recommendedQty}} - {{orderSegment.maxRecommend}}<br/><input value="{{orderSegment.actualQty}}" class="text-center" type="text" id="os_{{orderSegment.name}}"></span></td>
-                        <td class="text-center"><span>{{orderSegment.minRecommend}} - {{orderSegment.recommendedQty}} - {{orderSegment.maxRecommend}}<br/><input value="{{orderSegment.actualQty}}" class="text-center" type="text" id="os_{{orderSegment.name}}"></span></td>
-                        <td class="text-center"><span>{{orderSegment.minRecommend}} - {{orderSegment.recommendedQty}} - {{orderSegment.maxRecommend}}<br/><input value="{{orderSegment.actualQty}}" class="text-center" type="text" id="os_{{orderSegment.name}}"></span></td>
+                        <td class="text-center"><span>{{orderSegment.minimumQty}} - {{orderSegment.recommendedQty}} - {{orderSegment.maximumQty}}<br/><input value="{{orderSegment.actualQty}}" class="text-center" type="text" id="os_{{orderSegment.name}}"></span></td>
+                        <td class="text-center"><span>{{orderSegment.minimumQty}} - {{orderSegment.recommendedQty}} - {{orderSegment.maximumQty}}<br/><input value="{{orderSegment.actualQty}}" class="text-center" type="text" id="os_{{orderSegment.name}}"></span></td>
+                        <td class="text-center"><span>{{orderSegment.minimumQty}} - {{orderSegment.recommendedQty}} - {{orderSegment.maximumQty}}<br/><input value="{{orderSegment.actualQty}}" class="text-center" type="text" id="os_{{orderSegment.name}}"></span></td>
                     </tr>
                     </tbody>
                 </table>
