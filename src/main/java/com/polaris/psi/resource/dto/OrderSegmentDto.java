@@ -17,7 +17,7 @@ public class OrderSegmentDto implements Serializable {
 	private int id;
 	private String name;
 	
-	private List<SegmentQuantityDto> quanitities;
+	private List<SegmentQuantityDto> quantities;
 	
 	/**
 	 * @return the id
@@ -48,17 +48,17 @@ public class OrderSegmentDto implements Serializable {
 	}
 
 	/**
-	 * @return the quanitities
+	 * @return the quantities
 	 */
-	public List<SegmentQuantityDto> getQuanitities() {
-		return quanitities;
+	public List<SegmentQuantityDto> getQuantities() {
+		return quantities;
 	}
 
 	/**
-	 * @param quanitities the quanitities to set
+	 * @param quantities the quantities to set
 	 */
-	public void setQuanitities(List<SegmentQuantityDto> quanitities) {
-		this.quanitities = quanitities;
+	public void setQuantities(List<SegmentQuantityDto> quantities) {
+		this.quantities = quantities;
 	}
 	
 }

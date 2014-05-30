@@ -176,37 +176,37 @@ public class ProfileResource {
 		OrderSegmentDto judge = new OrderSegmentDto();
 		judge.setName("Judge");
 		judge.setId(1);
-		judge.setQuanitities(buildQuantities(0));
+		judge.setQuantities(buildQuantities(0));
 		segments.add(judge);
 		
 		OrderSegmentDto vegas = new OrderSegmentDto();
 		vegas.setName("Vegas 8-Ball");
 		vegas.setId(2);
-		vegas.setQuanitities(buildQuantities(0));
+		vegas.setQuantities(buildQuantities(0));
 		segments.add(vegas);
 		
 		OrderSegmentDto highBall = new OrderSegmentDto();
 		highBall.setName("High-Ball");
 		highBall.setId(3);
-		highBall.setQuanitities(buildQuantities(0));
+		highBall.setQuantities(buildQuantities(0));
 		segments.add(highBall);
 		
 		OrderSegmentDto gunner = new OrderSegmentDto();
 		gunner.setName("Gunner");
 		gunner.setId(4);
-		gunner.setQuanitities(buildQuantities(0));
+		gunner.setQuantities(buildQuantities(0));
 		segments.add(gunner);
 		
 		OrderSegmentDto boardWalk = new OrderSegmentDto();
 		boardWalk.setName("Boardwalk");
 		boardWalk.setId(5);
-		boardWalk.setQuanitities(buildQuantities(0));
+		boardWalk.setQuantities(buildQuantities(0));
 		segments.add(boardWalk);
 		
 		OrderSegmentDto fatTire = new OrderSegmentDto();
 		fatTire.setName("Fat Tire");
 		fatTire.setId(6);
-		fatTire.setQuanitities(buildQuantities(0));
+		fatTire.setQuantities(buildQuantities(0));
 		segments.add(fatTire);
 		
 		return segments;
@@ -218,25 +218,25 @@ public class ProfileResource {
 		OrderSegmentDto xCountry = new OrderSegmentDto();
 		xCountry.setName("Cross Country");
 		xCountry.setId(7);
-		xCountry.setQuanitities(buildQuantities(0));
+		xCountry.setQuantities(buildQuantities(0));
 		segments.add(xCountry);
 		
 		OrderSegmentDto customXC = new OrderSegmentDto();
 		customXC.setName("Custom Cross Country");
 		customXC.setId(8);
-		customXC.setQuanitities(buildQuantities(0));
+		customXC.setQuantities(buildQuantities(0));
 		segments.add(customXC);
 		
 		OrderSegmentDto value = new OrderSegmentDto();
 		value.setName("Value Bagger");
 		value.setId(9);
-		value.setQuanitities(buildQuantities(0));
+		value.setQuantities(buildQuantities(0));
 		segments.add(value);
 		
 		OrderSegmentDto xRoads = new OrderSegmentDto();
 		xRoads.setName("Cross Roads");
 		xRoads.setId(10);
-		xRoads.setQuanitities(buildQuantities(0));
+		xRoads.setQuantities(buildQuantities(0));
 		
 		return segments;
 	}
@@ -247,13 +247,13 @@ public class ProfileResource {
 		OrderSegmentDto xcTour = new OrderSegmentDto();
 		xcTour.setName("Cross Country Tour");
 		xcTour.setId(11);
-		xcTour.setQuanitities(buildQuantities(0));
+		xcTour.setQuantities(buildQuantities(0));
 		segments.add(xcTour);
 		
 		OrderSegmentDto vision = new OrderSegmentDto();
 		vision.setName("Vision");
 		vision.setId(12);
-		vision.setQuanitities(buildQuantities(0));
+		vision.setQuantities(buildQuantities(0));
 		segments.add(vision);
 		
 		return segments;
@@ -278,19 +278,19 @@ public class ProfileResource {
 		OrderSegmentDto base = new OrderSegmentDto();
 		base.setId(1);
 		base.setName("Ranger XP Base");
-		base.setQuanitities(buildQuantities(1));
+		base.setQuantities(buildQuantities(1));
 		orderSegments.add(base);
 		
 		OrderSegmentDto paint = new OrderSegmentDto();
 		paint.setId(2);
 		paint.setName("Ranger XP Paint");
-		paint.setQuanitities(buildQuantities(2));
+		paint.setQuantities(buildQuantities(2));
 		orderSegments.add(paint);
 		
 		OrderSegmentDto eps = new OrderSegmentDto();
 		eps.setId(3);
 		eps.setName("Ranger XP EPS");
-		eps.setQuanitities(buildQuantities(3));
+		eps.setQuantities(buildQuantities(3));
 		orderSegments.add(eps);
 		
 		return orderSegments;
