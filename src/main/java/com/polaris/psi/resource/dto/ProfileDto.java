@@ -18,7 +18,7 @@ import javax.persistence.Table;
  */
 //@Entity
 //@Table(name = "<TBL_INV_PROF>")
-public class InventoryProfileDTO implements Serializable {
+public class ProfileDto implements Serializable {
 
 	private static final long serialVersionUID = -159439629357551617L;
 
@@ -38,7 +38,7 @@ public class InventoryProfileDTO implements Serializable {
 //	@Column(name = "<COL_NAME4>")
 	private String status;
 	
-	private List<SegmentDTO> segments;
+	private List<SegmentDto> segments;
 
 	/**
 	 * @return the profileId
@@ -113,14 +113,14 @@ public class InventoryProfileDTO implements Serializable {
 	/**
 	 * @return the segments
 	 */
-	public List<SegmentDTO> getSegments() {
+	public List<SegmentDto> getSegments() {
 		return segments;
 	}
 
 	/**
 	 * @param segments the segments to set
 	 */
-	public void setSegments(List<SegmentDTO> segments) {
+	public void setSegments(List<SegmentDto> segments) {
 		this.segments = segments;
 	}
 

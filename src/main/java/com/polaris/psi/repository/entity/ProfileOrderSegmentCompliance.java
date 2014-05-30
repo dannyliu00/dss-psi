@@ -15,7 +15,7 @@ import javax.persistence.Table;
  */
 //@Entity
 //@Table(name = "OT075F_ProfileSegmentRecommendation")
-public class ProfileSegmentRecommendation {
+public class ProfileOrderSegmentCompliance {
 	
 //	@Id
 //	@Column(name = "N5ID")

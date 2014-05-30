@@ -17,7 +17,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.stereotype.Component;
 
-import com.polaris.psi.resource.dto.InventoryProfileDTO;
+import com.polaris.psi.resource.dto.ProfileDto;
 
 /**
  * @author bericks
@@ -31,14 +31,14 @@ public class ProfilesResource {
 	@GET
     @Path("/{dealerId}")
     @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public List<InventoryProfileDTO> getProfiles(@PathParam("dealerId") int dealerId) {
+	public List<ProfileDto> getProfiles(@PathParam("dealerId") int dealerId) {
 		
 		return buildProfiles(dealerId);
 	}
 	
-	private List<InventoryProfileDTO> buildProfiles(int dealerId) {
-		List<InventoryProfileDTO> profiles = new ArrayList<InventoryProfileDTO>();
-		InventoryProfileDTO victory = new InventoryProfileDTO();
+	private List<ProfileDto> buildProfiles(int dealerId) {
+		List<ProfileDto> profiles = new ArrayList<ProfileDto>();
+		ProfileDto victory = new ProfileDto();
 		Calendar victoryModified = Calendar.getInstance();
 		victoryModified.set(2014, 3, 30);
 		victory.setModifiedDate(victoryModified.getTime());
@@ -48,7 +48,7 @@ public class ProfilesResource {
 		victory.setStatus("Not Started");
 		profiles.add(victory);
 		
-		InventoryProfileDTO rangerXP = new InventoryProfileDTO();
+		ProfileDto rangerXP = new ProfileDto();
 		Calendar rangerModified = Calendar.getInstance();
 		rangerModified.set(2014, 3, 30);
 		rangerXP.setModifiedDate(rangerModified.getTime());

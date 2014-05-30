@@ -17,7 +17,7 @@ import javax.persistence.Table;
  */
 //@Entity
 //@Table(name = "<TBL_DEALER>")
-public class DealerDTO implements Serializable {
+public class DealerDto implements Serializable {
 
 	private static final long serialVersionUID = 8391382100485071545L;
 
@@ -40,7 +40,7 @@ public class DealerDTO implements Serializable {
 //	@Column(name = "<COL_NAME6>")
 	private String zip;
 	
-	private List<InventoryProfileDTO> profiles;
+	private List<ProfileDto> profiles;
 
 	/**
 	 * @return the dealerId
@@ -129,14 +129,14 @@ public class DealerDTO implements Serializable {
 	/**
 	 * @return the profiles
 	 */
-	public List<InventoryProfileDTO> getProfiles() {
+	public List<ProfileDto> getProfiles() {
 		return profiles;
 	}
 
 	/**
 	 * @param profiles the profiles to set
 	 */
-	public void setProfiles(List<InventoryProfileDTO> profiles) {
+	public void setProfiles(List<ProfileDto> profiles) {
 		this.profiles = profiles;
 	}
 

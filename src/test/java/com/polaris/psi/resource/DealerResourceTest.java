@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.polaris.psi.resource.dto.DealerDTO;
+import com.polaris.psi.resource.dto.DealerDto;
 
 public class DealerResourceTest {
 
@@ -30,7 +30,7 @@ public class DealerResourceTest {
 
 	@Test
 	public void testGetDealer() {
-		DealerDTO actual = resource.getDealer(id);
+		DealerDto actual = resource.getDealer(id);
 		assertTrue(actual.getCity().equals(expectedCity));
 		assertTrue(actual.getDealerId().equals(expectedId));
 		assertTrue(actual.getName().equals(expectedName));

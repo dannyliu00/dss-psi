@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.stereotype.Component;
 
-import com.polaris.psi.resource.dto.DealerDTO;
+import com.polaris.psi.resource.dto.DealerDto;
 
 /**
  * @author bericks
@@ -27,13 +27,13 @@ public class DealerResource {
 	@GET
     @Path("/{dealerId}")
     @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public DealerDTO getDealer(@PathParam("dealerId") int dealerId) {
+	public DealerDto getDealer(@PathParam("dealerId") int dealerId) {
 		
 		return buildDealer();
 	}
 	
-	private DealerDTO buildDealer() {
-		DealerDTO dealer = new DealerDTO();
+	private DealerDto buildDealer() {
+		DealerDto dealer = new DealerDto();
 		dealer.setCity("MADISON");
 		dealer.setCompany(null);
 		dealer.setDealerId(2021900);

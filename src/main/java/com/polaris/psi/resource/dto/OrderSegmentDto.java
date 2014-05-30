@@ -4,26 +4,20 @@
 package com.polaris.psi.resource.dto;
 
 import java.io.Serializable;
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  * @author bericks
  *
  */
 //@Entity
-//@Table(name = "<TBL_SEG>")
-public class SegmentDTO implements Serializable {
+//@Table(name = "<TBL_ORDR_SEG>")
+public class OrderSegmentDto implements Serializable {
 
-	private static final long serialVersionUID = -4350198463764538656L;
+	private static final long serialVersionUID = -4692650680058882881L;
 	
 //	@Id
 //	@Column(name = "<COL_NAME1>")
-	private int segmentId;
+	private int orderSegmentId;
 	
 //	@Column(name = "<COL_NAME2>")
 	private String name;
@@ -34,20 +28,18 @@ public class SegmentDTO implements Serializable {
 //	@Column(name = "<COL_NAME4>")
 	private int recommendedQty;
 	
-	private List<OrderSegmentDTO> orderSegments;
-
 	/**
-	 * @return the segmentId
+	 * @return the orderSegmentId
 	 */
-	public int getSegmentId() {
-		return segmentId;
+	public int getOrderSegmentId() {
+		return orderSegmentId;
 	}
 
 	/**
-	 * @param segmentId the segmentId to set
+	 * @param orderSegmentId the orderSegmentId to set
 	 */
-	public void setSegmentId(int segmentId) {
-		this.segmentId = segmentId;
+	public void setOrderSegmentId(int orderSegmentId) {
+		this.orderSegmentId = orderSegmentId;
 	}
 
 	/**
@@ -90,20 +82,6 @@ public class SegmentDTO implements Serializable {
 	 */
 	public void setRecommendedQty(int recommendedQty) {
 		this.recommendedQty = recommendedQty;
-	}
-
-	/**
-	 * @return the orderSegments
-	 */
-	public List<OrderSegmentDTO> getOrderSegments() {
-		return orderSegments;
-	}
-
-	/**
-	 * @param orderSegments the orderSegments to set
-	 */
-	public void setOrderSegments(List<OrderSegmentDTO> orderSegments) {
-		this.orderSegments = orderSegments;
 	}
 
 }

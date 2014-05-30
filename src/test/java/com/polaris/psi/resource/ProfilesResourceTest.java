@@ -9,7 +9,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.polaris.psi.resource.dto.InventoryProfileDTO;
+import com.polaris.psi.resource.dto.ProfileDto;
 
 public class ProfilesResourceTest {
 
@@ -26,7 +26,7 @@ public class ProfilesResourceTest {
 		Calendar modified = Calendar.getInstance();
 		modified.set(2014, 3, 30);
 		expectedDate = modified.getTime();
-		expectedType = "MOTORCYCLE";
+		expectedType = "motorcycle";
 		expectedName = "Victory Inventory Profile 04/30/14";
 		expectedId = 999;
 		expectedStatus = "Not Started";
@@ -36,10 +36,10 @@ public class ProfilesResourceTest {
 	@Test
 	public void testGetProfiles() {
 		int id = 999;
-		List<InventoryProfileDTO> results = resource.getProfiles(id);
+		List<ProfileDto> results = resource.getProfiles(id);
 		
 		assertTrue(results.size() == 2);
-		InventoryProfileDTO result = results.get(0);
+		ProfileDto result = results.get(0);
 		assertTrue(result.getType().equals(expectedType));
 		assertTrue(result.getName().equals(expectedName));
 		assertTrue(result.getProfileId() == expectedId);

@@ -17,10 +17,10 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.stereotype.Component;
 
-import com.polaris.psi.resource.dto.InventoryProfileDTO;
-import com.polaris.psi.resource.dto.OrderSegmentDTO;
+import com.polaris.psi.resource.dto.ProfileDto;
+import com.polaris.psi.resource.dto.OrderSegmentDto;
 import com.polaris.psi.resource.dto.OrderSegmentWithRange;
-import com.polaris.psi.resource.dto.SegmentDTO;
+import com.polaris.psi.resource.dto.SegmentDto;
 
 /**
  * @author bericks
@@ -34,13 +34,13 @@ public class ProfileResource {
 	@GET
     @Path("/{profileId}")
     @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public InventoryProfileDTO getProfile(@PathParam("profileId") int profileId) {
+	public ProfileDto getProfile(@PathParam("profileId") int profileId) {
 		
 		return buildProfile(profileId);
 	}
 	
-	private InventoryProfileDTO buildProfile(int profileId) {
-		InventoryProfileDTO profile = new InventoryProfileDTO();
+	private ProfileDto buildProfile(int profileId) {
+		ProfileDto profile = new ProfileDto();
 		switch (profileId) {
 		case 999:
 			profile.setModifiedDate(new Date());
@@ -67,23 +67,23 @@ public class ProfileResource {
 		return profile;
 	}
 	
-	private List<SegmentDTO> buildMotorcycleSegments() {
-		List<SegmentDTO> segments = new ArrayList<SegmentDTO>();
-		SegmentDTO cruiser = new SegmentDTO();
+	private List<SegmentDto> buildMotorcycleSegments() {
+		List<SegmentDto> segments = new ArrayList<SegmentDto>();
+		SegmentDto cruiser = new SegmentDto();
 		cruiser.setName("Cruiser");
 		cruiser.setRecommendedQty(4);
 		cruiser.setSegmentId(111);
 		cruiser.setOrderSegments(buildCruiserOrderSegments());
 		segments.add(cruiser);
 		
-		SegmentDTO bagger = new SegmentDTO();
+		SegmentDto bagger = new SegmentDto();
 		bagger.setName("Bagger");
 		bagger.setRecommendedQty(4);
 		bagger.setSegmentId(222);
 		bagger.setOrderSegments(buildBaggerOrderSegments());
 		segments.add(bagger);
 		
-		SegmentDTO touring = new SegmentDTO();
+		SegmentDto touring = new SegmentDto();
 		touring.setName("Touring");
 		touring.setRecommendedQty(3);
 		touring.setSegmentId(333);
@@ -93,39 +93,39 @@ public class ProfileResource {
 		return segments;
 	}
 	
-	private List<OrderSegmentDTO> buildCruiserOrderSegments() {
-		List<OrderSegmentDTO> segments = new ArrayList<OrderSegmentDTO>();
-		OrderSegmentDTO judge = new OrderSegmentDTO();
+	private List<OrderSegmentDto> buildCruiserOrderSegments() {
+		List<OrderSegmentDto> segments = new ArrayList<OrderSegmentDto>();
+		OrderSegmentDto judge = new OrderSegmentDto();
 		judge.setName("Judge");
 		judge.setOrderSegmentId(1);
 		judge.setRecommendedQty(0);
 		segments.add(judge);
 		
-		OrderSegmentDTO vegas = new OrderSegmentDTO();
+		OrderSegmentDto vegas = new OrderSegmentDto();
 		vegas.setName("Vegas 8-Ball");
 		vegas.setOrderSegmentId(2);
 		vegas.setRecommendedQty(1);
 		segments.add(vegas);
 		
-		OrderSegmentDTO highBall = new OrderSegmentDTO();
+		OrderSegmentDto highBall = new OrderSegmentDto();
 		highBall.setName("High-Ball");
 		highBall.setOrderSegmentId(3);
 		highBall.setRecommendedQty(1);
 		segments.add(highBall);
 		
-		OrderSegmentDTO gunner = new OrderSegmentDTO();
+		OrderSegmentDto gunner = new OrderSegmentDto();
 		gunner.setName("Gunner");
 		gunner.setOrderSegmentId(4);
 		gunner.setRecommendedQty(0);
 		segments.add(gunner);
 		
-		OrderSegmentDTO boardWalk = new OrderSegmentDTO();
+		OrderSegmentDto boardWalk = new OrderSegmentDto();
 		boardWalk.setName("Boardwalk");
 		boardWalk.setOrderSegmentId(5);
 		boardWalk.setRecommendedQty(1);
 		segments.add(boardWalk);
 		
-		OrderSegmentDTO fatTire = new OrderSegmentDTO();
+		OrderSegmentDto fatTire = new OrderSegmentDto();
 		fatTire.setName("Fat Tire");
 		fatTire.setOrderSegmentId(6);
 		fatTire.setRecommendedQty(1);
@@ -134,28 +134,28 @@ public class ProfileResource {
 		return segments;
 	}
 	
-	private List<OrderSegmentDTO> buildBaggerOrderSegments() {
-		List<OrderSegmentDTO> segments = new ArrayList<OrderSegmentDTO>();
+	private List<OrderSegmentDto> buildBaggerOrderSegments() {
+		List<OrderSegmentDto> segments = new ArrayList<OrderSegmentDto>();
 		
-		OrderSegmentDTO xCountry = new OrderSegmentDTO();
+		OrderSegmentDto xCountry = new OrderSegmentDto();
 		xCountry.setName("Cross Country");
 		xCountry.setOrderSegmentId(7);
 		xCountry.setRecommendedQty(2);
 		segments.add(xCountry);
 		
-		OrderSegmentDTO customXC = new OrderSegmentDTO();
+		OrderSegmentDto customXC = new OrderSegmentDto();
 		customXC.setName("Custom Cross Country");
 		customXC.setOrderSegmentId(8);
 		customXC.setRecommendedQty(1);
 		segments.add(customXC);
 		
-		OrderSegmentDTO value = new OrderSegmentDTO();
+		OrderSegmentDto value = new OrderSegmentDto();
 		value.setName("Value Bagger");
 		value.setOrderSegmentId(9);
 		value.setRecommendedQty(1);
 		segments.add(value);
 		
-		OrderSegmentDTO xRoads = new OrderSegmentDTO();
+		OrderSegmentDto xRoads = new OrderSegmentDto();
 		xRoads.setName("Cross Roads");
 		xRoads.setOrderSegmentId(10);
 		xRoads.setRecommendedQty(0);
@@ -163,16 +163,16 @@ public class ProfileResource {
 		return segments;
 	}
 	
-	private List<OrderSegmentDTO> buildTouringORderSegments() {
-		List<OrderSegmentDTO> segments = new ArrayList<OrderSegmentDTO>();
+	private List<OrderSegmentDto> buildTouringORderSegments() {
+		List<OrderSegmentDto> segments = new ArrayList<OrderSegmentDto>();
 		
-		OrderSegmentDTO xcTour = new OrderSegmentDTO();
+		OrderSegmentDto xcTour = new OrderSegmentDto();
 		xcTour.setName("Cross Country Tour");
 		xcTour.setOrderSegmentId(11);
 		xcTour.setRecommendedQty(2);
 		segments.add(xcTour);
 		
-		OrderSegmentDTO vision = new OrderSegmentDTO();
+		OrderSegmentDto vision = new OrderSegmentDto();
 		vision.setName("Vision");
 		vision.setOrderSegmentId(12);
 		vision.setRecommendedQty(1);
@@ -181,9 +181,9 @@ public class ProfileResource {
 		return segments;
 	}
 	
-	private List<SegmentDTO> buildATVSegments() {
-		List<SegmentDTO> segments = new ArrayList<SegmentDTO>();
-		SegmentDTO rangerXP = new SegmentDTO();
+	private List<SegmentDto> buildATVSegments() {
+		List<SegmentDto> segments = new ArrayList<SegmentDto>();
+		SegmentDto rangerXP = new SegmentDto();
 		rangerXP.setActualQty(0);
 		rangerXP.setName("Ranger XP");
 		rangerXP.setRecommendedQty(0);
@@ -194,8 +194,8 @@ public class ProfileResource {
 		return segments;
 	}
 	
-	private List<OrderSegmentDTO> buildRangerXPSegments() {
-		List<OrderSegmentDTO> orderSegments = new ArrayList<OrderSegmentDTO>();
+	private List<OrderSegmentDto> buildRangerXPSegments() {
+		List<OrderSegmentDto> orderSegments = new ArrayList<OrderSegmentDto>();
 		
 		OrderSegmentWithRange base = new OrderSegmentWithRange();
 		base.setActualQty(0);
