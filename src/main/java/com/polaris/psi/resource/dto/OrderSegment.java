@@ -7,7 +7,7 @@ package com.polaris.psi.resource.dto;
  * @author bericks
  *
  */
-public class OrderSegmentWithRange extends OrderSegmentDto {
+public class OrderSegment extends OrderSegmentDto {
 
 	private static final long serialVersionUID = -7875018740992473600L;
 	

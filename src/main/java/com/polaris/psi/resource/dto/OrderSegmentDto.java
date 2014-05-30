@@ -4,42 +4,33 @@
 package com.polaris.psi.resource.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author bericks
  *
  */
-//@Entity
-//@Table(name = "<TBL_ORDR_SEG>")
 public class OrderSegmentDto implements Serializable {
 
 	private static final long serialVersionUID = -4692650680058882881L;
 	
-//	@Id
-//	@Column(name = "<COL_NAME1>")
-	private int orderSegmentId;
-	
-//	@Column(name = "<COL_NAME2>")
+	private int id;
 	private String name;
 	
-//	@Column(name = "<COL_NAME3>")
-	private int actualQty;
-	
-//	@Column(name = "<COL_NAME4>")
-	private int recommendedQty;
+	private List<SegmentQuantityDto> quanitities;
 	
 	/**
-	 * @return the orderSegmentId
+	 * @return the id
 	 */
-	public int getOrderSegmentId() {
-		return orderSegmentId;
+	public int getId() {
+		return id;
 	}
 
 	/**
-	 * @param orderSegmentId the orderSegmentId to set
+	 * @param id the id to set
 	 */
-	public void setOrderSegmentId(int orderSegmentId) {
-		this.orderSegmentId = orderSegmentId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	/**
@@ -57,31 +48,17 @@ public class OrderSegmentDto implements Serializable {
 	}
 
 	/**
-	 * @return the actualQty
+	 * @return the quanitities
 	 */
-	public int getActualQty() {
-		return actualQty;
+	public List<SegmentQuantityDto> getQuanitities() {
+		return quanitities;
 	}
 
 	/**
-	 * @param actualQty the actualQty to set
+	 * @param quanitities the quanitities to set
 	 */
-	public void setActualQty(int actualQty) {
-		this.actualQty = actualQty;
+	public void setQuanitities(List<SegmentQuantityDto> quanitities) {
+		this.quanitities = quanitities;
 	}
-
-	/**
-	 * @return the recommendedQty
-	 */
-	public int getRecommendedQty() {
-		return recommendedQty;
-	}
-
-	/**
-	 * @param recommendedQty the recommendedQty to set
-	 */
-	public void setRecommendedQty(int recommendedQty) {
-		this.recommendedQty = recommendedQty;
-	}
-
+	
 }

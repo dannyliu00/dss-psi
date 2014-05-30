@@ -17,10 +17,12 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.stereotype.Component;
 
-import com.polaris.psi.resource.dto.ProfileDto;
 import com.polaris.psi.resource.dto.OrderSegmentDto;
-import com.polaris.psi.resource.dto.OrderSegmentWithRange;
+import com.polaris.psi.resource.dto.OrderSegment;
+import com.polaris.psi.resource.dto.ProfileDto;
+import com.polaris.psi.resource.dto.ProfilePeriodDto;
 import com.polaris.psi.resource.dto.SegmentDto;
+import com.polaris.psi.resource.dto.SegmentQuantityDto;
 
 /**
  * @author bericks
@@ -48,7 +50,8 @@ public class ProfileResource {
 			profile.setName("Victory Inventory Profile 04/30/14");
 			profile.setProfileId(profileId);
 			profile.setStatus("Not Started");
-			
+
+			profile.setPeriods(buildMotorcycleProfilePeriods());
 			profile.setSegments(buildMotorcycleSegments());
 			break;
 
@@ -59,12 +62,87 @@ public class ProfileResource {
 			profile.setProfileId(profileId);
 			profile.setStatus("Not Started");
 			
+			profile.setPeriods(buildATVProfilePeriods());
 			profile.setSegments(buildATVSegments());
 		default:
 			break;
 		}
 		
 		return profile;
+	}
+	
+	private List<ProfilePeriodDto> buildATVProfilePeriods() {
+		List<ProfilePeriodDto> periods = new ArrayList<ProfilePeriodDto>();
+		ProfilePeriodDto july = new ProfilePeriodDto();
+		july.setId(1);
+		july.setName("ATV 2014 Jul");
+		july.setQuantities(buildQuantities(1));
+		periods.add(july);
+		
+		ProfilePeriodDto august = new ProfilePeriodDto();
+		august.setId(1);
+		august.setName("ATV 2014 Aug");
+		august.setQuantities(buildQuantities(1));
+		periods.add(august);
+		
+		ProfilePeriodDto september = new ProfilePeriodDto();
+		september.setId(1);
+		september.setName("ATV 2014 Sep");
+		september.setQuantities(buildQuantities(1));
+		periods.add(september);
+		
+		return periods;
+	}
+	
+	private List<ProfilePeriodDto> buildMotorcycleProfilePeriods() {
+		List<ProfilePeriodDto> periods = new ArrayList<ProfilePeriodDto>();
+		ProfilePeriodDto july = new ProfilePeriodDto();
+		july.setId(1);
+		july.setName("VIC 2014 Jul");
+		periods.add(july);
+		
+		return periods;
+	}
+		
+	private List<SegmentQuantityDto> buildQuantities(int version) {
+		List<SegmentQuantityDto> quantities = new ArrayList<SegmentQuantityDto>();
+		
+		
+		switch (version) {
+		case 1:
+			SegmentQuantityDto qty1 = new SegmentQuantityDto();
+			qty1.setActual(0);
+			qty1.setMaximum(5);
+			qty1.setMinimum(3);
+			qty1.setRecommended(4);
+			quantities.add(qty1);
+			
+			SegmentQuantityDto qty2 = new SegmentQuantityDto();
+			qty2.setActual(0);
+			qty2.setMaximum(6);
+			qty2.setMinimum(4);
+			qty2.setRecommended(5);
+			quantities.add(qty2);
+
+			SegmentQuantityDto qty3 = new SegmentQuantityDto();
+			qty3.setActual(0);
+			qty3.setMaximum(7);
+			qty3.setMinimum(5);
+			qty3.setRecommended(6);
+			quantities.add(qty3);
+
+			break;
+			
+		default:
+			SegmentQuantityDto quantity = new SegmentQuantityDto();
+			quantity.setActual(3);
+			quantity.setMaximum(0);
+			quantity.setMinimum(0);
+			quantity.setRecommended(3);
+			quantities.add(quantity);
+		}
+		
+		return quantities;
 	}
 	
 	private List<SegmentDto> buildMotorcycleSegments() {
@@ -87,7 +165,7 @@ public class ProfileResource {
 		touring.setName("Touring");
 		touring.setRecommendedQty(3);
 		touring.setSegmentId(333);
-		touring.setOrderSegments(buildTouringORderSegments());
+		touring.setOrderSegments(buildTouringOrderSegments());
 		segments.add(touring);
 		
 		return segments;
@@ -97,38 +175,38 @@ public class ProfileResource {
 		List<OrderSegmentDto> segments = new ArrayList<OrderSegmentDto>();
 		OrderSegmentDto judge = new OrderSegmentDto();
 		judge.setName("Judge");
-		judge.setOrderSegmentId(1);
-		judge.setRecommendedQty(0);
+		judge.setId(1);
+		judge.setQuanitities(buildQuantities(0));
 		segments.add(judge);
 		
 		OrderSegmentDto vegas = new OrderSegmentDto();
 		vegas.setName("Vegas 8-Ball");
-		vegas.setOrderSegmentId(2);
-		vegas.setRecommendedQty(1);
+		vegas.setId(2);
+		vegas.setQuanitities(buildQuantities(0));
 		segments.add(vegas);
 		
 		OrderSegmentDto highBall = new OrderSegmentDto();
 		highBall.setName("High-Ball");
-		highBall.setOrderSegmentId(3);
-		highBall.setRecommendedQty(1);
+		highBall.setId(3);
+		highBall.setQuanitities(buildQuantities(0));
 		segments.add(highBall);
 		
 		OrderSegmentDto gunner = new OrderSegmentDto();
 		gunner.setName("Gunner");
-		gunner.setOrderSegmentId(4);
-		gunner.setRecommendedQty(0);
+		gunner.setId(4);
+		gunner.setQuanitities(buildQuantities(0));
 		segments.add(gunner);
 		
 		OrderSegmentDto boardWalk = new OrderSegmentDto();
 		boardWalk.setName("Boardwalk");
-		boardWalk.setOrderSegmentId(5);
-		boardWalk.setRecommendedQty(1);
+		boardWalk.setId(5);
+		boardWalk.setQuanitities(buildQuantities(0));
 		segments.add(boardWalk);
 		
 		OrderSegmentDto fatTire = new OrderSegmentDto();
 		fatTire.setName("Fat Tire");
-		fatTire.setOrderSegmentId(6);
-		fatTire.setRecommendedQty(1);
+		fatTire.setId(6);
+		fatTire.setQuanitities(buildQuantities(0));
 		segments.add(fatTire);
 		
 		return segments;
@@ -139,43 +217,43 @@ public class ProfileResource {
 		
 		OrderSegmentDto xCountry = new OrderSegmentDto();
 		xCountry.setName("Cross Country");
-		xCountry.setOrderSegmentId(7);
-		xCountry.setRecommendedQty(2);
+		xCountry.setId(7);
+		xCountry.setQuanitities(buildQuantities(0));
 		segments.add(xCountry);
 		
 		OrderSegmentDto customXC = new OrderSegmentDto();
 		customXC.setName("Custom Cross Country");
-		customXC.setOrderSegmentId(8);
-		customXC.setRecommendedQty(1);
+		customXC.setId(8);
+		customXC.setQuanitities(buildQuantities(0));
 		segments.add(customXC);
 		
 		OrderSegmentDto value = new OrderSegmentDto();
 		value.setName("Value Bagger");
-		value.setOrderSegmentId(9);
-		value.setRecommendedQty(1);
+		value.setId(9);
+		value.setQuanitities(buildQuantities(0));
 		segments.add(value);
 		
 		OrderSegmentDto xRoads = new OrderSegmentDto();
 		xRoads.setName("Cross Roads");
-		xRoads.setOrderSegmentId(10);
-		xRoads.setRecommendedQty(0);
+		xRoads.setId(10);
+		xRoads.setQuanitities(buildQuantities(0));
 		
 		return segments;
 	}
 	
-	private List<OrderSegmentDto> buildTouringORderSegments() {
+	private List<OrderSegmentDto> buildTouringOrderSegments() {
 		List<OrderSegmentDto> segments = new ArrayList<OrderSegmentDto>();
 		
 		OrderSegmentDto xcTour = new OrderSegmentDto();
 		xcTour.setName("Cross Country Tour");
-		xcTour.setOrderSegmentId(11);
-		xcTour.setRecommendedQty(2);
+		xcTour.setId(11);
+		xcTour.setQuanitities(buildQuantities(0));
 		segments.add(xcTour);
 		
 		OrderSegmentDto vision = new OrderSegmentDto();
 		vision.setName("Vision");
-		vision.setOrderSegmentId(12);
-		vision.setRecommendedQty(1);
+		vision.setId(12);
+		vision.setQuanitities(buildQuantities(0));
 		segments.add(vision);
 		
 		return segments;
@@ -197,29 +275,22 @@ public class ProfileResource {
 	private List<OrderSegmentDto> buildRangerXPSegments() {
 		List<OrderSegmentDto> orderSegments = new ArrayList<OrderSegmentDto>();
 		
-		OrderSegmentWithRange base = new OrderSegmentWithRange();
-		base.setActualQty(0);
+		OrderSegmentDto base = new OrderSegmentDto();
+		base.setId(1);
 		base.setName("Ranger XP Base");
-		base.setOrderSegmentId(1);
-		base.setRecommendedQty(4);
-		base.setMinRecommend(3);
-		base.setMaxRecommend(5);
+		base.setQuanitities(buildQuantities(1));
 		orderSegments.add(base);
 		
-		OrderSegmentWithRange paint = new OrderSegmentWithRange();
-		paint.setActualQty(0);
-		paint.setMaxRecommend(8);
-		paint.setMinRecommend(4);
+		OrderSegmentDto paint = new OrderSegmentDto();
+		paint.setId(2);
 		paint.setName("Ranger XP Paint");
-		paint.setRecommendedQty(6);
+		paint.setQuanitities(buildQuantities(2));
 		orderSegments.add(paint);
 		
-		OrderSegmentWithRange eps = new OrderSegmentWithRange();
-		eps.setActualQty(0);
-		eps.setMaxRecommend(8);
-		eps.setMinRecommend(4);
+		OrderSegmentDto eps = new OrderSegmentDto();
+		eps.setId(3);
 		eps.setName("Ranger XP EPS");
-		eps.setRecommendedQty(6);
+		eps.setQuanitities(buildQuantities(3));
 		orderSegments.add(eps);
 		
 		return orderSegments;

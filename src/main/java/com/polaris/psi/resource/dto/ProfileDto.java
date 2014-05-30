@@ -7,37 +7,21 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 /**
  * @author bericks
  *
  */
-//@Entity
-//@Table(name = "<TBL_INV_PROF>")
 public class ProfileDto implements Serializable {
 
 	private static final long serialVersionUID = -159439629357551617L;
 
-//	@Id
-//	@Column(name = "<COL_NAME1>")
 	private int profileId;
-	
-//	@Column(name = "<COL_NAME2>")
 	private String type;
-	
-//	@Column(name = "<COL_NAME2>")
 	private String name;
-	
-//	@Column(name = "<COL_NAME3>")
 	private Date modifiedDate;
-	
-//	@Column(name = "<COL_NAME4>")
 	private String status;
-	
+
+	private List<ProfilePeriodDto> periods;
 	private List<SegmentDto> segments;
 
 	/**
@@ -122,6 +106,20 @@ public class ProfileDto implements Serializable {
 	 */
 	public void setSegments(List<SegmentDto> segments) {
 		this.segments = segments;
+	}
+
+	/**
+	 * @return the periods
+	 */
+	public List<ProfilePeriodDto> getPeriods() {
+		return periods;
+	}
+
+	/**
+	 * @param periods the periods to set
+	 */
+	public void setPeriods(List<ProfilePeriodDto> periods) {
+		this.periods = periods;
 	}
 
 }
