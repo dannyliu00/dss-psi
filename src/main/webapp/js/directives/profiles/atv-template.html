@@ -14,14 +14,8 @@
                         <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" style="width: 25%" >
                             Order Segment
                         </th>
-                        <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" style="width: 25%" >
-                            "Window 1"<br/>Min - Target - Max<br/>Qty
-                        </th>
-                        <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" style="width: 25%" >
-                            "Window 2"<br/>Min - Target - Max<br/>Qty
-                        </th>
-                        <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" style="width: 25%" >
-                            "Window 3"<br/>Min - Target - Max<br/>Qty
+                        <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" style="width: 25%" >
+                            {{period.name}}<br/>Min - Target - Max<br/>Qty
                         </th>
                     </tr>
                     </thead>

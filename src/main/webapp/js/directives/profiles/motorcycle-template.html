@@ -17,8 +17,8 @@
                         <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
                             Order Segment
                         </th>
-                        <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
-                            "Window"<br/>Recommendation - Qty
+                        <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
+                            {{period.name}}<br/>Recommendation - Qty
                         </th>
                     </tr>
                     </thead>
