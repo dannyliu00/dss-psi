@@ -6,6 +6,10 @@
             .withPaginationType('full_numbers')
             .withDisplayLength(10)
             .withBootstrap();
+
+        $scope.$watch($scope.orderSegments, function(orderSegments) {
+
+        });
     }
 
     dealerProfiles.DealerProfileDirectiveController = DealerProfileDirectiveController;

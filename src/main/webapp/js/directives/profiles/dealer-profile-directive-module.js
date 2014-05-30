@@ -3,7 +3,6 @@
 
     angular.module('sellIn.directives.profiles', ['datatables'])
         .controller('dealerProfileDirectiveController', dealerProfiles.DealerProfileDirectiveController)
-        .directive('motorcycleProfileDetails', dealerProfiles.MotorcycleProfileDetailsDirective)
-        .directive('atvProfileDetails', dealerProfiles.ATVProfileDetailsDirective);
+        .directive('profileDetails', dealerProfiles.ProfileDetailsDirective);
 
 })();

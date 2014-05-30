@@ -9,7 +9,7 @@
             $scope.dealer = returnedDealer;
         });
 
-        var profile = {profileId: 1234};
+        var profile = {profileId: $routeParams.profileId};
         dealerProfileResource.get(profile).then(function(returnedProfile) {
             $scope.profile = returnedProfile;
             $scope.segments = returnedProfile.segments;

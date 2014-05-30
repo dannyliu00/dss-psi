@@ -1,27 +1,86 @@
-<table id="activeObjectsTable"
-       class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
-       aria-describedby="activeObjectsTable_info">
-    <thead>
-    <tr role="row">
-        <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" style="width: 33%" >
-            Order Segment
-        </th>
-        <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" style="width: 33%" >
-            "Window 1"<br/>Min - Target - Max<br/>Qty
-        </th>
-        <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" style="width: 33%" >
-            "Window 2"<br/>Min - Target - Max<br/>Qty
-        </th>
-        <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" style="width: 33%" >
-            "Window 3"<br/>Min - Target - Max<br/>Qty
-        </th>
-    </tr>
-    </thead>
-    <tbody ng-repeat="segment in profile.segments" role="alert" aria-live="polite" aria-relevant="all">
-    <tr ng-repeat="orderSegment in segment.orderSegments" class="odd">
-        <td class="">{{segment.name}}</td>
-        <td class="">{{orderSegment.name}}</td>
-        <td class="text-center"><span>{{orderSegment.recommendedQty}}&nbsp;&nbsp;&nbsp;&nbsp;<input value="{{orderSegment.actualQty}}" class="text-center" type="text" id="os_{{orderSegment.name}}"></span></td>
-    </tr>
-    </tbody>
-</table>
+<div class="container-full">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Profile Details</h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12">
+                <div id="activeObjectsTable_processing" class="dataTables_processing" style="visibility: hidden;">Processing...</div>
+                <table id="activeObjectsTable"
+                       class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
+                       aria-describedby="activeObjectsTable_info">
+                    <thead>
+                    <tr role="row">
+                        <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" style="width: 25%" >
+                            Order Segment
+                        </th>
+                        <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" style="width: 25%" >
+                            "Window 1"<br/>Min - Target - Max<br/>Qty
+                        </th>
+                        <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" style="width: 25%" >
+                            "Window 2"<br/>Min - Target - Max<br/>Qty
+                        </th>
+                        <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" style="width: 25%" >
+                            "Window 3"<br/>Min - Target - Max<br/>Qty
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody role="alert" aria-live="polite" aria-relevant="all">
+                    <tr ng-repeat="orderSegment in orderSegments" class="odd">
+                        <td class="">{{orderSegment.name}}</td>
+                        <td class="text-center"><span>{{orderSegment.minRecommend}} - {{orderSegment.recommendedQty}} - {{orderSegment.maxRecommend}}<br/><input value="{{orderSegment.actualQty}}" class="text-center" type="text" id="os_{{orderSegment.name}}"></span></td>
+                        <td class="text-center"><span>{{orderSegment.minRecommend}} - {{orderSegment.recommendedQty}} - {{orderSegment.maxRecommend}}<br/><input value="{{orderSegment.actualQty}}" class="text-center" type="text" id="os_{{orderSegment.name}}"></span></td>
+                        <td class="text-center"><span>{{orderSegment.minRecommend}} - {{orderSegment.recommendedQty}} - {{orderSegment.maxRecommend}}<br/><input value="{{orderSegment.actualQty}}" class="text-center" type="text" id="os_{{orderSegment.name}}"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Data table summary and Page Controls -->
+<div class="container-full">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Profile Totals</h3>
+        </div>
+        <div class="panel-body">
+            <table id="activeObjectsSummaryTable"
+                   class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
+                   aria-describedby="activeObjectsSummaryTable">
+                <thead>
+                <tr role="row">
+                    <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
+                        "Window 1"<br/>Min - Target - Max
+                    </th>
+                    <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
+                        "Window 1"<br/>Qty
+                    </th>
+                    <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
+                        "Window 2"<br/>Min - Target - Max
+                    </th>
+                    <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
+                        "Window 2"<br/>Qty
+                    </th>
+                    <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
+                        "Window 3"<br/>Min - Target - Max
+                    </th>
+                    <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
+                        "Window 3"<br/>Qty
+                    </th>
+                </tr>
+                </thead>
+                <tbody role="alert" aria-live="polite" aria-relevant="all">
+                <tr ng-repeat="segment in segments" class="odd">
+                    <td class="">{{segment.recommendedQty}}</td>
+                    <td class="text-center">{{segment.recommendedQty}}</td>
+                    <td class="text-center">{{segment.recommendedQty}}</td>
+                    <td class="text-center">{{segment.recommendedQty}}</td>
+                    <td class="text-center">{{segment.recommendedQty}}</td>
+                    <td class="text-center">{{segment.recommendedQty}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
