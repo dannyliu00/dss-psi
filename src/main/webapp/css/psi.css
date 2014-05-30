@@ -1,3 +1,15 @@
-.table-col-hdr {
+.bold-header {
     font-weight: bold;
+}
+
+.table-col-hdr {
+    background-color: #004990;
+    border: 1px solid #dddddd;
+    box-sizing: border-box;
+    color: #E7E7E7;
+    display: block;
+    font-weight: bold;
+    line-height: 1.428571429;
+    margin: 10px;
+    padding: 5px;
 }

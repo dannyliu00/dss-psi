@@ -11,10 +11,10 @@
                        aria-describedby="activeObjectsTable_info">
                     <thead>
                     <tr role="row">
-                        <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" style="width: 25%" >
+                        <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
                             Order Segment
                         </th>
-                        <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" style="width: 25%" >
+                        <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
                             {{period.name}}<br/>Min - Target - Max<br/>Qty
                         </th>
                     </tr>
@@ -39,42 +39,26 @@
             <h3 class="panel-title">Profile Totals</h3>
         </div>
         <div class="panel-body">
-            <table id="activeObjectsSummaryTable"
-                   class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
-                   aria-describedby="activeObjectsSummaryTable">
-                <thead>
-                <tr role="row">
-                    <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
-                        "Window 1"<br/>Min - Target - Max
-                    </th>
-                    <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
-                        "Window 1"<br/>Qty
-                    </th>
-                    <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
-                        "Window 2"<br/>Min - Target - Max
-                    </th>
-                    <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
-                        "Window 2"<br/>Qty
-                    </th>
-                    <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
-                        "Window 3"<br/>Min - Target - Max
-                    </th>
-                    <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
-                        "Window 3"<br/>Qty
-                    </th>
-                </tr>
-                </thead>
-                <tbody role="alert" aria-live="polite" aria-relevant="all">
-                <tr ng-repeat="segment in segments" class="odd">
-                    <td class="">{{segment.recommendedQty}}</td>
-                    <td class="text-center">{{segment.recommendedQty}}</td>
-                    <td class="text-center">{{segment.recommendedQty}}</td>
-                    <td class="text-center">{{segment.recommendedQty}}</td>
-                    <td class="text-center">{{segment.recommendedQty}}</td>
-                    <td class="text-center">{{segment.recommendedQty}}</td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="row table-col-hdr">
+                <div class="col-md-4" ng-repeat="period in profile.periods" >
+                    <div class="col-md-6 text-center">
+                        {{period.name}}<br/>Min - Target - Max
+                    </div>
+                    <div class="col-md-6 text-center">
+                        {{period.name}}<br/>Qty
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" ng-repeat="orderSegment in orderSegments"  >
+                    <div class="col-md-6 text-center">
+                        {{orderSegment.minimumQty}} - {{orderSegment.recommendedQty}} - {{orderSegment.maximumQty}}
+                    </div>
+                    <div class="col-md-6 text-center">
+                        {{orderSegment.actualQty}}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
