@@ -22,51 +22,50 @@
                 }
             }
             $scope.orderSegments = orderSegments;
+            $scope.recGrandTotal = getRecGrandTotal();
+            $scope.actualGrandTotal = $scope.getActualGrandTotal();
         });
 
         $scope.toSummary = function(dealerId) {
             $location.path('#/dealerSummary/:dealerId');
         };
 
-//        function getRecGrandTotal() {
-//            var total = 0;
-//            for(var i=0; i < $scope.profile.segments.length; i++) {
-//                total = total + getRecSegmentTotal($scope.profile.segments[i]);
-//            }
-//
-//            return total;
-//        }
+        function getRecGrandTotal() {
+            var total = 0;
+            for(var i=0; i < $scope.profile.segments.length; i++) {
+                total = total + getRecSegmentTotal($scope.profile.segments[i]);
+            }
 
-//        $scope.getActualGrandTotal = function() {
-//            var total = 0;
-//            for(var i=0; i < $scope.profile.segments.length; i++) {
-//                total = total + getActualSegmentTotal($scope.profile.segments[i]);
-//            }
-//
-//            return total;
-//        };
+            return total;
+        }
 
-//        function getRecSegmentTotal(segment) {
-//            var total = 0;
-//            for(var i=0; i < segment.orderSegments.length; i++) {
-//                total = total + segment.orderSegments[i].recommendedQty;
-//            }
-//
-//            return total;
-//        }
+        $scope.getActualGrandTotal = function() {
+            var total = 0;
+            for(var i=0; i < $scope.profile.segments.length; i++) {
+                total = total + getActualSegmentTotal($scope.profile.segments[i]);
+            }
 
-//        function getActualSegmentTotal(segment) {
-//            var total = 0;
-//            for(var i=0; i < segment.orderSegments.length; i++) {
-//                total = total + segment.orderSegments[i].actualQty;
-//            }
-//
-//            return total;
-//        }
+            return total;
+        };
 
-        
-//        $scope.recGrandTotal = getRecGrandTotal();
-//        $scope.actualGrandTotal = $scope.getActualGrandTotal();
+        function getRecSegmentTotal(segment) {
+            var total = 0;
+            for(var i=0; i < segment.orderSegments.length; i++) {
+                total = total + segment.orderSegments[i].recommendedQty;
+            }
+
+            return total;
+        }
+
+        function getActualSegmentTotal(segment) {
+            var total = 0;
+            for(var i=0; i < segment.orderSegments.length; i++) {
+                total = total + segment.orderSegments[i].actualQty;
+            }
+
+            return total;
+        }
+ 
     }
 
     profile.ProfileController = ProfileController;
