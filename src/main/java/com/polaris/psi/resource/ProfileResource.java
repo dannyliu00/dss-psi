@@ -149,21 +149,21 @@ public class ProfileResource {
 		List<SegmentDto> segments = new ArrayList<SegmentDto>();
 		SegmentDto cruiser = new SegmentDto();
 		cruiser.setName("Cruiser");
-		cruiser.setRecommendedQty(4);
+		cruiser.setRecommendedQty(18);
 		cruiser.setSegmentId(111);
 		cruiser.setOrderSegments(buildCruiserOrderSegments());
 		segments.add(cruiser);
 		
 		SegmentDto bagger = new SegmentDto();
 		bagger.setName("Bagger");
-		bagger.setRecommendedQty(4);
+		bagger.setRecommendedQty(9);
 		bagger.setSegmentId(222);
 		bagger.setOrderSegments(buildBaggerOrderSegments());
 		segments.add(bagger);
 		
 		SegmentDto touring = new SegmentDto();
 		touring.setName("Touring");
-		touring.setRecommendedQty(3);
+		touring.setRecommendedQty(6);
 		touring.setSegmentId(333);
 		touring.setOrderSegments(buildTouringOrderSegments());
 		segments.add(touring);
