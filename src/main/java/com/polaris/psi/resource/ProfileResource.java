@@ -284,13 +284,13 @@ public class ProfileResource {
 		OrderSegmentDto paint = new OrderSegmentDto();
 		paint.setId(2);
 		paint.setName("Ranger XP Paint");
-		paint.setQuantities(buildQuantities(2));
+		paint.setQuantities(buildQuantities(1));
 		orderSegments.add(paint);
 		
 		OrderSegmentDto eps = new OrderSegmentDto();
 		eps.setId(3);
 		eps.setName("Ranger XP EPS");
-		eps.setQuantities(buildQuantities(3));
+		eps.setQuantities(buildQuantities(1));
 		orderSegments.add(eps);
 		
 		return orderSegments;
