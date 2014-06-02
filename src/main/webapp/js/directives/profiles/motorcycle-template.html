@@ -26,7 +26,9 @@
                     <tr ng-repeat="orderSegment in orderSegments" class="odd">
                         <td class="">{{orderSegment.segmentName}}</td>
                         <td class="">{{orderSegment.name}}</td>
-                        <td class="text-center"><span>{{orderSegment.recommendedQty}}&nbsp;&nbsp;&nbsp;&nbsp;<input class="text-center" type="text" ng-model="orderSegment.actualQty"></span></td>
+                        <td class="text-center"><span>{{orderSegment.recommendedQty}}&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input class="text-center" type="text" ng-model="orderSegment.actualQty" ng-change="sumActualValues()"></span>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -61,7 +63,7 @@
                 <tr ng-repeat="segment in segments" class="odd">
                     <td class="">{{segment.name}}</td>
                     <td class="text-center">{{segment.recommendedQty}}</td>
-                    <td class="text-center"></td>
+                    <td class="text-center">{{segment.actualQty}}</td>
                 </tr>
                 <tr class="even">
                     <td class="">Grand Total</td>

@@ -26,12 +26,8 @@
             })
             .then(function() {
                 $scope.recGrandTotal = getRecGrandTotal();
-                $scope.actualGrandTotal = $scope.getActualGrandTotal();
+                $scope.actualGrandTotal = getActualGrandTotal();
         });
-
-        $scope.toSummary = function(dealerId) {
-            $location.path('#/dealerSummary/' + dealerId);
-        };
 
         function getRecGrandTotal() {
             var total = 0;
@@ -41,15 +37,6 @@
 
             return total;
         }
-
-        $scope.getActualGrandTotal = function() {
-            var total = 0;
-            for(var i=0; i < $scope.profile.segments.length; i++) {
-                total = total + getActualSegmentTotal($scope.profile.segments[i]);
-            }
-
-            return total;
-        };
 
         function getRecSegmentTotal(segment) {
             var total = 0;
@@ -78,6 +65,15 @@
             orderSegment.maximumQty = maxQty;
         }
 
+         function getActualGrandTotal() {
+            var total = 0;
+            for(var i=0; i < $scope.segments.length; i++) {
+                total = total + getActualSegmentTotal($scope.segments[i]);
+            }
+
+            return total;
+        };
+
         function getActualSegmentTotal(segment) {
             var total = 0;
             for(var i=0; i < segment.orderSegments.length; i++) {
@@ -85,7 +81,7 @@
                 orderSegment.actualQty = getActualValues(orderSegment);
                 total = total + orderSegment.actualQty;
             }
-
+            segment.actualQty = total;
             return total;
         }
 
@@ -98,6 +94,10 @@
 
             return total;
         }
+
+        $scope.toSummary = function(dealerId) {
+            $location.path('#/dealerSummary/' + dealerId);
+        };
 
     }
 

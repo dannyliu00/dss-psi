@@ -11,8 +11,11 @@
                 var pathSuffix = '-template.html';
 
                 scope.$watch(attrs.type, function(type) {
-                    var templateUrl = basePath + type + pathSuffix;
-                    loadTemplate(templateUrl);
+                    console.log('type is loaded');
+                    if(type != null) {
+                        var templateUrl = basePath + type + pathSuffix;
+                        loadTemplate(templateUrl);
+                    }
                 });
 
                 function loadTemplate(template) {
