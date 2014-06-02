@@ -135,7 +135,7 @@ public class ProfileResource {
 			
 		default:
 			SegmentQuantityDto quantity = new SegmentQuantityDto();
-			quantity.setActual(3);
+			quantity.setActual(0);
 			quantity.setMaximum(0);
 			quantity.setMinimum(0);
 			quantity.setRecommended(3);

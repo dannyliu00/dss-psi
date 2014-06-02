@@ -9,7 +9,8 @@
         </div>
         <dealer-info dealer="dealer"></dealer-info>
         <div class="container-full">
-            <p><button type="button" class="btn btn-default btn-sm" ng-click="toSummary(dealer.dealerId)">Return to Summary</button></p>
+            <p><span><button type="button" class="btn btn-default btn-sm" ng-click="toSummary(dealer.dealerId)">Return to Summary</button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" class="btn btn-default btn-sm" ng-click="autoFill()">Auto-fill with Recommendations</button></span></p>
         </div>
         <!-- Data and Summary tables -->
         <profile-details profile="profile" type="profile.type" segments="segments" orderSegments="orderSegments" ></profile-details>

@@ -11,9 +11,9 @@
             var total = 0;
             for(var i = 0; i < $scope.orderSegments.length; i++) {
                 var os = $scope.orderSegments[i];
-                var osActual = parseInt(os.actualQty);
+                var osActual = angular.isNumber(os.actualQty) ? parseInt(os.actualQty) : 0;
                 total = total + osActual;
-                sumSegmentTotal(os.segmentName, os.orderSegmentId, osActual);
+                sumSegmentTotal(os.segmentName, os.id, osActual);
             }
             $scope.actualGrandTotal = total;
         };
@@ -25,13 +25,18 @@
                 var orderSegment = segment.orderSegments[i];
                 if(orderSegment.id === osId) {
                     orderSegment.actualQty = newValue;
-                    console.log(orderSegment.name);
-                    console.log(orderSegment.actualQty);
                 }
                 total = total + parseInt(orderSegment.actualQty);
             }
             segment.actualQty = total;
         }
+        
+        $scope.autoFill = function(){
+            for(var i=0; i < $scope.orderSegments.length; i++) {
+           	 $scope.orderSegments[i].actualQty = $scope.orderSegments[i].recommendedQty;
+            }
+            $scope.sumActualValues();
+       };
 
         function getSegment(name) {
             for(var i=0; i < $scope.segments.length; i++) {
