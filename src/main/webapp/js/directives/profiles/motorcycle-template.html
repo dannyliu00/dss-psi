@@ -27,7 +27,7 @@
                         <td class="">{{orderSegment.segmentName}}</td>
                         <td class="">{{orderSegment.name}}</td>
                         <td class="text-center"><span>{{orderSegment.recommendedQty}}&nbsp;&nbsp;&nbsp;&nbsp;
-                            <input ng-class="{noncompliant: orderSegment.actualQty != orderSegment.recommendedQty}" class="text-center" type="number" ng-model="orderSegment.actualQty" ng-change="sumActualValues()"></span>
+                            <input ng-class="{noncompliant: orderSegment.actualQty != orderSegment.recommendedQty}" class="text-center input-sm" type="number" ng-model="orderSegment.actualQty" ng-change="sumActualValues()"></span>
                         </td>
                     </tr>
                     </tbody>
