@@ -14,6 +14,22 @@
     padding: 5px;
 }
 
+.table-row-data {
+    box-sizing: border-box;
+    display: block;
+    line-height: 1.428571429;
+    margin: 0 10px 0 10px;
+    padding: 5px;
+}
+
+.table-cell-data {
+    border: 1px solid #dddddd;
+    box-sizing: border-box;
+    display: block;
+    line-height: 1.428571429;
+    padding: 5px;
+}
+
 .noncompliant{
     color: red;
     font-weight: bold;

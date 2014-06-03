@@ -1,4 +1,9 @@
 <div class="container-full">
+    <p><button type="button" class="btn btn-group btn-default btn-sm" ng-click="toSummary(dealer.dealerId)">Return to Summary</button>
+        <button type="button" class="btn btn-group btn-default btn-sm" ng-click="autoFill()">Auto-fill with Recommendations</button></p>
+    </p>
+</div>
+<div class="container-full">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">Profile Details</h3>
@@ -48,30 +53,41 @@
                    aria-describedby="activeObjectsSummaryTable">
                 <thead>
                 <tr role="row">
-                    <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
-                        Segment
+                    <th class="text-left" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
+                        Super Segment
                     </th>
-                    <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
-                        Window<br/>Recommendation
+                    <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
+                        {{period.name}}<br/>Recommendation
                     </th>
-                    <th class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
-                        Window<br/>Qty
+                    <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
+                        {{period.name}}<br/>Qty
+                    </th>
+                    <th class="text-center" aria-controls="activeObjectsSummaryTable">
+                        Segments<br/>Requested / Min
                     </th>
                 </tr>
                 </thead>
                 <tbody role="alert" aria-live="polite" aria-relevant="all">
                 <tr ng-repeat="segment in segments" class="odd">
                     <td class="">{{segment.name}}</td>
-                    <td class="text-center">{{segment.recommendedQty}}</td>
-                    <td class="text-center" ng-class="{noncompliant: segment.actualQty < segment.minimumQty}" >{{segment.actualQty}}</td>
+                    <td class="text-center">{{segment.orderSegMinTotal}}</td>
+                    <td class="text-center" ng-class="{noncompliant: qty.actual < qty.minimum || qty.actual > qty.maximum}" >{{segment.orderSegActualTotal}}</td>
+                    <td class="text-center" ng-class="{noncompliant: qty.actual < qty.minimum || qty.actual > qty.maximum}" >{{segment.actual}} / {{segment.minimum}}</td>
                 </tr>
                 <tr class="even">
-                    <td class="">Grand Total</td>
-                    <td class="text-center">{{recGrandTotal}}</td>
+                    <td class="text-left">Grand Total</td>
+                    <td class="text-center">{{recMinGrandTotal}} - {{recGrandTotal}} - {{recMaxGrandTotal}}</td>
                     <td ng-class="{noncompliant: actualGrandTotal < (recGrandTotal - 1) || actualGrandTotal > (recGrandTotal + 2)}" class="text-center">{{actualGrandTotal}}</td>
+                    <td></td>
                 </tr>
                 </tbody>
             </table>
         </div>
+
     </div>
+</div>
+<div class="container-full">
+    <p><button type="button" class="btn btn-group btn-default btn-sm" ng-click="toSummary(dealer.dealerId)">Return to Summary</button>
+        <button type="button" class="btn btn-group btn-default btn-sm" ng-click="autoFill()">Auto-fill with Recommendations</button></p>
+    </p>
 </div>
