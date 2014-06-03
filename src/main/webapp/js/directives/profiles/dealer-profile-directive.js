@@ -11,7 +11,6 @@
                 var pathSuffix = '-template.html';
 
                 scope.$watch(attrs.type, function(type) {
-                    console.log('type is loaded');
                     if(type != null) {
                         var templateUrl = basePath + type + pathSuffix;
                         loadTemplate(templateUrl);
