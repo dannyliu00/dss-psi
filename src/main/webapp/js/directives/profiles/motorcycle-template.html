@@ -27,7 +27,7 @@
                         <td class="">{{orderSegment.segmentName}}</td>
                         <td class="">{{orderSegment.name}}</td>
                         <td class="text-center"><span>{{orderSegment.recommendedQty}}&nbsp;&nbsp;&nbsp;&nbsp;
-                            <input ng-class="{noncompliant: orderSegment.actualQty != orderSegment.recommendedQty}" class="text-center input-sm" type="number" ng-model="orderSegment.actualQty" ng-change="sumActualValues()"></span>
+                            <input ng-class="{noncompliant: orderSegment.actualQty < orderSegment.recommendedQty}" class="text-center input-sm" type="number" ng-model="orderSegment.actualQty" ng-change="sumActualValues()"></span>
                         </td>
                     </tr>
                     </tbody>
@@ -63,12 +63,12 @@
                 <tr ng-repeat="segment in segments" class="odd">
                     <td class="">{{segment.name}}</td>
                     <td class="text-center">{{segment.recommendedQty}}</td>
-                    <td class="text-center" ng-class="{noncompliant: segment.actualQty != segment.recommendedQty}" >{{segment.actualQty}}</td>
+                    <td class="text-center" ng-class="{noncompliant: segment.actualQty < segment.minimumQty}" >{{segment.actualQty}}</td>
                 </tr>
                 <tr class="even">
                     <td class="">Grand Total</td>
                     <td class="text-center">{{recGrandTotal}}</td>
-                    <td class="text-center">{{actualGrandTotal}}</td>
+                    <td ng-class="{noncompliant: actualGrandTotal < (recGrandTotal - 1) || actualGrandTotal > (recGrandTotal + 2)}" class="text-center">{{actualGrandTotal}}</td>
                 </tr>
                 </tbody>
             </table>

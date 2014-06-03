@@ -6,33 +6,19 @@ package com.polaris.psi.resource.dto;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 /**
  * @author bericks
  *
  */
-//@Entity
-//@Table(name = "<TBL_SEG>")
 public class SegmentDto implements Serializable {
 
 	private static final long serialVersionUID = -4350198463764538656L;
 	
-//	@Id
-//	@Column(name = "<COL_NAME1>")
 	private int segmentId;
-	
-//	@Column(name = "<COL_NAME2>")
 	private String name;
-	
-//	@Column(name = "<COL_NAME3>")
 	private int actualQty;
-	
-//	@Column(name = "<COL_NAME4>")
 	private int recommendedQty;
+	private int minimumQty;
 	
 	private List<OrderSegmentDto> orderSegments;
 
@@ -90,6 +76,20 @@ public class SegmentDto implements Serializable {
 	 */
 	public void setRecommendedQty(int recommendedQty) {
 		this.recommendedQty = recommendedQty;
+	}
+
+	/**
+	 * @return the minimumQty
+	 */
+	public int getMinimumQty() {
+		return minimumQty;
+	}
+
+	/**
+	 * @param minimumQty the minimumQty to set
+	 */
+	public void setMinimumQty(int minimumQty) {
+		this.minimumQty = minimumQty;
 	}
 
 	/**

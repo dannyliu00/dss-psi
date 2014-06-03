@@ -148,6 +148,7 @@ public class ProfileResource {
 	private List<SegmentDto> buildMotorcycleSegments() {
 		List<SegmentDto> segments = new ArrayList<SegmentDto>();
 		SegmentDto cruiser = new SegmentDto();
+		cruiser.setMinimumQty(17);
 		cruiser.setName("Cruiser");
 		cruiser.setRecommendedQty(18);
 		cruiser.setSegmentId(111);
@@ -155,6 +156,7 @@ public class ProfileResource {
 		segments.add(cruiser);
 		
 		SegmentDto bagger = new SegmentDto();
+		bagger.setMinimumQty(8);
 		bagger.setName("Bagger");
 		bagger.setRecommendedQty(9);
 		bagger.setSegmentId(222);
@@ -162,6 +164,7 @@ public class ProfileResource {
 		segments.add(bagger);
 		
 		SegmentDto touring = new SegmentDto();
+		touring.setMinimumQty(5);
 		touring.setName("Touring");
 		touring.setRecommendedQty(6);
 		touring.setSegmentId(333);
