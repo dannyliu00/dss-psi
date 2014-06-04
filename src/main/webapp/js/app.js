@@ -9,6 +9,7 @@ angular.module('sellIn', [
         'polaris.directives.commonFooter',
         'polaris.directives.tabs',
         'polaris.directives.pagination',
+        'sellIn.directives.unsavedChanges',
         'sellIn.directives.profiles',
         'sellIn.directives.dealerInfo',
         'sellIn.resources.dealerProfiles',
