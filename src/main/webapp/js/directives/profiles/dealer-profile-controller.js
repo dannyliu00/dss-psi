@@ -1,7 +1,7 @@
 (function() {
     var dealerProfiles = sellInNamespace('sellIn.directives.profiles');
 
-    function DealerProfileDirectiveController($scope, DTOptionsBuilder) {
+    function DealerProfileDirectiveController($scope, DTOptionsBuilder, $location, $modal) {
         $scope.dtOptions = DTOptionsBuilder.newOptions()
             .withPaginationType('full_numbers')
             .withDisplayLength(10)
@@ -59,6 +59,42 @@
                     return $scope.segments[i];
                 }
             }
+        }
+
+        $scope.toSummary = function(dealerId) {
+            var changes = $scope.dirtyIndicator;
+
+            switch(changes) {
+                case 0:
+                    $location.path('#/dealerSummary/' + dealerId);
+                    break;
+                case 1:
+                    $location.path('#/dealerSummary/' + dealerId);
+                    break;
+                default:
+                    openSaveDialog();
+                    break;
+            }
+        };
+
+        function openSaveDialog () {
+
+            var modalInstance = $modal.open({
+                templateUrl: 'js/directives/modal/modal-template.html',
+                controller: 'unsavedChangesController',
+                size: 'sm',
+//                resolve: {
+//                    items: function (dealerId) {
+//                        return dealerId;
+//                    }
+//                }
+            });
+
+            modalInstance.result.then(function (dealerId) {
+                $location.path('#/dealerSummary/' + dealerId);
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
         }
 
     }
