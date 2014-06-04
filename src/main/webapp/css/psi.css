@@ -35,3 +35,8 @@
     font-weight: bold;
 }
 
+.modal-header {
+    background-color: #004990;
+    color: #ffffff;
+    font-size: 16px;
+}
