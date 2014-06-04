@@ -29,7 +29,7 @@
                         <td class="">{{orderSegment.name}}</td>
                         <td ng-repeat="qty in orderSegment.quantities" class="text-center">
                             <span>{{qty.recMinimum}} - {{qty.recommended}} - {{qty.recMaximum}}<br/>
-                                <input ng-class="{noncompliant: qty.actual < qty.recMinimum || qty.actual > qty.recMaximum}" ng-model="qty.actual" class="text-center input-sm" type="number" ng-change="getActualGrandTotal()" >
+                                <input ng-class="{noncompliant: qty.actual < qty.recMinimum || qty.actual > qty.recMaximum}" ng-model="qty.actual" class="text-center input-sm" type="number" min = "0" ng-change="getActualGrandTotal()" >
                             </span>
                         </td>
                     </tr>
