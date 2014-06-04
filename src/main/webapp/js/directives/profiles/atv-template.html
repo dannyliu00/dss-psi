@@ -1,4 +1,9 @@
 <div class="container-full">
+    <p><button type="button" class="btn btn-group btn-default btn-sm" ng-click="toSummary(dealer.dealerId)">Return to Summary</button>
+        <button type="button" class="btn btn-group btn-default btn-sm" ng-click="autoFill()">Auto-fill with Recommendations</button></p>
+    </p>
+</div>
+<div class="container-full">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">Profile Details</h3>
@@ -24,14 +29,13 @@
                         <td class="">{{orderSegment.name}}</td>
                         <td ng-repeat="qty in orderSegment.quantities" class="text-center">
                             <span>{{qty.minimum}} - {{qty.recommended}} - {{qty.maximum}}<br/>
-                                <input ng-class="{noncompliant: qty.actual < qty.minimum || qty.actual > qty.maximum}" ng-model="qty.actual" class="text-center input-sm" type="number" >
+                                <input ng-class="{noncompliant: qty.actual < qty.minimum || qty.actual > qty.maximum}" ng-model="qty.actual" class="text-center input-sm" type="number" ng-change="getActualGrandTotal()" >
                             </span>
                         </td>
                     </tr>
                     </tbody>
                 </table>
-            </div>
-        </div>
+            </div>        </div>
     </div>
 </div>
 <!-- Data table summary and Page Controls -->
@@ -52,15 +56,20 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4" ng-repeat="orderSegment in orderSegments"  >
+                <div class="col-md-4" ng-repeat="period in profile.periods"  >
                     <div class="col-md-6 text-center">
-                        {{orderSegment.minimumQty}} - {{orderSegment.recommendedQty}} - {{orderSegment.maximumQty}}
+                        {{period.minimumQty}} - {{period.recommendedQty}} - {{period.maximumQty}}
                     </div>
                     <div class="col-md-6 text-center">
-                        {{orderSegment.actualQty}}
+                        {{period.actualQty}}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+<div class="container-full">
+    <p><button type="button" class="btn btn-group btn-default btn-sm" ng-click="toSummary(dealer.dealerId)">Return to Summary</button>
+        <button type="button" class="btn btn-group btn-default btn-sm" ng-click="autoFill()">Auto-fill with Recommendations</button></p>
+    </p>
 </div>

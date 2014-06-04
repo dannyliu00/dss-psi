@@ -32,12 +32,26 @@
         }
         
         $scope.autoFill = function(){
+        	($scope.profile.type === "motorcycle" ? autoFillVic() : autoFillATV());
+        	};
+        
+        function autoFillVic(){
             for(var i=0; i < $scope.orderSegments.length; i++) {
            	 $scope.orderSegments[i].actualQty = $scope.orderSegments[i].recommendedQty;
             }
             $scope.sumActualValues();
-       };
-
+       }
+       
+        function autoFillATV() { 
+    	   for(var j=0; j < $scope.profile.periods.length; j++) {
+               for(var i=0; i < $scope.orderSegments.length; i++) {
+                   var orderSegment = $scope.orderSegments[i];
+                   orderSegment.quantities[j].actual= orderSegment.quantities[j].recommended;
+               		}
+               }
+           $scope.getActualGrandTotal();
+       }
+        
         function getSegment(name) {
             for(var i=0; i < $scope.segments.length; i++) {
                 if($scope.segments[i].name === name) {
