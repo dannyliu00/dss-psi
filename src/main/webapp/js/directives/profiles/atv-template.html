@@ -1,6 +1,6 @@
 <div class="container-full">
     <p><button type="button" class="btn btn-group btn-default btn-sm" ng-click="toSummary(dealer.dealerId)">Return to Summary</button>
-        <button type="button" class="btn btn-group btn-default btn-sm" ng-click="autoFill()">Auto-fill with Recommendations</button></p>
+        <button type="button" class="btn btn-group btn-default btn-sm" ng-click="autoFill()">Auto-fill with Targets</button></p>
     </p>
 </div>
 <div class="container-full">
@@ -60,7 +60,7 @@
                     <div class="col-md-6 text-center">
                         {{period.minimumQty}} - {{period.recommendedQty}} - {{period.maximumQty}}
                     </div>
-                    <div class="col-md-6 text-center">
+                    <div ng-class="{noncompliant: period.actualQty < period.minimumQty || period.actualQty > period.maximumQty}" class="col-md-6 text-center">
                         {{period.actualQty}}
                     </div>
                 </div>
@@ -70,6 +70,6 @@
 </div>
 <div class="container-full">
     <p><button type="button" class="btn btn-group btn-default btn-sm" ng-click="toSummary(dealer.dealerId)">Return to Summary</button>
-        <button type="button" class="btn btn-group btn-default btn-sm" ng-click="autoFill()">Auto-fill with Recommendations</button></p>
+        <button type="button" class="btn btn-group btn-default btn-sm" ng-click="autoFill()">Auto-fill with Targets</button></p>
     </p>
 </div>
