@@ -16,22 +16,10 @@
                 sumSegmentTotal(os.segmentName, os.id, osActual);
             }
             $scope.actualGrandTotal = total;
+        	$scope.dirtyIndicator = $scope.dirtyIndicator + 1;
         };
 
         function sumSegmentTotal(segmentName, osId, newValue) {
-            var segment = getSegment(segmentName);
-            var total = 0;
-            for(var i=0; i < segment.orderSegments.length; i++) {
-                var orderSegment = segment.orderSegments[i];
-                if(orderSegment.id === osId) {
-                    orderSegment.actual = newValue;
-                }
-                total = total + parseInt(orderSegment.actual);
-            }
-            segment.actual = total;
-        }
-
-        function sumPeriodTotal(segmentName, osId, newValue) {
             var segment = getSegment(segmentName);
             var total = 0;
             for(var i=0; i < segment.orderSegments.length; i++) {
