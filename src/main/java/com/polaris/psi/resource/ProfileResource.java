@@ -17,12 +17,13 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.stereotype.Component;
 
+import com.polaris.psi.resource.dto.IBaseDto;
 import com.polaris.psi.resource.dto.OrderSegmentDto;
-import com.polaris.psi.resource.dto.OrderSegment;
 import com.polaris.psi.resource.dto.ProfileDto;
 import com.polaris.psi.resource.dto.ProfilePeriodDto;
 import com.polaris.psi.resource.dto.SegmentDto;
 import com.polaris.psi.resource.dto.SegmentQuantityDto;
+import com.polaris.psi.resource.dto.util.TotalsCalculator;
 
 /**
  * @author bericks
@@ -68,66 +69,83 @@ public class ProfileResource {
 			break;
 		}
 		
+		TotalsCalculator calculator = new TotalsCalculator();
+		calculator.calculateTotals(profile, profile.getSegments());
+		if(profile.getType().equals("motorcycle")) {
+			profile.setRecMinimum(profile.getRecommended() - 1);
+			profile.setRecMaximum(profile.getRecommended() + 2);
+		}
+		
 		return profile;
 	}
 	
-	private List<ProfilePeriodDto> buildATVProfilePeriods() {
-		List<ProfilePeriodDto> periods = new ArrayList<ProfilePeriodDto>();
+	private List<IBaseDto> buildATVProfilePeriods() {
+		TotalsCalculator calculator = new TotalsCalculator();
+		
+		List<IBaseDto> periods = new ArrayList<IBaseDto>();
 		ProfilePeriodDto july = new ProfilePeriodDto();
 		july.setId(1);
 		july.setName("ATV 2014 Jul");
 		july.setQuantities(buildQuantities(1));
+		calculator.calculateTotals(july, july.getQuantities());
 		periods.add(july);
 		
 		ProfilePeriodDto august = new ProfilePeriodDto();
 		august.setId(1);
 		august.setName("ATV 2014 Aug");
 		august.setQuantities(buildQuantities(1));
+		calculator.calculateTotals(august, august.getQuantities());
 		periods.add(august);
 		
 		ProfilePeriodDto september = new ProfilePeriodDto();
 		september.setId(1);
 		september.setName("ATV 2014 Sep");
 		september.setQuantities(buildQuantities(1));
+		calculator.calculateTotals(september, september.getQuantities());
 		periods.add(september);
 		
 		return periods;
 	}
 	
-	private List<ProfilePeriodDto> buildMotorcycleProfilePeriods() {
-		List<ProfilePeriodDto> periods = new ArrayList<ProfilePeriodDto>();
+	private List<IBaseDto> buildMotorcycleProfilePeriods() {
+		TotalsCalculator calculator = new TotalsCalculator();
+		
+		List<IBaseDto> periods = new ArrayList<IBaseDto>();
 		ProfilePeriodDto july = new ProfilePeriodDto();
 		july.setId(1);
 		july.setName("VIC 2014 Jul");
+		july.setQuantities(buildQuantities(0));
+		
+		calculator.calculateTotals(july, july.getQuantities());
 		periods.add(july);
 		
 		return periods;
 	}
 		
-	private List<SegmentQuantityDto> buildQuantities(int version) {
-		List<SegmentQuantityDto> quantities = new ArrayList<SegmentQuantityDto>();
+	private List<IBaseDto> buildQuantities(int version) {
+		List<IBaseDto> quantities = new ArrayList<IBaseDto>();
 		
 		
 		switch (version) {
 		case 1:
 			SegmentQuantityDto qty1 = new SegmentQuantityDto();
 			qty1.setActual(0);
-			qty1.setMaximum(5);
-			qty1.setMinimum(3);
+			qty1.setRecMaximum(5);
+			qty1.setRecMinimum(3);
 			qty1.setRecommended(4);
 			quantities.add(qty1);
 			
 			SegmentQuantityDto qty2 = new SegmentQuantityDto();
 			qty2.setActual(0);
-			qty2.setMaximum(6);
-			qty2.setMinimum(4);
+			qty2.setRecMaximum(6);
+			qty2.setRecMinimum(4);
 			qty2.setRecommended(5);
 			quantities.add(qty2);
 
 			SegmentQuantityDto qty3 = new SegmentQuantityDto();
 			qty3.setActual(0);
-			qty3.setMaximum(7);
-			qty3.setMinimum(5);
+			qty3.setRecMaximum(7);
+			qty3.setRecMinimum(5);
 			qty3.setRecommended(6);
 			quantities.add(qty3);
 
@@ -136,8 +154,8 @@ public class ProfileResource {
 		default:
 			SegmentQuantityDto quantity = new SegmentQuantityDto();
 			quantity.setActual(0);
-			quantity.setMaximum(0);
-			quantity.setMinimum(0);
+			quantity.setRecMaximum(0);
+			quantity.setRecMinimum(0);
 			quantity.setRecommended(3);
 			quantities.add(quantity);
 		}
@@ -145,129 +163,153 @@ public class ProfileResource {
 		return quantities;
 	}
 	
-	private List<SegmentDto> buildMotorcycleSegments() {
-		List<SegmentDto> segments = new ArrayList<SegmentDto>();
+	private List<IBaseDto> buildMotorcycleSegments() {
+		TotalsCalculator calculator = new TotalsCalculator();
+		
+		List<IBaseDto> segments = new ArrayList<IBaseDto>();
 		SegmentDto cruiser = new SegmentDto();
-		cruiser.setMinimumQty(17);
+		cruiser.setRecMinimum(17);
 		cruiser.setName("Cruiser");
-		cruiser.setRecommendedQty(18);
+		cruiser.setRecommended(18);
 		cruiser.setSegmentId(111);
 		cruiser.setOrderSegments(buildCruiserOrderSegments());
+		calculator.calculateTotals(cruiser, cruiser.getOrderSegments());
 		segments.add(cruiser);
 		
 		SegmentDto bagger = new SegmentDto();
-		bagger.setMinimumQty(8);
+		bagger.setRecMinimum(8);
 		bagger.setName("Bagger");
-		bagger.setRecommendedQty(9);
+		bagger.setRecommended(9);
 		bagger.setSegmentId(222);
 		bagger.setOrderSegments(buildBaggerOrderSegments());
+		calculator.calculateTotals(bagger, bagger.getOrderSegments());
 		segments.add(bagger);
 		
 		SegmentDto touring = new SegmentDto();
-		touring.setMinimumQty(5);
+		touring.setRecMinimum(5);
 		touring.setName("Touring");
-		touring.setRecommendedQty(6);
+		touring.setRecommended(6);
 		touring.setSegmentId(333);
 		touring.setOrderSegments(buildTouringOrderSegments());
+		calculator.calculateTotals(touring, touring.getOrderSegments());
 		segments.add(touring);
 		
 		return segments;
 	}
 	
-	private List<OrderSegmentDto> buildCruiserOrderSegments() {
-		List<OrderSegmentDto> segments = new ArrayList<OrderSegmentDto>();
+	private List<IBaseDto> buildCruiserOrderSegments() {
+		TotalsCalculator calculator = new TotalsCalculator();
+		
+		List<IBaseDto> segments = new ArrayList<IBaseDto>();
 		OrderSegmentDto judge = new OrderSegmentDto();
 		judge.setName("Judge");
 		judge.setId(1);
 		judge.setQuantities(buildQuantities(0));
+		calculator.calculateTotals(judge, judge.getQuantities());
 		segments.add(judge);
 		
 		OrderSegmentDto vegas = new OrderSegmentDto();
 		vegas.setName("Vegas 8-Ball");
 		vegas.setId(2);
 		vegas.setQuantities(buildQuantities(0));
+		calculator.calculateTotals(vegas, vegas.getQuantities());
 		segments.add(vegas);
 		
 		OrderSegmentDto highBall = new OrderSegmentDto();
 		highBall.setName("High-Ball");
 		highBall.setId(3);
 		highBall.setQuantities(buildQuantities(0));
+		calculator.calculateTotals(highBall, highBall.getQuantities());
 		segments.add(highBall);
 		
 		OrderSegmentDto gunner = new OrderSegmentDto();
 		gunner.setName("Gunner");
 		gunner.setId(4);
 		gunner.setQuantities(buildQuantities(0));
+		calculator.calculateTotals(gunner, gunner.getQuantities());
 		segments.add(gunner);
 		
 		OrderSegmentDto boardWalk = new OrderSegmentDto();
 		boardWalk.setName("Boardwalk");
 		boardWalk.setId(5);
 		boardWalk.setQuantities(buildQuantities(0));
+		calculator.calculateTotals(boardWalk, boardWalk.getQuantities());
 		segments.add(boardWalk);
 		
 		OrderSegmentDto fatTire = new OrderSegmentDto();
 		fatTire.setName("Fat Tire");
 		fatTire.setId(6);
 		fatTire.setQuantities(buildQuantities(0));
+		calculator.calculateTotals(fatTire, fatTire.getQuantities());
 		segments.add(fatTire);
 		
 		return segments;
 	}
 	
-	private List<OrderSegmentDto> buildBaggerOrderSegments() {
-		List<OrderSegmentDto> segments = new ArrayList<OrderSegmentDto>();
+	private List<IBaseDto> buildBaggerOrderSegments() {
+		TotalsCalculator calculator = new TotalsCalculator();
+		
+		List<IBaseDto> segments = new ArrayList<IBaseDto>();
 		
 		OrderSegmentDto xCountry = new OrderSegmentDto();
 		xCountry.setName("Cross Country");
 		xCountry.setId(7);
 		xCountry.setQuantities(buildQuantities(0));
+		calculator.calculateTotals(xCountry, xCountry.getQuantities());
 		segments.add(xCountry);
 		
 		OrderSegmentDto customXC = new OrderSegmentDto();
 		customXC.setName("Custom Cross Country");
 		customXC.setId(8);
 		customXC.setQuantities(buildQuantities(0));
+		calculator.calculateTotals(customXC, customXC.getQuantities());
 		segments.add(customXC);
 		
 		OrderSegmentDto value = new OrderSegmentDto();
 		value.setName("Value Bagger");
 		value.setId(9);
 		value.setQuantities(buildQuantities(0));
+		calculator.calculateTotals(value, value.getQuantities());
 		segments.add(value);
 		
 		OrderSegmentDto xRoads = new OrderSegmentDto();
 		xRoads.setName("Cross Roads");
 		xRoads.setId(10);
 		xRoads.setQuantities(buildQuantities(0));
+		calculator.calculateTotals(xRoads, xRoads.getQuantities());
+		segments.add(xRoads);
 		
 		return segments;
 	}
 	
-	private List<OrderSegmentDto> buildTouringOrderSegments() {
-		List<OrderSegmentDto> segments = new ArrayList<OrderSegmentDto>();
+	private List<IBaseDto> buildTouringOrderSegments() {
+		TotalsCalculator calculator = new TotalsCalculator();
+		
+		List<IBaseDto> segments = new ArrayList<IBaseDto>();
 		
 		OrderSegmentDto xcTour = new OrderSegmentDto();
 		xcTour.setName("Cross Country Tour");
 		xcTour.setId(11);
 		xcTour.setQuantities(buildQuantities(0));
+		calculator.calculateTotals(xcTour, xcTour.getQuantities());
 		segments.add(xcTour);
 		
 		OrderSegmentDto vision = new OrderSegmentDto();
 		vision.setName("Vision");
 		vision.setId(12);
 		vision.setQuantities(buildQuantities(0));
+		calculator.calculateTotals(vision, vision.getQuantities());
 		segments.add(vision);
 		
 		return segments;
 	}
 	
-	private List<SegmentDto> buildATVSegments() {
-		List<SegmentDto> segments = new ArrayList<SegmentDto>();
+	private List<IBaseDto> buildATVSegments() {
+		List<IBaseDto> segments = new ArrayList<IBaseDto>();
 		SegmentDto rangerXP = new SegmentDto();
 		rangerXP.setActualQty(0);
 		rangerXP.setName("Ranger XP");
-		rangerXP.setRecommendedQty(0);
+		rangerXP.setRecommended(0);
 		rangerXP.setSegmentId(1);
 		rangerXP.setOrderSegments(buildRangerXPSegments());
 		segments.add(rangerXP);
@@ -275,8 +317,8 @@ public class ProfileResource {
 		return segments;
 	}
 	
-	private List<OrderSegmentDto> buildRangerXPSegments() {
-		List<OrderSegmentDto> orderSegments = new ArrayList<OrderSegmentDto>();
+	private List<IBaseDto> buildRangerXPSegments() {
+		List<IBaseDto> orderSegments = new ArrayList<IBaseDto>();
 		
 		OrderSegmentDto base = new OrderSegmentDto();
 		base.setId(1);

@@ -28,8 +28,8 @@
                     <tr ng-repeat="orderSegment in orderSegments" class="odd">
                         <td class="">{{orderSegment.name}}</td>
                         <td ng-repeat="qty in orderSegment.quantities" class="text-center">
-                            <span>{{qty.minimum}} - {{qty.recommended}} - {{qty.maximum}}<br/>
-                                <input ng-class="{noncompliant: qty.actual < qty.minimum || qty.actual > qty.maximum}" ng-model="qty.actual" class="text-center input-sm" type="number" ng-change="getActualGrandTotal()" >
+                            <span>{{qty.recMinimum}} - {{qty.recommended}} - {{qty.recMaximum}}<br/>
+                                <input ng-class="{noncompliant: qty.actual < qty.recMinimum || qty.actual > qty.recMaximum}" ng-model="qty.actual" class="text-center input-sm" type="number" ng-change="getActualGrandTotal()" >
                             </span>
                         </td>
                     </tr>
@@ -58,10 +58,10 @@
             <div class="row">
                 <div class="col-md-4" ng-repeat="period in profile.periods"  >
                     <div class="col-md-6 text-center">
-                        {{period.minimumQty}} - {{period.recommendedQty}} - {{period.maximumQty}}
+                        {{period.recMinimum}} - {{period.recommended}} - {{period.recMaximum}}
                     </div>
-                    <div ng-class="{noncompliant: period.actualQty < period.minimumQty || period.actualQty > period.maximumQty}" class="col-md-6 text-center">
-                        {{period.actualQty}}
+                    <div ng-class="{noncompliant: period.actual < period.recMinimum || period.actual > period.recMaximum}" class="col-md-6 text-center">
+                        {{period.actual}}
                     </div>
                 </div>
             </div>

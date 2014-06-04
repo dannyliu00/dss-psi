@@ -31,8 +31,8 @@
                     <tr ng-repeat="orderSegment in orderSegments" class="odd">
                         <td class="">{{orderSegment.segmentName}}</td>
                         <td class="">{{orderSegment.name}}</td>
-                        <td class="text-center"><span>{{orderSegment.recommendedQty}}&nbsp;&nbsp;&nbsp;&nbsp;
-                            <input ng-class="{noncompliant: orderSegment.actualQty < orderSegment.recommendedQty}" class="text-center input-sm" type="number" ng-model="orderSegment.actualQty" ng-change="sumActualValues()"></span>
+                        <td class="text-center"><span>{{orderSegment.recommended}}&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input ng-class="{noncompliant: orderSegment.actual < orderSegment.recommended}" class="text-center input-sm" type="number" ng-model="orderSegment.actual" ng-change="sumActualValues()"></span>
                         </td>
                     </tr>
                     </tbody>
@@ -70,14 +70,14 @@
                 <tbody role="alert" aria-live="polite" aria-relevant="all">
                 <tr ng-repeat="segment in segments" class="odd">
                     <td class="">{{segment.name}}</td>
-                    <td class="text-center">{{segment.orderSegMinTotal}}</td>
-                    <td class="text-center" ng-class="{noncompliant: qty.actual < qty.minimum || qty.actual > qty.maximum}" >{{segment.orderSegActualTotal}}</td>
+                    <td class="text-center">{{segment.recommended}}</td>
+                    <td class="text-center" ng-class="{noncompliant: segment.actual < segment.recommended}" >{{segment.actual}}</td>
                     <td class="text-center" ng-class="{noncompliant: qty.actual < qty.minimum || qty.actual > qty.maximum}" >{{segment.actual}} / {{segment.minimum}}</td>
                 </tr>
                 <tr class="even">
                     <td class="text-left">Grand Total</td>
-                    <td class="text-center">{{recMinGrandTotal}} - {{recGrandTotal}} - {{recMaxGrandTotal}}</td>
-                    <td ng-class="{noncompliant: actualGrandTotal < (recGrandTotal - 1) || actualGrandTotal > (recGrandTotal + 2)}" class="text-center">{{actualGrandTotal}}</td>
+                    <td class="text-center">{{profile.recMinimum}} - {{profile.recommended}} - {{profile.recMaximum}}</td>
+                    <td ng-class="{noncompliant: actualGrandTotal < profile.recMinimum || actualGrandTotal > profile.recMaximum}" class="text-center">{{actualGrandTotal}}</td>
                     <td></td>
                 </tr>
                 </tbody>

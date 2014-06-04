@@ -7,14 +7,14 @@ package com.polaris.psi.resource.dto;
  * @author bericks
  *
  */
-public class SegmentQuantityDto {
+public class SegmentQuantityDto implements IBaseDto {
 
 	private int orderSegmentId;
 	private int profilePeriodId;
 	private int dealerId;
 	
-	private int minimum;
-	private int maximum;
+	private int recMinimum;
+	private int recMaximum;
 	private int recommended;
 	private int actual;
 	
@@ -61,48 +61,6 @@ public class SegmentQuantityDto {
 	}
 	
 	/**
-	 * @return the minimum
-	 */
-	public int getMinimum() {
-		return minimum;
-	}
-	
-	/**
-	 * @param minimum the minimum to set
-	 */
-	public void setMinimum(int minimum) {
-		this.minimum = minimum;
-	}
-	
-	/**
-	 * @return the maximum
-	 */
-	public int getMaximum() {
-		return maximum;
-	}
-	
-	/**
-	 * @param maximum the maximum to set
-	 */
-	public void setMaximum(int maximum) {
-		this.maximum = maximum;
-	}
-	
-	/**
-	 * @return the recommended
-	 */
-	public int getRecommended() {
-		return recommended;
-	}
-	
-	/**
-	 * @param recommended the recommended to set
-	 */
-	public void setRecommended(int recommended) {
-		this.recommended = recommended;
-	}
-	
-	/**
 	 * @return the actual
 	 */
 	public int getActual() {
@@ -114,6 +72,36 @@ public class SegmentQuantityDto {
 	 */
 	public void setActual(int actual) {
 		this.actual = actual;
+	}
+
+	@Override
+	public int getRecMinimum() {
+		return this.recMinimum;
+	}
+
+	@Override
+	public void setRecMinimum(int min) {
+		this.recMinimum = min;
+	}
+
+	@Override
+	public int getRecMaximum() {
+		return this.recMaximum;
+	}
+
+	@Override
+	public void setRecMaximum(int max) {
+		this.recMaximum = max;
+	}
+
+	@Override
+	public int getRecommended() {
+		return this.recommended;
+	}
+
+	@Override
+	public void setRecommended(int rec) {
+		this.recommended = rec;
 	}
 
 }

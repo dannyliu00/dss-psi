@@ -25,7 +25,7 @@
                 $scope.orderSegments = orderSegments;
             })
             .then(function() {
-                $scope.recGrandTotal = getRecGrandTotal();
+                $scope.recGrandTotal = $scope.profile.recommended;
                 $scope.actualGrandTotal = getActualGrandTotal();
         });
 
@@ -132,7 +132,7 @@
                 var orderSegment = $scope.orderSegments[i];
                 actQty = actQty + orderSegment.quantities[j].actual;
             }
-            $scope.profile.periods[j].actualQty = actQty;
+            $scope.profile.periods[j].actual = actQty;
     	}
     };
        

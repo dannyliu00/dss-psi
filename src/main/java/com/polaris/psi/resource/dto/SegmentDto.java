@@ -10,17 +10,19 @@ import java.util.List;
  * @author bericks
  *
  */
-public class SegmentDto implements Serializable {
+public class SegmentDto implements IBaseDto, Serializable {
 
 	private static final long serialVersionUID = -4350198463764538656L;
 	
 	private int segmentId;
 	private String name;
 	private int actualQty;
-	private int recommendedQty;
-	private int minimumQty;
+	private int recommended;
+	private int recMinimum;
+	private int recMaximum;
+	private int actual;
 	
-	private List<OrderSegmentDto> orderSegments;
+	private List<IBaseDto> orderSegments;
 
 	/**
 	 * @return the segmentId
@@ -65,44 +67,80 @@ public class SegmentDto implements Serializable {
 	}
 
 	/**
-	 * @return the recommendedQty
+	 * @return the recommended
 	 */
-	public int getRecommendedQty() {
-		return recommendedQty;
+	@Override
+	public int getRecommended() {
+		return recommended;
 	}
 
 	/**
-	 * @param recommendedQty the recommendedQty to set
+	 * @param recommended the recommended to set
 	 */
-	public void setRecommendedQty(int recommendedQty) {
-		this.recommendedQty = recommendedQty;
+	@Override
+	public void setRecommended(int recommended) {
+		this.recommended = recommended;
 	}
 
 	/**
-	 * @return the minimumQty
+	 * @return the recMinimum
 	 */
-	public int getMinimumQty() {
-		return minimumQty;
+	@Override
+	public int getRecMinimum() {
+		return recMinimum;
 	}
 
 	/**
-	 * @param minimumQty the minimumQty to set
+	 * @param recMinimum the recMinimum to set
 	 */
-	public void setMinimumQty(int minimumQty) {
-		this.minimumQty = minimumQty;
+	@Override
+	public void setRecMinimum(int recMinimum) {
+		this.recMinimum = recMinimum;
+	}
+
+	/**
+	 * @return the recMaximum
+	 */
+	@Override
+	public int getRecMaximum() {
+		return recMaximum;
+	}
+
+	/**
+	 * @param recMaximum the recMaximum to set
+	 */
+	@Override
+	public void setRecMaximum(int recMaximum) {
+		this.recMaximum = recMaximum;
+	}
+
+	/**
+	 * @return the actual
+	 */
+	@Override
+	public int getActual() {
+		return actual;
+	}
+
+	/**
+	 * @param actual the actual to set
+	 */
+	@Override
+	public void setActual(int actual) {
+		this.actual = actual;
 	}
 
 	/**
 	 * @return the orderSegments
 	 */
-	public List<OrderSegmentDto> getOrderSegments() {
+	public List<IBaseDto> getOrderSegments() {
 		return orderSegments;
 	}
 
 	/**
 	 * @param orderSegments the orderSegments to set
 	 */
-	public void setOrderSegments(List<OrderSegmentDto> orderSegments) {
+	public void setOrderSegments(List<IBaseDto> orderSegments) {
 		this.orderSegments = orderSegments;
 	}
 
