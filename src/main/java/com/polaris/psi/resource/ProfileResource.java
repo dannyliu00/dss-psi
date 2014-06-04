@@ -23,6 +23,7 @@ import com.polaris.psi.resource.dto.ProfileDto;
 import com.polaris.psi.resource.dto.ProfilePeriodDto;
 import com.polaris.psi.resource.dto.SegmentDto;
 import com.polaris.psi.resource.dto.SegmentQuantityDto;
+import com.polaris.psi.resource.dto.util.ProfilePeriodTotalsCalculator;
 import com.polaris.psi.resource.dto.util.TotalsCalculator;
 
 /**
@@ -69,6 +70,9 @@ public class ProfileResource {
 			break;
 		}
 		
+		ProfilePeriodTotalsCalculator ppCalc = new ProfilePeriodTotalsCalculator();
+		ppCalc.calculateProfilePeriodTotals(profile);
+
 		TotalsCalculator calculator = new TotalsCalculator();
 		calculator.calculateTotals(profile, profile.getSegments());
 		if(profile.getType().equals("motorcycle")) {
@@ -80,28 +84,23 @@ public class ProfileResource {
 	}
 	
 	private List<IBaseDto> buildATVProfilePeriods() {
-		TotalsCalculator calculator = new TotalsCalculator();
-		
 		List<IBaseDto> periods = new ArrayList<IBaseDto>();
 		ProfilePeriodDto july = new ProfilePeriodDto();
 		july.setId(1);
 		july.setName("ATV 2014 Jul");
 		july.setQuantities(buildQuantities(1));
-		calculator.calculateTotals(july, july.getQuantities());
 		periods.add(july);
 		
 		ProfilePeriodDto august = new ProfilePeriodDto();
 		august.setId(1);
 		august.setName("ATV 2014 Aug");
 		august.setQuantities(buildQuantities(1));
-		calculator.calculateTotals(august, august.getQuantities());
 		periods.add(august);
 		
 		ProfilePeriodDto september = new ProfilePeriodDto();
 		september.setId(1);
 		september.setName("ATV 2014 Sep");
 		september.setQuantities(buildQuantities(1));
-		calculator.calculateTotals(september, september.getQuantities());
 		periods.add(september);
 		
 		return periods;
