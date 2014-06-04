@@ -1,7 +1,7 @@
 (function() {
     var profile = sellInNamespace('sellIn.pages.profile');
 
-    function ProfileController($scope, $routeParams, $location, dealerResource, dealerProfileResource, orderSegmentResourceMapper) {
+    function ProfileController($scope, $routeParams, dealerResource, dealerProfileResource, orderSegmentResourceMapper) {
         this.orderSegmentResourceMapper = orderSegmentResourceMapper;
         
         $scope.dirtyIndicator = 0;
@@ -43,10 +43,6 @@
 	    	$scope.dirtyIndicator = $scope.dirtyIndicator + 1;
 	    };
 	    
-        $scope.toSummary = function(dealerId) {
-            $location.path('#/dealerSummary/' + dealerId);
-        };
-
     }
 
     profile.ProfileController = ProfileController;
