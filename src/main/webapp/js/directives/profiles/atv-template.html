@@ -11,7 +11,7 @@
         <div class="panel-body">
             <div class="col-md-12">
                 <div id="activeObjectsTable_processing" class="dataTables_processing" style="visibility: hidden;">Processing...</div>
-                <table id="activeObjectsTable"
+                <table datatable dt-options="dtOptions" id="activeObjectsTable"
                        class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
                        aria-describedby="activeObjectsTable_info">
                     <thead>
@@ -29,7 +29,7 @@
                         <td class="">{{orderSegment.name}}</td>
                         <td ng-repeat="qty in orderSegment.quantities" class="text-center">
                             <span>{{qty.recMinimum}} - {{qty.recommended}} - {{qty.recMaximum}}<br/>
-                                <input ng-class="{noncompliant: qty.actual < qty.recMinimum || qty.actual > qty.recMaximum}" ng-model="qty.actual" class="text-center input-sm" type="number" min = "0" ng-change="getActualGrandTotal()" >
+                                <input tabindex="0" ng-class="{noncompliant: qty.actual < qty.recMinimum || qty.actual > qty.recMaximum}" ng-model="qty.actual" class="text-center" type="number" min="0" max="999" ng-change="getActualGrandTotal()" >
                             </span>
                         </td>
                     </tr>
@@ -69,7 +69,7 @@
     </div>
 </div>
 <div class="container-full">
-    <p><button type="button" class="btn btn-group btn-default btn-sm" ng-click="toSummary(dealer.dealerId)">Return to Summary</button>
-        <button type="button" class="btn btn-group btn-default btn-sm" ng-click="autoFill()">Auto-fill with Targets</button></p>
+    <p><button tabindex="0" type="button" class="btn btn-group btn-default btn-sm" ng-click="toSummary(dealer.dealerId)">Return to Summary</button>
+        <button tabindex="0" type="button" class="btn btn-group btn-default btn-sm" ng-click="autoFill()">Auto-fill with Targets</button></p>
     </p>
 </div>

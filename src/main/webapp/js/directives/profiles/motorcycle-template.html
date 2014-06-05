@@ -32,7 +32,7 @@
                         <td class="">{{orderSegment.segmentName}}</td>
                         <td class="">{{orderSegment.name}}</td>
                         <td class="text-center"><span>{{orderSegment.recommended}}&nbsp;&nbsp;&nbsp;&nbsp;
-                            <input ng-class="{noncompliant: orderSegment.actual < orderSegment.recommended}" class="text-center input-sm" type="number" ng-model="orderSegment.actual" min = "0" ng-change="sumActualValues()"></span>
+                            <input tabindex="0" ng-class="{noncompliant: orderSegment.actual < orderSegment.recommended}" class="text-center input-sm" type="number" ng-model="orderSegment.actual" min = "0" ng-change="sumActualValues()"></span>
                         </td>
                     </tr>
                     </tbody>
@@ -53,13 +53,13 @@
                    aria-describedby="activeObjectsSummaryTable">
                 <thead>
                 <tr role="row">
-                    <th class="text-left" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
+                    <th class="text-left" role="columnheader" aria-controls="activeObjectsSummaryTable" >
                         Super Segment
                     </th>
-                    <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
+                    <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" aria-controls="activeObjectsSummaryTable" >
                         {{period.name}}<br/>Recommendation
                     </th>
-                    <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsSummaryTable" >
+                    <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" aria-controls="activeObjectsSummaryTable" >
                         {{period.name}}<br/>Qty
                     </th>
                     <th class="text-center" aria-controls="activeObjectsSummaryTable">
@@ -87,7 +87,7 @@
     </div>
 </div>
 <div class="container-full">
-    <p><button type="button" class="btn btn-group btn-default btn-sm" ng-click="toSummary(dealer.dealerId)">Return to Summary</button>
-        <button type="button" class="btn btn-group btn-default btn-sm" ng-click="autoFill()">Auto-fill with Recommendations</button></p>
+    <p><button tabindex="0" type="button" class="btn btn-group btn-default btn-sm" ng-click="toSummary(dealer.dealerId)">Return to Summary</button>
+        <button tabindex="0" type="button" class="btn btn-group btn-default btn-sm" ng-click="autoFill()">Auto-fill with Recommendations</button></p>
     </p>
 </div>
