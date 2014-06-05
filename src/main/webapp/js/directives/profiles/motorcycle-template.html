@@ -32,7 +32,7 @@
                         <td class="">{{orderSegment.segmentName}}</td>
                         <td class="">{{orderSegment.name}}</td>
                         <td class="text-center"><span>{{orderSegment.recommended}}&nbsp;&nbsp;&nbsp;&nbsp;
-                            <input tabindex="0" ng-class="{noncompliant: orderSegment.actual < orderSegment.recommended}" class="text-center input-sm" type="number" ng-model="orderSegment.actual" min = "0" ng-change="sumActualValues()"></span>
+                            <input tabindex="0" ng-class="{noncompliant: orderSegment.actual < orderSegment.recommended}" class="text-center input-sm" type="number" ng-model="orderSegment.actual" min="0" max="0" ng-change="sumActualValues()"></span>
                         </td>
                     </tr>
                     </tbody>
