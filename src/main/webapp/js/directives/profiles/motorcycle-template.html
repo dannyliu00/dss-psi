@@ -68,7 +68,7 @@
                 </tr>
                 </thead>
                 <tbody role="alert" aria-live="polite" aria-relevant="all">
-                <tr ng-repeat="segment in segments" class="odd">
+                <tr ng-repeat="segment in segments | orderBy: 'name'" class="odd">
                     <td class="">{{segment.name}}</td>
                     <td class="text-center">{{segment.recommended}}</td>
                     <td class="text-center" ng-class="{noncompliant: segment.actual < segment.recommended}" >{{segment.actual}}</td>
