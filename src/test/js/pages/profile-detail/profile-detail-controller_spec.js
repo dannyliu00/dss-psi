@@ -2,7 +2,7 @@
     var profile = sellInNamespace('sellIn.pages.profile');
 
     describe('ProfileController', function() {
-        var scope, routeParams, location, dealerResource, dealerProfileResource, expectedDealerId, expectedProfileId;
+        var scope, routeParams, dealerResource, dealerProfileResource, expectedDealerId, expectedProfileId;
         var expectedDealerDeferred, expectedDealer, expectedProfileDeferred, expectedProfile;
         var ctrl;
 
@@ -25,7 +25,7 @@
             routeParams = {dealerId: expectedDealerId, profileId: expectedProfileId};
         });
 
-        beforeEach(inject(function($q, $rootScope, $location, dealerResource, dealerProfileResource) {
+        beforeEach(inject(function($q, $rootScope, dealerResource, dealerProfileResource) {
             expectedDealerDeferred = $q.defer();
             dealerResource.get.andReturn(expectedDealerDeferred.promise);
             expectedDealer = {
@@ -45,13 +45,12 @@
                 }]
             };
 
-            location = $location;
             scope = $rootScope.$new();
         }));
 
         describe('constructor', function() {
             it('initializes dealer on scope', inject(function($rootScope, dealerResource, dealerProfileResource) {
-                ctrl = new profile.ProfileController(scope, routeParams, location, dealerResource, dealerProfileResource);
+                ctrl = new profile.ProfileController(scope, routeParams, dealerResource, dealerProfileResource);
                 var expectedDealer = {dealerId: expectedDealerId};
                 var expectedProfile = {profileId: expectedProfileId};
                 expect(dealerResource.get).toHaveBeenCalledWith(expectedDealer);
