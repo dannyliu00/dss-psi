@@ -6,6 +6,7 @@ import javax.servlet.ServletRegistration;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.filter.DelegatingFilterProxy;
 
 import com.polaris.psi.config.spring.AppSpringConfig;
 import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
@@ -22,9 +23,9 @@ public class WebAppInit implements WebApplicationInitializer {
 		// Manage the lifecycle of the root application context.
 		servletContext.addListener(new ContextLoaderListener(rootContext));
 
-		//Uncomment the following to have session filtering based on your DEX login
-		//String[] protectedUrls = new String[] { "/webapi/*" };
-		//servletContext.addFilter("sessionFilter", new DelegatingFilterProxy("sessionFilter")).addMappingForUrlPatterns(null, false, protectedUrls);
+		// SessionFilter configuration
+		String[] protectedUrls = new String[] { "/*" };
+		servletContext.addFilter("sessionFilter", new DelegatingFilterProxy("sessionFilter")).addMappingForUrlPatterns(null, false, protectedUrls);
 
 		// Register and map the dispatcher servlet.
 		ServletRegistration.Dynamic jerseyDispatcherServlet = servletContext.addServlet("jerseyDispatcherServlet", SpringServlet.class);
