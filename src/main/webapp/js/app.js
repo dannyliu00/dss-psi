@@ -15,6 +15,7 @@ angular.module('sellIn', [
         'sellIn.resources.dealerProfiles',
         'sellIn.resources.dealerProfile',
         'sellIn.resources.dealer',
+        'sellIn.resources.role',
         'sellIn.pages.dealerProfileSummary',
         'sellIn.pages.profile'
     ])
