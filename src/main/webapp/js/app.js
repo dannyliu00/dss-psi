@@ -12,6 +12,7 @@ angular.module('sellIn', [
         'sellIn.directives.unsavedChanges',
         'sellIn.directives.profiles',
         'sellIn.directives.dealerInfo',
+        'sellIn.directives.numbersonly',
         'sellIn.resources.dealerProfiles',
         'sellIn.resources.dealerProfile',
         'sellIn.resources.dealer',

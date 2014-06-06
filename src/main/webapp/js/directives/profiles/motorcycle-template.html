@@ -34,11 +34,12 @@
                         <td class="text-center"><span>{{orderSegment.recommended}}&nbsp;&nbsp;&nbsp;&nbsp;
                             <input tabindex="0"
                                    ng-class="{noncompliant: orderSegment.actual < orderSegment.recommended}"
-                                   class="text-center input-sm"
+                                   class="text-center"
                                    type="number"
                                    ng-model="orderSegment.actual"
                                    min="0"
                                    max="999"
+                                   numbers-only
                                    ng-change="sumActualValues()"></span>
                         </td>
                     </tr>

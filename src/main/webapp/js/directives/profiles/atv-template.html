@@ -32,9 +32,10 @@
                                        ng-class="{noncompliant: qty.actual < qty.recMinimum || qty.actual > qty.recMaximum}"
                                        ng-model="qty.actual"
                                        class="text-center"
-                                       type="number"
+                                       type="text"
                                        min="0"
                                        max="999"
+                                       numbers-only
                                        ng-change="getActualGrandTotal()" ></span>
                         </td>
                     </tr>
