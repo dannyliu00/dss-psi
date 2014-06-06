@@ -1,21 +1,21 @@
 (function() {
     var defaultPage = sellInNamespace('sellIn.pages.default');
 
-    function DefaultPageController($scope, $location, appRoleResource, dealerUrl, dsmUrl, dsmRoleId) {
+    function DefaultPageController($scope, $location, appRoleResource, dealerSummaryPageUrl, dsmUrl, dsmRoleId) {
+        var finalUrl = '/';
 
         appRoleResource.get().then(function(role) {
             $scope.role = role;
         }).then(function() {
-            switch ($scope.role.role) {
+            switch ($scope.role.customerClass) {
                 case dsmRoleId:
-                    var finalUrl = dsmUrl.replace(':id', $scope.role.id);
-                    $location.path(finalUrl);
+                    finalUrl = dsmUrl.replace(':id', $scope.role.dealerId);
                     break;
                 default:
-                    var finalUrl = dealerUrl.replace(':dealerId', $scope.role.dealerId);
-                    $location.path(finalUrl);
-                    break;
+                    finalUrl = dealerSummaryPageUrl.replace(':dealerId', $scope.role.dealerId);
             }
+        }).then(function() {
+            $location.path(finalUrl);
         });
     }
 

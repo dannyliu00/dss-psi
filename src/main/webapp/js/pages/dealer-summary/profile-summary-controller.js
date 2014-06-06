@@ -4,7 +4,7 @@
 (function() {
     var dealerProfileSummary = sellInNamespace('sellIn.pages.dealerProfileSummary');
 
-    function DealerProfileSummaryCtrl ($scope, $routeParams, $location, dealerResource, dealerProfilesResource, profileDetailUrl) {
+    function DealerProfileSummaryCtrl ($scope, $routeParams, $location, dealerResource, dealerProfilesResource, profilePageUrl) {
         this.location = $location;
 
         var dealer = {dealerId: $routeParams.dealerId};
@@ -17,10 +17,10 @@
         });
 
         $scope.navigateToProfile = function(dealerId, profileId, type) {
-            var url = profileDetailUrl.replace(':dealerId', dealerId)
+            var finalUrl = profilePageUrl.replace(':dealerId', dealerId)
                 .replace(':profileId', profileId)
                 .replace(':type', type);
-            $location.path(url);
+            $location.path(finalUrl);
         };
     }
 

@@ -1,7 +1,7 @@
 (function() {
     var dealerProfiles = sellInNamespace('sellIn.directives.profiles');
 
-    function DealerProfileDirectiveController($scope, DTOptionsBuilder, $location, $modal) {
+    function DealerProfileDirectiveController($scope, DTOptionsBuilder, $location, $modal, dealerSummaryPageUrl) {
         $scope.dtOptions = DTOptionsBuilder.newOptions()
             .withPaginationType('full_numbers')
             .withDisplayLength(10)
@@ -66,10 +66,12 @@
 
             switch(changes) {
                 case 0:
-                    $location.path('#/dealerSummary/' + dealerId);
+                    var finalUrl = dealerSummaryPageUrl.replace(':dealerId', dealerId);
+                    $location.path(finalUrl);
                     break;
                 case 1:
-                    $location.path('#/dealerSummary/' + dealerId);
+                    var finalUrl = dealerSummaryPageUrl.replace(':dealerId', dealerId);
+                    $location.path(finalUrl);
                     break;
                 default:
                     openSaveDialog();
@@ -82,7 +84,7 @@
             var modalInstance = $modal.open({
                 templateUrl: 'js/directives/modal/modal-template.html',
                 controller: 'unsavedChangesController',
-                size: 'sm',
+                size: 'sm'
 //                resolve: {
 //                    items: function (dealerId) {
 //                        return dealerId;
@@ -91,9 +93,10 @@
             });
 
             modalInstance.result.then(function (dealerId) {
-                $location.path('#/dealerSummary/' + dealerId);
+                var finalUrl = dealerSummaryPageUrl.replace(':dealerId', $scope.dealer.dealerId);
+                $location.path(finalUrl);
             }, function () {
-                $log.info('Modal dismissed at: ' + new Date());
+                console.log('Modal dismissed at: ' + new Date());
             });
         }
 

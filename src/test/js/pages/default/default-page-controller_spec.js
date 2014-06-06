@@ -31,8 +31,8 @@ describe('DefaultPageController', function() {
             dsmUrl = '/dsm/:id';
             expectedRole = {
                 dealerId: 'UTID',
-                userName: 'U.T. User',
-                role: 'UTDLR'
+                userName: 'utUser',
+                customerClass: 'UTDLR'
             };
             expectedRoleDeferred.resolve(expectedRole);
 
@@ -43,14 +43,14 @@ describe('DefaultPageController', function() {
             $rootScope.$digest();
             expect($rootScope.role.dealerId).toEqual(expectedRole.dealerId);
             expect($rootScope.role.userName).toEqual(expectedRole.userName);
-            expect($rootScope.role.role).toEqual(expectedRole.role);
+            expect($rootScope.role.customerClass).toEqual(expectedRole.customerClass);
         }));
 
         it('calls location service based on dealer user role', inject(function($rootScope, $location, appRoleResource) {
             expectedRole = {
                 dealerId: 'UTID',
-                userName: 'U.T. User',
-                role: 'UTDLR'
+                userName: 'utUser',
+                customerClass: 'UTDLR'
             };
 
             expectedRoleDeferred.resolve(expectedRole);
@@ -65,11 +65,11 @@ describe('DefaultPageController', function() {
 
         it('calls location service based on dsm user role', inject(function($rootScope, $location, appRoleResource) {
             expectedRole = {
-                id: 'UTID',
-                userName: 'U.T. User',
-                role: 'UTDSM'
+                dealerId: 'UTID',
+                userName: 'utUser',
+                customerClass: 'UTDSM'
             };
-            dsmRoleId = expectedRole.role;
+            dsmRoleId = expectedRole.customerClass;
 
             expectedRoleDeferred.resolve(expectedRole);
 
@@ -77,7 +77,7 @@ describe('DefaultPageController', function() {
 
             $rootScope.$digest();
 
-            var expectedDsmUrl = dsmUrl.replace(':id', expectedRole.id);
+            var expectedDsmUrl = dsmUrl.replace(':id', expectedRole.dealerId);
             expect($location.path).toHaveBeenCalledWith(expectedDsmUrl);
         }));
     });

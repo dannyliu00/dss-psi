@@ -3,11 +3,11 @@
 
     function UnsavedChangesController($scope, $modalInstance) {
         $scope.saveChanges = function () {
-            $modalInstance.close('pass something from scope');
+            $modalInstance.close();
         };
 
         $scope.exitWithNoChanges = function () {
-            $modalInstance.close('pass something from scope');
+            $modalInstance.close();
         };
 
         $scope.cancel = function () {
