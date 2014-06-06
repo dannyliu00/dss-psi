@@ -12,6 +12,9 @@
 			   			transformedInput = 0;
 			   		};
 			   		transformedInput = parseInt(transformedInput);
+			   		if(transformedInput > 999){
+			   			transformedInput = 0;
+			   		};
 			   		transformedInput += '';
 			   		if (transformedInput!=inputValue) {
 			   			modelCtrl.$setViewValue(transformedInput);
