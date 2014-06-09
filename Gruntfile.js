@@ -47,16 +47,15 @@ module.exports = function(grunt) {
 			},
 			test: {
 				files: grunt.file.expand(FilePatterns.watch),
-//				tasks: ['jshint', 'karma:unit:run']
-				tasks: ['karma:unit:run']
+				tasks: ['jshint', 'karma:unit:run']
 			}
 		},
 
 		connect: {
 			options: {
 				port: 9000,
-				host: 'dev.local',
-				base: 'app'
+				host: 'localhost',
+				base: 'src/main/webapp'
 			},
 			livereload: {
 				options: {
