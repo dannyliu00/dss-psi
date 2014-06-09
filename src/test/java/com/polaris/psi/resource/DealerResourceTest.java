@@ -1,41 +1,51 @@
 package com.polaris.psi.resource;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import com.polaris.psi.resource.dto.DealerDto;
+import com.polaris.psi.service.DealerService;
 
 public class DealerResourceTest {
 
 	private DealerResource resource;
+	@Mock private DealerService mockService;
+	@Mock private DealerDto mockDto;
 	private int id;
-	private String expectedName;
-	private int expectedId;
-	private String expectedCity;
-	private String expectedState;
-	private String expectedZip;
 	
 	@Before
 	public void setUp() throws Exception {
+		MockitoAnnotations.initMocks(this);
+		
+		when(mockService.getDealer(anyInt())).thenReturn(mockDto);
+		
 		id = 1111;
-		expectedName = "ENGELHART MOTORSPORTS";
-		expectedId = 2021900;
-		expectedCity = "MADISON";
-		expectedState = "WI";
-		expectedZip = "53713";
+
 		resource = new DealerResource();
+		resource.service = mockService;
+	}
+	
+	@After
+	public void tearDown() {
+		verifyNoMoreInteractions(mockService);
 	}
 
 	@Test
 	public void testGetDealer() {
 		DealerDto actual = resource.getDealer(id);
-		assertTrue(actual.getCity().equals(expectedCity));
-		assertTrue(actual.getDealerId().equals(expectedId));
-		assertTrue(actual.getName().equals(expectedName));
-		assertTrue(actual.getState().equals(expectedState));
-		assertTrue(actual.getZip().equals(expectedZip));
+		
+		verify(mockService).getDealer(id);
+		
+		assertEquals(actual, mockDto);
 	}
 
 }

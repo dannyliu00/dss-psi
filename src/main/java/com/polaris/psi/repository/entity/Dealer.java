@@ -3,34 +3,42 @@
  */
 package com.polaris.psi.repository.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 
 /**
  * @author bericks
  *
  */
-//@Entity
-//@Table(name = "<TBL_DEALER>")
+@Entity
+@Table(name = "tblDealers")
 public class Dealer {
 
-//	@Id
-//	@Column(name = "<COL_NAME1>")
+	@Id
+	@Column(name = "DealerID")
 	private Integer id;
 
-//	@Column(name = "<COL_NAME2>")
+	@Column(name = "DealerName")
 	private String name;
 
-//	@Column(name = "<COL_NAME3>")
+	@Column(name = "Company")
 	private Integer company;
 	
-//	@Column(name = "<COL_NAME4>")
+	@Column(name = "City")
 	private String city;
 
-//	@Column(name = "<COL_NAME5>")
+	@Column(name = "State")
 	private String state;
 
-//	@Column(name = "<COL_NAME6>")
+	@Column(name = "Zip")
 	private String zip;
 	
+	@Column(name = "CustClass")
+	private String classification;
+
 	/**
 	 * @return the id
 	 */
@@ -113,6 +121,20 @@ public class Dealer {
 	 */
 	public void setZip(String zip) {
 		this.zip = zip;
+	}
+
+	/**
+	 * @return the classification
+	 */
+	public String getClassification() {
+		return classification;
+	}
+
+	/**
+	 * @param classification the classification to set
+	 */
+	public void setClassification(String classification) {
+		this.classification = classification;
 	}
 
 }
