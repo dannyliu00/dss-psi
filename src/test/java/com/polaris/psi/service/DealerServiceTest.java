@@ -13,8 +13,10 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.polaris.psi.repository.dao.DealerAndDsmDao;
 import com.polaris.psi.repository.dao.DealerInfoDao;
 import com.polaris.psi.repository.entity.Dealer;
+import com.polaris.psi.repository.entity.DealerAndDsm;
 import com.polaris.psi.resource.dto.DealerDto;
 import com.polaris.psi.service.mapper.DealerMapper;
 
@@ -26,7 +28,9 @@ public class DealerServiceTest {
 
 	private DealerService service;
 	@Mock private DealerInfoDao mockDao;
+	@Mock private DealerAndDsmDao mockDsmDao;
 	@Mock private Dealer mockDealer;
+	@Mock private DealerAndDsm mockDsm;
 	@Mock private DealerMapper mockMapper;
 	@Mock private DealerDto mockDto;
 	
@@ -38,10 +42,12 @@ public class DealerServiceTest {
 		MockitoAnnotations.initMocks(this);
 		
 		when(mockDao.select(anyInt())).thenReturn(mockDealer);
-		when(mockMapper.mapToDto(mockDealer)).thenReturn(mockDto);
+		when(mockDsmDao.selectByDealerId(anyInt())).thenReturn(mockDsm);
+		when(mockMapper.mapToDto(mockDealer, mockDsm)).thenReturn(mockDto);
 		
 		service = new DealerService();
 		service.dao = mockDao;
+		service.dsmDao = mockDsmDao;
 		service.mapper = mockMapper;
 	}
 
@@ -53,7 +59,9 @@ public class DealerServiceTest {
 		DealerDto result = service.getDealer(id);
 		
 		verify(mockDao).select(idObject);
-		verify(mockMapper).mapToDto(mockDealer);
+		verify(mockDsmDao).selectByDealerId(idObject);
+
+		verify(mockMapper).mapToDto(mockDealer, mockDsm);
 		assertEquals(result, mockDto);
 	}
 

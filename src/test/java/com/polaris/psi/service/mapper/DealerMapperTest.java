@@ -1,6 +1,6 @@
 package com.polaris.psi.service.mapper;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.polaris.psi.repository.entity.Dealer;
+import com.polaris.psi.repository.entity.DealerAndDsm;
 import com.polaris.psi.resource.dto.DealerDto;
 
 public class DealerMapperTest {
@@ -19,8 +20,9 @@ public class DealerMapperTest {
 	private DealerMapper mapper;
 	private DealerDto expectedDto;
 	@Mock private Dealer mockDealer;
+	@Mock private DealerAndDsm mockDsm;
 	private Integer expectedCompany, expectedId;
-	private String expectedName, expectedCity, expectedState, expectedZip, expectedClass;
+	private String expectedName, expectedCity, expectedState, expectedZip, expectedClass, expectedDsmName;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -33,6 +35,7 @@ public class DealerMapperTest {
 		expectedState = "U.T. State";
 		expectedZip = "12345-9099";
 		expectedClass = "U.T. classification";
+		expectedDsmName = "U.T. DSM Name";
 		
 		when(mockDealer.getCity()).thenReturn(expectedCity);
 //		when(mockDealer.getClassification()).thenReturn(expectedClass);
@@ -42,6 +45,8 @@ public class DealerMapperTest {
 		when(mockDealer.getState()).thenReturn(expectedState);
 		when(mockDealer.getZip()).thenReturn(expectedZip);
 		
+		when(mockDsm.getDsmName()).thenReturn(expectedDsmName);
+		
 		expectedDto = new DealerDto();
 		expectedDto.setCity(expectedCity);
 		expectedDto.setCompany(expectedCompany);
@@ -49,25 +54,27 @@ public class DealerMapperTest {
 		expectedDto.setName(expectedName);
 		expectedDto.setState(expectedState);
 		expectedDto.setZip(expectedZip);
+		expectedDto.setDsmName(expectedDsmName);
 		
 		mapper = new DealerMapper();
 	}
 	
 	@After
 	public void tearDown() {
-		verifyNoMoreInteractions(mockDealer);
+		verifyNoMoreInteractions(mockDealer, mockDsm);
 	}
 
 	@Test
 	public void testMapToDto() {
-		DealerDto result = mapper.mapToDto(mockDealer);
+		DealerDto result = mapper.mapToDto(mockDealer, mockDsm);
 		
-		assertTrue(result.getCity().equals(expectedDto.getCity()));
-		assertTrue(result.getCompany().equals(expectedDto.getCompany()));
-		assertTrue(result.getDealerId().equals(expectedDto.getDealerId()));
-		assertTrue(result.getName().equals(expectedDto.getName()));
-		assertTrue(result.getState().equals(expectedDto.getState()));
-		assertTrue(result.getZip().equals(expectedDto.getZip()));
+		assertEquals(result.getCity(), expectedDto.getCity());
+		assertEquals(result.getCompany(), expectedDto.getCompany());
+		assertEquals(result.getDealerId(), expectedDto.getDealerId());
+		assertEquals(result.getName(), expectedDto.getName());
+		assertEquals(result.getState(), expectedDto.getState());
+		assertEquals(result.getZip(), expectedDto.getZip());
+		assertEquals(result.getDsmName(), expectedDto.getDsmName());
 		
 		verify(mockDealer).getCity();
 //		verify(mockDealer).getClassification();
@@ -76,6 +83,8 @@ public class DealerMapperTest {
 		verify(mockDealer).getName();
 		verify(mockDealer).getState();
 		verify(mockDealer).getZip();
+		
+		verify(mockDsm).getDsmName();
 	}
 
 }

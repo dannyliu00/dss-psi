@@ -14,31 +14,36 @@ import com.polaris.psi.Constants;
 import com.polaris.pwf.config.spring.PwfSpringConfig;
 import com.polaris.pwf.config.spring.datasource.PolarisDealersCommonDataSource;
 import com.polaris.pwf.config.spring.datasource.PolarisDealersDataSource;
+import com.polaris.pwf.config.spring.datasource.PolarisDealersExtensionDataSource;
 import com.polaris.pwf.util.JndiUtil;
 
 @Configuration
 @ComponentScan(basePackages = {"com.polaris.psi"})
 @EnableTransactionManagement(proxyTargetClass = true)
-@Import({PwfSpringConfig.class, PolarisDealersDataSource.class, PolarisDealersCommonDataSource.class})
+@Import({PwfSpringConfig.class, PolarisDealersDataSource.class, PolarisDealersCommonDataSource.class, PolarisDealersExtensionDataSource.class})
 @EnableCaching
 public class AppSpringConfig {
 
 	@Bean(name = "polarisDealersAppEntityPackage")
 	public String polarisDealersAppEntityPackage() {
-		return "com.polaris.psi";
+		return "com.polaris.psi.repository.entity";
+	}
+
+	@Bean(name = PolarisDealersExtensionDataSource.DATASOURCE_BEAN_NAME)
+	public DataSource polarisDealersExtensionDataSource() {
+		return JndiUtil.lookupDataSource("sql/PolarisDealersExtension");
 	}
 
 	@Bean(name = PolarisDealersCommonDataSource.DATASOURCE_BEAN_NAME)
 	public DataSource polarisDealersCommonDataSource() {
 		return JndiUtil.lookupDataSource("sql/PolarisDealersCommon");
 	}
-	
+
 	@Bean(name = PolarisDealersDataSource.DATASOURCE_BEAN_NAME)
 	public DataSource polarisDealersDataSource() {
 		return JndiUtil.lookupDataSource("sql/PolarisDealers");
 	}
 
-	
 	@Bean
 	public ConcurrentMapCache ValidValuesCache() {
 		return new ConcurrentMapCache(Constants.VALID_VALUES_CACHE, true);

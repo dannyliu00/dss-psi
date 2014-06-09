@@ -3,6 +3,8 @@
  */
 package com.polaris.psi.repository.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,7 +17,9 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "tblDealers")
-public class Dealer {
+public class Dealer implements Serializable {
+
+	private static final long serialVersionUID = -5050795937517499091L;
 
 	@Id
 	@Column(name = "DealerID")

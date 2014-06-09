@@ -20,6 +20,7 @@ public class DealerDto implements Serializable {
 	private String city;
 	private String state;
 	private String zip;
+	private String dsmName;
 	
 	private List<ProfileDto> profiles;
 
@@ -77,6 +78,20 @@ public class DealerDto implements Serializable {
 	 */
 	public void setCity(String city) {
 		this.city = city;
+	}
+
+	/**
+	 * @return the dsmName
+	 */
+	public String getDsmName() {
+		return dsmName;
+	}
+
+	/**
+	 * @param dsmName the dsmName to set
+	 */
+	public void setDsmName(String dsmName) {
+		this.dsmName = dsmName;
 	}
 
 	/**
