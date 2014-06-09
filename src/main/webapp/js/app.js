@@ -13,6 +13,7 @@ angular.module('sellIn', [
         'sellIn.directives.profiles',
         'sellIn.directives.dealerInfo',
         'sellIn.directives.numbersonly',
+        'sellIn.directives.emailentry',
         'sellIn.resources.dealerProfiles',
         'sellIn.resources.dealerProfile',
         'sellIn.resources.dealer',

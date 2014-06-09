@@ -8,8 +8,7 @@
             .withBootstrap();
         
         $scope.dealerEmail = "";
-        
-        
+          
         $scope.sumActualValues = function() {
             var total = 0;
             for(var i = 0; i < $scope.orderSegments.length; i++) {
