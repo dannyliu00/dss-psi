@@ -62,7 +62,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4" ng-repeat="period in profile.periods"  >
+                <div class="col-md-4" ng-repeat="period in profile.periods" >
                     <div class="col-md-6 text-center">
                         {{period.recMinimum}} - {{period.recommended}} - {{period.recMaximum}}
                     </div>
@@ -73,6 +73,10 @@
             </div>
         </div>
     </div>
+    <form name = "emailForm" >
+    <div class="text-left"><p {padding-bottom:20mm;}><span>Please provide a confirmation e-mail address.&nbsp;&nbsp;&nbsp;&nbsp;<input ng-class = "{noncompliant: !emailForm.email.$valid}" type = "email" name = "email" ng-model = "dealerEmail" /></span>
+    </p></div>
+    </form>
 </div>
 <div class="container-full">
     <p><button tabindex="0" type="button" class="btn btn-group btn-default btn-sm" ng-click="toSummary(dealer.dealerId)">Return to Summary</button>

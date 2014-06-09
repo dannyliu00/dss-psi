@@ -6,7 +6,10 @@
             .withPaginationType('full_numbers')
             .withDisplayLength(10)
             .withBootstrap();
-
+        
+        $scope.dealerEmail = "";
+        
+        
         $scope.sumActualValues = function() {
             var total = 0;
             for(var i = 0; i < $scope.orderSegments.length; i++) {
@@ -99,7 +102,10 @@
                 console.log('Modal dismissed at: ' + new Date());
             });
         }
-
+        
+//        $scope.displayDealerEmail = function() {
+//        	console.log($scope.dealerEmail);
+//        };
     }
 
     dealerProfiles.DealerProfileDirectiveController = DealerProfileDirectiveController;
