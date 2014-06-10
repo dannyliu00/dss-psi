@@ -3,29 +3,38 @@
  */
 package com.polaris.psi.repository.entity;
 
+import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
  * @author bericks
  *
  */
-//@Entity
-//@Table(name = "OT073F_ProfileAndPeriodIDs")
-public class ProfileAndPeriod {
+@Entity
+@Table(name = "Profile.OT073F_ProfileAndPeriodIDs")
+public class ProfileAndPeriod implements Serializable {
 
-//	@Id
-//	@Column(name = "N3ID")
+	private static final long serialVersionUID = -2341524121167528365L;
+
+	@Id
+	@Column(name = "N3ID")
 	private int id;
-	
-//	@JoinColumn(name = "N3IPID")
+
+	@ManyToOne
+	@JoinColumn(name = "N3IPID")
 	private Profile profile;
-	
-//	@JoinColumn(name = "N3PPID")
-	private ProfilePeriod period;
+
+	@OneToMany
+	@JoinColumn(name = "N3PPID")
+	private List<ProfilePeriod> periods;
 
 	/**
 	 * @return the id
@@ -56,17 +65,17 @@ public class ProfileAndPeriod {
 	}
 
 	/**
-	 * @return the period
+	 * @return the periods
 	 */
-	public ProfilePeriod getPeriod() {
-		return period;
+	public List<ProfilePeriod> getPeriods() {
+		return periods;
 	}
 
 	/**
-	 * @param period the period to set
+	 * @param periods the periods to set
 	 */
-	public void setPeriod(ProfilePeriod period) {
-		this.period = period;
+	public void setPeriods(List<ProfilePeriod> periods) {
+		this.periods = periods;
 	}
-	
+
 }

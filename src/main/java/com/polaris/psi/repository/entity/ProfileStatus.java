@@ -12,15 +12,15 @@ import javax.persistence.Table;
  * @author bericks
  *
  */
-//@Entity
-//@Table(name = "OT072F_ProfileStatus")
+@Entity
+@Table(name = "Profile.OT072F_ProfileStatus")
 public class ProfileStatus {
 	
-//	@Id
-//	@Column(name = "N2STID")
+	@Id
+	@Column(name = "N2STID")
 	private int id;
 	
-//	@Column(name = "N2DESC")
+	@Column(name = "N2DESC")
 	private String description;
 
 	/**

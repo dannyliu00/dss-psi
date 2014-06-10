@@ -14,23 +14,26 @@ import javax.persistence.Table;
  * @author bericks
  *
  */
-//@Entity
-//@Table(name = "OT070F_ProfilePeriod")
+@Entity
+@Table(name = "Profile.OT070F_ProfilePeriod")
 public class ProfilePeriod {
 	
-//	@Id
-//	@Column(name = "N0PPID")
+	@Id
+	@Column(name = "N0PPID")
 	private int id;
 	
-//	@Column(name = "N0DESC")
+	@Column(name = "N0CODE")
+	private String periodCode;
+	
+	@Column(name = "N0DESC")
 	private String name;
 	
-//	@Column(name = "N0SDAT")
-	private Date startDate;
+	@Column(name = "N0SDAT")
+	private String startDate;
 	
-//	@Column(name = "N0EDAT")
-	private Date endDate;
-
+	@Column(name = "N0EDAT")
+	private String endDate;
+	
 	/**
 	 * @return the id
 	 */
@@ -43,6 +46,20 @@ public class ProfilePeriod {
 	 */
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the periodCode
+	 */
+	public String getPeriodCode() {
+		return periodCode;
+	}
+
+	/**
+	 * @param periodCode the periodCode to set
+	 */
+	public void setPeriodCode(String periodCode) {
+		this.periodCode = periodCode;
 	}
 
 	/**
@@ -62,28 +79,28 @@ public class ProfilePeriod {
 	/**
 	 * @return the startDate
 	 */
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
 	/**
 	 * @param startDate the startDate to set
 	 */
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
 	/**
 	 * @return the endDate
 	 */
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
 	/**
 	 * @param endDate the endDate to set
 	 */
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 	

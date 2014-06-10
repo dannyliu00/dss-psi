@@ -3,40 +3,49 @@
  */
 package com.polaris.psi.repository.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
  * @author bericks
  *
  */
-//@Entity
-//@Table(name = "OT075F_ProfileSegmentRecommendation")
-public class ProfileOrderSegmentCompliance {
+@Entity
+@Table(name = "Profile.OT075F_ProfileSegmentRecommendation")
+public class ProfileOrderSegmentCompliance implements Serializable {
 	
-//	@Id
-//	@Column(name = "N5ID")
+	private static final long serialVersionUID = 5400103451840365533L;
+
+	@Id
+	@Column(name = "N5ID")
 	private int id;
 	
-//	@JoinColumn(name = "N5IPID")
+	@ManyToOne
+	@JoinColumn(name = "N5IPID")
 	private Profile profile;
 	
-//	@JoinColumn(name = "N5CODE")
+	@OneToOne
+	@JoinColumn(name = "N5CODE")
 	private ProfilePeriod profilePeriod;
-	
-//	@JoinColumn(name = "N5OSEG")
+
+	@OneToOne
+	@JoinColumn(name = "N5OSEG", referencedColumnName = "N4OSEG")
 	private OrderSegment orderSegment;
 	
-//	@Column(name = "N5RMIN")
+	@Column(name = "N5RMIN")
 	private int minimum;
 	
-//	@Column(name = "N5REC")
+	@Column(name = "N5REC")
 	private int recommended;
 	
-//	@Column(name = "N5RMAX")
+	@Column(name = "N5RMAX")
 	private int maximum;
 
 	/**

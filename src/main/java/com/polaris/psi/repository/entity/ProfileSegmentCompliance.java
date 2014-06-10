@@ -3,40 +3,48 @@
  */
 package com.polaris.psi.repository.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
  * @author bericks
  *
  */
-//@Entity
-//@Table(name = "OT076F_ProfileSuperSegmentCompliance")
-public class ProfileSegmentCompliance {
+@Entity
+@Table(name = "Profile.OT076F_ProfileSuperSegmentCompliance")
+public class ProfileSegmentCompliance implements Serializable {
 
-//	@Id
-//	@Column(name = "N6ID")
+	private static final long serialVersionUID = 4992914637184597272L;
+
+	@Id
+	@Column(name = "N6ID")
 	private int id;
 	
-//	@JoinColumn(name = "N6IPID")
+	@ManyToOne
+	@JoinColumn(name = "N6IPID")
 	private Profile profile;
 	
-//	@JoinColumn(name = "N6CODE")
-	private ProfilePeriod profilePeriod;
+	@Column(name = "N6CODE")
+	private String profileCode;
 	
-//	@JoinColumn(name = "N6DLR")
+	@JoinColumn(name = "N6DLR")
 	private Dealer dealer;
 	
-//	@JoinColumn(name = "N6SPSEG")
+	@OneToOne
+	@JoinColumn(name = "N6SPSEG")
 	private Segment segment;
 	
-//	@Column(name = "C6SMIN")
+	@Column(name = "C6SMIN")
 	private int minimum;
 	
-//	@Column(name = "C6SMAX")
+	@Column(name = "C6SMAX")
 	private int maximum;
 
 	/**
@@ -68,17 +76,17 @@ public class ProfileSegmentCompliance {
 	}
 
 	/**
-	 * @return the profilePeriod
+	 * @return the profileCode
 	 */
-	public ProfilePeriod getProfilePeriod() {
-		return profilePeriod;
+	public String getProfileCode() {
+		return profileCode;
 	}
 
 	/**
-	 * @param profilePeriod the profilePeriod to set
+	 * @param profileCode the profileCode to set
 	 */
-	public void setProfilePeriod(ProfilePeriod profilePeriod) {
-		this.profilePeriod = profilePeriod;
+	public void setProfileCode(String profileCode) {
+		this.profileCode = profileCode;
 	}
 
 	/**

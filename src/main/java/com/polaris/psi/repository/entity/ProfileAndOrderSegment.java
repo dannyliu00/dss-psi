@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -21,6 +22,7 @@ public class ProfileAndOrderSegment {
 //	@Column(name = "N4PSID")
 	private int id;
 	
+//	@ManyToOne
 //	@JoinColumn(name = "N4IPID")
 	private Profile profile;
 	

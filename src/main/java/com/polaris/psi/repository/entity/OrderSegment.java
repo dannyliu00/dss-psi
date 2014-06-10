@@ -1,16 +1,29 @@
 package com.polaris.psi.repository.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-//@Entity
-//@Table(name = "<TBL_ORDR_SEG>")
+
+@Entity
+@Table(name = "Profile.OT074F_ProfileAndOrderSegments")
 public class OrderSegment {
 
-//	@Id
-//	@Column(name = "<COL_NAME1>")
+	@Id
+	@Column(name = "N4PSID")
 	private int id;
 	
-//	@Column(name = "<COL_NAME2>")
-	private String name;
+	@ManyToOne
+	@JoinColumn(name = "N4IPID")
+	private Profile profile;
+	
+	@OneToOne
+	@JoinColumn(name = "N4OSEG")
+	private ProfileOrderSegmentCompliance compliance;
 	
 	/**
 	 * @return the id
@@ -27,17 +40,31 @@ public class OrderSegment {
 	}
 
 	/**
-	 * @return the name
+	 * @return the profile
 	 */
-	public String getName() {
-		return name;
+	public Profile getProfile() {
+		return profile;
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param profile the profile to set
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setProfile(Profile profile) {
+		this.profile = profile;
+	}
+
+	/**
+	 * @return the compliance
+	 */
+	public ProfileOrderSegmentCompliance getCompliance() {
+		return compliance;
+	}
+
+	/**
+	 * @param compliance the compliance to set
+	 */
+	public void setCompliance(ProfileOrderSegmentCompliance compliance) {
+		this.compliance = compliance;
 	}
 
 }

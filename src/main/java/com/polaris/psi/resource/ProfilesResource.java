@@ -3,8 +3,6 @@
  */
 package com.polaris.psi.resource;
 
-import groovy.util.logging.Slf4j;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -15,23 +13,30 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.polaris.psi.repository.entity.Profile;
 import com.polaris.psi.resource.dto.ProfileDto;
+import com.polaris.psi.service.ProfileService;
 
 /**
  * @author bericks
  *
  */
-@Slf4j
 @Component
 @Path("/profiles")
 public class ProfilesResource {
 
+	@Autowired
+	ProfileService service;
+	
 	@GET
     @Path("/{dealerId}")
     @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	public List<ProfileDto> getProfiles(@PathParam("dealerId") int dealerId) {
+		
+		List<Profile> profiles = service.getDealerProfiles(dealerId);
 		
 		return buildProfiles(dealerId);
 	}

@@ -4,6 +4,7 @@
 package com.polaris.psi.resource.dto.util;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -110,6 +111,14 @@ public class TotalsCalculatorTest {
 	public void testCalculateRecommendedValues() {
 		calculator.calculateTotals(dto, children);
 		
+		verify(mockDto1).getRecMinimum();
+		verify(mockDto1).getRecMaximum();
+		verify(mockDto1).getRecommended();
+
+		verify(mockDto2).getRecMinimum();
+		verify(mockDto2).getRecMaximum();
+		verify(mockDto2).getRecommended();
+
 		assertTrue(dto.getRecMaximum() == maximum * 2);
 		assertTrue(dto.getRecMinimum() == minimum * 2);
 		assertTrue(dto.getRecommended() == recommended * 2);
