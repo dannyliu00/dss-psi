@@ -3,6 +3,13 @@
 
     function MainButtonDirectiveController($scope, $location, $modal, dealerSummaryPageUrl) {
     	
+        $scope.submitRequests = function() {
+        	If(angular.element('input').hasClass('noncompliant') === true) {
+        		$scope.openReasonDialog();
+        		console.log('this might work');   
+        	}
+        };
+    	
         $scope.buttonCaptionFill = function() {
         	buttonCaption = "";
         	($scope.profile.type === "motorcycle"? buttonCaption = "Auto-fill with Recommendations" : buttonCaption = "Auto-fill with Targets");
@@ -69,12 +76,6 @@
                 console.log('Modal dismissed at: ' + new Date());
             });
         }
-        
-        
-        
-        $scope.submitRequests = function() {
-        	console.log('this might work');
-        };
     }
 
     mainButton.MainButtonDirectiveController = MainButtonDirectiveController;

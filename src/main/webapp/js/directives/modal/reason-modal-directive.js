@@ -1,19 +1,11 @@
 (function(){
-	var reasonCode = sellInNamespace('sellIn.directives.reasoncode');
+	var reasonModal = sellInNamespace('sellIn.directives.reasonmodal');
 	
-	function ReasonCodeDirective() {
+	function ReasonModalDirective() {
 	   return {
 		   restrict: 'E',
-		   controller: 'reason-modal-controller',
-		   link: function(scope, element, attrs) {
-			   
-			   scope.$watch('submitRequests', function() {
-				   if(angular.element("noncompliant") === "true"){
-					   $scope.reasonModalInstance();    
-                   }
-               });
-			   	}
+		   controller: 'reason-modal-controller'
 		   };
 	   }
-	reasonCode.ReasonCodeDirective = ReasonCodeDirective;
+	reasonModal.ReasonModalDirective = ReasonModalDirective;
 })();

@@ -7,7 +7,7 @@
     	        appRoleResource.get(authorizationRoleId).then(function(returnedauthorizationRoleId){
     	        	$scope.roleId = returnedauthorizationRoleId;
     	        });
-        var reasonCode = {roleId:$routeParams.roleId};
+        var reasonCode = {};
     	    reasonCodeResource.get(reasonCode).then(function(reasonCode) {
     	        $scope.reasonCodes = returnedreasonCode;
     	    });

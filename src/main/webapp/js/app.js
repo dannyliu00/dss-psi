@@ -15,6 +15,7 @@ angular.module('sellIn', [
         'sellIn.directives.numbersonly',
         'sellIn.directives.emailentry',
         'sellIn.directives.mainbutton',
+        'sellIn.directives.reasonmodal',
         'sellIn.resources.dealerProfiles',
         'sellIn.resources.dealerProfile',
         'sellIn.resources.dealer',
