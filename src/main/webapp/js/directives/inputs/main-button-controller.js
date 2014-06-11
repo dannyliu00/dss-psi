@@ -7,7 +7,6 @@
         	buttonCaption = "";
         	($scope.profile.type === "motorcycle"? buttonCaption = "Auto-fill with Recommendations" : buttonCaption = "Auto-fill with Targets");
         	
-        	//$scope.buttonCaption = buttonCaption;
         	return buttonCaption;
         };
              
@@ -71,9 +70,11 @@
             });
         }
         
-//        $scope.displayDealerEmail = function() {
-//        	console.log($scope.dealerEmail);
-//        };
+        
+        
+        $scope.submitRequests = function() {
+        	console.log('this might work');
+        };
     }
 
     mainButton.MainButtonDirectiveController = MainButtonDirectiveController;
