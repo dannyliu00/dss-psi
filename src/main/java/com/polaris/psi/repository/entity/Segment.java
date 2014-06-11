@@ -24,7 +24,7 @@ public class Segment implements Serializable {
 	@Column(name = "MIMOD#")
 	private String id;
 	
-	@Column(name = "MIDESC")
+	@Column(name = "MISPSG")
 	private String name;
 
 	/**

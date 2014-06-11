@@ -16,7 +16,6 @@ import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.polaris.psi.repository.entity.Profile;
 import com.polaris.psi.resource.dto.ProfileDto;
 import com.polaris.psi.service.ProfileService;
 
@@ -36,9 +35,7 @@ public class ProfilesResource {
     @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	public List<ProfileDto> getProfiles(@PathParam("dealerId") int dealerId) {
 		
-		List<Profile> profiles = service.getDealerProfiles(dealerId);
-		
-		return buildProfiles(dealerId);
+		return service.getDealerProfiles(dealerId);
 	}
 	
 	private List<ProfileDto> buildProfiles(int dealerId) {

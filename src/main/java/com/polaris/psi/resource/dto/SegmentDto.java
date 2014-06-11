@@ -21,6 +21,7 @@ public class SegmentDto implements IBaseDto, Serializable {
 	private int recMinimum;
 	private int recMaximum;
 	private int actual;
+	private int recommendedOSCount;
 	
 	private List<IBaseDto> orderSegments;
 
@@ -128,6 +129,20 @@ public class SegmentDto implements IBaseDto, Serializable {
 	@Override
 	public void setActual(int actual) {
 		this.actual = actual;
+	}
+
+	/**
+	 * @return the recommendedOSCount
+	 */
+	public int getRecommendedOSCount() {
+		return recommendedOSCount;
+	}
+
+	/**
+	 * @param recommendedOSCount the recommendedOSCount to set
+	 */
+	public void setRecommendedOSCount(int recommendedOSCount) {
+		this.recommendedOSCount = recommendedOSCount;
 	}
 
 	/**

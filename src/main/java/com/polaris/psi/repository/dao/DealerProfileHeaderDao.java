@@ -28,7 +28,6 @@ public class DealerProfileHeaderDao extends AbstractPolarisDealersExtensionDao<D
         keyMap.put("dealerId", 2350400);
         
         return selectByMap(keyMap, null);
-        
 	}
 
 }

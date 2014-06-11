@@ -34,18 +34,21 @@ public class ProfileSegmentCompliance implements Serializable {
 	@Column(name = "N6CODE")
 	private String profileCode;
 	
-	@JoinColumn(name = "N6DLR")
-	private Dealer dealer;
+	@Column(name = "N6DLR")
+	private int dealerId;
 	
 	@OneToOne
-	@JoinColumn(name = "N6SPSEG")
+	@JoinColumn(name = "N6SPSEG", referencedColumnName="MISPSG")
 	private Segment segment;
 	
-	@Column(name = "C6SMIN")
-	private int minimum;
+	@Column(name = "N6SMIN")
+	private Integer minimum;
 	
-	@Column(name = "C6SMAX")
-	private int maximum;
+	@Column(name = "N6SMAX", nullable=true)
+	private Integer maximum;
+	
+	@Column(name = "N6OREQ", nullable=true)
+	private Integer recommendedOSCount;
 
 	/**
 	 * @return the id
@@ -90,17 +93,17 @@ public class ProfileSegmentCompliance implements Serializable {
 	}
 
 	/**
-	 * @return the dealer
+	 * @return the dealerId
 	 */
-	public Dealer getDealer() {
-		return dealer;
+	public int getDealerId() {
+		return dealerId;
 	}
 
 	/**
-	 * @param dealer the dealer to set
+	 * @param dealerId the dealerId to set
 	 */
-	public void setDealer(Dealer dealer) {
-		this.dealer = dealer;
+	public void setDealerId(int dealerId) {
+		this.dealerId = dealerId;
 	}
 
 	/**
@@ -120,29 +123,43 @@ public class ProfileSegmentCompliance implements Serializable {
 	/**
 	 * @return the minimum
 	 */
-	public int getMinimum() {
+	public Integer getMinimum() {
 		return minimum;
 	}
 
 	/**
 	 * @param minimum the minimum to set
 	 */
-	public void setMinimum(int minimum) {
+	public void setMinimum(Integer minimum) {
 		this.minimum = minimum;
 	}
 
 	/**
 	 * @return the maximum
 	 */
-	public int getMaximum() {
+	public Integer getMaximum() {
 		return maximum;
 	}
 
 	/**
 	 * @param maximum the maximum to set
 	 */
-	public void setMaximum(int maximum) {
+	public void setMaximum(Integer maximum) {
 		this.maximum = maximum;
 	}
-	
+
+	/**
+	 * @return the recommendedOSCount
+	 */
+	public Integer getRecommendedOSCount() {
+		return recommendedOSCount;
+	}
+
+	/**
+	 * @param recommendedOSCount the recommendedOSCount to set
+	 */
+	public void setRecommendedOSCount(Integer recommendedOSCount) {
+		this.recommendedOSCount = recommendedOSCount;
+	}
+
 }

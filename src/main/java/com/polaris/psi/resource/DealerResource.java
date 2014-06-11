@@ -3,8 +3,6 @@
  */
 package com.polaris.psi.resource;
 
-import groovy.util.logging.Slf4j;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -22,7 +20,6 @@ import com.polaris.pwf.session.SessionHelper;
  * @author bericks
  *
  */
-@Slf4j
 @Component
 @Path("/dealers")
 public class DealerResource {

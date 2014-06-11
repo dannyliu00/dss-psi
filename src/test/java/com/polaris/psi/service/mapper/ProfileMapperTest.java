@@ -5,6 +5,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Before;
@@ -12,11 +13,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.polaris.psi.repository.entity.DealerProfileHeader;
-import com.polaris.psi.repository.entity.OrderSegment;
 import com.polaris.psi.repository.entity.Profile;
-import com.polaris.psi.repository.entity.ProfileAndPeriod;
-import com.polaris.psi.repository.entity.ProfileOrderSegmentCompliance;
 import com.polaris.psi.repository.entity.ProfileSegmentCompliance;
 import com.polaris.psi.repository.entity.ProfileStatus;
 import com.polaris.psi.resource.dto.ProfileDto;
@@ -25,18 +22,16 @@ import com.polaris.psi.util.CommonUtils;
 public class ProfileMapperTest {
 
 	private ProfileMapper mapper;
+	private List<Profile> mockProfiles;
 	@Mock private Profile mockProfile;
 	@Mock private ProfileStatus mockStatus;
-	private int expectedId;
+	private int expectedId, expectedMax, expectedMin;
 	private String expectedTargetCompleteDate, expectedName, expectedStatus;
 	private Date expectedModifiedDate;
 
-	private List<ProfileAndPeriod> periods;
-	private List<OrderSegment> orderSegments;
-	private List<ProfileOrderSegmentCompliance> osComplianceValues;
 	private List<ProfileSegmentCompliance> segmentComplianceValues;
-	private List<DealerProfileHeader> profileHeaders;
-	
+	@Mock private ProfileSegmentCompliance mockSegmentCompliance;
+
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
@@ -58,7 +53,17 @@ public class ProfileMapperTest {
 	}
 
 	@Test
-	public void testMapToDto() {
+	public void testMapToDtoList() {
+		mockProfiles = new LinkedList<Profile>();
+		mockProfiles.add(mockProfile);
+		
+		List<ProfileDto> results = mapper.mapToDto(mockProfiles);
+		
+		assertEquals(mockProfiles.size(), results.size());
+	}
+	
+	@Test
+	public void testMapToDtoProfile() {
 		ProfileDto actual = mapper.mapToDto(mockProfile);
 		
 		verify(mockProfile).getId();
@@ -71,6 +76,32 @@ public class ProfileMapperTest {
 		assertEquals(expectedModifiedDate, actual.getModifiedDate());
 		assertEquals(expectedName, actual.getName());
 		assertEquals(expectedStatus, actual.getStatus());
+	}
+	
+	@Test
+	public void testGetMaxValues() {
+		expectedMax = 5;
+		segmentComplianceValues = new LinkedList<ProfileSegmentCompliance>();
+		segmentComplianceValues.add(mockSegmentCompliance);
+		
+		when(mockSegmentCompliance.getMaximum()).thenReturn(expectedMax);
+		
+		int actualMax = mapper.getMaxValues(segmentComplianceValues);
+		
+		assertEquals(expectedMax, actualMax);
+	}
+	
+	@Test
+	public void testGetMinValues() {
+		expectedMin = 1;
+		segmentComplianceValues = new LinkedList<ProfileSegmentCompliance>();
+		segmentComplianceValues.add(mockSegmentCompliance);
+		
+		when(mockSegmentCompliance.getMinimum()).thenReturn(expectedMin);
+		
+		int actualMin = mapper.getMinValues(segmentComplianceValues);
+		
+		assertEquals(expectedMin, actualMin);
 	}
 
 }

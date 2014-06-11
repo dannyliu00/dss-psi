@@ -8,10 +8,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.polaris.psi.repository.dao.DealerProfileHeaderDao;
 import com.polaris.psi.repository.entity.DealerProfileHeader;
 import com.polaris.psi.repository.entity.Profile;
+import com.polaris.psi.resource.dto.ProfileDto;
+import com.polaris.psi.service.mapper.ProfileMapper;
+import com.polaris.pwf.repository.CommonRepositoryConstants;
 
 /**
  * @author bericks
@@ -23,14 +27,20 @@ public class ProfileService {
 	@Autowired
 	DealerProfileHeaderDao headerDao;
 	
-	public List<Profile> getDealerProfiles(int dealerId) {
+	@Autowired
+	ProfileMapper mapper;
+	
+    @Transactional(CommonRepositoryConstants.TX_MANAGER_POLARIS_DEALERS_EXTENSION)
+	public List<ProfileDto> getDealerProfiles(int dealerId) {
 		List<DealerProfileHeader> profileHeaders = headerDao.getDealerHeaders(dealerId);
 		List<Profile> profiles = new LinkedList<Profile>();
 		
 		for (DealerProfileHeader header : profileHeaders) {
-			profiles.add(header.getProfile());
+			Profile profile = header.getProfile();
+			profile.getSegmentComplianceValues();
+			profiles.add(profile);
 		}
 		
-		return profiles;
+		return mapper.mapToDto(profiles);
 	}
 }

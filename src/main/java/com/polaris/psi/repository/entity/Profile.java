@@ -51,7 +51,7 @@ public class Profile implements Serializable {
 	@OneToMany
 	private List<ProfileOrderSegmentCompliance> osComplianceValues;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "profile")
 	private List<ProfileSegmentCompliance> segmentComplianceValues;
 	
 	@OneToMany(fetch = FetchType.LAZY)

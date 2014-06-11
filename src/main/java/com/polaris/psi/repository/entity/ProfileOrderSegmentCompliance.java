@@ -40,13 +40,13 @@ public class ProfileOrderSegmentCompliance implements Serializable {
 	private OrderSegment orderSegment;
 	
 	@Column(name = "N5RMIN")
-	private int minimum;
+	private Integer minimum;
 	
 	@Column(name = "N5REC")
-	private int recommended;
+	private Integer recommended;
 	
 	@Column(name = "N5RMAX")
-	private int maximum;
+	private Integer maximum;
 
 	/**
 	 * @return the id
@@ -107,42 +107,42 @@ public class ProfileOrderSegmentCompliance implements Serializable {
 	/**
 	 * @return the minimum
 	 */
-	public int getMinimum() {
+	public Integer getMinimum() {
 		return minimum;
 	}
 
 	/**
 	 * @param minimum the minimum to set
 	 */
-	public void setMinimum(int minimum) {
+	public void setMinimum(Integer minimum) {
 		this.minimum = minimum;
 	}
 
 	/**
 	 * @return the recommended
 	 */
-	public int getRecommended() {
+	public Integer getRecommended() {
 		return recommended;
 	}
 
 	/**
 	 * @param recommended the recommended to set
 	 */
-	public void setRecommended(int recommended) {
+	public void setRecommended(Integer recommended) {
 		this.recommended = recommended;
 	}
 
 	/**
 	 * @return the maximum
 	 */
-	public int getMaximum() {
+	public Integer getMaximum() {
 		return maximum;
 	}
 
 	/**
 	 * @param maximum the maximum to set
 	 */
-	public void setMaximum(int maximum) {
+	public void setMaximum(Integer maximum) {
 		this.maximum = maximum;
 	}
 	
