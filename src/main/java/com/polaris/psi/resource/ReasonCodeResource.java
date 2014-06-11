@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -32,9 +33,9 @@ public class ReasonCodeResource {
 	ReasonCodeService service;
 	
 	@GET
+	@Path("/{roleId}")
     @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public List<ReasonCodeDto> getReasonCodes() {
-		int roleId = sessionHelper.getUserData().getAuthorizationRoleId();
+	public List<ReasonCodeDto> getReasonCodes(@PathParam("roleId") int roleId) {
 		return service.getReasonCodes(roleId);
 	}
 	
