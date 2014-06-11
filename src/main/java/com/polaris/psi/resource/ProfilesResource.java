@@ -35,7 +35,9 @@ public class ProfilesResource {
     @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	public List<ProfileDto> getProfiles(@PathParam("dealerId") int dealerId) {
 		
-		return service.getDealerProfiles(dealerId);
+		List<ProfileDto> profiles = service.getDealerProfiles(dealerId);
+		
+		return buildProfiles(dealerId);
 	}
 	
 	private List<ProfileDto> buildProfiles(int dealerId) {
