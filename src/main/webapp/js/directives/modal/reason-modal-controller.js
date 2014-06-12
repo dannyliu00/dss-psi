@@ -3,11 +3,11 @@
     
     function ReasonModalController($scope, $modalInstance,reasonCodeResource, appRoleResource) {
     	
-    	$scope.reasonComments = "";
-    	
     	var authorizationRoleId = 0;
     	
-    	var reasonComments = "";
+//    	var reasonComment = "";
+    	
+    	var reasonCommentData = {};
     	
     	appRoleResource.get().then(function(returnedRole){
     		authorizationRoleId = returnedRole.authorizationRoleId;
@@ -18,8 +18,9 @@
     	});
     	
         $scope.saveChanges = function (id) {
-        	reasonComments = this.reasonComments;
-            $modalInstance.close(id,reasonComments);
+//        	reasonComment = this.reasonComments;
+        	reasonCommentData = {'comments':this.reasonComments,'id':id};
+            $modalInstance.close(reasonCommentData);
        };
     	
         $scope.cancel = function () {

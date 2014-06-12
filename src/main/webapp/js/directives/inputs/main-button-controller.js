@@ -84,9 +84,9 @@
 				size: 'sm'
 			});
 
-        	modalInstance.result.then(function (id, reasonComments) {
-        		console.log(id);
-            	console.log(reasonComments);
+        	modalInstance.result.then(function (reasonCommentData) {
+        		console.log(reasonCommentData.comments);
+            	console.log(reasonCommentData.id);
                 var finalUrl = profilePageUrl.replace(':dealerId', $scope.dealer.dealerId).replace(':profileId',$scope.profile.profileId).replace(':type',$scope.profile.type);
                 $location.path(finalUrl);
             }, function () {
