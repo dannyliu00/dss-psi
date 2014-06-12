@@ -1,7 +1,7 @@
 (function() {
     var mainButton = sellInNamespace('sellIn.directives.mainbutton');
 
-    function MainButtonDirectiveController($scope, $location, $modal, dealerSummaryPageUrl) {
+    function MainButtonDirectiveController($scope, $location, $modal, dealerSummaryPageUrl, profilePageUrl) {
     	
         $scope.buttonCaptionFill = function() {
         	buttonCaption = "";
@@ -72,11 +72,27 @@
 
         $scope.submitRequests = function() {
             if(angular.element('input').hasClass('noncompliant')) {
-                $scope.openReasonDialog();
-                console.log('this might work');
+                openReasonDialog();
             }
         };
+        
+        function openReasonDialog() {
+        	
+        	var modalInstance = $modal.open({
+				templateUrl: 'js/directives/modal/reason-modal-template.html',
+				controller: 'reasonModalController',
+				size: 'sm'
+			});
 
+        	modalInstance.result.then(function (id, reasonComments) {
+        		console.log(id);
+            	console.log(reasonComments);
+                var finalUrl = profilePageUrl.replace(':dealerId', $scope.dealer.dealerId).replace(':profileId',$scope.profile.profileId).replace(':type',$scope.profile.type);
+                $location.path(finalUrl);
+            }, function () {
+                console.log('Modal dismissed at: ' + new Date());
+            });
+		}
     }
 
     mainButton.MainButtonDirectiveController = MainButtonDirectiveController;

@@ -2,9 +2,12 @@
     <h3 class="modal-title">Reason and Comments</h3>
 </div>
 <div class="modal-body">
-<select ng-model='selectedReasonCode' ng-options='reasonCode in reasonCodes'></select>
+	<div class = "text-left">Reason</div>
+		<select ng-model='selectedReasonCodes' ng-options='reasonCode.description for reasonCode in reasonCodes' ></select>
+	<div class = "text-left">Comments</div>
+	<textarea class = "input" style="width: 530px; height: 75px" type="text" ng-model="reasonComments" ></textarea>
 </div>
 <div class="modal-footer">
 	<button class="btn btn-group btn-default btn-sm" ng-click="cancel()">Cancel</button>
-    <button class="btn btn-group btn-default btn-sm" ng-click="saveChanges()">Save and Continue</button>   
+    <button class="btn btn-group btn-default btn-sm" ng-click="saveChanges(selectedReasonCodes.id)">Save and Continue</button>   
 </div>
