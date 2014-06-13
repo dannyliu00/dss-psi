@@ -52,7 +52,7 @@
         function openSaveDialog () {
 
             var modalInstance = $modal.open({
-                templateUrl: 'js/directives/modal/modal-template.html',
+                templateUrl: 'js/directives/modal/unsaved-changes-modal-template.html',
                 controller: 'unsavedChangesController',
                 size: 'sm'
 //                  resolve: {
@@ -67,6 +67,28 @@
                 $location.path(finalUrl);
             }, function () {
                 console.log('Modal dismissed at: ' + new Date());
+            });
+        }
+        
+        $scope.saveQuantities = function() {
+        	if($scope.dirtyIndicator > 1) {
+        		openSaveQuantitiesDialog();
+        	}
+        };
+        	
+        function openSaveQuantitiesDialog() {
+             	
+        	var modalInstance = $modal.open({
+        		templateUrl: 'js/directives/modal/save-quantities-modal-template.html',
+     			controller: 'reasonModalController',
+     			size: 'sm'
+     		});
+
+            modalInstance.result.then(function () {
+            	var finalUrl = dealerSummaryPageUrl.replace(':dealerId', $scope.dealer.dealerId);
+                 $location.path(finalUrl);
+            }, function () {
+                 console.log('Modal dismissed at: ' + new Date());
             });
         }
 
@@ -85,8 +107,6 @@
 			});
 
         	modalInstance.result.then(function (reasonCommentData) {
-        		console.log(reasonCommentData.comments);
-            	console.log(reasonCommentData.id);
                 var finalUrl = profilePageUrl.replace(':dealerId', $scope.dealer.dealerId).replace(':profileId',$scope.profile.profileId).replace(':type',$scope.profile.type);
                 $location.path(finalUrl);
             }, function () {

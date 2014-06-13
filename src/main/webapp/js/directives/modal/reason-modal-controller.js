@@ -5,8 +5,6 @@
     	
     	var authorizationRoleId = 0;
     	
-//    	var reasonComment = "";
-    	
     	var reasonCommentData = {};
     	
     	appRoleResource.get().then(function(returnedRole){
@@ -18,7 +16,6 @@
     	});
     	
         $scope.saveChanges = function (id) {
-//        	reasonComment = this.reasonComments;
         	reasonCommentData = {'comments':this.reasonComments,'id':id};
             $modalInstance.close(reasonCommentData);
        };
