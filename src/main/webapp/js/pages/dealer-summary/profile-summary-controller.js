@@ -4,7 +4,8 @@
 (function() {
     var dealerProfileSummary = sellInNamespace('sellIn.pages.dealerProfileSummary');
 
-    function DealerProfileSummaryCtrl ($scope, $routeParams, $location, dealerResource, dealerProfilesResource, profilePageUrl,  DTOptionsBuilder) {
+    function DealerProfileSummaryCtrl ($scope, $routeParams, $location, dealerResource, dealerProfilesResource,
+                                       profilePageUrl,  DTOptionsBuilder) {
         this.location = $location;
             
 	    var dealer = {dealerId: $routeParams.dealerId};

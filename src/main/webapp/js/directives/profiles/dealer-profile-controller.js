@@ -1,8 +1,7 @@
 (function() {
     var dealerProfiles = sellInNamespace('sellIn.directives.profiles');
 
-    function DealerProfileDirectiveController($scope, DTOptionsBuilder, $location, 
-    		$modal, dealerSummaryPageUrl,$routeParams, dealerResource, 
+    function DealerProfileDirectiveController($scope, DTOptionsBuilder, $routeParams, dealerResource,
     		dealerProfileResource, orderSegmentResourceMapper) {
     	
     	this.orderSegmentResourceMapper = orderSegmentResourceMapper;

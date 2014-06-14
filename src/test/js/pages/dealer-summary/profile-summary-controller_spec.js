@@ -5,7 +5,7 @@
     var dealerProfileSummary = sellInNamespace('sellIn.pages.dealerProfileSummary');
 
     describe('DealerProfileSummaryCtrl', function() {
-        var scope, routeParams, location, dealerResource, dealerProfilesResource, expectedDealerId, expectedUrl;
+        var scope, DTOptionsBuilder, DTOptions, routeParams, location, dealerResource, dealerProfilesResource, expectedDealerId, expectedUrl;
         var expectedDealerDeferred, expectedProfilesDeferred;
         var ctrl;
 
@@ -28,6 +28,13 @@
             expectedDealerId = 111;
             routeParams = {dealerId: expectedDealerId};
             expectedUrl = '/segment1/:dealerId/segment2/:profileId/segment3/:type';
+
+            DTOptionsBuilder = jasmine.createSpyObj('DTOptionsBuilder', ['newOptions']);
+
+            DTOptions = jasmine.createSpyObj('DTOptions', ['withPaginationType', 'withDisplayLength', 'withBootstrap']);
+            DTOptionsBuilder.newOptions.andReturn(DTOptions);
+            DTOptions.withPaginationType.andReturn(DTOptions);
+            DTOptions.withDisplayLength.andReturn(DTOptions);
         });
 
         beforeEach(inject(function ($q, $rootScope, dealerResource, dealerProfilesResource) {
@@ -37,15 +44,28 @@
             expectedProfilesDeferred = $q.defer();
             dealerProfilesResource.query.andReturn(expectedProfilesDeferred.promise);
 
-            scope = {};
+            scope = $rootScope.$new();
         }));
 
         describe('constructor', function () {
-            it('initializes dealer on scope', inject(function (dealerResource, dealerProfilesResource) {
-                ctrl = new dealerProfileSummary.DealerProfileSummaryCtrl(scope, routeParams, location, dealerResource, dealerProfilesResource, expectedUrl);
+            it('initializes dealer on scope', inject(function ($rootScope, dealerResource, dealerProfilesResource) {
+                ctrl = new dealerProfileSummary.DealerProfileSummaryCtrl(
+                    scope,
+                    routeParams,
+                    location,
+                    dealerResource,
+                    dealerProfilesResource,
+                    expectedUrl,
+                    DTOptionsBuilder);
+
                 var expectedDealer = {dealerId: expectedDealerId};
                 expect(dealerResource.get).toHaveBeenCalledWith(expectedDealer);
                 expect(dealerProfilesResource.query).toHaveBeenCalledWith(expectedDealer);
+
+//                expect(DTOptionsBuilder.newOptions).toHaveBeenCalled();
+//                expect(DTOptions.withPaginationType).toHaveBeenCalled();
+//                expect(DTOptions.withDisplayLength).toHaveBeenCalled();
+//                expect(DTOptions.withBootstrap).toHaveBeenCalled();
             }));
         });
 

@@ -14,7 +14,9 @@ var FilePatterns = {
 		'src/main/webapp/bower_components/jquery/dist/jquery.js',
 		'src/main/webapp/bower_components/jquery-ui/ui/jquery-ui.js',
 		'src/main/webapp/bower_components/angular/angular.js',
-		'src/main/webapp/bower_components/angular-route/angular-route.js',
+        'src/main/webapp/bower_components/angular-bootstrap/ui-bootstrap.js',
+        'src/main/webapp/bower_components/angular-datatables/dist/angular-datatables.js',
+        'src/main/webapp/bower_components/angular-route/angular-route.js',
 		'src/main/webapp/bower_components/angular-resource/angular-resource.js',
 		'src/main/webapp/bower_components/bootstrap/dist/js/bootstrap.js',
 		'src/main/webapp/bower_components/angular-sanitize/angular-sanitize.min.js'
