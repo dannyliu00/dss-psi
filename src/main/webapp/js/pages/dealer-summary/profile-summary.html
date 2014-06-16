@@ -10,36 +10,7 @@
         <!-- Page Tabs -->
         <tabs></tabs>
         <!-- Data table -->
-        <div class="col-md-12">
-        <div id="activeObjectsTable_processing" class="dataTables_processing" style="visibility: hidden;">Processing...</div>
-            <table datatable="ng" dt-options="dtOptions" id="activeObjectsTable"
-                   class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
-                   aria-describedby="activeObjectsTable_info">
-                <thead>
-                <tr role="row">
-                    <th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" rowspan="1"
-                        colspan="1" aria-sort="ascending" aria-label="Date : activate to sort column descending" style="width: 10%;">
-                        Date
-                    </th>
-                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" rowspan="1"
-                        colspan="1" aria-label="Inventory Profile : activate to sort column ascending" style="width: 50%;">
-                        Inventory Profile
-                    </th>
-                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" rowspan="1"
-                        colspan="1" aria-label="Status : activate to sort column ascending" style="width: 10%;">
-                        Status
-                    </th>
-                </tr>
-                </thead>
-                <tbody role="alert" aria-live="polite" aria-relevant="all">
-                <tr dt-rows ng-repeat="profile in profiles" >
-                    <td class=" sorting_1"><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.type)" >{{profile.modifiedDate | date : 'mediumDate'}}</a></td>
-                    <td class=""><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.type)" >{{profile.name}}</a></td>
-                    <td class=""><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.type)" ><span style="color:#3AB050">{{profile.status}}</span></a></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>    
+        <summary-datatables profiles = "profiles"></summary-datatables>    
         <!-- Data table summary and Page Controls -->
         <div class="row row-padding">
         <!-- <page-controls></page-controls> -->
