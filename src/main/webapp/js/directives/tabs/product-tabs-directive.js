@@ -1,7 +1,7 @@
 (function() {
     var productTabs = sellInNamespace('sellIn.directives.producttabs');
 
-    function ProductTabs() {
+    function ProductTabsDirective() {
         return {
             restrict: 'E',
             controller: productTabs.ProductTabsController,
@@ -9,5 +9,5 @@
         };
     }
 
-    productTabs.ProductTabs = ProductTabs;
+    productTabs.ProductTabsDirective = ProductTabsDirective;
 })();

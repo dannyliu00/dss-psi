@@ -1,7 +1,8 @@
 (function() {
     var productTabs = sellInNamespace('sellIn.directives.producttabs');
 
-    angular.module('sellIn.directives.producttabs', [])
+    angular.module('sellIn.directives.producttabs', ['polaris.directives.tabs'])
+    	.directive('productTabsDirective',productTabs.ProductTabsDirective)
         .controller('productTabsController', productTabs.ProductTabsController)
         .constant('productTabs', [{name: 'ATV', url: 'profiles', isActive: 'active'},
                                   {name: 'Ranger', url: 'profiles', isActive: 'active'},
