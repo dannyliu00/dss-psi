@@ -18,6 +18,7 @@ angular.module('sellIn', [
         'sellIn.directives.reasonmodal',
         'sellIn.directives.savequantities',
         'sellIn.directives.summarydatatables',
+        'sellIn.directives.producttabs',
         'sellIn.resources.dealerProfiles',
         'sellIn.resources.dealerProfile',
         'sellIn.resources.dealer',
@@ -26,6 +27,7 @@ angular.module('sellIn', [
         'sellIn.pages.dealerProfileSummary',
         'sellIn.pages.profile',
         'sellIn.pages.default',
+        'sellIn.pages.dsmsummary',
         'sellIn.routing.paths',
         'sellIn.routing'
     ]);

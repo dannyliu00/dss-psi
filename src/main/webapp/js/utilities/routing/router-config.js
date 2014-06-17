@@ -5,7 +5,7 @@
                           defaultPageUrl, defaultPageControllerName, defaultPageTemplateUrl,
                           dealerSummaryPageUrl, dealerSummaryPageControllerName, dealerSummaryPageTemplateUrl,
                           profilePageUrl, profilePageControllerName, profilePageTemplateUrl,
-                          defaultRedirection) {
+                          defaultRedirection, dsmUrl, dsmTemplateUrl, dsmControllerName) {
 
         $routeProvider
             .when(defaultPageUrl, {
@@ -19,6 +19,10 @@
             .when(profilePageUrl, {
                 templateUrl: profilePageTemplateUrl,
                 controller: profilePageControllerName
+            })
+            .when(dsmUrl, {
+                templateUrl: dsmTemplateUrl,
+                controller: dsmControllerName
             })
             .otherwise({
                 redirectTo: defaultRedirection

@@ -11,6 +11,10 @@
         .constant('profilePageUrl', '/dealerProfile/:dealerId/profile/:profileId/type/:type')
         .constant('profilePageControllerName', 'profileController')
         .constant('profilePageTemplateUrl', 'js/pages/profile-detail/profile-detail-template.html')
+        
+        .constant('dsmUrl','/dsmSummary/:id')
+        .constant('dsmControllerName','dsmSummaryController')
+        .constant('dsmTemplateUrl','js/pages/dsm-summary/dsm-summary-template.html')
 
-        .constant('defaultRedirection', '/default');
+        .constant('defaultRedirection', '/dsmSummary/2926500');
 }());
