@@ -51,6 +51,17 @@ public class SegmentService {
 		
 		List<SegmentDto> dtos = mapper.mapToDto(complianceValues);
 		
+		for (SegmentDto dto : dtos) {
+			String name = dto.getName();
+			List<String> subSegments = new ArrayList<String>();
+			for (Segment segment : segments) {
+				if(segment.getName().equals(name)) {
+					subSegments.add(segment.getSubSegment());
+				}
+			}
+			dto.setSubSegment(subSegments);
+		}
+		
 		Segment jpaSegment = segments.get(0);
 		if(jpaSegment != null) {
 			for (SegmentDto dto : dtos) {
