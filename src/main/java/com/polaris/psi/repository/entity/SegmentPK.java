@@ -16,6 +16,8 @@ public class SegmentPK implements Serializable {
 	private String name;
 
 	private String type;
+	
+	private String subSegment;
 
 	/**
 	 * @return the name
@@ -44,6 +46,19 @@ public class SegmentPK implements Serializable {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+
+	/**
+	 * @return the subSegment
+	 */
+	public String getSubSegment() {
+		return subSegment;
+	}
+
+	/**
+	 * @param subSegment the subSegment to set
+	 */
+	public void setSubSegment(String subSegment) {
+		this.subSegment = subSegment;
+	}
 	
 }

@@ -42,6 +42,7 @@ public class Segment implements Serializable {
 	@Column(name = "MIPTYP")
 	private String type;
 
+	@Id
 	@Column(name = "MISBSG")
 	private String subSegment;
 	
