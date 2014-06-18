@@ -24,6 +24,9 @@ public class ProfileDto implements IBaseDto, Serializable {
 	private int recommended;
 	private int recMaximum;
 	private int actual;
+	private List<ProfilePeriodDto> periods;
+	private List<SegmentDto> segments;
+	private List<OrderSegmentDto> orderSegments;
 
 	/**
 	 * @return the actual
@@ -40,9 +43,6 @@ public class ProfileDto implements IBaseDto, Serializable {
 	public void setActual(int actual) {
 		this.actual = actual;
 	}
-
-	private List<IBaseDto> periods;
-	private List<IBaseDto> segments;
 
 	/**
 	 * @return the profileId
@@ -115,34 +115,6 @@ public class ProfileDto implements IBaseDto, Serializable {
 	}
 
 	/**
-	 * @return the segments
-	 */
-	public List<IBaseDto> getSegments() {
-		return segments;
-	}
-
-	/**
-	 * @param segments the segments to set
-	 */
-	public void setSegments(List<IBaseDto> segments) {
-		this.segments = segments;
-	}
-
-	/**
-	 * @return the periods
-	 */
-	public List<IBaseDto> getPeriods() {
-		return periods;
-	}
-
-	/**
-	 * @param periods the periods to set
-	 */
-	public void setPeriods(List<IBaseDto> periods) {
-		this.periods = periods;
-	}
-
-	/**
 	 * @return the recMinimum
 	 */
 	@Override
@@ -188,6 +160,48 @@ public class ProfileDto implements IBaseDto, Serializable {
 	@Override
 	public void setRecMaximum(int recMaximum) {
 		this.recMaximum = recMaximum;
+	}
+
+	/**
+	 * @return the periods
+	 */
+	public List<ProfilePeriodDto> getPeriods() {
+		return periods;
+	}
+
+	/**
+	 * @param periods the periods to set
+	 */
+	public void setPeriods(List<ProfilePeriodDto> periods) {
+		this.periods = periods;
+	}
+
+	/**
+	 * @return the segments
+	 */
+	public List<SegmentDto> getSegments() {
+		return segments;
+	}
+
+	/**
+	 * @param segments the segments to set
+	 */
+	public void setSegments(List<SegmentDto> segments) {
+		this.segments = segments;
+	}
+
+	/**
+	 * @return the orderSegments
+	 */
+	public List<OrderSegmentDto> getOrderSegments() {
+		return orderSegments;
+	}
+
+	/**
+	 * @param orderSegments the orderSegments to set
+	 */
+	public void setOrderSegments(List<OrderSegmentDto> orderSegments) {
+		this.orderSegments = orderSegments;
 	}
 
 }

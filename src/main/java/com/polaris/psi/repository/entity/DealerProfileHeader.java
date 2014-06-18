@@ -4,12 +4,15 @@
 package com.polaris.psi.repository.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -37,6 +40,9 @@ public class DealerProfileHeader implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "N7STID")
 	private DealerProfileHeaderStatus status;
+	
+	@OneToMany(mappedBy = "header", fetch=FetchType.EAGER)
+	private List<DealerProfileDetail> details;
 
 	/**
 	 * @return the id
@@ -93,7 +99,19 @@ public class DealerProfileHeader implements Serializable {
 	public void setStatus(DealerProfileHeaderStatus status) {
 		this.status = status;
 	}
-	
-	
+
+	/**
+	 * @return the details
+	 */
+	public List<DealerProfileDetail> getDetails() {
+		return details;
+	}
+
+	/**
+	 * @param details the details to set
+	 */
+	public void setDetails(List<DealerProfileDetail> details) {
+		this.details = details;
+	}
 	
 }

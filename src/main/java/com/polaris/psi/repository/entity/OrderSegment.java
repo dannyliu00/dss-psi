@@ -1,70 +1,59 @@
+/**
+ * 
+ */
 package com.polaris.psi.repository.entity;
+
+import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-
+/**
+ * @author bericks
+ *
+ */
 @Entity
-@Table(name = "Profile.OT074F_ProfileAndOrderSegments")
-public class OrderSegment {
-
+@Table(name = "Profile.OT025F")
+public class OrderSegment implements Serializable {
+	
+	private static final long serialVersionUID = -6602907903969618969L;
+	
 	@Id
-	@Column(name = "N4PSID")
-	private int id;
+	@Column(name = "C7OSEG")
+	private String name;
 	
-	@ManyToOne
-	@JoinColumn(name = "N4IPID")
-	private Profile profile;
-	
-	@OneToOne
-	@JoinColumn(name = "N4OSEG")
-	private ProfileOrderSegmentCompliance compliance;
-	
+	@Id
+	@Column(name = "C7SBSG")
+	private String subSegment;
+
 	/**
-	 * @return the id
+	 * @return the name
 	 */
-	public int getId() {
-		return id;
+	public String getName() {
+		return name;
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param name the name to set
 	 */
-	public void setId(int id) {
-		this.id = id;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
-	 * @return the profile
+	 * @return the subSegment
 	 */
-	public Profile getProfile() {
-		return profile;
+	public String getSubSegment() {
+		return subSegment;
 	}
 
 	/**
-	 * @param profile the profile to set
+	 * @param subSegment the subSegment to set
 	 */
-	public void setProfile(Profile profile) {
-		this.profile = profile;
-	}
-
-	/**
-	 * @return the compliance
-	 */
-	public ProfileOrderSegmentCompliance getCompliance() {
-		return compliance;
-	}
-
-	/**
-	 * @param compliance the compliance to set
-	 */
-	public void setCompliance(ProfileOrderSegmentCompliance compliance) {
-		this.compliance = compliance;
+	public void setSubSegment(String subSegment) {
+		this.subSegment = subSegment;
 	}
 
 }

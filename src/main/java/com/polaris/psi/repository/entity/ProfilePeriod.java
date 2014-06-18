@@ -3,11 +3,13 @@
  */
 package com.polaris.psi.repository.entity;
 
-import java.util.Date;
+import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -16,8 +18,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Profile.OT070F_ProfilePeriod")
-public class ProfilePeriod {
+public class ProfilePeriod implements Serializable {
 	
+	private static final long serialVersionUID = 1110266738552683981L;
+
 	@Id
 	@Column(name = "N0PPID")
 	private int id;
@@ -33,6 +37,9 @@ public class ProfilePeriod {
 	
 	@Column(name = "N0EDAT")
 	private String endDate;
+	
+	@OneToMany
+	private List<ProfileAndPeriod> periods;
 	
 	/**
 	 * @return the id
@@ -102,6 +109,20 @@ public class ProfilePeriod {
 	 */
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
+	}
+
+	/**
+	 * @return the periods
+	 */
+	public List<ProfileAndPeriod> getPeriods() {
+		return periods;
+	}
+
+	/**
+	 * @param periods the periods to set
+	 */
+	public void setPeriods(List<ProfileAndPeriod> periods) {
+		this.periods = periods;
 	}
 	
 }

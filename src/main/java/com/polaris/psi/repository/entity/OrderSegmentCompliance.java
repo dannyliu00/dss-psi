@@ -19,7 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Profile.OT075F_ProfileSegmentRecommendation")
-public class ProfileOrderSegmentCompliance implements Serializable {
+public class OrderSegmentCompliance implements Serializable {
 	
 	private static final long serialVersionUID = 5400103451840365533L;
 
@@ -32,12 +32,11 @@ public class ProfileOrderSegmentCompliance implements Serializable {
 	private Profile profile;
 	
 	@OneToOne
-	@JoinColumn(name = "N5CODE")
+	@JoinColumn(name = "N5CODE", referencedColumnName = "N0CODE")
 	private ProfilePeriod profilePeriod;
 
-	@OneToOne
-	@JoinColumn(name = "N5OSEG", referencedColumnName = "N4OSEG")
-	private OrderSegment orderSegment;
+	@Column(name = "N5OSEG")
+	private String profileAndOrderSegment;
 	
 	@Column(name = "N5RMIN")
 	private Integer minimum;
@@ -91,17 +90,17 @@ public class ProfileOrderSegmentCompliance implements Serializable {
 	}
 
 	/**
-	 * @return the orderSegment
+	 * @return the profileAndOrderSegment
 	 */
-	public OrderSegment getOrderSegment() {
-		return orderSegment;
+	public String getProfileAndOrderSegment() {
+		return profileAndOrderSegment;
 	}
 
 	/**
-	 * @param orderSegment the orderSegment to set
+	 * @param profileAndOrderSegment the profileAndOrderSegment to set
 	 */
-	public void setOrderSegment(OrderSegment orderSegment) {
-		this.orderSegment = orderSegment;
+	public void setProfileAndOrderSegment(String profileAndOrderSegment) {
+		this.profileAndOrderSegment = profileAndOrderSegment;
 	}
 
 	/**

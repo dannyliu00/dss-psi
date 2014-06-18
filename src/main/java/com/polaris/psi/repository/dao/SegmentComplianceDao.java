@@ -10,7 +10,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.polaris.psi.repository.entity.Profile;
-import com.polaris.psi.repository.entity.ProfilePeriod;
+import com.polaris.psi.repository.entity.SegmentCompliance;
 import com.polaris.pwf.dao.AbstractPolarisDealersExtensionDao;
 
 /**
@@ -18,17 +18,16 @@ import com.polaris.pwf.dao.AbstractPolarisDealersExtensionDao;
  *
  */
 @Repository
-public class ProfilePeriodDao extends AbstractPolarisDealersExtensionDao<ProfilePeriod> {
+public class SegmentComplianceDao extends AbstractPolarisDealersExtensionDao<SegmentCompliance> {
 
-	public ProfilePeriodDao() {
-		super(ProfilePeriod.class);
+	public SegmentComplianceDao() {
+		super(SegmentCompliance.class);
 	}
 	
-	public List<ProfilePeriod> retrieveListByProfile(Profile profile) {
+	public List<SegmentCompliance> retrieveListByProfile(Profile profile) {
         Map<String, Object> keyMap = new HashMap<String, Object>(1);
         keyMap.put("profile", profile);
         
         return selectByMap(keyMap, null);
 	}
-
 }

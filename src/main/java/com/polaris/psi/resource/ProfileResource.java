@@ -15,6 +15,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.polaris.psi.resource.dto.IBaseDto;
@@ -25,6 +26,7 @@ import com.polaris.psi.resource.dto.SegmentDto;
 import com.polaris.psi.resource.dto.SegmentQuantityDto;
 import com.polaris.psi.resource.dto.util.ProfilePeriodTotalsCalculator;
 import com.polaris.psi.resource.dto.util.TotalsCalculator;
+import com.polaris.psi.service.ProfileService;
 
 /**
  * @author bericks
@@ -35,12 +37,15 @@ import com.polaris.psi.resource.dto.util.TotalsCalculator;
 @Path("/profile")
 public class ProfileResource {
 	
+	@Autowired
+	ProfileService service;
+	
 	@GET
     @Path("/{profileId}")
     @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
 	public ProfileDto getProfile(@PathParam("profileId") int profileId) {
 		
-		return buildProfile(profileId);
+		return service.getDealerProfile(profileId);
 	}
 	
 	private ProfileDto buildProfile(int profileId) {
@@ -53,8 +58,8 @@ public class ProfileResource {
 			profile.setProfileId(profileId);
 			profile.setStatus("Not Started");
 
-			profile.setPeriods(buildMotorcycleProfilePeriods());
-			profile.setSegments(buildMotorcycleSegments());
+//			profile.setPeriods(buildMotorcycleProfilePeriods());
+//			profile.setSegments(buildMotorcycleSegments());
 			break;
 
 		case 998:
@@ -64,8 +69,8 @@ public class ProfileResource {
 			profile.setProfileId(profileId);
 			profile.setStatus("Not Started");
 			
-			profile.setPeriods(buildATVProfilePeriods());
-			profile.setSegments(buildATVSegments());
+//			profile.setPeriods(buildATVProfilePeriods());
+//			profile.setSegments(buildATVSegments());
 		default:
 			break;
 		}
@@ -74,7 +79,7 @@ public class ProfileResource {
 		ppCalc.calculateProfilePeriodTotals(profile);
 
 		TotalsCalculator calculator = new TotalsCalculator();
-		calculator.calculateTotals(profile, profile.getSegments());
+//		calculator.calculateTotals(profile, profile.getSegments());
 		if(profile.getType().equals("motorcycle")) {
 			profile.setRecMinimum(profile.getRecommended() - 1);
 			profile.setRecMaximum(profile.getRecommended() + 2);
@@ -306,7 +311,7 @@ public class ProfileResource {
 	private List<IBaseDto> buildATVSegments() {
 		List<IBaseDto> segments = new ArrayList<IBaseDto>();
 		SegmentDto rangerXP = new SegmentDto();
-		rangerXP.setActualQty(0);
+		rangerXP.setActual(0);
 		rangerXP.setName("Ranger XP");
 		rangerXP.setRecommended(0);
 		rangerXP.setSegmentId(1);

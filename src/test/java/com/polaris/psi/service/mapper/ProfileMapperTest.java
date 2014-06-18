@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.polaris.psi.repository.entity.Profile;
-import com.polaris.psi.repository.entity.ProfileSegmentCompliance;
+import com.polaris.psi.repository.entity.SegmentCompliance;
 import com.polaris.psi.repository.entity.ProfileStatus;
 import com.polaris.psi.resource.dto.ProfileDto;
 import com.polaris.psi.util.CommonUtils;
@@ -29,8 +29,8 @@ public class ProfileMapperTest {
 	private String expectedTargetCompleteDate, expectedName, expectedStatus;
 	private Date expectedModifiedDate;
 
-	private List<ProfileSegmentCompliance> segmentComplianceValues;
-	@Mock private ProfileSegmentCompliance mockSegmentCompliance;
+	private List<SegmentCompliance> segmentComplianceValues;
+	@Mock private SegmentCompliance mockSegmentCompliance;
 
 	@Before
 	public void setUp() throws Exception {
@@ -81,7 +81,7 @@ public class ProfileMapperTest {
 	@Test
 	public void testGetMaxValues() {
 		expectedMax = 5;
-		segmentComplianceValues = new LinkedList<ProfileSegmentCompliance>();
+		segmentComplianceValues = new LinkedList<SegmentCompliance>();
 		segmentComplianceValues.add(mockSegmentCompliance);
 		
 		when(mockSegmentCompliance.getMaximum()).thenReturn(expectedMax);
@@ -94,7 +94,7 @@ public class ProfileMapperTest {
 	@Test
 	public void testGetMinValues() {
 		expectedMin = 1;
-		segmentComplianceValues = new LinkedList<ProfileSegmentCompliance>();
+		segmentComplianceValues = new LinkedList<SegmentCompliance>();
 		segmentComplianceValues.add(mockSegmentCompliance);
 		
 		when(mockSegmentCompliance.getMinimum()).thenReturn(expectedMin);

@@ -16,7 +16,7 @@ public class SegmentDto implements IBaseDto, Serializable {
 	
 	private int segmentId;
 	private String name;
-	private int actualQty;
+	private String type;
 	private int recommended;
 	private int recMinimum;
 	private int recMaximum;
@@ -54,17 +54,17 @@ public class SegmentDto implements IBaseDto, Serializable {
 	}
 
 	/**
-	 * @return the actualQty
+	 * @return the type
 	 */
-	public int getActualQty() {
-		return actualQty;
+	public String getType() {
+		return type;
 	}
 
 	/**
-	 * @param actualQty the actualQty to set
+	 * @param type the type to set
 	 */
-	public void setActualQty(int actualQty) {
-		this.actualQty = actualQty;
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	/**

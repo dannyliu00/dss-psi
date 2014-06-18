@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -19,7 +18,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Profile.OT076F_ProfileSuperSegmentCompliance")
-public class ProfileSegmentCompliance implements Serializable {
+public class SegmentCompliance implements Serializable {
 
 	private static final long serialVersionUID = 4992914637184597272L;
 
@@ -37,9 +36,8 @@ public class ProfileSegmentCompliance implements Serializable {
 	@Column(name = "N6DLR")
 	private int dealerId;
 	
-	@OneToOne
-	@JoinColumn(name = "N6SPSEG", referencedColumnName="MISPSG")
-	private Segment segment;
+	@Column(name = "N6SPSEG")
+	private String name;
 	
 	@Column(name = "N6SMIN")
 	private Integer minimum;
@@ -107,17 +105,17 @@ public class ProfileSegmentCompliance implements Serializable {
 	}
 
 	/**
-	 * @return the segment
+	 * @return the name
 	 */
-	public Segment getSegment() {
-		return segment;
+	public String getName() {
+		return name;
 	}
 
 	/**
-	 * @param segment the segment to set
+	 * @param name the name to set
 	 */
-	public void setSegment(Segment segment) {
-		this.segment = segment;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**

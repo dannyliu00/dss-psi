@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.polaris.psi.repository.entity;
 
 import java.io.Serializable;
@@ -12,15 +9,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-/**
- * @author bericks
- *
- */
 @Entity
 @Table(name = "Profile.OT074F_ProfileAndOrderSegments")
-public class ProfileAndOrderSegment implements Serializable {
+public class ProfileOrderSegment implements Serializable {
 
-	private static final long serialVersionUID = 1754237798468732332L;
+	private static final long serialVersionUID = 1632247106000620871L;
 
 	@Id
 	@Column(name = "N4PSID")
@@ -32,7 +25,7 @@ public class ProfileAndOrderSegment implements Serializable {
 	
 	@Column(name = "N4OSEG")
 	private String name;
-
+	
 	/**
 	 * @return the id
 	 */
@@ -74,5 +67,5 @@ public class ProfileAndOrderSegment implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 }

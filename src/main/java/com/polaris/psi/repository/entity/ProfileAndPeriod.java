@@ -4,14 +4,13 @@
 package com.polaris.psi.repository.entity;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -32,9 +31,9 @@ public class ProfileAndPeriod implements Serializable {
 	@JoinColumn(name = "N3IPID")
 	private Profile profile;
 
-	@OneToMany
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "N3PPID")
-	private List<ProfilePeriod> periods;
+	private ProfilePeriod period;
 
 	/**
 	 * @return the id
@@ -65,17 +64,17 @@ public class ProfileAndPeriod implements Serializable {
 	}
 
 	/**
-	 * @return the periods
+	 * @return the period
 	 */
-	public List<ProfilePeriod> getPeriods() {
-		return periods;
+	public ProfilePeriod getPeriod() {
+		return period;
 	}
 
 	/**
-	 * @param periods the periods to set
+	 * @param period the period to set
 	 */
-	public void setPeriods(List<ProfilePeriod> periods) {
-		this.periods = periods;
+	public void setPeriod(ProfilePeriod period) {
+		this.period = period;
 	}
 
 }

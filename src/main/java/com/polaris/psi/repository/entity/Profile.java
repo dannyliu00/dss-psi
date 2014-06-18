@@ -42,21 +42,21 @@ public class Profile implements Serializable {
 	@Column(name = "N1LGLT")
 	private String legalText;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "profile", fetch=FetchType.LAZY)
 	private List<ProfileAndPeriod> periods;
 	
-	@OneToMany
-	private List<OrderSegment> orderSegments;
+	@OneToMany(mappedBy = "profile", fetch=FetchType.LAZY)
+	private List<ProfileAndOrderSegment> profileAndOrderSegments;
 	
-	@OneToMany
-	private List<ProfileOrderSegmentCompliance> osComplianceValues;
+	@OneToMany(mappedBy = "profile", fetch=FetchType.LAZY)
+	private List<OrderSegmentCompliance> osComplianceValues;
 	
-	@OneToMany(mappedBy = "profile")
-	private List<ProfileSegmentCompliance> segmentComplianceValues;
+	@OneToMany(mappedBy = "profile", fetch=FetchType.LAZY)
+	private List<SegmentCompliance> segmentComplianceValues;
 	
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "profile", fetch=FetchType.LAZY)
 	private List<DealerProfileHeader> profileHeaders;
-
+	
 	/**
 	 * @return the id
 	 */
@@ -144,21 +144,21 @@ public class Profile implements Serializable {
 	/**
 	 * @return the orderSegments
 	 */
-	public List<OrderSegment> getOrderSegments() {
-		return orderSegments;
+	public List<ProfileAndOrderSegment> getProfileAndOrderSegments() {
+		return profileAndOrderSegments;
 	}
 
 	/**
 	 * @param orderSegments the orderSegments to set
 	 */
-	public void setOrderSegments(List<OrderSegment> orderSegments) {
-		this.orderSegments = orderSegments;
+	public void setProfileAndOrderSegments(List<ProfileAndOrderSegment> profileAndOrderSegments) {
+		this.profileAndOrderSegments = profileAndOrderSegments;
 	}
 
 	/**
 	 * @return the osComplianceValues
 	 */
-	public List<ProfileOrderSegmentCompliance> getOsComplianceValues() {
+	public List<OrderSegmentCompliance> getOsComplianceValues() {
 		return osComplianceValues;
 	}
 
@@ -166,14 +166,14 @@ public class Profile implements Serializable {
 	 * @param osComplianceValues the osComplianceValues to set
 	 */
 	public void setOsComplianceValues(
-			List<ProfileOrderSegmentCompliance> osComplianceValues) {
+			List<OrderSegmentCompliance> osComplianceValues) {
 		this.osComplianceValues = osComplianceValues;
 	}
 
 	/**
 	 * @return the segmentComplianceValues
 	 */
-	public List<ProfileSegmentCompliance> getSegmentComplianceValues() {
+	public List<SegmentCompliance> getSegmentComplianceValues() {
 		return segmentComplianceValues;
 	}
 
@@ -181,7 +181,7 @@ public class Profile implements Serializable {
 	 * @param segmentComplianceValues the segmentComplianceValues to set
 	 */
 	public void setSegmentComplianceValues(
-			List<ProfileSegmentCompliance> segmentComplianceValues) {
+			List<SegmentCompliance> segmentComplianceValues) {
 		this.segmentComplianceValues = segmentComplianceValues;
 	}
 

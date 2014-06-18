@@ -4,6 +4,7 @@
 package com.polaris.psi.resource.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,10 +17,14 @@ public class OrderSegmentDto implements IBaseDto, Serializable {
 	
 	private int id;
 	private String name;
+	private String subSegment;
 	private int recMinimum;
 	private int recommended;
 	private int recMaximum;
 	private int actual;
+	private String period;
+	private int periodId;
+	private Date periodStartDate;
 	
 	private List<IBaseDto> quantities;
 	
@@ -49,6 +54,20 @@ public class OrderSegmentDto implements IBaseDto, Serializable {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * @return the subSegment
+	 */
+	public String getSubSegment() {
+		return subSegment;
+	}
+
+	/**
+	 * @param subSegment the subSegment to set
+	 */
+	public void setSubSegment(String subSegment) {
+		this.subSegment = subSegment;
 	}
 
 	/**
@@ -115,6 +134,48 @@ public class OrderSegmentDto implements IBaseDto, Serializable {
 		this.actual = actual;
 	}
 	
+	/**
+	 * @return the period
+	 */
+	public String getPeriod() {
+		return period;
+	}
+
+	/**
+	 * @param period the period to set
+	 */
+	public void setPeriod(String period) {
+		this.period = period;
+	}
+
+	/**
+	 * @return the periodId
+	 */
+	public int getPeriodId() {
+		return periodId;
+	}
+
+	/**
+	 * @param periodId the periodId to set
+	 */
+	public void setPeriodId(int periodId) {
+		this.periodId = periodId;
+	}
+
+	/**
+	 * @return the periodStartDate
+	 */
+	public Date getPeriodStartDate() {
+		return periodStartDate;
+	}
+
+	/**
+	 * @param periodStartDate the periodStartDate to set
+	 */
+	public void setPeriodStartDate(Date periodStartDate) {
+		this.periodStartDate = periodStartDate;
+	}
+
 	/**
 	 * @return the quantities
 	 */
