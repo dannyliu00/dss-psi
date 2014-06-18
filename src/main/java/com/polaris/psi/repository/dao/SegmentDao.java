@@ -1,5 +1,6 @@
 package com.polaris.psi.repository.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.TypedQuery;
@@ -27,7 +28,7 @@ public class SegmentDao extends AbstractPolarisDealersExtensionDao<Segment> {
 		List<Segment> segments = query.getResultList();
 		entityManager.close();
 		
-	    return segments;
+	    return filterBySubsegment(segments);
 	}
 	
 	public List<Segment> retrieveListBySubSegment(String subSegment) {
@@ -38,5 +39,16 @@ public class SegmentDao extends AbstractPolarisDealersExtensionDao<Segment> {
 		entityManager.close();
 		
 	    return segments;
+	}
+	
+	protected List<Segment> filterBySubsegment(List<Segment> segments) {
+		List<Segment> finalSegments = new ArrayList<Segment>();
+		
+		for (Segment segment : segments) {
+			String subSegment = segment.getSubSegment();
+			if(subSegment != null && subSegment.length() > 0) finalSegments.add(segment);
+		}
+		
+		return finalSegments;
 	}
 }
