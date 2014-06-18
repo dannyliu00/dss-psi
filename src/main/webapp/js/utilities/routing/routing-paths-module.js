@@ -16,5 +16,5 @@
         .constant('dsmControllerName','dsmSummaryController')
         .constant('dsmTemplateUrl','js/pages/dsm-summary/dsm-summary-template.html')
 
-        .constant('defaultRedirection', '/dsmSummary/2926500');
+        .constant('defaultRedirection', '/default');
 }());
