@@ -18,21 +18,31 @@
             .then(function(returnedProfile) {
                 $scope.profile = returnedProfile;
                 $scope.segments = returnedProfile.segments;
-
-                var orderSegments = [];
-                for (var i = 0; i < returnedProfile.segments.length; i++) {
-                    var os = returnedProfile.segments[i].orderSegments;
-                    for (var j = 0; j < os.length; j++) {
-                        orderSegments.push(orderSegmentResourceMapper.mapFromRest(os[j], returnedProfile.segments[i]));
-                    }
-                }
-                $scope.orderSegments = orderSegments;
+                $scope.orderSegments = returnedProfile.orderSegments;
+                $scope.distinctOS = findDistinctOSes($scope.orderSegments);
             })
             .then(function() {
                 $scope.recGrandTotal = $scope.profile.recommended;
                 $scope.actualGrandTotal = $scope.getActualGrandTotal();
         });
-    	
+
+        function findDistinctOSes(data) {
+            var keys = [];
+
+            if(data.length > 1) {
+                keys.push(data[0].name);
+
+                for(var i = 1; i < data.length; i++) {
+                    var newName = data[i].name;
+                    if(keys.indexOf(newName) == -1) {
+                        keys.push(newName);
+                    }
+                }
+            }
+
+            return keys;
+        }
+
         $scope.dtOptions = DTOptionsBuilder.newOptions()
             .withPaginationType('full_numbers')
             .withDisplayLength(10)
@@ -54,10 +64,13 @@
         
         $scope.getActualGrandTotal = function() {
 	    	for(var j=0; j < $scope.profile.periods.length; j++) {
+                var periodId = $scope.profile.periods[j].id;
 	            var actQty = 0;
 	            for(var i=0; i < $scope.orderSegments.length; i++) {
 	                var orderSegment = $scope.orderSegments[i];
-	                actQty = actQty + orderSegment.quantities[j].actual;
+                    if(orderSegment.profileId === periodId) {
+	                    actQty = actQty + orderSegment.actual;
+                    }
 	            }
 	            $scope.profile.periods[j].actual = actQty;
 	    	}

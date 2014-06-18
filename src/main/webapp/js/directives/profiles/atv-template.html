@@ -21,12 +21,12 @@
                     </tr>
                     </thead>
                     <tbody role="alert" aria-live="polite" aria-relevant="all">
-                    <tr ng-repeat="orderSegment in orderSegments" class="odd">
-                        <td class="">{{orderSegment.name}}</td>
-                        <td ng-repeat="qty in orderSegment.quantities" class="text-center"><span>{{qty.recMinimum}} - {{qty.recommended}} - {{qty.recMaximum}}<br/>
+                    <tr ng-repeat="key in distinctOS" class="odd">
+                        <td class="">{{key}}</td>
+                        <td ng-repeat="os in orderSegments | filter:{name: key}" class="text-center"><span>{{os.recMinimum}} - {{os.recommended}} - {{os.recMaximum}}<br/>
                                 <input tabindex="0"
-                                       ng-class="{noncompliant: qty.actual < qty.recMinimum || qty.actual > qty.recMaximum}"
-                                       ng-model="qty.actual"
+                                       ng-class="{noncompliant: os.actual < os.recMinimum || os.actual > os.recMaximum}"
+                                       ng-model="os.actual"
                                        class="text-center"
                                        type="number"
                                        min="0"
@@ -37,7 +37,8 @@
                     </tr>
                     </tbody>
                 </table>
-            </div>        </div>
+            </div>
+        </div>
     </div>
 </div>
 <!-- Data table summary and Page Controls -->
