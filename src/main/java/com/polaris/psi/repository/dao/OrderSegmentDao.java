@@ -22,7 +22,9 @@ public class OrderSegmentDao extends AbstractPolarisDealersExtensionDao<OrderSeg
         
         List<OrderSegment> orderSegments = selectByMap(keyMap, null);
         
-        if(orderSegments.size() > 0 ) return orderSegments.get(0);
+        if(orderSegments.size() > 0 && orderSegments.get(0).getSubSegment() != null) {
+        	return orderSegments.get(0);
+        }
         
         return null;
 	}
