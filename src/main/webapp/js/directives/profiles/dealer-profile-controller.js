@@ -56,7 +56,9 @@
                 var os = $scope.orderSegments[i];
                 var osActual = angular.isNumber(os.actual) ? parseInt(os.actual) : 0;
                 total = total + osActual;
-                sumSegmentTotal(os.segmentName, os.id, osActual);
+                if(os.subSegment !== null) {
+                	sumSegmentTotal(os.subSegment);
+                }
             }
             $scope.actualGrandTotal = total;
         	$scope.dirtyIndicator = $scope.dirtyIndicator + 1;
@@ -68,7 +70,7 @@
 	            var actQty = 0;
 	            for(var i=0; i < $scope.orderSegments.length; i++) {
 	                var orderSegment = $scope.orderSegments[i];
-                    if(orderSegment.profileId === periodId) {
+                    if(orderSegment.periodId === periodId) {
 	                    actQty = actQty + orderSegment.actual;
                     }
 	            }
@@ -77,26 +79,38 @@
 	    	$scope.dirtyIndicator = $scope.dirtyIndicator + 1;
 	    };
 
-        function sumSegmentTotal(segmentName, osId, newValue) {
-            var segment = getSegment(segmentName);
+        function sumSegmentTotal(sub) {
+            var segment = getSegment(sub);
             var total = 0;
-            for(var i=0; i < segment.orderSegments.length; i++) {
-                var orderSegment = segment.orderSegments[i];
-                if(orderSegment.id === osId) {
-                    orderSegment.actual = newValue;
+            for(var i=0; i < $scope.orderSegments.length; i++) {
+            	var checkList = segment.subSegments.indexOf($scope.orderSegments[i].subSegment);
+                if(checkList !== -1) {
+                total = total + parseInt($scope.orderSegments[i].actual);
                 }
-                total = total + parseInt(orderSegment.actual);
-            }
             segment.actual = total;
+            }
         }
 
-        function getSegment(name) {
+        function getSegment(subSegment) {
+        	
             for(var i=0; i < $scope.segments.length; i++) {
-                if($scope.segments[i].name === name) {
+            	var listCheck = $scope.segments[i].subSegments.indexOf(subSegment);
+                if(listCheck !== -1) {
                     return $scope.segments[i];
+                    i = $scope.segments.length;
                 }
             }
         }
+        
+//        $scope.segName = function(subSegment) {
+//        	var segmentName = "";
+//        	for(var j=0; j<$scope.segments.length; j++) {
+//        		If($scope.segments[j].subSegment === subSegment) {
+//        			segmentName = $scope.segments[j].name;
+//        		}
+//        		return segmentName;
+//        	};	
+//        };
     }
 
     dealerProfiles.DealerProfileDirectiveController = DealerProfileDirectiveController;
