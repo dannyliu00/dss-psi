@@ -21,12 +21,9 @@
             $scope.sumActualValues();
        }
        
-        function autoFillATV() { 
-    	   for(var j=0; j < $scope.profile.periods.length; j++) {
+        function autoFillATV() {
                for(var i=0; i < $scope.orderSegments.length; i++) {
-                   var orderSegment = $scope.orderSegments[i];
-                   orderSegment.quantities[j].actual= orderSegment.quantities[j].recommended;
-               		}
+                   $scope.orderSegments[i].actual= $scope.orderSegments[i].recommended;
                }
            $scope.getActualGrandTotal();
        }
