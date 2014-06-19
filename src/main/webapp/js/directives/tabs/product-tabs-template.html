@@ -1,8 +1,3 @@
-<ul class="nav nav-tabs">
-    <li ng-repeat="productTab in ProductTabs" class="{{productTab.isActive}}">
-        <a ng-href="{{productTab.url}}" data-toggle="productTab">
-            {{productTab.name}}
-            <tabs></tabs>
-        </a>
-    </li>
-</ul>
+<tabset justified = "true">
+	<tab ng-repeat="productTab in productTabs" heading="{{productTab.name}}" active="productTab.isActive" ng-click="tabContent(productTab.content)"></tab>
+</tabset>
