@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import com.polaris.psi.repository.entity.PSIProfileDetail;
 
@@ -16,6 +17,7 @@ import com.polaris.psi.repository.entity.PSIProfileDetail;
  * @author bericks
  *
  */
+@Repository
 public class PSIProfileDetailDao extends AbstractPolarisMinneapolisDao<PSIProfileDetail> {
 
 	private static Logger LOG = Logger.getLogger(PSIProfileDetailDao.class);
