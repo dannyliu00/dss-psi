@@ -18,7 +18,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.polaris.psi.repository.entity.PSIOrderSegment;
-import com.polaris.psi.repository.entity.PSIProfileDetail;
 
 public class PSIOrderSegmentDaoTest {
 	
