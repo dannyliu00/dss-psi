@@ -22,8 +22,8 @@
                 $scope.distinctOS = findDistinctOSes($scope.orderSegments);
             })
             .then(function() {
-                $scope.recGrandTotal = $scope.profile.recommended;
                 $scope.actualGrandTotal = $scope.getActualGrandTotal();
+                $scope.recommendedGrandTotal = $scope.getRecTotals();
         });
 
         function findDistinctOSes(data) {
@@ -49,54 +49,106 @@
             .withBootstrap();
         
         $scope.dealerEmail = "";
-          
-        $scope.sumActualValues = function() {
-            var total = 0;
-            for(var i = 0; i < $scope.orderSegments.length; i++) {
-                var os = $scope.orderSegments[i];
-                var osActual = angular.isNumber(os.actual) ? parseInt(os.actual) : 0;
-                total = total + osActual;
-                if(os.subSegment !== null) {
-                	sumSegmentTotal(os.subSegment);
-                }
-            }
-            $scope.actualGrandTotal = total;
-        	$scope.dirtyIndicator = $scope.dirtyIndicator + 1;
-        };
         
-        $scope.getActualGrandTotal = function() {
+        $scope.getRecTotals = function() {
+        	var totalRecQty = 0;
 	    	for(var j=0; j < $scope.profile.periods.length; j++) {
                 var periodId = $scope.profile.periods[j].id;
-	            var actQty = 0;
+	            var recQty = 0, recMin = 0, recMax = 0;
+	            for(var i=0; i < $scope.orderSegments.length; i++) {
+	            	var orderSegment = $scope.orderSegments[i];
+	            	if(($scope.profile.type === "motorcycle") && (orderSegment.subSegment !== null)) {
+	            		recSegmentTotal(orderSegment.subSegment);
+	            	}
+                    if(orderSegment.periodId === periodId) {
+	                    recQty = recQty + orderSegment.recommended;
+	                    recMin = recMin + orderSegment.recMinimum;
+	                    recMax = recMax + orderSegment.recMaximum;
+                    }
+	            }
+	            totalRecQty = totalRecQty + recQty;
+	            $scope.profile.periods[j].recommended = recQty;
+	            $scope.profile.periods[j].recMinimum = recMin;
+	            $scope.profile.periods[j].recMaximum = recMax;
+	    	}
+	    	return totalRecQty;
+	    	$scope.dirtyIndicator = $scope.dirtyIndicator + 1;
+	    };
+	    
+	    function recSegmentTotal(sub) {
+            var segment = getSegment(sub);
+            var total = 0;
+            for(var i=0; i < $scope.orderSegments.length; i++) {
+            	var checkList = segment.subSegments.indexOf($scope.orderSegments[i].subSegment);
+                if(checkList !== -1) {
+                total = total + parseInt($scope.orderSegments[i].recommended);
+                }
+            segment.recommended = total;
+            }
+        }
+
+        function getSegment(subSegment) {
+        	for (var i=0; i<$scope.segments.length; i++) {
+        		var listCheck = $scope.segments[i].subSegments.indexOf(subSegment);
+        		if(listCheck !== -1) {
+        			return $scope.segments[i];
+        			i = $scope.segments.length;
+        		}
+        	}	
+        }
+          
+        $scope.getActualGrandTotal = function() {
+        	var totalQty = 0;
+	    	for(var j=0; j < $scope.profile.periods.length; j++) {
+                var periodId = $scope.profile.periods[j].id;
+	            var actQty = 0;    
 	            for(var i=0; i < $scope.orderSegments.length; i++) {
 	                var orderSegment = $scope.orderSegments[i];
                     if(orderSegment.periodId === periodId) {
 	                    actQty = actQty + orderSegment.actual;
                     }
 	            }
+	            totalQty = totalQty + actQty;
 	            $scope.profile.periods[j].actual = actQty;
 	    	}
+	    	return totalQty;
 	    	$scope.dirtyIndicator = $scope.dirtyIndicator + 1;
 	    };
-
+	    
+		$scope.sumActualValues = function() {
+		     var total = 0;
+		     for(var i = 0; i < $scope.orderSegments.length; i++) {
+		    	 var os = $scope.orderSegments[i];
+		         var osActual = angular.isNumber(os.actual) ? parseInt(os.actual) : 0;
+		         total = total + osActual;
+		         if(os.subSegment !== null) {
+		              sumSegmentTotal(os.subSegment);
+		            }
+		         }
+		     $scope.actualGrandTotal = total;
+		     $scope.dirtyIndicator = $scope.dirtyIndicator + 1;
+		};
+		
         function sumSegmentTotal(sub) {
             var segment = getSegment(sub);
             var total = 0;
             for(var i=0; i < $scope.orderSegments.length; i++) {
             	var checkList = segment.subSegments.indexOf($scope.orderSegments[i].subSegment);
                 if(checkList !== -1) {
-                total = total + parseInt($scope.orderSegments[i].actual);
-                }
+                	total = total + parseInt($scope.orderSegments[i].actual);
+                	}
             segment.actual = total;
             }
         }
 
         function getSegment(subSegment) {
-            var listCheck = $scope.segments[i].subSegments.indexOf(subSegment);
-            if(listCheck !== -1) {
-                return $scope.segments[i];
-                i = $scope.segments.length;
-             }
+        	for (var i=0; i<$scope.segments.length; i++) {
+        		var listCheck = $scope.segments[i].subSegments.indexOf(subSegment);
+        		if(listCheck !== -1) {
+        			return $scope.segments[i];
+        			i = $scope.segments.length;
+        		}
+        	}	
         }
         
         $scope.segName = function(sub) {
@@ -110,6 +162,18 @@
         			}
         	}
         	return segmentName;
+        };
+        
+        $scope.segmentTotalOS = function(segment) {
+        	var totalOS = 0;
+        	for (var i=0; i<$scope.orderSegments.length; i++) {
+        		if(segment.subSegments.indexOf($scope.orderSegments[i].subSegment) !== -1) {
+        			if($scope.orderSegments[i].actual > 0) {
+        				totalOS += totalOS;
+        			}
+        		}	
+        	}
+        	return totalOS;
         };
     }
     dealerProfiles.DealerProfileDirectiveController = DealerProfileDirectiveController;
