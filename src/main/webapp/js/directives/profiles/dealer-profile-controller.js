@@ -92,26 +92,25 @@
         }
 
         function getSegment(subSegment) {
-        	
-            for(var i=0; i < $scope.segments.length; i++) {
-            	var listCheck = $scope.segments[i].subSegments.indexOf(subSegment);
-                if(listCheck !== -1) {
-                    return $scope.segments[i];
-                    i = $scope.segments.length;
-                }
-            }
+            var listCheck = $scope.segments[i].subSegments.indexOf(subSegment);
+            if(listCheck !== -1) {
+                return $scope.segments[i];
+                i = $scope.segments.length;
+             }
         }
         
-//        $scope.segName = function(subSegment) {
-//        	var segmentName = "";
-//        	for(var j=0; j<$scope.segments.length; j++) {
-//        		If($scope.segments[j].subSegment === subSegment) {
-//        			segmentName = $scope.segments[j].name;
-//        		}
-//        		return segmentName;
-//        	};	
-//        };
+        $scope.segName = function(sub) {
+        	var nameCheck = 0;
+        	var segmentName = "";
+        	for (var i=0; i<$scope.segments.length; i++) {
+        		nameCheck = $scope.segments[i].subSegments;
+        		if(nameCheck.indexOf(sub) !== -1) {
+        			segmentName = $scope.segments[i].name;
+        			i = $scope.segments.length;
+        			}
+        	}
+        	return segmentName;
+        };
     }
-
     dealerProfiles.DealerProfileDirectiveController = DealerProfileDirectiveController;
 })();
