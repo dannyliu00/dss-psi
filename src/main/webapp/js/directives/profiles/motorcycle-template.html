@@ -25,7 +25,7 @@
                     </thead>
                     <tbody role="alert" aria-live="polite" aria-relevant="all">
                     <tr ng-repeat="orderSegment in orderSegments" class="odd">
-                        <td class="">{{orderSegment.segmentName}}</td>
+                        <td ng-class="">{{segName(orderSegment.subSegment)}}</td>
                         <td class="">{{orderSegment.name}}</td>
                         <td class="text-center"><span>{{orderSegment.recommended}}&nbsp;&nbsp;&nbsp;&nbsp;
                             <input tabindex="0"
@@ -39,7 +39,7 @@
                                    ng-change="sumActualValues()"></span>
                         </td>
                     </tr>
-                    </tbody>
+					</tbody>
                 </table>
             </div>
         </div>
@@ -76,11 +76,11 @@
                     <td class="">{{segment.name}}</td>
                     <td class="text-center">{{segment.recommended}}</td>
                     <td class="text-center" ng-class="{noncompliant: segment.actual < segment.recommended}" >{{segment.actual}}</td>
-                    <td class="text-center" ng-class="{noncompliant: qty.actual < qty.minimum || qty.actual > qty.maximum}" >{{segment.actual}} / {{segment.minimum}}</td>
+                    <td class="text-center" ng-class="{noncompliant: qty.actual < qty.minimum || qty.actual > qty.maximum}" >{{segmentTotalOS(segment)}} / {{segment.recommendedOSCount}}</td>
                 </tr>
                 <tr class="even">
                     <td class="text-left">Grand Total</td>
-                    <td class="text-center">{{profile.recMinimum}} - {{profile.recommended}} - {{profile.recMaximum}}</td>
+                    <td class="text-center">{{recommendedGrandTotal - 1}} - {{recommendedGrandTotal}} - {{recommendedGrandTotal + 2}}</td>
                     <td ng-class="{noncompliant: actualGrandTotal < profile.recMinimum || actualGrandTotal > profile.recMaximum}" class="text-center">{{actualGrandTotal}}</td>
                     <td></td>
                 </tr>
