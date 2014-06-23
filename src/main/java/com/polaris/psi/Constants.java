@@ -13,10 +13,8 @@ public class Constants {
 
     public static final String PROGRAM_NAME = "Inventory Profile Sell-In";
     public static String APPLICATION_GUID = "02E0E350-DA3B-4C84-BB26-9B1E8F5A9862";
+    
+    public static final Integer DEALER_NOT_CANCELED_CODE = 0;
 
-	//Caches
-	public final static String VALID_VALUES_CACHE = "app-ValidValues";
-	public final static String VALID_VALUES_MAP_CACHE = "app-ValidValuesMap";
-	public final static String VALID_VALUES_MAP_ALL_CACHE = "app-ValidValuesMapAll";
 }
 
