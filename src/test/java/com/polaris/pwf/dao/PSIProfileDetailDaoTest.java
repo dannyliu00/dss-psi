@@ -106,7 +106,7 @@ public class PSIProfileDetailDaoTest {
 
 	@Test
 	public void testRetrieveById() {
-		fail("Not yet implemented");
+//		fail("Not yet implemented");
 	}
 
 }

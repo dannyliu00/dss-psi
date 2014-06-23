@@ -18,7 +18,7 @@ import com.polaris.psi.repository.entity.PSIProfileDetail;
  *
  */
 @Repository
-public class PSIProfileDetailDao extends AbstractPolarisMinneapolisDao<PSIProfileDetail> {
+public class PSIProfileDetailDao extends AbstractPolarisDealersExtensionDao<PSIProfileDetail> {
 
 	private static Logger LOG = Logger.getLogger(PSIProfileDetailDao.class);
 
@@ -26,8 +26,8 @@ public class PSIProfileDetailDao extends AbstractPolarisMinneapolisDao<PSIProfil
 			+ "select header.N7DHID, detail.N8DDID, detail.N8PSID, detail.N8DQTY, "
 			+ "detail.N8DCOD, detail.N8DCOM, detail.N8SQTY, detail.N8SCOD, detail.N8SCOM, detail.N8AQTY, "
 			+ "detail.N8ACOD, detail.N8ACOM, detail.N8QTY "
-			+ "from Profile.OT077F_DealerProfileHeader header "
-			+ "left outer join Profile.OT078F_DealerProfileDetail detail on detail.N8DHID = header.N7DHID "
+			+ "from OT077F header "
+			+ "left outer join OT078F detail on detail.N8DHID = header.N7DHID "
 			+ "where header.N7DHID = :headerId";
 
 	public PSIProfileDetailDao() {
