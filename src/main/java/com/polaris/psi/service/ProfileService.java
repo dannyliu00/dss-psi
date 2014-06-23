@@ -3,7 +3,6 @@
  */
 package com.polaris.psi.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.polaris.psi.repository.dao.DealerProfileHeaderDao;
 import com.polaris.psi.repository.dao.ProfileDao;
-import com.polaris.psi.repository.entity.DealerProfileHeader;
+import com.polaris.psi.repository.entity.PSIOrderSegment;
+import com.polaris.psi.repository.entity.PSIProfile;
+import com.polaris.psi.repository.entity.PSIProfileDetail;
+import com.polaris.psi.repository.entity.PSISegment;
 import com.polaris.psi.repository.entity.Profile;
 import com.polaris.psi.repository.entity.Segment;
 import com.polaris.psi.repository.entity.SegmentCompliance;
@@ -19,8 +21,13 @@ import com.polaris.psi.resource.dto.OrderSegmentDto;
 import com.polaris.psi.resource.dto.ProfileDto;
 import com.polaris.psi.resource.dto.ProfilePeriodDto;
 import com.polaris.psi.resource.dto.SegmentDto;
+import com.polaris.psi.service.mapper.PSIProfileMapper;
 import com.polaris.psi.service.mapper.ProfileMapper;
 import com.polaris.psi.service.mapper.ProfileTypeMapper;
+import com.polaris.pwf.dao.PSIOrderSegmentDao;
+import com.polaris.pwf.dao.PSIProfileDao;
+import com.polaris.pwf.dao.PSIProfileDetailDao;
+import com.polaris.pwf.dao.PSISegmentDao;
 
 /**
  * @author bericks
@@ -36,6 +43,18 @@ public class ProfileService {
 	ProfileDao profileDao;
 	
 	@Autowired
+	PSIProfileDao psiProfileDao;
+	
+	@Autowired
+	PSIProfileDetailDao psiDetailDao;
+	
+	@Autowired
+	PSISegmentDao psiSegmentDao;
+	
+	@Autowired
+	PSIOrderSegmentDao psiOsDao;
+	
+	@Autowired
 	SegmentService segmentService;
 	
 	@Autowired
@@ -48,39 +67,27 @@ public class ProfileService {
 	ProfileMapper mapper;
 	
 	@Autowired
+	PSIProfileMapper profileMapper;
+	
+	@Autowired
 	ProfileTypeMapper typeMapper;
 	
 	public List<ProfileDto> getDealerProfiles(int dealerId) {
-		List<DealerProfileHeader> profileHeaders = headerDao.getDealerHeaders(dealerId);
-		List<Profile> profiles = new ArrayList<Profile>();
-		List<ProfileDto> dtos = new ArrayList<ProfileDto>();
-
-		for (DealerProfileHeader header : profileHeaders) {
-			Profile profile = header.getProfile();
-			profiles.add(profile);
-		}
-
-		for (Profile profile : profiles) {
-			ProfileDto profileDto = mapper.mapToDto(profile);
-
-			List<OrderSegmentDto> orderSegments = orderSegmentService.retrieveByProfile(profile);
-			if(orderSegments.size() > 0) {
-				List<SegmentDto> segmentDtos = segmentService.retrieveBySubSegment(orderSegments.get(0).getSubSegment());
-				typeMapper.mapTypeToProfile(segmentDtos.get(0).getType(), profileDto);
-			}
-
-			List<SegmentDto> segments = segmentService.retrieveByProfile(profile);
-			if(segments.size() > 0) {
-				profileDto.setSegments(segments);
-			}
-
-			dtos.add(profileDto);
-		}
-
-		return dtos;
+		
+		List<PSIProfile> psiProfiles = psiProfileDao.retrieveListByDealerId(dealerId);
+		List<ProfileDto> psiDtos = profileMapper.mapToDto(psiProfiles);
+		
+		return psiDtos;
 	}
 
 	public ProfileDto getDealerProfile(int profileId) {
+		
+		PSIProfile psiProfile = psiProfileDao.retrieveProfileById(profileId);
+		List<PSIProfileDetail> details = psiDetailDao.retrieveByHeaderId(psiProfile.getHeaderId());
+		List<PSIOrderSegment> psiOSes = psiOsDao.retrieveByProfileAndDealer(psiProfile.getId(), psiProfile.getDealer());
+		List<PSISegment> psiSegments = psiSegmentDao.retrieveByProfileDealerAndType(
+				psiProfile.getId(), psiProfile.getDealer(), psiProfile.getType());
+		
     	Profile profile = profileDao.retrieveProfileById(profileId);
     	ProfileDto dto = mapper.mapToDto(profile);
     	
