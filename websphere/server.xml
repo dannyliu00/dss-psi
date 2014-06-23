@@ -37,7 +37,13 @@
         <properties databaseName="PolarisDealersExtension" password="G7v2x3i1" serverName="mpl1devsql007.polarisdev.com" user="PolarisWebExtn"/>
     </dataSource>
     
-    <dataSource id="as400jdbc" jndiName="as400/POLMPLSPGA" type="javax.sql.DataSource">
+    <dataSource id="as400jdbc-psi" jndiName="as400/POLDEV" type="javax.sql.DataSource">
+        <jdbcDriver libraryRef="as400JDBCLibs"/>
+        <connectionManager maxPoolSize="20" minPoolSize="5"/>
+        <properties.db2.i.toolbox naming="system" libraries="hgbasqua, files" password="Inventory Profile Sell In poldev" serverName="POLDEV.POLARISIND.COM" translateBinary="true" user="SRVPSI"/>
+    </dataSource>
+    
+    <dataSource id="as400jdbc-pga" jndiName="as400/POLPGA" type="javax.sql.DataSource">
         <jdbcDriver libraryRef="as400JDBCLibs"/>
         <connectionManager maxPoolSize="20" minPoolSize="5"/>
         <properties.db2.i.toolbox naming="system" password="webteam26" serverName="POLDEV.POLARISIND.COM" translateBinary="true" user="webteam"/>
