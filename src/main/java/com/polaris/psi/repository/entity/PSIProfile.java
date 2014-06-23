@@ -14,14 +14,15 @@ public class PSIProfile implements Serializable {
 
 	private static final long serialVersionUID = 8073663052640811578L;
 	
-	private int id;
+	private Integer id;
 	private Date targetCompleteDate;
 	private String name;
+	private String profileStatus;
 	private String status;
 	private String type;
 	private String legalText;
-	private int headerId;
-	private int dealer;
+	private Integer headerId;
+	private Integer dealer;
 	private String email;
 	private Date submittedDate;
 	private Date approvedDate;
@@ -29,14 +30,14 @@ public class PSIProfile implements Serializable {
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	
@@ -68,6 +69,20 @@ public class PSIProfile implements Serializable {
 		this.name = name;
 	}
 	
+	/**
+	 * @return the profileStatus
+	 */
+	public String getProfileStatus() {
+		return profileStatus;
+	}
+
+	/**
+	 * @param profileStatus the profileStatus to set
+	 */
+	public void setProfileStatus(String profileStatus) {
+		this.profileStatus = profileStatus;
+	}
+
 	/**
 	 * @return the status
 	 */
@@ -113,28 +128,28 @@ public class PSIProfile implements Serializable {
 	/**
 	 * @return the headerId
 	 */
-	public int getHeaderId() {
+	public Integer getHeaderId() {
 		return headerId;
 	}
 
 	/**
 	 * @param headerId the headerId to set
 	 */
-	public void setHeaderId(int headerId) {
+	public void setHeaderId(Integer headerId) {
 		this.headerId = headerId;
 	}
 
 	/**
 	 * @return the dealer
 	 */
-	public int getDealer() {
+	public Integer getDealer() {
 		return dealer;
 	}
 	
 	/**
 	 * @param dealer the dealer to set
 	 */
-	public void setDealer(int dealer) {
+	public void setDealer(Integer dealer) {
 		this.dealer = dealer;
 	}
 	
@@ -190,7 +205,8 @@ public class PSIProfile implements Serializable {
 		result = prime * result + dealer;
 		result = prime * result + id;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result
+				+ ((profileStatus == null) ? 0 : profileStatus.hashCode());
 		result = prime
 				* result
 				+ ((targetCompleteDate == null) ? 0 : targetCompleteDate
@@ -220,10 +236,10 @@ public class PSIProfile implements Serializable {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (status == null) {
-			if (other.status != null)
+		if (profileStatus == null) {
+			if (other.profileStatus != null)
 				return false;
-		} else if (!status.equals(other.status))
+		} else if (!profileStatus.equals(other.profileStatus))
 			return false;
 		if (targetCompleteDate == null) {
 			if (other.targetCompleteDate != null)
@@ -244,8 +260,8 @@ public class PSIProfile implements Serializable {
 	@Override
 	public String toString() {
 		return "PSIProfile [id=" + id + ", targetCompleteDate="
-				+ targetCompleteDate + ", name=" + name + ", status=" + status
-				+ ", type=" + type + ", dealer=" + dealer + "]";
+				+ targetCompleteDate + ", name=" + name + ", profileStatus="
+				+ profileStatus + ", type=" + type + ", dealer=" + dealer + "]";
 	}
-	
+
 }
