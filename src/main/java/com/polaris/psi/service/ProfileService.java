@@ -80,13 +80,13 @@ public class ProfileService {
 		return psiDtos;
 	}
 
-	public ProfileDto getDealerProfile(int profileId) {
+	public ProfileDto getDealerProfile(int profileId, int dealerId) {
 		
 		PSIProfile psiProfile = psiProfileDao.retrieveProfileById(profileId);
 		List<PSIProfileDetail> details = psiDetailDao.retrieveByHeaderId(psiProfile.getHeaderId());
-		List<PSIOrderSegment> psiOSes = psiOsDao.retrieveByProfileAndDealer(psiProfile.getId(), psiProfile.getDealer());
+		List<PSIOrderSegment> psiOSes = psiOsDao.retrieveByProfileAndDealer(psiProfile.getId(), dealerId);
 		List<PSISegment> psiSegments = psiSegmentDao.retrieveByProfileDealerAndType(
-				psiProfile.getId(), psiProfile.getDealer(), psiProfile.getType());
+				psiProfile.getId(), dealerId, psiProfile.getType());
 		
     	Profile profile = profileDao.retrieveProfileById(profileId);
     	ProfileDto dto = mapper.mapToDto(profile);

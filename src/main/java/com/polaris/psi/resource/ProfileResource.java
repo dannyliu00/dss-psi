@@ -27,6 +27,7 @@ import com.polaris.psi.resource.dto.SegmentQuantityDto;
 import com.polaris.psi.resource.dto.util.ProfilePeriodTotalsCalculator;
 import com.polaris.psi.resource.dto.util.TotalsCalculator;
 import com.polaris.psi.service.ProfileService;
+import com.polaris.pwf.session.SessionHelper;
 
 /**
  * @author bericks
@@ -38,14 +39,21 @@ import com.polaris.psi.service.ProfileService;
 public class ProfileResource {
 	
 	@Autowired
+	SessionHelper sessionHelper;
+	
+	@Autowired
 	ProfileService service;
 	
 	@GET
     @Path("/{profileId}")
     @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
-	public ProfileDto getProfile(@PathParam("profileId") int profileId) {
+	public ProfileDto getProfile(@PathParam("profileId") int profileId, @PathParam("dealerId") int dealerId) {
 		
-		return service.getDealerProfile(profileId);
+		if(sessionHelper.getUserData().isDealer()) {
+			return service.getDealerProfile(profileId, sessionHelper.getUserData().getDealerId());
+		} else {
+			return service.getDealerProfile(profileId, dealerId);
+		}
 	}
 	
 	private ProfileDto buildProfile(int profileId) {
