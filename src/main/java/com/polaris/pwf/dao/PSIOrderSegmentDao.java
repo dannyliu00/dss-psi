@@ -3,6 +3,7 @@
  */
 package com.polaris.pwf.dao;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,16 +51,16 @@ public class PSIOrderSegmentDao extends AbstractPolarisMinneapolisDao<PSIOrderSe
 		List<PSIOrderSegment> orderSegments = new ArrayList<PSIOrderSegment>();
 		for (Object[] result : results) {
 			PSIOrderSegment os = new PSIOrderSegment();
-			os.setId((Integer) result[0]);
+			os.setId(CommonUtils.convertToInteger((BigDecimal) result[0]));
 			os.setName(CommonUtils.trimString((String) result[1]));
-			os.setSort((Integer) result[2]);
+			os.setSort(CommonUtils.convertToInteger((BigDecimal) result[2]));
 			os.setSubSegment(CommonUtils.trimString((String) result[3]));
-			os.setComplianceId((Integer) result[4]);
+			os.setComplianceId(CommonUtils.convertToInteger((BigDecimal) result[4]));
 			os.setPeriodCode(CommonUtils.trimString((String) result[5]));
-			os.setDealerId((Integer) result[6]);
-			os.setRecMinimum((Integer) result[7]);
-			os.setRecommended((Integer) result[8]);
-			os.setRecMaximum((Integer) result[9]);
+			os.setDealerId(CommonUtils.convertToInteger((BigDecimal) result[6]));
+			os.setRecMinimum(CommonUtils.convertToInteger((BigDecimal) result[7]));
+			os.setRecommended(CommonUtils.convertToInteger((BigDecimal) result[8]));
+			os.setRecMaximum(CommonUtils.convertToInteger((BigDecimal) result[9]));
 			
 			orderSegments.add(os);
 		}

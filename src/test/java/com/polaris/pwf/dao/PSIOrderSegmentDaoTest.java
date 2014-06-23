@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +27,8 @@ public class PSIOrderSegmentDaoTest {
 	@Mock private Query mockQuery;
 	private Object[] mockResult;
 	private List<Object[]> mockResults;
-	private Integer expectedId, expectedProfileId, expectedDealerId, expectedSort, expectedComplianceId;
-	private Integer expectedMin, expectedRec, expectedMax;
+	private Integer expectedProfileId, expectedDealerId;
+	private BigDecimal expectedId, expectedSort, expectedComplianceId, expectedMin, expectedRec, expectedMax;
 	private String expectedName, expectedSubSegment, expectedPeriodCode;
 
 	@Before
@@ -36,12 +37,13 @@ public class PSIOrderSegmentDaoTest {
 		
 		expectedProfileId = 999;
 		expectedDealerId = 888;
-		expectedComplianceId = 777;
-		expectedId = 100;
-		expectedSort = 1;
-		expectedMin = 1;
-		expectedRec = 3;
-		expectedMax = 5;
+
+		expectedComplianceId = new BigDecimal(777);
+		expectedId = new BigDecimal(100);
+		expectedSort = new BigDecimal(1);
+		expectedMin = new BigDecimal(1);
+		expectedRec = new BigDecimal(3);
+		expectedMax = new BigDecimal(5);
 		expectedName = "UT OS Name";
 		expectedSubSegment = "UT SubSegment";
 		expectedPeriodCode = "UT Period";
@@ -53,7 +55,7 @@ public class PSIOrderSegmentDaoTest {
 		mockResult[3] = expectedSubSegment;
 		mockResult[4] = expectedComplianceId;
 		mockResult[5] = expectedPeriodCode;
-		mockResult[6] = expectedDealerId;
+		mockResult[6] = new BigDecimal(expectedDealerId);
 		mockResult[7] = expectedMin;
 		mockResult[8] = expectedRec;
 		mockResult[9] = expectedMax;
@@ -82,16 +84,16 @@ public class PSIOrderSegmentDaoTest {
 
 		assertEquals(results.size(), 1);
 		PSIOrderSegment result = results.get(0);
-		assertEquals(expectedId, result.getId());
+		assertEquals(expectedId.intValueExact(), result.getId().intValue());
 		assertEquals(expectedName, result.getName());
-		assertEquals(expectedSort, result.getSort());
+		assertEquals(expectedSort.intValueExact(), result.getSort().intValue());
 		assertEquals(expectedSubSegment, result.getSubSegment());
-		assertEquals(expectedComplianceId, result.getComplianceId());
+		assertEquals(expectedComplianceId.intValueExact(), result.getComplianceId().intValue());
 		assertEquals(expectedPeriodCode, result.getPeriodCode());
 		assertEquals(expectedDealerId, result.getDealerId());
-		assertEquals(expectedMin, result.getRecMinimum());
-		assertEquals(expectedRec, result.getRecommended());
-		assertEquals(expectedMax, result.getRecMaximum());
+		assertEquals(expectedMin.intValueExact(), result.getRecMinimum().intValue());
+		assertEquals(expectedRec.intValueExact(), result.getRecommended().intValue());
+		assertEquals(expectedMax.intValueExact(), result.getRecMaximum().intValue());
 		
 		verifyNoMoreInteractions(mockEM, mockQuery);
 	}
