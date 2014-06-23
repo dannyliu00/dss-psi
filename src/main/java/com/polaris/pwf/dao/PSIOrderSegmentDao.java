@@ -18,16 +18,16 @@ import com.polaris.psi.repository.entity.PSIOrderSegment;
  *
  */
 @Repository
-public class PSIOrderSegmentDao extends AbstractPolarisDealersExtensionDao<PSIOrderSegment> {
+public class PSIOrderSegmentDao extends AbstractPolarisMinneapolisDao<PSIOrderSegment> {
 
 	private static Logger LOG = Logger.getLogger(PSIOrderSegmentDao.class);
 	
 	private static String QUERY_BY_PROFILE_AND_DEALER = ""
 			+ "SELECT pandos.N4PSID, pandos.N4OSEG, pandos.N4SORT, "
 			+ "os.C7SBSG, oscomp.N5ID, oscomp.N5CODE, oscomp.N5DLR, oscomp.N5RMIN, oscomp.N5REC, oscomp.N5RMAX "
-			+ "FROM Profile.OT074F_ProfileAndOrderSegments pandos inner join Profile.OT025F os on os.C7OSEG = pandos.N4OSEG "
-			+ "inner join Profile.OT075F_ProfileSegmentRecommendation oscomp on oscomp.N5IPID = pandos.N4IPID and oscomp.N5OSEG = pandos.N4OSEG "
-			+ "WHERE pandos.N4IPID = :profileId AND oscomp.N5DLR = :dealerId";
+			+ "  FROM OT074F pandos INNER JOIN OT025F os ON os.C7OSEG = pandos.N4OSEG "
+			+ "  INNER JOIN OT075F oscomp ON oscomp.N5IPID = pandos.N4IPID AND oscomp.N5OSEG = pandos.N4OSEG "
+			+ " WHERE pandos.N4IPID = :profileId AND oscomp.N5DLR = :dealerId";
 	
 	public PSIOrderSegmentDao() {
 		super(PSIOrderSegment.class);

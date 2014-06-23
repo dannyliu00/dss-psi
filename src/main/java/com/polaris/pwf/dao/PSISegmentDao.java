@@ -18,14 +18,14 @@ import com.polaris.psi.repository.entity.PSISegment;
  *
  */
 @Repository
-public class PSISegmentDao extends AbstractPolarisDealersExtensionDao<PSISegment> {
+public class PSISegmentDao extends AbstractPolarisMinneapolisDao<PSISegment> {
 
 	private static Logger LOG = Logger.getLogger(PSISegmentDao.class);
 
 	private static String QUERY_BY_PROFILE_DEALER_AND_TYPE = ""
-			+ "SELECT distinct segComp.N6ID, segComp.N6CODE, segComp.N6SPSEG, segComp.N6SMIN, segComp.N6SMAX, segments.MISBSG "
-			+ "FROM Profile.OT076F_ProfileSuperSegmentCompliance segComp inner join Profile.FG004F segments "
-			+ "on segComp.N6SPSEG = segments.MISPSG "
+			+ "SELECT distinct segComp.N6ID, segComp.N6CODE, segComp.N6SSID, segComp.N6SMIN, segComp.N6SMAX, segments.MISBSG "
+			+ "FROM OT076F segComp inner join FG004F segments "
+			+ "on segComp.N6SSID = segments.MISPSG "
 			+ "WHERE segComp.N6IPID = :profileId and segComp.N6DLR = :dealerId and segments.MIPTYP = :type";
 
 	public PSISegmentDao() {

@@ -31,7 +31,8 @@ public class PSIProfileDaoTest {
 	private List<Object[]> mockResults;
 	private BigDecimal expectedId, expectedHeaderId, expectedDealer;
 	private Date expectedDate, expectedSubmittedDate, expectedApprovedDate;
-	private String expectedName, expectedStatus, expectedType, expectedLegal, expectedEmail;
+	private Character expectedLegal;
+	private String expectedName, expectedProfileStatus, expectedStatus, expectedType, expectedEmail;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -46,23 +47,25 @@ public class PSIProfileDaoTest {
 		expectedApprovedDate = expectedDate;
 		
 		expectedName = "UT Name";
+		expectedProfileStatus = "UT Profile Status";
 		expectedStatus = "UT Status";
 		expectedType = "UT Type";
-		expectedLegal = "UT Legal Text";
+		expectedLegal = new Character('c');
 		expectedEmail = "ut@test.local";
 		
-		mockResult = new Object[11];
-		mockResult[0] = expectedId;
-		mockResult[1] = expectedName;
-		mockResult[2] = expectedDate;
-		mockResult[3] = expectedType;
-		mockResult[4] = expectedStatus;
-		mockResult[5] = expectedLegal;
-		mockResult[6] = expectedHeaderId;
-		mockResult[7] = expectedDealer;
-		mockResult[8] = expectedEmail;
-		mockResult[9] = expectedSubmittedDate;
-		mockResult[10] = expectedApprovedDate;
+		mockResult = new Object[12];
+		mockResult[0] = expectedProfileStatus;
+		mockResult[1] = expectedId;
+		mockResult[2] = expectedName;
+		mockResult[3] = expectedDate;
+		mockResult[4] = expectedType;
+		mockResult[5] = expectedStatus;
+		mockResult[6] = expectedLegal;
+		mockResult[7] = expectedHeaderId;
+		mockResult[8] = expectedDealer;
+		mockResult[9] = expectedEmail;
+		mockResult[10] = expectedSubmittedDate;
+		mockResult[11] = expectedApprovedDate;
 		
 		mockResults = new ArrayList<Object[]>();
 		mockResults.add(mockResult);
@@ -89,8 +92,9 @@ public class PSIProfileDaoTest {
 		
 		assertEquals(results.size(), 1);
 		PSIProfile result = results.get(0);
-		assertEquals(expectedId.intValue(), result.getId());
+		assertEquals(expectedId.intValue(), result.getId().intValue());
 		assertEquals(expectedName, result.getName());
+		assertEquals(expectedProfileStatus, result.getProfileStatus());
 		assertEquals(expectedStatus, result.getStatus());
 		assertEquals(expectedDate, result.getTargetCompleteDate());
 		assertEquals(expectedType, result.getType());
@@ -109,7 +113,7 @@ public class PSIProfileDaoTest {
 		verify(mockQuery).getResultList();
 		verify(mockEM).close();
 		
-		assertEquals(expectedId.intValue(), result.getId());
+		assertEquals(expectedId.intValue(), result.getId().intValue());
 		assertEquals(expectedName, result.getName());
 		assertEquals(expectedStatus, result.getStatus());
 		assertEquals(expectedDate, result.getTargetCompleteDate());
