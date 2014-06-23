@@ -4,7 +4,6 @@
     <featureManager>
         <feature>jsp-2.2</feature>
         <feature>localConnector-1.0</feature>
-    	<feature>jaxws-2.2</feature>
 		<feature>jdbc-4.0</feature>
 		<feature>jpa-2.0</feature>
 		<feature>jaxrs-1.1</feature>
@@ -19,6 +18,8 @@
     <httpEndpoint host="*" httpPort="29080" httpsPort="29443" id="defaultHttpEndpoint"/>
 
     <applicationMonitor updateTrigger="mbean"/>
+	
+	<classloading useJarUrls="true"/>
 
     <library id="as400JDBCLibs">
         <fileset dir="libs" includes="jt400.jar"/>
@@ -39,13 +40,13 @@
     <dataSource id="as400jdbc" jndiName="as400/POLMPLSPGA" type="javax.sql.DataSource">
         <jdbcDriver libraryRef="as400JDBCLibs"/>
         <connectionManager maxPoolSize="20" minPoolSize="5"/>
-        <properties.db2.i.toolbox naming="system" password="webteam26" serverName="S102PC4M.POLARISIND.COM" translateBinary="true" user="webteam"/>
+        <properties.db2.i.toolbox naming="system" password="webteam26" serverName="POLDEV.POLARISIND.COM" translateBinary="true" user="webteam"/>
     </dataSource>
     
     <dataSource id="polarisDealersDb" jndiName="sql/PolarisDealers" type="javax.sql.DataSource">
         <jdbcDriver javax.sql.ConnectionPoolDataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource" javax.sql.DataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource" javax.sql.XADataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource" libraryRef="MSSQL2008JDBCLibs"/>
         <connectionManager maxPoolSize="20" minPoolSize="5"/>
-        <properties databaseName="PolarisDealers" password="webguest" serverName="mpl1devsql033.polarisdev.com" user="PolarisWeb"/>
+        <properties databaseName="PolarisDealers" password="webguest" serverName="mpl1devsql003.polarisind.com" user="PolarisWeb"/>
     </dataSource>
     
     <dataSource id="PolarisDealersCommon" jndiName="sql/PolarisDealersCommon" type="javax.sql.DataSource">
@@ -56,4 +57,5 @@
 
     <logging traceSpecification="openjpa=all"/>
 
+    <webApplication id="dss-psi" location="dss-psi.war" name="dss-psi"/>
 </server>
