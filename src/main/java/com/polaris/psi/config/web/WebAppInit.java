@@ -32,14 +32,6 @@ public class WebAppInit implements WebApplicationInitializer {
 		jerseyDispatcherServlet.setLoadOnStartup(1);
 		jerseyDispatcherServlet.addMapping("/webapi/*");
 
-		// MVC Configuration
-//		AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
-//		dispatcherContext.register(MvcConfig.class);
-//
-//		ServletRegistration.Dynamic registration = servletContext.addServlet("dispatcher", new DispatcherServlet(dispatcherContext));
-//		registration.setLoadOnStartup(1);
-//		registration.addMapping("/*");
-
 		rootContext.registerShutdownHook();
 	}
 }
