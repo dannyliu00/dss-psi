@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.polaris.psi.repository.entity.PSIProfileDetail;
+import com.polaris.psi.util.CommonUtils;
 
 /**
  * @author bericks
@@ -54,13 +55,13 @@ public class PSIProfileDetailDao extends AbstractPolarisMinneapolisDao<PSIProfil
 			detail.setProfileOrderSegmentId((Integer) result[2]);
 			detail.setRequestedQty((Integer) result[3]);
 			detail.setReasonCode((Integer) result[4]);
-			detail.setDealerComments(((String) result[5]).trim());
+			detail.setDealerComments(CommonUtils.trimString((String) result[5]));
 			detail.setDsmQty((Integer) result[6]);
 			detail.setDsmReasonCode((Integer) result[7]);
-			detail.setDsmComments(((String) result[8]).trim());
+			detail.setDsmComments(CommonUtils.trimString((String) result[8]));
 			detail.setAdminQty((Integer) result[9]);
 			detail.setAdminReasonCode((Integer) result[10]);
-			detail.setAdminComments(((String) result[11]).trim());
+			detail.setAdminComments(CommonUtils.trimString((String) result[11]));
 			detail.setFinalQty((Integer) result[12]);
 			
 			details.add(detail);

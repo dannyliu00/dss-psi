@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.polaris.psi.repository.entity.PSIOrderSegment;
+import com.polaris.psi.util.CommonUtils;
 
 /**
  * @author bericks
@@ -50,11 +51,11 @@ public class PSIOrderSegmentDao extends AbstractPolarisMinneapolisDao<PSIOrderSe
 		for (Object[] result : results) {
 			PSIOrderSegment os = new PSIOrderSegment();
 			os.setId((Integer) result[0]);
-			os.setName(((String) result[1]).trim());
+			os.setName(CommonUtils.trimString((String) result[1]));
 			os.setSort((Integer) result[2]);
-			os.setSubSegment(((String) result[3]).trim());
+			os.setSubSegment(CommonUtils.trimString((String) result[3]));
 			os.setComplianceId((Integer) result[4]);
-			os.setPeriodCode(((String) result[5]).trim());
+			os.setPeriodCode(CommonUtils.trimString((String) result[5]));
 			os.setDealerId((Integer) result[6]);
 			os.setRecMinimum((Integer) result[7]);
 			os.setRecommended((Integer) result[8]);

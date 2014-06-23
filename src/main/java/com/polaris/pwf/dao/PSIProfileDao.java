@@ -62,12 +62,12 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 		List<PSIProfile> profiles = new ArrayList<PSIProfile>();
 		for (Object[] result : results) {
 			PSIProfile profile = new PSIProfile();
-			profile.setProfileStatus(trimString((String) result[0]));
+			profile.setProfileStatus(CommonUtils.trimString((String) result[0]));
 			profile.setId(((BigDecimal) result[1]).intValueExact());
-			profile.setName(trimString((String) result[2]));
+			profile.setName(CommonUtils.trimString((String) result[2]));
 			profile.setTargetCompleteDate((Date) result[3]);
-			profile.setType(trimString((String) result[4]));
-			profile.setStatus(trimString((String) result[5]));
+			profile.setType(CommonUtils.trimString((String) result[4]));
+			profile.setStatus(CommonUtils.trimString((String) result[5]));
 			
 			profiles.add(profile);
 		}
@@ -95,45 +95,21 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 		Object[] result = results.get(0);
 
 		PSIProfile profile = new PSIProfile();
-		profile.setProfileStatus(trimString((String) result[0]));
-		profile.setId(convertToInteger((BigDecimal) result[1]));
-		profile.setName(trimString((String) result[2]));
+		profile.setProfileStatus(CommonUtils.trimString((String) result[0]));
+		profile.setId(CommonUtils.convertToInteger((BigDecimal) result[1]));
+		profile.setName(CommonUtils.trimString((String) result[2]));
 		profile.setTargetCompleteDate((Date) result[3]);
-		profile.setType(trimString((String) result[4]));
-		profile.setStatus(trimString((String) result[5]));
-		profile.setLegalText(trimString((Character) result[6]));
-		profile.setHeaderId(convertToInteger((BigDecimal) result[7]));
-		profile.setDealer(convertToInteger((BigDecimal) result[8]));
-		profile.setEmail(trimString((String) result[9]));
+		profile.setType(CommonUtils.trimString((String) result[4]));
+		profile.setStatus(CommonUtils.trimString((String) result[5]));
+		profile.setLegalText(CommonUtils.trimString((Character) result[6]));
+		profile.setHeaderId(CommonUtils.convertToInteger((BigDecimal) result[7]));
+		profile.setDealer(CommonUtils.convertToInteger((BigDecimal) result[8]));
+		profile.setEmail(CommonUtils.trimString((String) result[9]));
 		profile.setSubmittedDate((Date) result[10]); 
 		profile.setApprovedDate((Date) result[11]);
 		
 		entityManager.close();
 		
 		return profile;
-	}
-	
-	protected Integer convertToInteger(BigDecimal value) {
-		if(value == null) return null;
-		
-		return value.intValueExact();
-	}
-	
-	protected String trimString(Character value) {
-		if(value == null) return null;
-		
-		return trimString(value.toString());
-	}
-	
-	protected String trimString(String value) {
-		if(value == null) return null;
-		
-		return value.trim();
-	}
-	
-	protected Date convertDate(String value) {
-		if(value == null) return null;
-		
-		return CommonUtils.convertDate(value);
 	}
 }

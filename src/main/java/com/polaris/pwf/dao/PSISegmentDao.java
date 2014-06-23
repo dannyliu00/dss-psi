@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.polaris.psi.repository.entity.PSISegment;
+import com.polaris.psi.util.CommonUtils;
 
 /**
  * @author bericks
@@ -50,8 +51,8 @@ public class PSISegmentDao extends AbstractPolarisMinneapolisDao<PSISegment> {
 		for (Object[] result : results) {
 			PSISegment segment = new PSISegment();
 			segment.setId((Integer) result[0]);
-			segment.setPeriodCode(((String) result[1]).trim());
-			segment.setName(((String) result[2]).trim());
+			segment.setPeriodCode(CommonUtils.trimString((String) result[1]));
+			segment.setName(CommonUtils.trimString((String) result[2]));
 			segment.setRecMinimum((Integer) result[3]);
 			segment.setRecMaximum((Integer) result[4]);
 			segment.setSubSegment((String) result[5]);
