@@ -29,7 +29,7 @@ public class AppSpringConfig {
 
 	@Bean(name = PolarisMinneapolisDataSource.DATASOURCE_BEAN_NAME)
 	public DataSource polarisMinneapolisDataSource() {
-		return JndiUtil.lookupDataSource("as400/POLMPLSPGA");
+		return JndiUtil.lookupDataSource("as400/POLDEV");
 	}
 
 	@Bean(name = PolarisDealersExtensionDataSource.DATASOURCE_BEAN_NAME)
