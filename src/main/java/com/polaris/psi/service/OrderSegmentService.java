@@ -17,6 +17,7 @@ import com.polaris.psi.repository.entity.OrderSegment;
 import com.polaris.psi.repository.entity.OrderSegmentCompliance;
 import com.polaris.psi.repository.entity.Profile;
 import com.polaris.psi.repository.entity.ProfileOrderSegment;
+import com.polaris.psi.repository.entity.Segment;
 import com.polaris.psi.resource.dto.OrderSegmentComparator;
 import com.polaris.psi.resource.dto.OrderSegmentDto;
 import com.polaris.psi.service.mapper.OrderSegmentMapper;
@@ -58,9 +59,20 @@ public class OrderSegmentService {
 			orderSegments.add(dto);
 		}
 		
-		Collections.sort(orderSegments, comparator);
+		Collections.sort(filterBySubsegment(orderSegments), comparator);
 
 		return orderSegments;
 	}
 	
+	
+	protected List<OrderSegmentDto> filterBySubsegment(List<OrderSegmentDto> orderSegments) {
+		List<OrderSegmentDto> finalOSes = new ArrayList<OrderSegmentDto>();
+		
+		for (OrderSegmentDto orderSegment : orderSegments) {
+			String subSegment = orderSegment.getSubSegment();
+			if(subSegment != null && subSegment.length() > 0) finalOSes.add(orderSegment);
+		}
+		
+		return finalOSes;
+	}
 }

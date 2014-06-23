@@ -46,7 +46,7 @@ public class DealerServiceTest {
 		when(mockMapper.mapToDto(mockDealer, mockDsm)).thenReturn(mockDto);
 		
 		service = new DealerService();
-		service.dao = mockDao;
+		service.dealerInfoDao = mockDao;
 		service.dsmDao = mockDsmDao;
 		service.mapper = mockMapper;
 	}
