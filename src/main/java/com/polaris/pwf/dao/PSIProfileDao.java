@@ -28,10 +28,10 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 	private static Logger LOG = Logger.getLogger(PSIProfileDao.class);
 	// AS/400 data source
 	private static String QUERY_BY_DEALER_AND_CANCELED = ""
-			+ "SELECT profile.N1IPID, profile.N1DESC, profile.N1TDAT, profile.N1PDLN, CAST( CAST(status.N9DESC AS CHAR(50)) AS VARCHAR(50) "
-			+ "FROM Profile.cm006f dealer JOIN Profile.ot071f_Profile profile ON profile.N1PDLN = dealer.PTSFAM "
-			+ "LEFT OUTER JOIN Profile.ot077f_DealerProfileHeader header ON header.N7IPID = profile.N1IPID AND header.N7DLR  = dealer.ptcust "
-			+ "INNER JOIN Profile.ot079f_DealerProfileHeaderStatus status ON header.N7STID = status.N9STID "
+			+ "SELECT profile.N1IPID, profile.N1DESC, profile.N1TDAT, profile.N1PDLN, CAST( CAST(status.N9DESC AS CHAR(50)) AS VARCHAR(50)) "
+			+ "FROM cm006f dealer JOIN ot071f profile ON profile.N1PDLN = dealer.PTSFAM "
+			+ "LEFT OUTER JOIN ot077f header ON header.N7IPID = profile.N1IPID AND header.N7DLR  = dealer.ptcust "
+			+ "INNER JOIN ot079f status ON header.N7STID = status.N9STID "
 			+ "WHERE dealer.ptcust = :dealerId "
 			+ "AND dealer.PTCANDT= :canceled";
 // SQL Server (DealersExtension) data source
