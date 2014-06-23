@@ -26,6 +26,7 @@ public class PSIProfile implements Serializable {
 	private String email;
 	private Date submittedDate;
 	private Date approvedDate;
+	private Date lastModifiedDate;
 	
 	/**
 	 * @return the id
@@ -193,6 +194,20 @@ public class PSIProfile implements Serializable {
 	 */
 	public void setApprovedDate(Date approvedDate) {
 		this.approvedDate = approvedDate;
+	}
+
+	/**
+	 * @return the lastModifiedDate
+	 */
+	public Date getLastModifiedDate() {
+		return lastModifiedDate;
+	}
+
+	/**
+	 * @param lastModifiedDate the lastModifiedDate to set
+	 */
+	public void setLastModifiedDate(Date lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
 	}
 
 	/* (non-Javadoc)

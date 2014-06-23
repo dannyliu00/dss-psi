@@ -30,7 +30,7 @@ public class PSIProfileDaoTest {
 	private Object[] mockResult;
 	private List<Object[]> mockResults;
 	private BigDecimal expectedId, expectedHeaderId, expectedDealer;
-	private Date expectedDate, expectedSubmittedDate, expectedApprovedDate;
+	private Date expectedDate, expectedSubmittedDate, expectedApprovedDate, expectedCreatedDate, expectedChangedDate;
 	private Character expectedLegal;
 	private String expectedName, expectedProfileStatus, expectedStatus, expectedType, expectedEmail;
 	
@@ -53,7 +53,7 @@ public class PSIProfileDaoTest {
 		expectedLegal = new Character('c');
 		expectedEmail = "ut@test.local";
 		
-		mockResult = new Object[12];
+		mockResult = new Object[14];
 		mockResult[0] = expectedProfileStatus;
 		mockResult[1] = expectedId;
 		mockResult[2] = expectedName;
@@ -103,7 +103,13 @@ public class PSIProfileDaoTest {
 	}
 
 	@Test
-	public void testRetrieveProfileById() {
+	public void testRetrieveProfileByIdWithCreatedDate() {
+		expectedCreatedDate = Calendar.getInstance().getTime();
+		mockResult[12] = expectedCreatedDate;
+		mockResult[13] = null;
+		mockResults = new ArrayList<Object[]>();
+		mockResults.add(mockResult);
+
 		Integer id = expectedId.intValue();
 		PSIProfile result = dao.retrieveProfileById(id);
 		
@@ -118,6 +124,48 @@ public class PSIProfileDaoTest {
 		assertEquals(expectedStatus, result.getStatus());
 		assertEquals(expectedDate, result.getTargetCompleteDate());
 		assertEquals(expectedType, result.getType());
+		assertEquals(expectedProfileStatus, result.getProfileStatus());
+		assertEquals(expectedLegal.toString(), result.getLegalText());
+		assertEquals(expectedHeaderId.intValueExact(), result.getHeaderId().intValue());
+		assertEquals(expectedDealer.intValueExact(), result.getDealer().intValue());
+		assertEquals(expectedEmail, result.getEmail());
+		assertEquals(expectedSubmittedDate, result.getSubmittedDate());
+		assertEquals(expectedApprovedDate, result.getApprovedDate());
+		assertEquals(expectedCreatedDate, result.getLastModifiedDate());
+		
+		verifyNoMoreInteractions(mockEM, mockQuery);
+	}
+
+	@Test
+	public void testRetrieveProfileByIdWithChangedDate() {
+		expectedCreatedDate = expectedChangedDate = Calendar.getInstance().getTime();
+		mockResult[12] = expectedCreatedDate;
+		mockResult[13] = expectedChangedDate;
+		mockResults = new ArrayList<Object[]>();
+		mockResults.add(mockResult);
+
+		Integer id = expectedId.intValue();
+		PSIProfile result = dao.retrieveProfileById(id);
+		
+		verify(mockEM).createNativeQuery(anyString());
+		verify(mockQuery).setParameter("profileId", id);
+		verify(mockQuery).setMaxResults(1);
+		verify(mockQuery).getResultList();
+		verify(mockEM).close();
+		
+		assertEquals(expectedId.intValue(), result.getId().intValue());
+		assertEquals(expectedName, result.getName());
+		assertEquals(expectedStatus, result.getStatus());
+		assertEquals(expectedDate, result.getTargetCompleteDate());
+		assertEquals(expectedType, result.getType());
+		assertEquals(expectedProfileStatus, result.getProfileStatus());
+		assertEquals(expectedLegal.toString(), result.getLegalText());
+		assertEquals(expectedHeaderId.intValueExact(), result.getHeaderId().intValue());
+		assertEquals(expectedDealer.intValueExact(), result.getDealer().intValue());
+		assertEquals(expectedEmail, result.getEmail());
+		assertEquals(expectedSubmittedDate, result.getSubmittedDate());
+		assertEquals(expectedApprovedDate, result.getApprovedDate());
+		assertEquals(expectedChangedDate, result.getLastModifiedDate());
 		
 		verifyNoMoreInteractions(mockEM, mockQuery);
 	}
