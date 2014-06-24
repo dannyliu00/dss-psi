@@ -22,7 +22,7 @@ public class SegmentDto implements IBaseDto, Serializable {
 	private int recMaximum;
 	private int actual;
 	private int recommendedOSCount;
-	private List<String> subSegments;
+	private String subSegment;
 	
 	private List<IBaseDto> orderSegments;
 
@@ -147,17 +147,17 @@ public class SegmentDto implements IBaseDto, Serializable {
 	}
 
 	/**
-	 * @return the subSegments
+	 * @return the subSegment
 	 */
-	public List<String> getSubSegments() {
-		return subSegments;
+	public String getSubSegment() {
+		return subSegment;
 	}
 
 	/**
-	 * @param subSegments the subSegments to set
+	 * @param subSegment the subSegment to set
 	 */
-	public void setSubSegment(List<String> subSegments) {
-		this.subSegments = subSegments;
+	public void setSubSegment(String subSegment) {
+		this.subSegment = subSegment;
 	}
 	
 	/**

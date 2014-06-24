@@ -19,6 +19,7 @@ public class ProfileDto implements IBaseDto, Serializable {
 	private String type;
 	private String name;
 	private Date modifiedDate;
+	private Date targetCompletionDate;
 	private String status;
 	private int recMinimum;
 	private int recommended;
@@ -98,6 +99,20 @@ public class ProfileDto implements IBaseDto, Serializable {
 	 */
 	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
+	}
+
+	/**
+	 * @return the targetCompletionDate
+	 */
+	public Date getTargetCompletionDate() {
+		return targetCompletionDate;
+	}
+
+	/**
+	 * @param targetCompletionDate the targetCompletionDate to set
+	 */
+	public void setTargetCompletionDate(Date targetCompletionDate) {
+		this.targetCompletionDate = targetCompletionDate;
 	}
 
 	/**

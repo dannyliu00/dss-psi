@@ -1,6 +1,6 @@
 package com.polaris.psi.service;
 
-import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -14,18 +14,16 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.polaris.psi.repository.dao.DealerProfileHeaderDao;
-import com.polaris.psi.repository.dao.ProfileDao;
-import com.polaris.psi.repository.entity.DealerProfileHeader;
+import com.polaris.psi.repository.entity.PSIOrderSegment;
 import com.polaris.psi.repository.entity.PSIProfile;
-import com.polaris.psi.repository.entity.Profile;
+import com.polaris.psi.repository.entity.PSIProfileDetail;
+import com.polaris.psi.repository.entity.PSISegment;
 import com.polaris.psi.resource.dto.OrderSegmentDto;
 import com.polaris.psi.resource.dto.ProfileDto;
 import com.polaris.psi.resource.dto.ProfilePeriodDto;
 import com.polaris.psi.resource.dto.SegmentDto;
 import com.polaris.psi.service.mapper.PSIProfileMapper;
-import com.polaris.psi.service.mapper.ProfileMapper;
-import com.polaris.psi.service.mapper.ProfileTypeMapper;
+import com.polaris.psi.service.mapper.PSISegmentMapper;
 import com.polaris.pwf.dao.PSIOrderSegmentDao;
 import com.polaris.pwf.dao.PSIProfileDao;
 import com.polaris.pwf.dao.PSIProfileDetailDao;
@@ -39,43 +37,40 @@ public class ProfileServiceTest {
 	@Mock private PSIProfileDetailDao mockPsiDetailDao;
 	@Mock private PSIProfileMapper mockProfileMapper;
 	@Mock private PSISegmentDao mockPsiSegmentDao;
+	@Mock private PSISegmentMapper mockSegmentMapper;
 	@Mock private PSIOrderSegmentDao mockPsiOsDao;
-	@Mock private DealerProfileHeaderDao mockHeaderDao;
-	@Mock private ProfileDao mockProfileDao;
-	@Mock private SegmentService mockSegmentService;
-	@Mock private OrderSegmentService mockOrderSegmentService;
-	@Mock private ProfilePeriodService mockProfilePeriodService;
-	@Mock private ProfileMapper mockMapper;
-	@Mock private ProfileTypeMapper mockTypeMapper;
-	@Mock private DealerProfileHeader mockHeader;
 	@Mock private PSIProfile mockProfile;
 	@Mock private ProfileDto mockDto;
 	@Mock private OrderSegmentDto mockOrderSegmentDto;
 	@Mock private SegmentDto mockSegmentDto;
 	@Mock private ProfilePeriodDto mockProfilePeriodDto;
 	
-	private List<DealerProfileHeader> mockHeaders;
 	private List<PSIProfile> mockProfiles;
+	private List<PSIProfileDetail> mockDetails;
+	private List<PSIOrderSegment> mockOSes;
+	private List<PSISegment> mockSegments;
 	private List<OrderSegmentDto> mockOrderSegmentDtos;
 	private List<SegmentDto> mockSegmentDtos;
 	private List<ProfilePeriodDto> mockProfilePeriodDtos;
 
-	private int dealerId;
-	private String expectedSubSegment, expectedType;
+	private int dealerId, profileId, headerId;
+	private String expectedSubSegment, expectedType, typeCode;
 
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 
 		dealerId = 999;
+		profileId = 888;
+		headerId = 111;
 		expectedSubSegment = "U.T. SubSegment";
+		typeCode = "U.t. Type Code";
 		expectedType = "U.T. Type";
-		
-		mockHeaders = new ArrayList<DealerProfileHeader>();
-		mockHeaders.add(mockHeader);
 		
 		mockProfiles = new ArrayList<PSIProfile>();
 		mockProfiles.add(mockProfile);
+		
+		mockSegments = new ArrayList<PSISegment>();
 		
 		mockOrderSegmentDtos = new ArrayList<OrderSegmentDto>();
 		mockOrderSegmentDtos.add(mockOrderSegmentDto);
@@ -91,23 +86,19 @@ public class ProfileServiceTest {
 		service = new ProfileService();
 		service.psiProfileDao = mockPsiProfileDao;
 		service.profileMapper = mockProfileMapper;
-		service.headerDao = mockHeaderDao;
-		service.mapper = mockMapper;
-		service.orderSegmentService = mockOrderSegmentService;
-		service.profileDao = mockProfileDao;
-		service.profilePeriodService = mockProfilePeriodService;
-		service.segmentService = mockSegmentService;
-		service.typeMapper = mockTypeMapper;
+		service.psiDetailDao = mockPsiDetailDao;
+		service.psiOsDao = mockPsiOsDao;
+		service.psiSegmentDao = mockPsiSegmentDao;
+		service.segmentMapper = mockSegmentMapper;
 	}
 	
 	@After
 	public void tearDown() {
-		verifyNoMoreInteractions(mockHeaderDao);
+		verifyNoMoreInteractions(mockPsiDetailDao, mockPsiOsDao, mockPsiProfileDao, mockPsiSegmentDao);
 	}
 
 	@Test
 	public void testGetDealerProfiles() {
-		
 		when(mockPsiProfileDao.retrieveListByDealerId(dealerId)).thenReturn(mockProfiles);
 		
 		service.getDealerProfiles(dealerId);
@@ -119,29 +110,26 @@ public class ProfileServiceTest {
 
 	@Test
 	public void testGetDealerProfile() {
-//		int profileId = 99999;
-//		
-//		when(mockProfileDao.retrieveProfileById(profileId)).thenReturn(mockProfile);
-//		when(mockMapper.mapToDto(mockProfile)).thenReturn(mockDto);
-//		when(mockSegmentService.retrieveByProfile(mockProfile)).thenReturn(mockSegmentDtos);
-//		when(mockSegmentService.retrieveBySubSegment(expectedSubSegment)).thenReturn(mockSegmentDtos);
-//		when(mockOrderSegmentService.retrieveByProfile(mockProfile)).thenReturn(mockOrderSegmentDtos);
-//		when(mockProfilePeriodService.getPeriodsByProfile(mockProfile)).thenReturn(mockProfilePeriodDtos);
-//		
-//		ProfileDto result = service.getDealerProfile(profileId);
-//
-//		verify(mockProfileDao).retrieveProfileById(profileId);
-//		verify(mockMapper).mapToDto(mockProfile);
-//		verify(mockSegmentService).retrieveByProfile(mockProfile);
-//		verify(mockSegmentService).retrieveBySubSegment(expectedSubSegment);
-//		verify(mockProfilePeriodService).getPeriodsByProfile(mockProfile);
-//		verify(mockTypeMapper).mapTypeToProfile(expectedType, mockDto);
-//		verify(mockDto).setSegments(mockSegmentDtos);
-//		verify(mockDto).setType(expectedType);
-//		verify(mockDto).setOrderSegments(mockOrderSegmentDtos);
-//		verify(mockDto).setPeriods(mockProfilePeriodDtos);
-//		
-//		assertEquals(mockDto, result);
+		when(mockProfile.getHeaderId()).thenReturn(headerId);
+		when(mockProfile.getType()).thenReturn(typeCode);
+		when(mockPsiProfileDao.retrieveProfileById(profileId)).thenReturn(mockProfile);
+		when(mockPsiDetailDao.retrieveByHeaderId(headerId)).thenReturn(mockDetails);
+		when(mockPsiOsDao.retrieveByProfileAndDealer(profileId, dealerId)).thenReturn(mockOSes);
+		when(mockPsiSegmentDao.retrieveByProfileDealerAndType(profileId, dealerId, typeCode)).thenReturn(mockSegments);
+		when(mockProfileMapper.mapToDto(mockProfile)).thenReturn(mockDto);
+		
+		service.getDealerProfile(profileId, dealerId);
+		
+		verify(mockProfile, times(2)).getHeaderId();
+		verify(mockProfile).getType();
+		verify(mockPsiProfileDao).retrieveProfileById(profileId);
+		verify(mockPsiDetailDao).retrieveByHeaderId(headerId);
+		verify(mockPsiOsDao).retrieveByProfileAndDealer(profileId, dealerId);
+		verify(mockPsiSegmentDao).retrieveByProfileDealerAndType(profileId, dealerId, typeCode);
+		
+		verify(mockProfileMapper).mapToDto(mockProfile);
+		verify(mockSegmentMapper).mapToDto(mockSegments);
+		
 	}
 
 }

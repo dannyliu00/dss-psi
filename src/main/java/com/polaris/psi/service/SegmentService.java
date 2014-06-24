@@ -59,7 +59,7 @@ public class SegmentService {
 					subSegments.add(segment.getSubSegment());
 				}
 			}
-			dto.setSubSegment(subSegments);
+//			dto.setSubSegment(subSegments);
 		}
 		
 		Segment jpaSegment = segments.get(0);

@@ -3,13 +3,12 @@
  */
 package com.polaris.psi.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.polaris.psi.repository.dao.DealerProfileHeaderDao;
-import com.polaris.psi.repository.dao.ProfileDao;
 import com.polaris.psi.repository.entity.PSIOrderSegment;
 import com.polaris.psi.repository.entity.PSIProfile;
 import com.polaris.psi.repository.entity.PSIProfileDetail;
@@ -17,13 +16,10 @@ import com.polaris.psi.repository.entity.PSISegment;
 import com.polaris.psi.repository.entity.Profile;
 import com.polaris.psi.repository.entity.Segment;
 import com.polaris.psi.repository.entity.SegmentCompliance;
-import com.polaris.psi.resource.dto.OrderSegmentDto;
 import com.polaris.psi.resource.dto.ProfileDto;
-import com.polaris.psi.resource.dto.ProfilePeriodDto;
-import com.polaris.psi.resource.dto.SegmentDto;
+import com.polaris.psi.service.mapper.OrderSegmentMapper;
 import com.polaris.psi.service.mapper.PSIProfileMapper;
-import com.polaris.psi.service.mapper.ProfileMapper;
-import com.polaris.psi.service.mapper.ProfileTypeMapper;
+import com.polaris.psi.service.mapper.PSISegmentMapper;
 import com.polaris.pwf.dao.PSIOrderSegmentDao;
 import com.polaris.pwf.dao.PSIProfileDao;
 import com.polaris.pwf.dao.PSIProfileDetailDao;
@@ -37,12 +33,6 @@ import com.polaris.pwf.dao.PSISegmentDao;
 public class ProfileService {
 
 	@Autowired
-	DealerProfileHeaderDao headerDao;
-	
-	@Autowired
-	ProfileDao profileDao;
-	
-	@Autowired
 	PSIProfileDao psiProfileDao;
 	
 	@Autowired
@@ -55,24 +45,17 @@ public class ProfileService {
 	PSIOrderSegmentDao psiOsDao;
 	
 	@Autowired
-	SegmentService segmentService;
-	
-	@Autowired
-	OrderSegmentService orderSegmentService;
-	
-	@Autowired
-	ProfilePeriodService profilePeriodService;
-	
-	@Autowired
-	ProfileMapper mapper;
-	
-	@Autowired
 	PSIProfileMapper profileMapper;
 	
 	@Autowired
-	ProfileTypeMapper typeMapper;
+	PSISegmentMapper segmentMapper;
+	
+	@Autowired
+	// TODO Must be refactored to use PSIProfileDetail and PSIOrderSegment
+	OrderSegmentMapper osMapper;
 	
 	public List<ProfileDto> getDealerProfiles(int dealerId) {
+		
 		
 		List<PSIProfile> psiProfiles = psiProfileDao.retrieveListByDealerId(dealerId);
 		List<ProfileDto> psiDtos = profileMapper.mapToDto(psiProfiles);
@@ -83,28 +66,18 @@ public class ProfileService {
 	public ProfileDto getDealerProfile(int profileId, int dealerId) {
 		
 		PSIProfile psiProfile = psiProfileDao.retrieveProfileById(profileId);
-		List<PSIProfileDetail> details = psiDetailDao.retrieveByHeaderId(psiProfile.getHeaderId());
-		List<PSIOrderSegment> psiOSes = psiOsDao.retrieveByProfileAndDealer(psiProfile.getId(), dealerId);
-		List<PSISegment> psiSegments = psiSegmentDao.retrieveByProfileDealerAndType(
-				psiProfile.getId(), dealerId, psiProfile.getType());
+
+		List<PSIProfileDetail> details = new ArrayList<PSIProfileDetail>();
+		if(psiProfile.getHeaderId() != null) details = psiDetailDao.retrieveByHeaderId(psiProfile.getHeaderId());
 		
-    	Profile profile = profileDao.retrieveProfileById(profileId);
-    	ProfileDto dto = mapper.mapToDto(profile);
+		List<PSIOrderSegment> psiOSes = psiOsDao.retrieveByProfileAndDealer(profileId, dealerId);
+		List<PSISegment> psiSegments = psiSegmentDao.retrieveByProfileDealerAndType(profileId, dealerId, psiProfile.getType());
+		
+    	ProfileDto dto = profileMapper.mapToDto(psiProfile);
+    	dto.setSegments(segmentMapper.mapToDto(psiSegments));
     	
-		List<SegmentDto> segments = segmentService.retrieveByProfile(profile);
-    	if(segments.size() > 0) {
-	    	dto.setSegments(segments);
-	    	dto.setType(segments.get(0).getType());
-    	}
-
-		List<OrderSegmentDto> orderSegments = orderSegmentService.retrieveByProfile(profile);
-    	dto.setOrderSegments(orderSegments);
-    	
-    	List<SegmentDto> segmentDtos = segmentService.retrieveBySubSegment(orderSegments.get(0).getSubSegment());
-		typeMapper.mapTypeToProfile(segmentDtos.get(0).getType(), dto);
-
-    	List<ProfilePeriodDto> periods = profilePeriodService.getPeriodsByProfile(profile);
-    	dto.setPeriods(periods);
+    	//TODO map PSIOrderSegment and PSIProfileDetail to OrderSegmentDto and add to ProfileDto
+    	//TODO retrieve profile periods and add collection to ProfileDto
     	
     	return dto;
 	}
