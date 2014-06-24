@@ -34,15 +34,15 @@ public class ProfilePeriodTotalsCalculator implements IProfilePeriodTotalsCalcul
 				for (int k = 0; k < segment.getOrderSegments().size(); k++) {
 					OrderSegmentDto orderSegment = (OrderSegmentDto) segment.getOrderSegments().get(k);
 
-					for (int l = 0; l < orderSegment.getQuantities().size(); l++) {
-						if(l == i) {
-							SegmentQuantityDto qty = (SegmentQuantityDto) orderSegment.getQuantities().get(i);
-							recMinimum += qty.getRecMinimum();
-							recMaximum += qty.getRecMaximum();
-							recommended += qty.getRecommended();
-							actual += qty.getActual();
-						}
-					}
+//					for (int l = 0; l < orderSegment.getQuantities().size(); l++) {
+//						if(l == i) {
+//							SegmentQuantityDto qty = (SegmentQuantityDto) orderSegment.getQuantities().get(i);
+//							recMinimum += qty.getRecMinimum();
+//							recMaximum += qty.getRecMaximum();
+//							recommended += qty.getRecommended();
+//							actual += qty.getActual();
+//						}
+//					}
 				}
 			}
 			period.setActual(actual);
