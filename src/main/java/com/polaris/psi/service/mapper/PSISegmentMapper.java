@@ -6,6 +6,8 @@ package com.polaris.psi.service.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.polaris.psi.repository.entity.PSISegment;
 import com.polaris.psi.resource.dto.SegmentDto;
 
@@ -13,6 +15,7 @@ import com.polaris.psi.resource.dto.SegmentDto;
  * @author bericks
  *
  */
+@Component
 public class PSISegmentMapper implements IMapper<PSISegment, SegmentDto> {
 
 	@Override
