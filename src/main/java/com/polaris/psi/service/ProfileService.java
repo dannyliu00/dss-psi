@@ -17,7 +17,7 @@ import com.polaris.psi.repository.entity.Profile;
 import com.polaris.psi.repository.entity.Segment;
 import com.polaris.psi.repository.entity.SegmentCompliance;
 import com.polaris.psi.resource.dto.ProfileDto;
-import com.polaris.psi.service.mapper.OrderSegmentMapper;
+import com.polaris.psi.service.mapper.PSIOrderSegmentMapper;
 import com.polaris.psi.service.mapper.PSIProfileMapper;
 import com.polaris.psi.service.mapper.PSISegmentMapper;
 import com.polaris.pwf.dao.PSIOrderSegmentDao;
@@ -51,8 +51,7 @@ public class ProfileService {
 	PSISegmentMapper segmentMapper;
 	
 	@Autowired
-	// TODO Must be refactored to use PSIProfileDetail and PSIOrderSegment
-	OrderSegmentMapper osMapper;
+	PSIOrderSegmentMapper osMapper;
 	
 	public List<ProfileDto> getDealerProfiles(int dealerId) {
 		
@@ -75,8 +74,8 @@ public class ProfileService {
 		
     	ProfileDto dto = profileMapper.mapToDto(psiProfile);
     	dto.setSegments(segmentMapper.mapToDto(psiSegments));
+    	dto.setOrderSegments(osMapper.mapToDto(psiOSes, details));
     	
-    	//TODO map PSIOrderSegment and PSIProfileDetail to OrderSegmentDto and add to ProfileDto
     	//TODO retrieve profile periods and add collection to ProfileDto
     	
     	return dto;
