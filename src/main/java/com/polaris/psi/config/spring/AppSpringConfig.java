@@ -29,21 +29,21 @@ public class AppSpringConfig {
 
 	@Bean(name = PolarisMinneapolisDataSource.DATASOURCE_BEAN_NAME)
 	public DataSource polarisMinneapolisDataSource() {
-		return JndiUtil.lookupDataSource("as400/POLDEV");
+		return JndiUtil.lookupDataSource("as400/POLARISPSI");
 	}
 
 	@Bean(name = PolarisDealersExtensionDataSource.DATASOURCE_BEAN_NAME)
 	public DataSource polarisDealersExtensionDataSource() {
-		return JndiUtil.lookupDataSource("sql/PolarisDealersExtension");
+		return JndiUtil.lookupDataSource("sql/PolarisDealersExtensionPSI");
 	}
 
 	@Bean(name = PolarisDealersCommonDataSource.DATASOURCE_BEAN_NAME)
 	public DataSource polarisDealersCommonDataSource() {
-		return JndiUtil.lookupDataSource("sql/PolarisDealersCommon");
+		return JndiUtil.lookupDataSource("sql/PolarisDealersCommonPSI");
 	}
 
 	@Bean(name = PolarisDealersDataSource.DATASOURCE_BEAN_NAME)
 	public DataSource polarisDealersDataSource() {
-		return JndiUtil.lookupDataSource("sql/PolarisDealers");
+		return JndiUtil.lookupDataSource("sql/PolarisDealersPSI");
 	}
 }

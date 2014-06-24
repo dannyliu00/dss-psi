@@ -1,67 +1,62 @@
-<server description="Inventory Profile Sell-In (PSI) Server">
-
-    <!-- Enable features -->
-    <featureManager>
-        <feature>jsp-2.2</feature>
-        <feature>localConnector-1.0</feature>
-		<feature>jdbc-4.0</feature>
-		<feature>jpa-2.0</feature>
-		<feature>jaxrs-1.1</feature>
-		<feature>jndi-1.0</feature>
-		<feature>ejbLite-3.1</feature>
-		<feature>managedBeans-1.0</feature>
-	    <feature>jsf-2.0</feature>
-        <feature>cdi-1.0</feature>
-        <feature>concurrent-1.0</feature>
-    </featureManager>
-
-    <httpEndpoint host="*" httpPort="29080" httpsPort="29443" id="defaultHttpEndpoint"/>
-
-    <applicationMonitor updateTrigger="mbean"/>
-	
-	<classloading useJarUrls="true"/>
-
-    <library id="as400JDBCLibs">
-        <fileset dir="libs" includes="jt400.jar"/>
-    </library>
-	<library id="MSSQLJDBCLibs">
-        <fileset dir="libs" includes="sqljdbc4.jar"/>
-    </library>
-    <library id="MSSQL2008JDBCLibs">
-        <fileset dir="libs" includes="jtds-1.2.8.jar"/>
-    </library>
-	
- 	<dataSource id="polarisDealersExtDb" jndiName="sql/PolarisDealersExtension" type="javax.sql.DataSource">
-        <jdbcDriver javax.sql.ConnectionPoolDataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource" javax.sql.DataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource" javax.sql.XADataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource" libraryRef="MSSQL2008JDBCLibs"/>
-        <connectionManager maxPoolSize="20" minPoolSize="5"/>
-        <properties databaseName="PolarisDealersExtension" password="G7v2x3i1" serverName="mpl1devsql007.polarisdev.com" user="PolarisWebExtn"/>
-    </dataSource>
-    
-    <dataSource id="as400jdbc-psi" jndiName="as400/POLDEV" type="javax.sql.DataSource">
-        <jdbcDriver libraryRef="as400JDBCLibs"/>
-        <connectionManager maxPoolSize="20" minPoolSize="5"/>
-        <properties.db2.i.toolbox naming="system" libraries="hgbasqua, files" password="Inventory Profile Sell In poldev" serverName="POLDEV.POLARISIND.COM" translateBinary="true" user="SRVPSI"/>
-    </dataSource>
-    
-    <dataSource id="as400jdbc-pga" jndiName="as400/POLPGA" type="javax.sql.DataSource">
-        <jdbcDriver libraryRef="as400JDBCLibs"/>
-        <connectionManager maxPoolSize="20" minPoolSize="5"/>
-        <properties.db2.i.toolbox naming="system" password="webteam26" serverName="POLDEV.POLARISIND.COM" translateBinary="true" user="webteam"/>
-    </dataSource>
-    
-    <dataSource id="polarisDealersDb" jndiName="sql/PolarisDealers" type="javax.sql.DataSource">
-        <jdbcDriver javax.sql.ConnectionPoolDataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource" javax.sql.DataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource" javax.sql.XADataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource" libraryRef="MSSQL2008JDBCLibs"/>
-        <connectionManager maxPoolSize="20" minPoolSize="5"/>
-        <properties databaseName="PolarisDealers" password="webguest" serverName="mpl1devsql003.polarisind.com" user="PolarisWeb"/>
-    </dataSource>
-    
-    <dataSource id="PolarisDealersCommon" jndiName="sql/PolarisDealersCommon" type="javax.sql.DataSource">
-        <jdbcDriver javax.sql.ConnectionPoolDataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource" javax.sql.DataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource" javax.sql.XADataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource" libraryRef="MSSQL2008JDBCLibs"/>
-        <connectionManager maxPoolSize="20" minPoolSize="5"/>
-        <properties databaseName="PolarisDealersCommon" password="G7v2x3i1" serverName="mpl1devsql033.polarisdev.com" user="PolarisWebExtn"/>
-    </dataSource>
-
-    <logging traceSpecification="openjpa=all"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="Dealer Extranet Server">
+  <!-- Enable features -->
+  <featureManager>
+    <feature>jsp-2.2</feature>
+    <feature>localConnector-1.0</feature>
+    <feature>jdbc-4.0</feature>
+    <feature>jndi-1.0</feature>
+    <feature>ejbLite-3.1</feature>
+    <!--feature>ssl-1.0</feature-->
+    <feature>sessionDatabase-1.0</feature>
+    <!--feature>localConnector-1.0</feature-->
+    <feature>monitor-1.0</feature>
+    <!--feature>timedOperations-1.0</feature-->
+  </featureManager>
+  
+  <!--timedOperation reportFrequency="1h" maxNumberTimedOperations="200" />
+  <keyStore id="defaultKeyStore" password="{xor}DzAzPi02LG9u" /-->
+  <httpEndpoint host="*" httpPort="29080" httpsPort="443" id="defaultHttpEndpoint">
+    <accessLogging filePath="${server.output.dir}/logs/http_access.log"/>
+  </httpEndpoint>
+  <!--applicationMonitor updateTrigger="mbean" /-->
+  <library id="as400JDBCLibs">
+    <fileset dir="libs" includes="jt400.jar" />
+  </library>
+  <library id="MSSQLJDBCLibs">
+    <fileset dir="libs" includes="sqljdbc4.jar" />
+  </library>
+  <library id="MSSQL2008JDBCLibs">
+    <fileset dir="libs" includes="jtds-1.2.8.jar" />
+  </library>
+ 
+  <!-- Datasources for PSI (Inventory Profile Sellin) -->
+  <dataSource id="as400jdbc" jndiName="as400/POLARISPSI" type="javax.sql.DataSource">
+    <jdbcDriver libraryRef="as400JDBCLibs" />
+    <connectionManager maxPoolSize="10" minPoolSize="0" maxIdleTime="300" />
+    <properties.db2.i.toolbox naming="system" password="Inventory Profile Sell In poldev" libraries="HGBASQUA,FILES" serverName="POLDEV.POLARISIND.COM" translateBinary="true" user="SRVPSI" dateFormat="iso"/>
+  </dataSource>
+  
+  <dataSource id="polarisDealersDbPSI" jndiName="sql/PolarisDealersPSI" type="javax.sql.DataSource">
+    <jdbcDriver javax.sql.ConnectionPoolDataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource" javax.sql.DataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource" javax.sql.XADataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource" libraryRef="MSSQL2008JDBCLibs" />
+    <connectionManager maxPoolSize="5" minPoolSize="1" />
+    <properties databaseName="PolarisDealers" password="webguest" serverName="mpl1devsql003.polarisind.com" user="PolarisWeb" />
+  </dataSource>
+  
+  <dataSource id="polarisDealersExtDbPSI" jndiName="sql/PolarisDealersExtensionPSI" type="javax.sql.DataSource">
+    <jdbcDriver javax.sql.ConnectionPoolDataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource" javax.sql.DataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource" javax.sql.XADataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource" libraryRef="MSSQL2008JDBCLibs"/>
+    <connectionManager maxPoolSize="5" minPoolSize="1"/>
+    <properties databaseName="PolarisDealersExtension" password="G7v2x3i1" serverName="mpl1devsql007.polarisdev.com" user="PolarisWebExtn"/>
+  </dataSource>
+  
+  <dataSource id="PolarisDealersCommonPSI" jndiName="sql/PolarisDealersCommonPSI" type="javax.sql.DataSource">
+    <jdbcDriver javax.sql.ConnectionPoolDataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource" javax.sql.DataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource" javax.sql.XADataSource="net.sourceforge.jtds.jdbcx.JtdsDataSource" libraryRef="MSSQL2008JDBCLibs" />
+    <connectionManager maxPoolSize="20" minPoolSize="5" />
+    <properties databaseName="PolarisDealersCommon" password="G7v2x3i1" serverName="mpl1devsql033.polarisdev.com" user="PolarisWebExtn" />
+  </dataSource>
+  
+  <executor name="LargeThreadPool" id="default" coreThreads="80" maxThreads="120" 
+          keepAlive="60s" stealPolicy="STRICT" rejectedWorkPolicy="CALLER_RUNS" />
 
     <webApplication id="dss-psi" location="dss-psi.war" name="dss-psi"/>
 </server>
