@@ -3,11 +3,8 @@
  */
 package com.polaris.psi.resource.dto;
 
-import static org.mockito.Mockito.verify;
-
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author bericks
