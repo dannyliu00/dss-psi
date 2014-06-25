@@ -4,9 +4,9 @@
     function DealerProfileDirectiveController($scope, DTOptionsBuilder, $routeParams, dealerResource,
     		dealerProfileResource, orderSegmentResourceMapper) {
     	
-    	this.orderSegmentResourceMapper = orderSegmentResourceMapper;
-    	
     	$scope.dirtyIndicator = 0;
+    	
+    	this.orderSegmentResourceMapper = orderSegmentResourceMapper;
     	
     	var dealer = {dealerId: $routeParams.dealerId};
         dealerResource.get(dealer).then(function(returnedDealer) {
@@ -174,6 +174,17 @@
         		}	
         	}
         	return totalOS;
+        };
+        
+        $scope.updateSegmentTotal = function(subSegment) {
+        	var segment = $scope.segName(subSegment);
+        	var segmentTotal = 0;
+           	for (var i=0; i<$scope.orderSegments.length; i++) {
+        		if(segment.subSegments.indexOf($scope.orderSegments[i].subSegment) !== -1) {
+        			segmentTotal =  $scope.orderSegments[i].actual + segmentTotal;
+        			}
+        		}
+           	$scope.segment.acutal = segmentTotal;
         };
     }
     dealerProfiles.DealerProfileDirectiveController = DealerProfileDirectiveController;

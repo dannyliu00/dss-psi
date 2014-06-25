@@ -19,6 +19,7 @@ angular.module('sellIn', [
         'sellIn.directives.savequantities',
         'sellIn.directives.summarydatatables',
         'sellIn.directives.producttabs',
+        'sellIn.directives.dsmsummarydatatables',
         'sellIn.resources.dealerProfiles',
         'sellIn.resources.dealerProfile',
         'sellIn.resources.dealer',
