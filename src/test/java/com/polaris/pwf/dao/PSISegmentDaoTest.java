@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,18 +27,19 @@ public class PSISegmentDaoTest {
 	@Mock private Query mockQuery;
 	private Object[] mockResult;
 	private List<Object[]> mockResults;
-	private Integer expectedId, expectedProfileId, expectedDealerId, expectedMin, expectedMax;
+	private Integer expectedProfileId, expectedDealerId;
+	private BigDecimal expectedId, expectedMin, expectedMax;
 	private String expectedPeriodCode, expectedName, expectedSubSegment, expectedType;
 	
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		
-		expectedId = 100;
+		expectedId = new BigDecimal(100);
 		expectedProfileId = 999;
 		expectedDealerId = 888;
-		expectedMin = 1;
-		expectedMax = 5;
+		expectedMin = new BigDecimal(1);
+		expectedMax = new BigDecimal(5);
 		expectedPeriodCode = "UT period code";
 		expectedName = "UT Name";
 		expectedSubSegment = "UT SubSegment";
@@ -76,11 +78,11 @@ public class PSISegmentDaoTest {
 
 		assertEquals(results.size(), 1);
 		PSISegment result = results.get(0);
-		assertEquals(expectedId, result.getId());
+		assertEquals(expectedId.intValueExact(), result.getId().intValue());
 		assertEquals(expectedPeriodCode, result.getPeriodCode());
 		assertEquals(expectedName, result.getName());
-		assertEquals(expectedMin, result.getRecMinimum());
-		assertEquals(expectedMax, result.getRecMaximum());
+		assertEquals(expectedMin.intValueExact(), result.getRecMinimum().intValue());
+		assertEquals(expectedMax.intValueExact(), result.getRecMaximum().intValue());
 		assertEquals(expectedSubSegment, result.getSubSegment());
 		
 		verifyNoMoreInteractions(mockEM, mockQuery);
