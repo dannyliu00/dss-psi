@@ -22,7 +22,7 @@
                 $scope.distinctOS = findDistinctOSes($scope.orderSegments);
             })
             .then(function() {
-                $scope.actualGrandTotal = $scope.getActualGrandTotal();
+                ($scope.profile.type === 'atv' ? $scope.actualGrandTotal = $scope.getActualGrandTotal() : $scope.actualGrandTotal = $scope.sumActualValues());
                 $scope.recommendedGrandTotal = $scope.getRecTotals();
         });
 
@@ -71,8 +71,8 @@
 	            $scope.profile.periods[j].recMinimum = recMin;
 	            $scope.profile.periods[j].recMaximum = recMax;
 	    	}
-	    	return totalRecQty;
 	    	$scope.dirtyIndicator = $scope.dirtyIndicator + 1;
+	    	return totalRecQty;
 	    };
 	    
 	    function recSegmentTotal(sub) {
@@ -111,8 +111,8 @@
 	            totalQty = totalQty + actQty;
 	            $scope.profile.periods[j].actual = actQty;
 	    	}
-	    	return totalQty;
 	    	$scope.dirtyIndicator = $scope.dirtyIndicator + 1;
+	    	return totalQty;
 	    };
 	    
 		$scope.sumActualValues = function() {
@@ -121,24 +121,31 @@
 		    	 var os = $scope.orderSegments[i];
 		         var osActual = angular.isNumber(os.actual) ? parseInt(os.actual) : 0;
 		         total = total + osActual;
-		         if(os.subSegment !== null) {
+		         if(($scope.profile.type === 'motorcycle') && (os.subSegment !== null)) {
 		              sumSegmentTotal(os.subSegment);
 		            }
 		         }
 		     $scope.actualGrandTotal = total;
 		     $scope.dirtyIndicator = $scope.dirtyIndicator + 1;
+		     return total;   
 		};
 		
         function sumSegmentTotal(sub) {
             var segment = getSegment(sub);
-            var total = 0;
+        	var total = 0;
+            var count = 0;
             for(var i=0; i < $scope.orderSegments.length; i++) {
             	var checkList = segment.subSegments.indexOf($scope.orderSegments[i].subSegment);
                 if(checkList !== -1) {
-                	total = total + parseInt($scope.orderSegments[i].actual);
+                	var actual = parseInt($scope.orderSegments[i].actual);
+                	total = total + actual;
+                	if(actual > 0) {
+                		count = count + 1;
+                		}
                 	}
-            segment.actual = total;
-            }
+                segment.actual = total;
+                segment.oSTotal = count;
+            } 
         }
 
         function getSegment(subSegment) {
@@ -164,28 +171,6 @@
         	return segmentName;
         };
         
-        $scope.segmentTotalOS = function(segment) {
-        	var totalOS = 0;
-        	for (var i=0; i<$scope.orderSegments.length; i++) {
-        		if(segment.subSegments.indexOf($scope.orderSegments[i].subSegment) !== -1) {
-        			if($scope.orderSegments[i].actual > 0) {
-        				totalOS += totalOS;
-        			}
-        		}	
-        	}
-        	return totalOS;
-        };
-        
-        $scope.updateSegmentTotal = function(subSegment) {
-        	var segment = $scope.segName(subSegment);
-        	var segmentTotal = 0;
-           	for (var i=0; i<$scope.orderSegments.length; i++) {
-        		if(segment.subSegments.indexOf($scope.orderSegments[i].subSegment) !== -1) {
-        			segmentTotal =  $scope.orderSegments[i].actual + segmentTotal;
-        			}
-        		}
-           	$scope.segment.acutal = segmentTotal;
-        };
     }
     dealerProfiles.DealerProfileDirectiveController = DealerProfileDirectiveController;
 })();

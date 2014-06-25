@@ -36,8 +36,7 @@
                                    min="0"
                                    max="999"
                                    numbers-only
-                                   ng-change="sumActualValues()"
-                                   ng-change="updateSegmentTotal(orderSegment.subSegment)"></span>
+                                   ng-change="sumActualValues()"></span>
                         </td>
                     </tr>
 					</tbody>
@@ -77,7 +76,7 @@
                     <td class="">{{segment.name}}</td>
                     <td class="text-center">{{segment.recommended}}</td>
                     <td class="text-center" ng-class="{noncompliant: segment.actual < segment.recommended}" >{{segment.actual}}</td>
-                    <td class="text-center" ng-class="{noncompliant: qty.actual < qty.minimum || qty.actual > qty.maximum}" >{{segmentTotalOS(segment)}} / {{segment.recommendedOSCount}}</td>
+                    <td class="text-center" ng-class="{noncompliant: segment.oSTotal < segment.recommendedOSCount}" >{{segment.oSTotal}} / {{segment.recommendedOSCount}}</td>
                 </tr>
                 <tr class="even">
                     <td class="text-left">Grand Total</td>
