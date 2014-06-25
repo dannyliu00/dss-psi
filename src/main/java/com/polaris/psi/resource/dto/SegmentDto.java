@@ -4,6 +4,7 @@
 package com.polaris.psi.resource.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ public class SegmentDto implements IBaseDto, Serializable {
 	private int recMaximum;
 	private int actual;
 	private int recommendedOSCount;
-	private String subSegment;
+	private List<String> subSegments;
 	
 	private List<IBaseDto> orderSegments;
 
@@ -147,17 +148,22 @@ public class SegmentDto implements IBaseDto, Serializable {
 	}
 
 	/**
-	 * @return the subSegment
+	 * @return the subSegments
 	 */
-	public String getSubSegment() {
-		return subSegment;
+	public List<String> getSubSegments() {
+		return subSegments;
 	}
 
 	/**
-	 * @param subSegment the subSegment to set
+	 * @param subSegments the subSegments to set
 	 */
-	public void setSubSegment(String subSegment) {
-		this.subSegment = subSegment;
+	public void setSubSegment(List<String> subSegments) {
+		this.subSegments = subSegments;
+	}
+	
+	public void addSubSegment(String subSegment) {
+		if(this.subSegments == null) this.subSegments = new ArrayList<String>();
+		this.subSegments.add(subSegment);
 	}
 	
 	/**

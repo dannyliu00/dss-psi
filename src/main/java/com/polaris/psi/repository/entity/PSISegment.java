@@ -14,7 +14,6 @@ public class PSISegment implements Serializable {
 	private static final long serialVersionUID = 1773120674813445145L;
 	
 	private Integer id;
-	private String periodCode;
 	private String name;
 	private Integer recMinimum;
 	private Integer recMaximum;
@@ -33,20 +32,6 @@ public class PSISegment implements Serializable {
 	 */
 	public void setId(Integer id) {
 		this.id = id;
-	}
-	
-	/**
-	 * @return the periodCode
-	 */
-	public String getPeriodCode() {
-		return periodCode;
-	}
-	
-	/**
-	 * @param periodCode the periodCode to set
-	 */
-	public void setPeriodCode(String periodCode) {
-		this.periodCode = periodCode;
 	}
 	
 	/**
@@ -129,8 +114,6 @@ public class PSISegment implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result
-				+ ((periodCode == null) ? 0 : periodCode.hashCode());
-		result = prime * result
 				+ ((recMinimum == null) ? 0 : recMinimum.hashCode());
 		result = prime * result
 				+ ((recOsCount == null) ? 0 : recOsCount.hashCode());
@@ -161,11 +144,6 @@ public class PSISegment implements Serializable {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (periodCode == null) {
-			if (other.periodCode != null)
-				return false;
-		} else if (!periodCode.equals(other.periodCode))
-			return false;
 		if (recMinimum == null) {
 			if (other.recMinimum != null)
 				return false;
@@ -189,8 +167,7 @@ public class PSISegment implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "PSISegment [id=" + id + ", periodCode=" + periodCode
-				+ ", name=" + name + ", recMinimum=" + recMinimum
+		return "PSISegment [id=" + id + ", name=" + name + ", recMinimum=" + recMinimum
 				+ ", recOsCount=" + recOsCount + ", subSegment=" + subSegment
 				+ "]";
 	}

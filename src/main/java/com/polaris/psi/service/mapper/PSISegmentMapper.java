@@ -37,6 +37,9 @@ public class PSISegmentMapper implements IMapper<PSISegment, SegmentDto> {
 	public SegmentDto mapToDto(PSISegment entity) {
 		SegmentDto segment = new SegmentDto();
 		segment.setName(entity.getName());
+		segment.setRecMaximum(entity.getRecMaximum());
+		segment.setRecMinimum(entity.getRecMinimum());
+		segment.setRecommendedOSCount(entity.getRecOsCount());
 		segment.setSegmentId(entity.getId());
 		segment.addSubSegment(entity.getSubSegment());
 		return segment;
