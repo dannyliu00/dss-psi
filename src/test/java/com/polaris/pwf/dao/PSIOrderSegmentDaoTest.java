@@ -30,6 +30,7 @@ public class PSIOrderSegmentDaoTest {
 	private Integer expectedProfileId, expectedDealerId;
 	private BigDecimal expectedId, expectedSort, expectedComplianceId, expectedMin, expectedRec, expectedMax;
 	private String expectedName, expectedSubSegment, expectedPeriodCode;
+	@Mock private PSIOrderSegment mockOrderSegment;
 
 	@Before
 	public void setUp() throws Exception {
@@ -96,6 +97,38 @@ public class PSIOrderSegmentDaoTest {
 		assertEquals(expectedMax.intValueExact(), result.getRecMaximum().intValue());
 		
 		verifyNoMoreInteractions(mockEM, mockQuery);
+	}
+	
+	@Test
+	public void testDoesListContainTrue() {
+		List<PSIOrderSegment> oses = new ArrayList<PSIOrderSegment>();
+		PSIOrderSegment testOs = new PSIOrderSegment();
+		testOs.setName(expectedName);
+		testOs.setPeriodCode(expectedPeriodCode);
+		oses.add(testOs);
+
+		when(mockOrderSegment.getName()).thenReturn(expectedName);
+		when(mockOrderSegment.getPeriodCode()).thenReturn(expectedPeriodCode);
+		
+		boolean result = dao.doesListContain(oses, mockOrderSegment);
+		
+		assertEquals(true, result);
+	}
+
+	@Test
+	public void testDoesListContainFalse() {
+		List<PSIOrderSegment> oses = new ArrayList<PSIOrderSegment>();
+		PSIOrderSegment testOs = new PSIOrderSegment();
+		testOs.setName(expectedName + " unique");
+		testOs.setPeriodCode(expectedPeriodCode + " unique");
+		oses.add(testOs);
+
+		when(mockOrderSegment.getName()).thenReturn(expectedName);
+		when(mockOrderSegment.getPeriodCode()).thenReturn(expectedPeriodCode);
+		
+		boolean result = dao.doesListContain(oses, mockOrderSegment);
+		
+		assertEquals(false, result);
 	}
 
 }

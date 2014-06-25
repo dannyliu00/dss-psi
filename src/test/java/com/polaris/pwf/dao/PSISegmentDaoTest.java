@@ -46,11 +46,11 @@ public class PSISegmentDaoTest {
 		
 		mockResult = new Object[6];
 		mockResult[0] = expectedId;
-		mockResult[1] = expectedPeriodCode;
-		mockResult[2] = expectedName;
+		mockResult[1] = expectedPeriodCode + "                      ";
+		mockResult[2] = expectedName + "                      ";
 		mockResult[3] = expectedMin;
 		mockResult[4] = expectedMax;
-		mockResult[5] = expectedSubSegment;
+		mockResult[5] = expectedSubSegment + "                      ";
 		
 		mockResults = new ArrayList<Object[]>();
 		mockResults.add(mockResult);

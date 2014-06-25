@@ -25,7 +25,7 @@ public class PSIOrderSegmentDao extends AbstractPolarisMinneapolisDao<PSIOrderSe
 	private static Logger LOG = Logger.getLogger(PSIOrderSegmentDao.class);
 	
 	private static String QUERY_BY_PROFILE_AND_DEALER = ""
-			+ "SELECT pandos.N4PSID, pandos.N4OSEG, pandos.N4SORT, "
+			+ "SELECT distinct pandos.N4PSID, pandos.N4OSEG, pandos.N4SORT, "
 			+ "os.C7SBSG, oscomp.N5ID, oscomp.N5CODE, oscomp.N5DLR, oscomp.N5RMIN, oscomp.N5REC, oscomp.N5RMAX "
 			+ "  FROM OT074F pandos INNER JOIN OT025F os ON os.C7OSEG = pandos.N4OSEG "
 			+ "  INNER JOIN OT075F oscomp ON oscomp.N5IPID = pandos.N4IPID AND oscomp.N5OSEG = pandos.N4OSEG "
@@ -62,12 +62,22 @@ public class PSIOrderSegmentDao extends AbstractPolarisMinneapolisDao<PSIOrderSe
 			os.setRecommended(CommonUtils.convertToInteger((BigDecimal) result[8]));
 			os.setRecMaximum(CommonUtils.convertToInteger((BigDecimal) result[9]));
 			
-			orderSegments.add(os);
+			if(!doesListContain(orderSegments, os)) orderSegments.add(os);
 		}
 		
 		entityManager.close();
 		
 		return orderSegments;
+	}
+	
+	protected boolean doesListContain(List<PSIOrderSegment> oses, PSIOrderSegment os) {
+		
+		for (PSIOrderSegment orderSegment : oses) {
+			if(orderSegment.getName().equals(os.getName()) && orderSegment.getPeriodCode().equals(os.getPeriodCode()))
+				return true;
+		}
+		
+		return false;
 	}
 
 }
