@@ -35,8 +35,8 @@ public class PSIProfilePeriodMapper implements IMapper<PSIProfilePeriod, Profile
 		
 		dto.setEndDate(entity.getEndDate());
 		dto.setId(entity.getId());
-		dto.setName(dto.getName());
-		dto.setStartDate(dto.getStartDate());
+		dto.setName(entity.getName());
+		dto.setStartDate(entity.getStartDate());
 		
 		return dto;
 	}
