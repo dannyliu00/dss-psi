@@ -44,7 +44,7 @@ public class PSIProfileMapper implements IMapper<PSIProfile, ProfileDto> {
 		dto.setProfileId(entity.getId());
 		dto.setStatus(getStatus(entity.getStatus()));
 		
-		typeMapper.mapTypeToProfile(entity.getName(), dto);
+		typeMapper.mapTypeToProfile(entity.getType(), dto);
 		
 		return dto;
 	}
