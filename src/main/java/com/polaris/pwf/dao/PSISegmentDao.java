@@ -58,7 +58,7 @@ public class PSISegmentDao extends AbstractPolarisMinneapolisDao<PSISegment> {
 			segment.setRecOsCount(CommonUtils.convertToInteger((BigDecimal) result[4]));
 			segment.setSubSegment(CommonUtils.trimString((String) result[5]));
 			
-			segments.add(segment);
+			if(segment.getSubSegment() != null) segments.add(segment);
 		}
 		
 		entityManager.close();

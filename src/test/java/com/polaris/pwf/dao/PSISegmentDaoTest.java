@@ -44,6 +44,17 @@ public class PSISegmentDaoTest {
 		expectedName = "UT Name";
 		expectedSubSegment = "UT SubSegment";
 		
+		dao = new PSISegmentDao();
+		dao.entityManager = mockEM;
+		
+		when(mockEM.createNativeQuery(anyString())).thenReturn(mockQuery);
+		when(mockQuery.setParameter("profileId", expectedProfileId)).thenReturn(mockQuery);
+		when(mockQuery.setParameter("dealerId", expectedDealerId)).thenReturn(mockQuery);
+		when(mockQuery.setParameter("type", expectedType)).thenReturn(mockQuery);
+	}
+
+	@Test
+	public void testRetrieveByProfile() {
 		mockResult = new Object[6];
 		mockResult[0] = expectedId;
 		mockResult[1] = expectedName + "                      ";
@@ -54,19 +65,8 @@ public class PSISegmentDaoTest {
 		
 		mockResults = new ArrayList<Object[]>();
 		mockResults.add(mockResult);
-		
-		dao = new PSISegmentDao();
-		dao.entityManager = mockEM;
-		
-		when(mockEM.createNativeQuery(anyString())).thenReturn(mockQuery);
-		when(mockQuery.setParameter("profileId", expectedProfileId)).thenReturn(mockQuery);
-		when(mockQuery.setParameter("dealerId", expectedDealerId)).thenReturn(mockQuery);
-		when(mockQuery.setParameter("type", expectedType)).thenReturn(mockQuery);
 		when(mockQuery.getResultList()).thenReturn(mockResults);
-	}
-
-	@Test
-	public void testRetrieveByProfileDealerAndType() {
+		
 		List<PSISegment> results = dao.retrieveByProfileDealerAndType(expectedProfileId, expectedDealerId, expectedType);
 		
 		verify(mockEM).createNativeQuery(anyString());
@@ -84,6 +84,33 @@ public class PSISegmentDaoTest {
 		assertEquals(expectedMax.intValueExact(), result.getRecMaximum().intValue());
 		assertEquals(expectedOsCount.intValueExact(), result.getRecOsCount().intValue());
 		assertEquals(expectedSubSegment, result.getSubSegment());
+		
+		verifyNoMoreInteractions(mockEM, mockQuery);
+	}
+
+	@Test
+	public void testRetrieveByProfileNoSubSegment() {
+		mockResult = new Object[6];
+		mockResult[0] = expectedId;
+		mockResult[1] = expectedName + "                      ";
+		mockResult[2] = expectedMin;
+		mockResult[3] = expectedMax;
+		mockResult[4] = expectedOsCount;
+		
+		mockResults = new ArrayList<Object[]>();
+		mockResults.add(mockResult);
+		when(mockQuery.getResultList()).thenReturn(mockResults);
+		
+		List<PSISegment> results = dao.retrieveByProfileDealerAndType(expectedProfileId, expectedDealerId, expectedType);
+		
+		verify(mockEM).createNativeQuery(anyString());
+		verify(mockQuery).setParameter("profileId", expectedProfileId);
+		verify(mockQuery).setParameter("dealerId", expectedDealerId);
+		verify(mockQuery).setParameter("type", expectedType);
+		verify(mockQuery).getResultList();
+		verify(mockEM).close();
+
+		assertEquals(results.size(), 0);
 		
 		verifyNoMoreInteractions(mockEM, mockQuery);
 	}
