@@ -18,6 +18,7 @@ public class PSISegment implements Serializable {
 	private String name;
 	private Integer recMinimum;
 	private Integer recMaximum;
+	private Integer recOsCount;
 	private String subSegment;
 
 	/**
@@ -91,6 +92,20 @@ public class PSISegment implements Serializable {
 	}
 	
 	/**
+	 * @return the recOsCount
+	 */
+	public Integer getRecOsCount() {
+		return recOsCount;
+	}
+
+	/**
+	 * @param recOsCount the recOsCount to set
+	 */
+	public void setRecOsCount(Integer recOsCount) {
+		this.recOsCount = recOsCount;
+	}
+
+	/**
 	 * @return the subSegment
 	 */
 	public String getSubSegment() {
@@ -117,6 +132,8 @@ public class PSISegment implements Serializable {
 				+ ((periodCode == null) ? 0 : periodCode.hashCode());
 		result = prime * result
 				+ ((recMinimum == null) ? 0 : recMinimum.hashCode());
+		result = prime * result
+				+ ((recOsCount == null) ? 0 : recOsCount.hashCode());
 		result = prime * result
 				+ ((subSegment == null) ? 0 : subSegment.hashCode());
 		return result;
@@ -154,6 +171,11 @@ public class PSISegment implements Serializable {
 				return false;
 		} else if (!recMinimum.equals(other.recMinimum))
 			return false;
+		if (recOsCount == null) {
+			if (other.recOsCount != null)
+				return false;
+		} else if (!recOsCount.equals(other.recOsCount))
+			return false;
 		if (subSegment == null) {
 			if (other.subSegment != null)
 				return false;
@@ -161,7 +183,7 @@ public class PSISegment implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -169,7 +191,8 @@ public class PSISegment implements Serializable {
 	public String toString() {
 		return "PSISegment [id=" + id + ", periodCode=" + periodCode
 				+ ", name=" + name + ", recMinimum=" + recMinimum
-				+ ", subSegment=" + subSegment + "]";
+				+ ", recOsCount=" + recOsCount + ", subSegment=" + subSegment
+				+ "]";
 	}
-	
+
 }
