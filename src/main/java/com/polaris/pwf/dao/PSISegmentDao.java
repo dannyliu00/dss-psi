@@ -3,6 +3,7 @@
  */
 package com.polaris.pwf.dao;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,11 +51,11 @@ public class PSISegmentDao extends AbstractPolarisMinneapolisDao<PSISegment> {
 		
 		for (Object[] result : results) {
 			PSISegment segment = new PSISegment();
-			segment.setId((Integer) result[0]);
+			segment.setId(CommonUtils.convertToInteger((BigDecimal) result[0]));
 			segment.setPeriodCode(CommonUtils.trimString((String) result[1]));
 			segment.setName(CommonUtils.trimString((String) result[2]));
-			segment.setRecMinimum((Integer) result[3]);
-			segment.setRecMaximum((Integer) result[4]);
+			segment.setRecMinimum(CommonUtils.convertToInteger((BigDecimal) result[3]));
+			segment.setRecMaximum(CommonUtils.convertToInteger((BigDecimal) result[4]));
 			segment.setSubSegment((String) result[5]);
 			
 			segments.add(segment);
