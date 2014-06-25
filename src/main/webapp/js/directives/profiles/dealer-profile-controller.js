@@ -53,14 +53,14 @@
         $scope.getRecTotals = function() {
         	var totalRecQty = 0;
 	    	for(var j=0; j < $scope.profile.periods.length; j++) {
-                var periodId = $scope.profile.periods[j].id;
+                var periodCode = $scope.profile.periods[j].code;
 	            var recQty = 0, recMin = 0, recMax = 0;
 	            for(var i=0; i < $scope.orderSegments.length; i++) {
 	            	var orderSegment = $scope.orderSegments[i];
 	            	if(($scope.profile.type === "motorcycle") && (orderSegment.subSegment !== null)) {
 	            		recSegmentTotal(orderSegment.subSegment);
 	            	}
-                    if(orderSegment.periodId === periodId) {
+                    if(orderSegment.periodCode === periodCode) {
 	                    recQty = recQty + orderSegment.recommended;
 	                    recMin = recMin + orderSegment.recMinimum;
 	                    recMax = recMax + orderSegment.recMaximum;
@@ -100,11 +100,11 @@
         $scope.getActualGrandTotal = function() {
         	var totalQty = 0;
 	    	for(var j=0; j < $scope.profile.periods.length; j++) {
-                var periodId = $scope.profile.periods[j].id;
+                var periodCode = $scope.profile.periods[j].code;
 	            var actQty = 0;    
 	            for(var i=0; i < $scope.orderSegments.length; i++) {
 	                var orderSegment = $scope.orderSegments[i];
-                    if(orderSegment.periodId === periodId) {
+                    if(orderSegment.periodCode === periodCode) {
 	                    actQty = actQty + orderSegment.actual;
                     }
 	            }
