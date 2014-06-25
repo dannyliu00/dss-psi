@@ -23,7 +23,11 @@ public class PSISegmentMapper implements IMapper<PSISegment, SegmentDto> {
 		List<SegmentDto> segments = new ArrayList<SegmentDto>();
 		
 		for (PSISegment entity : entities) {
-			segments.add(mapToDto(entity));
+			SegmentDto segment = mapToDto(entity);
+			if(doesListContain(segments, segment))
+				mapSubSegmentToSegment(segments, entity);
+			else
+				segments.add(mapToDto(entity));
 		}
 
 		return segments;
@@ -34,8 +38,24 @@ public class PSISegmentMapper implements IMapper<PSISegment, SegmentDto> {
 		SegmentDto segment = new SegmentDto();
 		segment.setName(entity.getName());
 		segment.setSegmentId(entity.getId());
-		segment.setSubSegment(entity.getSubSegment());
+		segment.addSubSegment(entity.getSubSegment());
 		return segment;
+	}
+	
+	protected boolean doesListContain(List<SegmentDto> segments, SegmentDto segment) {
+		for (SegmentDto dto : segments) {
+			if(dto.getName().equals(segment.getName())) return true;
+		}
+		return false;
+	}
+	
+	protected void mapSubSegmentToSegment(List<SegmentDto> segments, PSISegment segment) {
+		for (SegmentDto dto : segments) {
+			if(dto.getName().equals(segment.getName())) {
+				dto.addSubSegment(segment.getSubSegment());
+				return;
+			}
+		}
 	}
 
 }
