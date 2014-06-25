@@ -16,6 +16,7 @@ public class ProfilePeriodDto implements IBaseDto, Serializable {
 	private static final long serialVersionUID = 1173799493575017477L;
 	
 	private int id;
+	private String code;
 	private String name;
 	private Date startDate;
 	private Date endDate;
@@ -40,6 +41,20 @@ public class ProfilePeriodDto implements IBaseDto, Serializable {
 		this.id = id;
 	}
 	
+	/**
+	 * @return the code
+	 */
+	public String getCode() {
+		return code;
+	}
+
+	/**
+	 * @param code the code to set
+	 */
+	public void setCode(String code) {
+		this.code = code;
+	}
+
 	/**
 	 * @return the name
 	 */

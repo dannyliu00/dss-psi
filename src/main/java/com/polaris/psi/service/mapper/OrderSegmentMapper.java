@@ -44,7 +44,7 @@ public class OrderSegmentMapper implements IMapper<OrderSegmentCompliance, Order
 		dto.setRecMaximum(entity.getMaximum() == null ? 0 : entity.getMaximum());
 		dto.setRecMinimum(entity.getMinimum() == null ? 0 : entity.getMinimum());
 		dto.setRecommended(entity.getRecommended() == null ? 0 : entity.getRecommended());
-		dto.setPeriod(entity.getProfilePeriod().getName());
+		dto.setPeriodCode(entity.getProfilePeriod().getPeriodCode());
 		dto.setPeriodId(entity.getProfilePeriod().getId());
 		dto.setPeriodStartDate(CommonUtils.convertDate(entity.getProfilePeriod().getStartDate()));
 		

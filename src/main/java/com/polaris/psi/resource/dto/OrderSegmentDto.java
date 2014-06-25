@@ -24,7 +24,7 @@ public class OrderSegmentDto implements IBaseDto, Serializable {
 	private int recommended;
 	private int recMaximum;
 	private int actual;
-	private String period;
+	private String periodCode;
 	private int periodId;
 	private Date periodStartDate;
 	
@@ -154,17 +154,17 @@ public class OrderSegmentDto implements IBaseDto, Serializable {
 	}
 	
 	/**
-	 * @return the period
+	 * @return the periodCode
 	 */
-	public String getPeriod() {
-		return period;
+	public String getPeriodCode() {
+		return periodCode;
 	}
 
 	/**
-	 * @param period the period to set
+	 * @param periodCode the periodCode to set
 	 */
-	public void setPeriod(String period) {
-		this.period = period;
+	public void setPeriodCode(String periodCode) {
+		this.periodCode = periodCode;
 	}
 
 	/**
