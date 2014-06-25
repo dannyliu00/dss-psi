@@ -25,10 +25,10 @@ public class PSISegmentDao extends AbstractPolarisMinneapolisDao<PSISegment> {
 	private static Logger LOG = Logger.getLogger(PSISegmentDao.class);
 
 	private static String QUERY_BY_PROFILE_DEALER_AND_TYPE = ""
-			+ "SELECT distinct segComp.N6ID, segComp.N6CODE, segComp.N6SSID, segComp.N6SMIN, segComp.N6SMAX, segments.MISBSG "
-			+ "FROM OT076F segComp inner join FG004F segments "
-			+ "on segComp.N6SSID = segments.MISPSG "
-			+ "WHERE segComp.N6IPID = :profileId and segComp.N6DLR = :dealerId and segments.MIPTYP = :type";
+			+ "SELECT distinct segComp.N6ID, segComp.N6CODE, segComp.N6SSID, segComp.N6SMIN, segComp.N6SMAX, segComp.N6OREQ, segments.MISBSG "
+			+ "  FROM OT076F segComp inner join FG004F segments "
+			+ "    on segComp.N6SSID = segments.MISPSG "
+			+ " WHERE segComp.N6IPID = :profileId and segComp.N6DLR = :dealerId and segments.MIPTYP = :type";
 
 	public PSISegmentDao() {
 		super(PSISegment.class);
@@ -56,7 +56,8 @@ public class PSISegmentDao extends AbstractPolarisMinneapolisDao<PSISegment> {
 			segment.setName(CommonUtils.trimString((String) result[2]));
 			segment.setRecMinimum(CommonUtils.convertToInteger((BigDecimal) result[3]));
 			segment.setRecMaximum(CommonUtils.convertToInteger((BigDecimal) result[4]));
-			segment.setSubSegment(CommonUtils.trimString((String) result[5]));
+			segment.setRecOsCount(CommonUtils.convertToInteger((BigDecimal) result[5]));
+			segment.setSubSegment(CommonUtils.trimString((String) result[6]));
 			
 			segments.add(segment);
 		}

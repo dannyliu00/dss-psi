@@ -28,7 +28,7 @@ public class PSISegmentDaoTest {
 	private Object[] mockResult;
 	private List<Object[]> mockResults;
 	private Integer expectedProfileId, expectedDealerId;
-	private BigDecimal expectedId, expectedMin, expectedMax;
+	private BigDecimal expectedId, expectedMin, expectedMax, expectedOsCount;
 	private String expectedPeriodCode, expectedName, expectedSubSegment, expectedType;
 	
 	@Before
@@ -40,17 +40,19 @@ public class PSISegmentDaoTest {
 		expectedDealerId = 888;
 		expectedMin = new BigDecimal(1);
 		expectedMax = new BigDecimal(5);
+		expectedOsCount = new BigDecimal(2);
 		expectedPeriodCode = "UT period code";
 		expectedName = "UT Name";
 		expectedSubSegment = "UT SubSegment";
 		
-		mockResult = new Object[6];
+		mockResult = new Object[7];
 		mockResult[0] = expectedId;
 		mockResult[1] = expectedPeriodCode + "                      ";
 		mockResult[2] = expectedName + "                      ";
 		mockResult[3] = expectedMin;
 		mockResult[4] = expectedMax;
-		mockResult[5] = expectedSubSegment + "                      ";
+		mockResult[5] = expectedOsCount;
+		mockResult[6] = expectedSubSegment + "                      ";
 		
 		mockResults = new ArrayList<Object[]>();
 		mockResults.add(mockResult);
@@ -83,6 +85,7 @@ public class PSISegmentDaoTest {
 		assertEquals(expectedName, result.getName());
 		assertEquals(expectedMin.intValueExact(), result.getRecMinimum().intValue());
 		assertEquals(expectedMax.intValueExact(), result.getRecMaximum().intValue());
+		assertEquals(expectedOsCount.intValueExact(), result.getRecOsCount().intValue());
 		assertEquals(expectedSubSegment, result.getSubSegment());
 		
 		verifyNoMoreInteractions(mockEM, mockQuery);
