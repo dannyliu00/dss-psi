@@ -54,6 +54,8 @@ public class CommonUtils {
 	public static String trimString(String value) {
 		if(value == null) return null;
 		
+		if(value.trim().length() == 0) return null;
+		
 		return value.trim();
 	}
 }
