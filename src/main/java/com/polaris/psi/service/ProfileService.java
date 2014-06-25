@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.polaris.psi.repository.entity.PSIOrderSegment;
 import com.polaris.psi.repository.entity.PSIProfile;
 import com.polaris.psi.repository.entity.PSIProfileDetail;
+import com.polaris.psi.repository.entity.PSIProfilePeriod;
 import com.polaris.psi.repository.entity.PSISegment;
 import com.polaris.psi.repository.entity.Profile;
 import com.polaris.psi.repository.entity.Segment;
@@ -19,10 +20,12 @@ import com.polaris.psi.repository.entity.SegmentCompliance;
 import com.polaris.psi.resource.dto.ProfileDto;
 import com.polaris.psi.service.mapper.PSIOrderSegmentMapper;
 import com.polaris.psi.service.mapper.PSIProfileMapper;
+import com.polaris.psi.service.mapper.PSIProfilePeriodMapper;
 import com.polaris.psi.service.mapper.PSISegmentMapper;
 import com.polaris.pwf.dao.PSIOrderSegmentDao;
 import com.polaris.pwf.dao.PSIProfileDao;
 import com.polaris.pwf.dao.PSIProfileDetailDao;
+import com.polaris.pwf.dao.PSIProfilePeriodDao;
 import com.polaris.pwf.dao.PSISegmentDao;
 
 /**
@@ -39,6 +42,9 @@ public class ProfileService {
 	PSIProfileDetailDao psiDetailDao;
 	
 	@Autowired
+	PSIProfilePeriodDao profilePeriodDao;
+	
+	@Autowired
 	PSISegmentDao psiSegmentDao;
 	
 	@Autowired
@@ -46,6 +52,9 @@ public class ProfileService {
 	
 	@Autowired
 	PSIProfileMapper profileMapper;
+	
+	@Autowired
+	PSIProfilePeriodMapper periodMapper;
 	
 	@Autowired
 	PSISegmentMapper segmentMapper;
@@ -76,7 +85,8 @@ public class ProfileService {
     	dto.setSegments(segmentMapper.mapToDto(psiSegments));
     	dto.setOrderSegments(osMapper.mapToDto(psiOSes, details));
     	
-    	//TODO retrieve profile periods and add collection to ProfileDto
+    	List<PSIProfilePeriod> periods = profilePeriodDao.retrieveByProfileId(psiProfile.getId());
+    	dto.setPeriods(periodMapper.mapToDto(periods));
     	
     	return dto;
 	}

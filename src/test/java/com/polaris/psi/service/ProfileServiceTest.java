@@ -17,16 +17,20 @@ import org.mockito.MockitoAnnotations;
 import com.polaris.psi.repository.entity.PSIOrderSegment;
 import com.polaris.psi.repository.entity.PSIProfile;
 import com.polaris.psi.repository.entity.PSIProfileDetail;
+import com.polaris.psi.repository.entity.PSIProfilePeriod;
 import com.polaris.psi.repository.entity.PSISegment;
 import com.polaris.psi.resource.dto.OrderSegmentDto;
 import com.polaris.psi.resource.dto.ProfileDto;
 import com.polaris.psi.resource.dto.ProfilePeriodDto;
 import com.polaris.psi.resource.dto.SegmentDto;
+import com.polaris.psi.service.mapper.PSIOrderSegmentMapper;
 import com.polaris.psi.service.mapper.PSIProfileMapper;
+import com.polaris.psi.service.mapper.PSIProfilePeriodMapper;
 import com.polaris.psi.service.mapper.PSISegmentMapper;
 import com.polaris.pwf.dao.PSIOrderSegmentDao;
 import com.polaris.pwf.dao.PSIProfileDao;
 import com.polaris.pwf.dao.PSIProfileDetailDao;
+import com.polaris.pwf.dao.PSIProfilePeriodDao;
 import com.polaris.pwf.dao.PSISegmentDao;
 
 public class ProfileServiceTest {
@@ -44,11 +48,15 @@ public class ProfileServiceTest {
 	@Mock private OrderSegmentDto mockOrderSegmentDto;
 	@Mock private SegmentDto mockSegmentDto;
 	@Mock private ProfilePeriodDto mockProfilePeriodDto;
+	@Mock private PSIProfilePeriodDao mockProfilePeriodDao;
+	@Mock private PSIProfilePeriodMapper mockProfilePeriodMapper;
+	@Mock private PSIOrderSegmentMapper mockOrderSegmentMapper;
 	
 	private List<PSIProfile> mockProfiles;
 	private List<PSIProfileDetail> mockDetails;
 	private List<PSIOrderSegment> mockOSes;
 	private List<PSISegment> mockSegments;
+	private List<PSIProfilePeriod> mockProfilePeriods;
 	private List<OrderSegmentDto> mockOrderSegmentDtos;
 	private List<SegmentDto> mockSegmentDtos;
 	private List<ProfilePeriodDto> mockProfilePeriodDtos;
@@ -80,6 +88,9 @@ public class ProfileServiceTest {
 		mockSegmentDtos.add(mockSegmentDto);
 		when(mockSegmentDto.getType()).thenReturn(expectedType);
 		
+		mockProfilePeriods = new ArrayList<PSIProfilePeriod>();
+		when(mockProfilePeriodDao.retrieveByProfileId(profileId)).thenReturn(mockProfilePeriods);
+		
 		mockProfilePeriodDtos = new ArrayList<ProfilePeriodDto>();
 		mockProfilePeriodDtos.add(mockProfilePeriodDto);
 		
@@ -90,6 +101,9 @@ public class ProfileServiceTest {
 		service.psiOsDao = mockPsiOsDao;
 		service.psiSegmentDao = mockPsiSegmentDao;
 		service.segmentMapper = mockSegmentMapper;
+		service.profilePeriodDao = mockProfilePeriodDao;
+		service.periodMapper = mockProfilePeriodMapper;
+		service.osMapper = mockOrderSegmentMapper;
 	}
 	
 	@After
@@ -117,6 +131,8 @@ public class ProfileServiceTest {
 		when(mockPsiOsDao.retrieveByProfileAndDealer(profileId, dealerId)).thenReturn(mockOSes);
 		when(mockPsiSegmentDao.retrieveByProfileDealerAndType(profileId, dealerId, typeCode)).thenReturn(mockSegments);
 		when(mockProfileMapper.mapToDto(mockProfile)).thenReturn(mockDto);
+		when(mockProfilePeriodMapper.mapToDto(mockProfilePeriods)).thenReturn(mockProfilePeriodDtos);
+		when(mockOrderSegmentMapper.mapToDto(mockOSes, mockDetails)).thenReturn(mockOrderSegmentDtos);
 		
 		service.getDealerProfile(profileId, dealerId);
 		
@@ -126,6 +142,8 @@ public class ProfileServiceTest {
 		verify(mockPsiDetailDao).retrieveByHeaderId(headerId);
 		verify(mockPsiOsDao).retrieveByProfileAndDealer(profileId, dealerId);
 		verify(mockPsiSegmentDao).retrieveByProfileDealerAndType(profileId, dealerId, typeCode);
+		verify(mockProfilePeriodMapper).mapToDto(mockProfilePeriods);
+		verify(mockOrderSegmentMapper).mapToDto(mockOSes, mockDetails);
 		
 		verify(mockProfileMapper).mapToDto(mockProfile);
 		verify(mockSegmentMapper).mapToDto(mockSegments);
