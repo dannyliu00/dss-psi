@@ -39,6 +39,5 @@
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/servers/wlp/usr/servers/psi/libs/jt400.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
