@@ -32,7 +32,7 @@ public class DealerResource {
 
 	@GET
     @Path("/{dealerId}")
-    @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
+    @Produces(MediaType.APPLICATION_JSON)
 	public DealerDto getDealer(@PathParam("dealerId") int dealerId) {
 		
 		return service.getDealer(dealerId);

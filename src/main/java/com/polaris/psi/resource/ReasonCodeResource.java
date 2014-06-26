@@ -34,7 +34,7 @@ public class ReasonCodeResource {
 	
 	@GET
 	@Path("/{roleId}")
-    @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
+    @Produces(MediaType.APPLICATION_JSON)
 	public List<ReasonCodeDto> getReasonCodes(@PathParam("roleId") int roleId) {
 		return service.getReasonCodes(roleId);
 	}

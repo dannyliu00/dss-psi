@@ -30,7 +30,7 @@ public class ProfilesResource {
 	
 	@GET
     @Path("/{dealerId}")
-    @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
+    @Produces(MediaType.APPLICATION_JSON)
 	public List<ProfileDto> getProfiles(@PathParam("dealerId") int dealerId) {
 		
 		return service.getDealerProfiles(dealerId);

@@ -32,7 +32,7 @@ public class ProfileResource {
 	
 	@GET
     @Path("/{profileId}")
-    @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
+    @Produces(MediaType.APPLICATION_JSON)
 	public ProfileDto getProfile(@PathParam("profileId") int profileId, @PathParam("dealerId") int dealerId) {
 
 		if(sessionHelper.getUserData().isDealer()) {

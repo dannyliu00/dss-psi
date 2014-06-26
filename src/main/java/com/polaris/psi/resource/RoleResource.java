@@ -26,7 +26,7 @@ public class RoleResource {
 	SessionHelper sessionHelper;
 
 	@GET
-    @Produces(MediaType.APPLICATION_JSON + ";charset=UTF-8")
+    @Produces(MediaType.APPLICATION_JSON)
 	public UserData getRole() {
 		
 		return sessionHelper.getUserData();
