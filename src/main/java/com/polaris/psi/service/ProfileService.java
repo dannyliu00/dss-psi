@@ -14,9 +14,6 @@ import com.polaris.psi.repository.entity.PSIProfile;
 import com.polaris.psi.repository.entity.PSIProfileDetail;
 import com.polaris.psi.repository.entity.PSIProfilePeriod;
 import com.polaris.psi.repository.entity.PSISegment;
-import com.polaris.psi.repository.entity.Profile;
-import com.polaris.psi.repository.entity.Segment;
-import com.polaris.psi.repository.entity.SegmentCompliance;
 import com.polaris.psi.resource.dto.ProfileDto;
 import com.polaris.psi.service.mapper.PSIOrderSegmentMapper;
 import com.polaris.psi.service.mapper.PSIProfileMapper;
@@ -91,31 +88,4 @@ public class ProfileService {
     	return dto;
 	}
 	
-	protected String getSegmentType(List<Segment> segments) {
-		if(segments.equals(null)) return "";
-		
-		if(segments.size() < 1 ) return "";
-		
-		return segments.get(0).getType();
-	}
-	
-	protected String getSegmentName(List<SegmentCompliance> segments) {
-		if(segments.equals(null)) return "";
-		
-		if(segments.size() < 1 ) return "";
-		
-		return segments.get(0).getName();
-	}
-	
-	protected boolean hasSegments(Profile profile) {
-		List<SegmentCompliance> compliance = profile.getSegmentComplianceValues();
-		
-		if(compliance.equals(null)) return false;
-		
-		if(compliance.size() < 1) return false;
-		
-		return true;
-		
-	}
-
 }

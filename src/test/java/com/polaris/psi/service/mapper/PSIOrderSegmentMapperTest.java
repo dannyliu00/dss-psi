@@ -23,7 +23,7 @@ public class PSIOrderSegmentMapperTest {
 	private PSIOrderSegmentMapper mapper;
 	@Mock private PSIOrderSegment mockOS;
 	@Mock private PSIProfileDetail mockDetail;
-	private Integer expectedId, expectedSort, expectedComplianceId, expectedDealerId, expectedRecMinimum, 
+	private Integer expectedId, expectedSort, expectedComplianceId, expectedDealerId, expectedProfileId, expectedRecMinimum, 
 		expectedRecommended, expectedRecMaximum;
 	private Integer expectedHeaderId, expectedProfileOrderSegmentId, expectedRequestedQty, expectedReasonCode, 
 		expectedDsmQty, expectedDsmReasonCode, expectedAdminQty, expectedAdminReasonCode, expectedFinalQty;
@@ -37,6 +37,7 @@ public class PSIOrderSegmentMapperTest {
 		expectedId = 999;
 		expectedSort = 1;
 		expectedComplianceId = 11;
+		expectedProfileId = 1000;
 		expectedDealerId = 888;
 		expectedRecMinimum = 1;
 		expectedRecommended = 3;
@@ -60,6 +61,7 @@ public class PSIOrderSegmentMapperTest {
 		expectedAdminComments = "UT Admin comments";
 		
 		when(mockOS.getComplianceId()).thenReturn(expectedComplianceId);
+		when(mockOS.getProfileId()).thenReturn(expectedProfileId);
 		when(mockOS.getDealerId()).thenReturn(expectedDealerId);
 		when(mockOS.getId()).thenReturn(expectedId);
 		when(mockOS.getName()).thenReturn(expectedName);
@@ -93,6 +95,7 @@ public class PSIOrderSegmentMapperTest {
 		
 		verify(mockOS).getComplianceId();
 		verify(mockOS).getDealerId();
+		verify(mockOS).getProfileId();
 		verify(mockOS).getName();
 		verify(mockOS).getPeriodCode();
 		verify(mockOS).getRecMaximum();
@@ -120,6 +123,7 @@ public class PSIOrderSegmentMapperTest {
 	public void testMapToDtoPSIOrderSegment() {
 		mapper.mapToDto(mockOS, null);
 		
+		verify(mockOS).getProfileId();
 		verify(mockOS).getComplianceId();
 		verify(mockOS).getDealerId();
 		verify(mockOS).getName();
@@ -144,6 +148,7 @@ public class PSIOrderSegmentMapperTest {
 		
 		assertEquals(1, results.size());
 		
+		verify(mockOS).getProfileId();
 		verify(mockOS).getComplianceId();
 		verify(mockOS).getDealerId();
 		verify(mockOS).getName();
@@ -178,6 +183,7 @@ public class PSIOrderSegmentMapperTest {
 		
 		assertEquals(1, results.size());
 		
+		verify(mockOS).getProfileId();
 		verify(mockOS).getComplianceId();
 		verify(mockOS).getDealerId();
 		verify(mockOS).getName();

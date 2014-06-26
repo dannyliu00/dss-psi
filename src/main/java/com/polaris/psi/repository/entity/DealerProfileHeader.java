@@ -21,7 +21,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "Profile.OT077F_DealerProfileHeader")
+@Table(name = "OT077F")
 public class DealerProfileHeader implements Serializable {
 
 	private static final long serialVersionUID = -8042124328347338586L;
@@ -30,9 +30,8 @@ public class DealerProfileHeader implements Serializable {
 	@Column(name = "N7DHID")
 	private int id;
 
-	@ManyToOne
-	@JoinColumn(name = "N7IPID")
-	private Profile profile;
+	@Column(name = "N7IPID")
+	private int profileId;
 	
 	@Column(name = "N7DLR")
 	private int dealerId;
@@ -59,17 +58,17 @@ public class DealerProfileHeader implements Serializable {
 	}
 
 	/**
-	 * @return the profile
+	 * @return the profileId
 	 */
-	public Profile getProfile() {
-		return profile;
+	public int getProfileId() {
+		return profileId;
 	}
 
 	/**
-	 * @param profile the profile to set
+	 * @param profileId the profileId to set
 	 */
-	public void setProfile(Profile profile) {
-		this.profile = profile;
+	public void setProfileId(int profileId) {
+		this.profileId = profileId;
 	}
 
 	/**

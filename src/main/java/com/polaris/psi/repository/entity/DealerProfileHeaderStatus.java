@@ -15,7 +15,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "Profile.OT079F_DealerProfileHeaderStatus")
+@Table(name = "OT079F")
 public class DealerProfileHeaderStatus implements Serializable {
 
 	private static final long serialVersionUID = 2110848633815105165L;

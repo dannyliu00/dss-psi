@@ -26,7 +26,7 @@ public class PSIOrderSegmentDao extends AbstractPolarisMinneapolisDao<PSIOrderSe
 	
 	private static String QUERY_BY_PROFILE_AND_DEALER = ""
 			+ "SELECT distinct pandos.N4PSID, pandos.N4OSEG, pandos.N4SORT, "
-			+ "os.C7SBSG, oscomp.N5ID, oscomp.N5CODE, oscomp.N5DLR, oscomp.N5RMIN, oscomp.N5REC, oscomp.N5RMAX "
+			+ "os.C7SBSG, oscomp.N5ID, oscomp.N5CODE, oscomp.N5RMIN, oscomp.N5REC, oscomp.N5RMAX "
 			+ "  FROM OT074F pandos INNER JOIN OT025F os ON os.C7OSEG = pandos.N4OSEG "
 			+ "  INNER JOIN OT075F oscomp ON oscomp.N5IPID = pandos.N4IPID AND oscomp.N5OSEG = pandos.N4OSEG "
 			+ " WHERE pandos.N4IPID = :profileId AND oscomp.N5DLR = :dealerId";
@@ -51,16 +51,17 @@ public class PSIOrderSegmentDao extends AbstractPolarisMinneapolisDao<PSIOrderSe
 		List<PSIOrderSegment> orderSegments = new ArrayList<PSIOrderSegment>();
 		for (Object[] result : results) {
 			PSIOrderSegment os = new PSIOrderSegment();
+			os.setProfileId(profileId);
+			os.setDealerId(dealerId);
 			os.setId(CommonUtils.convertToInteger((BigDecimal) result[0]));
 			os.setName(CommonUtils.trimString((String) result[1]));
 			os.setSort(CommonUtils.convertToInteger((BigDecimal) result[2]));
 			os.setSubSegment(CommonUtils.trimString((String) result[3]));
 			os.setComplianceId(CommonUtils.convertToInteger((BigDecimal) result[4]));
 			os.setPeriodCode(CommonUtils.trimString((String) result[5]));
-			os.setDealerId(CommonUtils.convertToInteger((BigDecimal) result[6]));
-			os.setRecMinimum(CommonUtils.convertToInteger((BigDecimal) result[7]));
-			os.setRecommended(CommonUtils.convertToInteger((BigDecimal) result[8]));
-			os.setRecMaximum(CommonUtils.convertToInteger((BigDecimal) result[9]));
+			os.setRecMinimum(CommonUtils.convertToInteger((BigDecimal) result[6]));
+			os.setRecommended(CommonUtils.convertToInteger((BigDecimal) result[7]));
+			os.setRecMaximum(CommonUtils.convertToInteger((BigDecimal) result[8]));
 			
 			if(!doesListContain(orderSegments, os)) orderSegments.add(os);
 		}

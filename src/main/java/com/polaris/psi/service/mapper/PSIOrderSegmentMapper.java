@@ -40,6 +40,7 @@ public class PSIOrderSegmentMapper {
 	public OrderSegmentDto mapToDto(PSIOrderSegment os, PSIProfileDetail detail) {
 		OrderSegmentDto dto = new OrderSegmentDto();
 		
+		dto.setProfileId(os.getProfileId());
 		dto.setComplianceId(os.getComplianceId());
 		dto.setDealerId(os.getDealerId());
 		dto.setName(os.getName());

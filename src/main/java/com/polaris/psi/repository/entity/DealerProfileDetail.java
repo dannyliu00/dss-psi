@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -18,7 +17,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "Profile.OT078F_DealerProfileDetail")
+@Table(name = "OT078F")
 public class DealerProfileDetail implements Serializable {
 
 	private static final long serialVersionUID = 8268329969553727531L;
@@ -31,9 +30,8 @@ public class DealerProfileDetail implements Serializable {
 	@JoinColumn(name = "N8DHID")
 	private DealerProfileHeader header;
 	
-	@OneToOne
-	@JoinColumn(name = "N8PSID")
-	private ProfileAndOrderSegment profileOrderSegment;
+	@Column(name = "N8PSID")
+	private int profileOrderSegmentId;
 	
 	@Column(name = "N8DQTY", nullable=true)
 	private Integer actual;
@@ -94,17 +92,17 @@ public class DealerProfileDetail implements Serializable {
 	}
 
 	/**
-	 * @return the profileOrderSegment
+	 * @return the profileOrderSegmentId
 	 */
-	public ProfileAndOrderSegment getProfileOrderSegment() {
-		return profileOrderSegment;
+	public int getProfileOrderSegmentId() {
+		return profileOrderSegmentId;
 	}
 
 	/**
-	 * @param profileOrderSegment the profileOrderSegment to set
+	 * @param profileOrderSegmentId the profileOrderSegmentId to set
 	 */
-	public void setProfileOrderSegment(ProfileAndOrderSegment profileOrderSegment) {
-		this.profileOrderSegment = profileOrderSegment;
+	public void setProfileOrderSegmentId(int profileOrderSegmentId) {
+		this.profileOrderSegmentId = profileOrderSegmentId;
 	}
 
 	/**

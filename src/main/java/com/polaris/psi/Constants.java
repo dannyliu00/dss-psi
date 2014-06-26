@@ -17,6 +17,11 @@ public class Constants {
     public static final Integer DEALER_NOT_CANCELED_CODE = 0;
     
     public static final String DEFAULT_PROFILE_STATUS = "NOT STARTED";
+    public static final String IN_PROGRESS_STATUS = "IN PROGRESS";
+    
+    public static final String SAVE_SUCCESSFUL = "Successful";
+    public static final String NOT_AUTHORIZED = "Not Authorized";
+    public static final String NO_RECORDS = "No Records";
 
 }
 

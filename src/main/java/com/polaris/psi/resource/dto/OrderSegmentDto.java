@@ -24,7 +24,8 @@ public class OrderSegmentDto implements IBaseDto, Serializable {
 	private String periodCode;
 	private int periodId;
 	private Date periodStartDate;
-	
+
+	private Integer profileId;
 	private Integer complianceId;
 	private Integer dealerId;
 	private Integer sort;
@@ -190,6 +191,20 @@ public class OrderSegmentDto implements IBaseDto, Serializable {
 	 */
 	public void setPeriodStartDate(Date periodStartDate) {
 		this.periodStartDate = periodStartDate;
+	}
+
+	/**
+	 * @return the profileId
+	 */
+	public Integer getProfileId() {
+		return profileId;
+	}
+
+	/**
+	 * @param profileId the profileId to set
+	 */
+	public void setProfileId(Integer profileId) {
+		this.profileId = profileId;
 	}
 
 	/**

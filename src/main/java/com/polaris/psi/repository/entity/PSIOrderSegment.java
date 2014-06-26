@@ -14,6 +14,7 @@ public class PSIOrderSegment implements Serializable {
 	private static final long serialVersionUID = -2134013853617686230L;
 	
 	private Integer id;
+	private Integer profileId;
 	private String name;
 	private Integer sort;
 	private String subSegment;
@@ -36,6 +37,20 @@ public class PSIOrderSegment implements Serializable {
 	 */
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the profileId
+	 */
+	public Integer getProfileId() {
+		return profileId;
+	}
+
+	/**
+	 * @param profileId the profileId to set
+	 */
+	public void setProfileId(Integer profileId) {
+		this.profileId = profileId;
 	}
 
 	/**
@@ -176,6 +191,7 @@ public class PSIOrderSegment implements Serializable {
 		result = prime * result
 				+ ((dealerId == null) ? 0 : dealerId.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((profileId == null) ? 0 : profileId.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result
 				+ ((periodCode == null) ? 0 : periodCode.hashCode());
@@ -213,6 +229,11 @@ public class PSIOrderSegment implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (profileId == null) {
+			if (other.profileId != null)
+				return false;
+		} else if (!profileId.equals(other.profileId))
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -241,7 +262,7 @@ public class PSIOrderSegment implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "PSIOrderSegmentDao [id=" + id + ", name=" + name + ", subSegment="
+		return "PSIOrderSegmentDao [id=" + id + ", profileId=" + profileId + ", name=" + name + ", subSegment="
 				+ subSegment + ", complianceId=" + complianceId
 				+ ", periodCode=" + periodCode + ", dealerId=" + dealerId
 				+ ", recommended=" + recommended + "]";

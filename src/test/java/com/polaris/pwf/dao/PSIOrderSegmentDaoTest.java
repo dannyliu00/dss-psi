@@ -49,17 +49,16 @@ public class PSIOrderSegmentDaoTest {
 		expectedSubSegment = "UT SubSegment";
 		expectedPeriodCode = "UT Period";
 
-		mockResult = new Object[10];
+		mockResult = new Object[9];
 		mockResult[0] = expectedId;
 		mockResult[1] = expectedName;
 		mockResult[2] = expectedSort;
 		mockResult[3] = expectedSubSegment;
 		mockResult[4] = expectedComplianceId;
 		mockResult[5] = expectedPeriodCode;
-		mockResult[6] = new BigDecimal(expectedDealerId);
-		mockResult[7] = expectedMin;
-		mockResult[8] = expectedRec;
-		mockResult[9] = expectedMax;
+		mockResult[6] = expectedMin;
+		mockResult[7] = expectedRec;
+		mockResult[8] = expectedMax;
 		
 		mockResults = new ArrayList<Object[]>();
 		mockResults.add(mockResult);
@@ -85,13 +84,14 @@ public class PSIOrderSegmentDaoTest {
 
 		assertEquals(results.size(), 1);
 		PSIOrderSegment result = results.get(0);
+		assertEquals(expectedProfileId, result.getProfileId());
+		assertEquals(expectedDealerId, result.getDealerId());
 		assertEquals(expectedId.intValueExact(), result.getId().intValue());
 		assertEquals(expectedName, result.getName());
 		assertEquals(expectedSort.intValueExact(), result.getSort().intValue());
 		assertEquals(expectedSubSegment, result.getSubSegment());
 		assertEquals(expectedComplianceId.intValueExact(), result.getComplianceId().intValue());
 		assertEquals(expectedPeriodCode, result.getPeriodCode());
-		assertEquals(expectedDealerId, result.getDealerId());
 		assertEquals(expectedMin.intValueExact(), result.getRecMinimum().intValue());
 		assertEquals(expectedRec.intValueExact(), result.getRecommended().intValue());
 		assertEquals(expectedMax.intValueExact(), result.getRecMaximum().intValue());
