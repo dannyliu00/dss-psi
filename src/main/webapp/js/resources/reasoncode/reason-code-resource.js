@@ -5,8 +5,8 @@
         this.resource = $resource(reasonCodeUrl);
     }
 
-    ReasonCodeResource.prototype.get = function(roleId) {
-        return this.resource.query(roleId).$promise;
+    ReasonCodeResource.prototype.get = function(role) {
+        return this.resource.query(role).$promise;
     };
 
     reasonCode.ReasonCodeResource = ReasonCodeResource;

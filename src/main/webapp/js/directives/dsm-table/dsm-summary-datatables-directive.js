@@ -6,11 +6,11 @@
         return {
             restrict: 'E',
             controller: dsmSummaryDatatables.DsmSummaryDatatablesController,
-            templateUrl:'js/directives/profiles/dsm-summary-datatables-template.html'
+            templateUrl:'js/directives/dsm-table/dsm-summary-datatables-template.html'
 //            link: function (scope, element, attrs) {
 //                scope.$watch(attrs.profiles, function(profiles) {
 //                    if(profiles != null) {
-//                    	loadTemplate('js/directives/profiles/dsm-summary-datatables-template.html');
+//                    	loadTemplate('js/directives/dsm-table/dsm-summary-datatables-template.html');
 //                    }
 //                });
                 
