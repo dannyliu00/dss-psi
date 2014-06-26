@@ -9,7 +9,7 @@
             link: function (scope, element, attrs) {
                 scope.$watch(attrs.profiles, function(profiles) {
                     if(profiles != null) {
-                    	loadTemplate('js/directives/profiles/summary-datatable-template.html');
+                    	loadTemplate('js/directives/dealer-table/summary-datatable-template.html');
                     }
                 });
                 
