@@ -30,7 +30,7 @@ public class DealerProfileHeaderStatus implements Serializable {
 	@Column(name = "N9LOG")
 	private boolean isLog;
 	
-	@Column(name = "N9FINAL")
+	@Column(name = "N9FINL")
 	private boolean isFinalState;
 
 	/**
