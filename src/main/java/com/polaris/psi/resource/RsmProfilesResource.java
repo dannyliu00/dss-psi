@@ -25,8 +25,8 @@ import com.polaris.pwf.session.UserData;
  *
  */
 @Component
-@Path("/profiles")
-public class ProfilesResource {
+@Path("/rsm/profiles")
+public class RsmProfilesResource {
 
 	@Autowired
 	SessionHelper sessionHelper;
@@ -35,15 +35,15 @@ public class ProfilesResource {
 	ProfileService service;
 	
 	@GET
-    @Path("/{dealerId}")
+    @Path("/{rsmId}")
     @Produces(MediaType.APPLICATION_JSON)
-	public List<ProfileDto> getDealerProfiles(@PathParam("dealerId") int dealerId) {
+	public List<ProfileDto> getRsmProfiles(@PathParam("rsmId") int rsmId) {
 		UserData userData = sessionHelper.getUserData();
-		if(!userData.isDealer() || userData.getDealerId() != dealerId) {
+		if(!userData.isRsm() || userData.getDealerId() != rsmId) {
 			return new ArrayList<ProfileDto>();
 		}
 		
-		return service.getDealerProfiles(dealerId);
+		return service.getDealerProfiles(rsmId);
 	}
 	
 }

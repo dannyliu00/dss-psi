@@ -1,6 +1,6 @@
 package com.polaris.psi.resource;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -18,76 +18,70 @@ import com.polaris.psi.service.ProfileService;
 import com.polaris.pwf.session.SessionHelper;
 import com.polaris.pwf.session.UserData;
 
-public class ProfilesResourceTest {
+public class DsmProfilesResourceTest {
 
-	private ProfilesResource resource;
+	private DsmProfilesResource resource;
 	@Mock private SessionHelper mockSessionHelper;
 	@Mock private UserData mockUserData;
 	@Mock private ProfileService mockService;
 	private List<ProfileDto> profiles;
 	@Mock private ProfileDto profile;
-	private int expectedId, authRoleId;
+	private int expectedId;
 	
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		
 		expectedId = 999;
-		authRoleId = 1;
 		
 		profiles = new ArrayList<ProfileDto>();
 		profiles.add(profile);
 
 		when(mockSessionHelper.getUserData()).thenReturn(mockUserData);
-		when(mockUserData.getAuthorizationRoleId()).thenReturn(authRoleId);
-		when(mockUserData.isDealer()).thenReturn(true);
 		when(mockUserData.isDsm()).thenReturn(true);
-		when(mockUserData.isRsm()).thenReturn(true);
 		when(mockService.getDealerProfiles(expectedId)).thenReturn(profiles);
 
-		resource = new ProfilesResource();
+		resource = new DsmProfilesResource();
 		resource.sessionHelper = mockSessionHelper;
 		resource.service = mockService;
 	}
 
 	@Test
-	public void testGetProfilesDealer() {
+	public void testGetProfilesDsm() {
 		when(mockUserData.getDealerId()).thenReturn(expectedId);
-		List<ProfileDto> results = resource.getDealerProfiles(expectedId);
+		List<ProfileDto> results = resource.getDsmProfiles(expectedId);
 		
 		assertEquals(profiles.size(), results.size());
 		
 		verify(mockSessionHelper).getUserData();
-		verify(mockUserData).isDealer();
+		verify(mockUserData).isDsm();
 		verify(mockUserData).getDealerId();
 		verify(mockService).getDealerProfiles(expectedId);
 	}
 
 	@Test
-	public void testGetProfilesDealerNullResult() {
+	public void testGetProfilesDsmNullResult() {
 		when(mockUserData.getDealerId()).thenReturn(111);
-
-		List<ProfileDto> results = resource.getDealerProfiles(expectedId);
+		List<ProfileDto> results = resource.getDsmProfiles(expectedId);
 		
 		assertEquals(0, results.size());
 		
 		verify(mockSessionHelper).getUserData();
-		verify(mockUserData).isDealer();
+		verify(mockUserData).isDsm();
 		verify(mockUserData).getDealerId();
 		verifyZeroInteractions(mockService);
 	}
 
 	@Test
-	public void testGetProfilesDealerNullResultTwo() {
+	public void testGetProfilesDsmNullResultTwo() {
 		when(mockUserData.getDealerId()).thenReturn(expectedId);
-		when(mockUserData.isDealer()).thenReturn(false);
-
-		List<ProfileDto> results = resource.getDealerProfiles(expectedId);
+		when(mockUserData.isDsm()).thenReturn(false);
+		List<ProfileDto> results = resource.getDsmProfiles(expectedId);
 		
 		assertEquals(0, results.size());
 		
 		verify(mockSessionHelper).getUserData();
-		verify(mockUserData).isDealer();
+		verify(mockUserData).isDsm();
 		verifyZeroInteractions(mockService);
 	}
 
