@@ -14,12 +14,10 @@
     <!--feature>timedOperations-1.0</feature-->
   </featureManager>
   
-  <!--timedOperation reportFrequency="1h" maxNumberTimedOperations="200" />
-  <keyStore id="defaultKeyStore" password="{xor}DzAzPi02LG9u" /-->
   <httpEndpoint host="*" httpPort="29080" httpsPort="443" id="defaultHttpEndpoint">
     <accessLogging filePath="${server.output.dir}/logs/http_access.log"/>
   </httpEndpoint>
-  <!--applicationMonitor updateTrigger="mbean" /-->
+
   <library id="as400JDBCLibs">
     <fileset dir="libs" includes="jt400.jar"/>
   </library>
@@ -59,7 +57,7 @@
   
   <executor coreThreads="80" id="default" keepAlive="60s" maxThreads="120" name="LargeThreadPool" rejectedWorkPolicy="CALLER_RUNS" stealPolicy="STRICT"/>
 
-    <applicationMonitor updateTrigger="mbean"/>
+  <applicationMonitor updateTrigger="mbean"/>
 
-    <webApplication id="dss-psi" location="dss-psi.war" name="dss-psi"/>
+  <webApplication id="dss-psi" location="dss-psi.war" name="dss-psi"/>
 </server>
