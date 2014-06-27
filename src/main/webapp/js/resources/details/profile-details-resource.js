@@ -2,7 +2,7 @@
     var dealerProfileDetails = sellInNamespace('sellIn.resources.dealerProfileDetails');
 
     function DealerProfileDetailsResource($resource, detailsUrl) {
-        this.resource = $resource(detailsUrl, {}, {'save': {method: 'POST', isArray: true}});
+        this.resource = $resource(detailsUrl);
     }
 
     DealerProfileDetailsResource.prototype.save = function(details) {
