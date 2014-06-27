@@ -28,10 +28,10 @@ public class DealerProfileHeaderStatus implements Serializable {
 	private String description;
 	
 	@Column(name = "N9LOG")
-	private boolean isLog;
+	private Character isLog;
 	
 	@Column(name = "N9FINL")
-	private boolean isFinalState;
+	private Character isFinalState;
 
 	/**
 	 * @return the id
@@ -64,29 +64,29 @@ public class DealerProfileHeaderStatus implements Serializable {
 	/**
 	 * @return the isLog
 	 */
-	public boolean isLog() {
+	public Character getIsLog() {
 		return isLog;
 	}
 
 	/**
 	 * @param isLog the isLog to set
 	 */
-	public void setLog(boolean isLog) {
+	public void setIsLog(Character isLog) {
 		this.isLog = isLog;
 	}
 
 	/**
 	 * @return the isFinalState
 	 */
-	public boolean isFinalState() {
+	public Character getIsFinalState() {
 		return isFinalState;
 	}
 
 	/**
 	 * @param isFinalState the isFinalState to set
 	 */
-	public void setFinalState(boolean isFinalState) {
+	public void setIsFinalState(Character isFinalState) {
 		this.isFinalState = isFinalState;
 	}
-	
+
 }
