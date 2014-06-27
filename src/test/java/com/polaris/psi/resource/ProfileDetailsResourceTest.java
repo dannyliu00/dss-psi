@@ -16,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.polaris.psi.Constants;
 import com.polaris.psi.resource.dto.OrderSegmentDto;
+import com.polaris.psi.service.OrderSegmentService;
 import com.polaris.pwf.session.SessionHelper;
 import com.polaris.pwf.session.UserData;
 
@@ -24,6 +25,7 @@ public class ProfileDetailsResourceTest {
 	private ProfileDetailsResource resource;
 	@Mock SessionHelper mockSessionHelper;
 	@Mock UserData mockUserData;
+	@Mock OrderSegmentService mockService;
 	private Integer authId, expectedDealerId;
 	private int dealerId;
 	private boolean isDealer;
@@ -48,9 +50,11 @@ public class ProfileDetailsResourceTest {
 		when(mockUserData.isDealer()).thenReturn(isDealer);
 		when(mockUserData.getCustomerClass()).thenReturn(customerClass);
 		when(mockUserData.getDealerId()).thenReturn(expectedDealerId);
+		when(mockService.saveOrderSegmentQuantities(orderSegments)).thenReturn(orderSegments);
 		
 		resource = new ProfileDetailsResource();
 		resource.sessionHelper = mockSessionHelper;
+		resource.service = mockService;
 	}
 	
 	@After
