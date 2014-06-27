@@ -15,8 +15,8 @@ import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.polaris.psi.resource.dto.ProfileDto;
-import com.polaris.psi.service.ProfileService;
+import com.polaris.psi.resource.dto.DsmDealerProfilesDto;
+import com.polaris.psi.service.DsmService;
 import com.polaris.pwf.session.SessionHelper;
 import com.polaris.pwf.session.UserData;
 
@@ -32,18 +32,18 @@ public class DsmProfilesResource {
 	SessionHelper sessionHelper;
 	
 	@Autowired
-	ProfileService service;
+	DsmService service;
 	
 	@GET
     @Path("/{dsmId}")
     @Produces(MediaType.APPLICATION_JSON)
-	public List<ProfileDto> getDsmProfiles(@PathParam("dsmId") int dsmId) {
+	public List<DsmDealerProfilesDto> getDsmProfiles(@PathParam("dsmId") int dsmId) {
 		UserData userData = sessionHelper.getUserData();
 		if(!userData.isDsm() || userData.getDealerId() != dsmId) {
-			return new ArrayList<ProfileDto>();
+			return new ArrayList<DsmDealerProfilesDto>();
 		}
 		
-		return service.getDealerProfiles(dsmId);
+		return service.getProfiles(dsmId);
 	}
 	
 }

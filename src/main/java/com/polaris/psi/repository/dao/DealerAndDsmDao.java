@@ -26,14 +26,6 @@ public class DealerAndDsmDao extends AbstractPolarisDealersExtensionDao<DealerAn
 		super(DealerAndDsm.class);
 	}
 
-    /*
-     * SELECT *
-     *   FROM Enterprise.RsmDsmDealer
-     *  WHERE DealerId=?
-     *
-     * @param dealerId
-     * @return DealerAndDsm
-     */
 	public DealerAndDsm selectByDealerId(Object dealerId) {
         Map<String, Object> keyMap = new HashMap<String, Object>(1);
         keyMap.put("dealerId", dealerId);
@@ -48,6 +40,24 @@ public class DealerAndDsmDao extends AbstractPolarisDealersExtensionDao<DealerAn
         }
         
         return dsms.get(0);
+	}
+	
+	public List<DealerAndDsm> selectByDsmId(Object dsmId) {
+        Map<String, Object> keyMap = new HashMap<String, Object>(1);
+        keyMap.put("dsmId", dsmId);
+        
+        List<DealerAndDsm> dsms = selectByMap(keyMap, null);
+        
+        return dsms;
+	}
+	
+	public List<DealerAndDsm> selectByRsmId(Object rsmId) {
+        Map<String, Object> keyMap = new HashMap<String, Object>(1);
+        keyMap.put("rsmId", rsmId);
+        
+        List<DealerAndDsm> dsms = selectByMap(keyMap, null);
+        
+        return dsms;
 	}
 	
 }
