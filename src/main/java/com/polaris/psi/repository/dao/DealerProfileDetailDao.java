@@ -16,7 +16,4 @@ public class DealerProfileDetailDao extends AbstractPolarisMinneapolisDao<Dealer
 		super(DealerProfileDetail.class);
 	}
 	
-	public DealerProfileDetail create(DealerProfileDetail detail) {
-		return insert(detail);
-	}
 }

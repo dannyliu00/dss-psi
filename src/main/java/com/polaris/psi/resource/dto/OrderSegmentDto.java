@@ -20,10 +20,12 @@ public class OrderSegmentDto implements IBaseDto, Serializable {
 	private int recMinimum;
 	private int recommended;
 	private int recMaximum;
-	private int actual;
 	private String periodCode;
 	private int periodId;
 	private Date periodStartDate;
+	private String dealerEmail;
+	private Date submittedDate;
+	private Date approvedDate;
 
 	private Integer profileId;
 	private Integer complianceId;
@@ -34,6 +36,7 @@ public class OrderSegmentDto implements IBaseDto, Serializable {
 	private String dealerComments;
 	private String dsmComments;
 	
+	private int actual;
 	private Integer adminQty;
 	private Integer dsmQty;
 	private Integer finalQty;
@@ -44,6 +47,8 @@ public class OrderSegmentDto implements IBaseDto, Serializable {
 	
 	private Integer headerId;
 	private Integer profileOrderSegmentId;
+	
+	private String modifiedUserName;
 	
 	/**
 	 * @return the id
@@ -191,6 +196,20 @@ public class OrderSegmentDto implements IBaseDto, Serializable {
 	 */
 	public void setPeriodStartDate(Date periodStartDate) {
 		this.periodStartDate = periodStartDate;
+	}
+
+	/**
+	 * @return the dealerEmail
+	 */
+	public String getDealerEmail() {
+		return dealerEmail;
+	}
+
+	/**
+	 * @param dealerEmail the dealerEmail to set
+	 */
+	public void setDealerEmail(String dealerEmail) {
+		this.dealerEmail = dealerEmail;
 	}
 
 	/**
@@ -401,6 +420,48 @@ public class OrderSegmentDto implements IBaseDto, Serializable {
 	 */
 	public void setProfileOrderSegmentId(Integer profileOrderSegmentId) {
 		this.profileOrderSegmentId = profileOrderSegmentId;
+	}
+
+	/**
+	 * @return the submittedDate
+	 */
+	public Date getSubmittedDate() {
+		return submittedDate;
+	}
+
+	/**
+	 * @param submittedDate the submittedDate to set
+	 */
+	public void setSubmittedDate(Date submittedDate) {
+		this.submittedDate = submittedDate;
+	}
+
+	/**
+	 * @return the approvedDate
+	 */
+	public Date getApprovedDate() {
+		return approvedDate;
+	}
+
+	/**
+	 * @param approvedDate the approvedDate to set
+	 */
+	public void setApprovedDate(Date approvedDate) {
+		this.approvedDate = approvedDate;
+	}
+
+	/**
+	 * @return the modifiedUserName
+	 */
+	public String getModifiedUserName() {
+		return modifiedUserName;
+	}
+
+	/**
+	 * @param modifiedUserName the modifiedUserName to set
+	 */
+	public void setModifiedUserName(String modifiedUserName) {
+		this.modifiedUserName = modifiedUserName;
 	}
 
 }

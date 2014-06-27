@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import com.polaris.psi.Constants;
 import com.polaris.psi.resource.dto.OrderSegmentDto;
+import com.polaris.psi.service.OrderSegmentService;
 import com.polaris.pwf.session.SessionHelper;
 
 /**
@@ -29,10 +30,16 @@ public class ProfileDetailsResource {
 	@Autowired
 	SessionHelper sessionHelper;
 	
+	@Autowired
+	OrderSegmentService service;
+	
 	@POST
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String saveQuantities(List<OrderSegmentDto> records) {
+		
+		service.saveOrderSegmentQuantities(records);
+		
 		if(records.size() == 0) return Constants.NO_RECORDS;
 		
 		int dealerId = records.get(0).getDealerId();

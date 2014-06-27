@@ -19,8 +19,4 @@ public class DealerProfileHeaderDao extends AbstractPolarisMinneapolisDao<Dealer
 		super(DealerProfileHeader.class);
 	}
 	
-	public DealerProfileHeader create(DealerProfileHeader header) {
-		return insert(header);
-	}
-
 }

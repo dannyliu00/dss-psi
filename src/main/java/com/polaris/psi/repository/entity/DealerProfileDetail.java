@@ -4,6 +4,7 @@
 package com.polaris.psi.repository.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -55,13 +56,31 @@ public class DealerProfileDetail implements Serializable {
 	private Integer adminApprovedQty;
 	
 	@Column(name = "N8ACOD", nullable=true)
-	private Integer adminReadonCode;
+	private Integer adminReasonCode;
 	
 	@Column(name = "N8ACOM", nullable=true)
 	private String adminComments;
 	
 	@Column(name = "N8QTY", nullable=true)
 	private Integer finalQty;
+
+	@Column(name = "N8CRDT")
+	private Date createdDate;
+	
+	@Column(name = "N8CRUS")
+	private String createdUser;
+	
+	@Column(name = "N8CRPG")
+	private String createdProgram;
+	
+	@Column(name = "N8CHDT")
+	private Date changedDate;
+	
+	@Column(name = "N8CHUS")
+	private String changedUser;
+	
+	@Column(name = "N8CHPG")
+	private String changedProgram;
 
 	/**
 	 * @return the id
@@ -204,17 +223,17 @@ public class DealerProfileDetail implements Serializable {
 	}
 
 	/**
-	 * @return the adminReadonCode
+	 * @return the adminReasonCode
 	 */
-	public Integer getAdminReadonCode() {
-		return adminReadonCode;
+	public Integer getAdminReasonCode() {
+		return adminReasonCode;
 	}
 
 	/**
-	 * @param adminReadonCode the adminReadonCode to set
+	 * @param adminReasonCode the adminReasonCode to set
 	 */
-	public void setAdminReadonCode(Integer adminReadonCode) {
-		this.adminReadonCode = adminReadonCode;
+	public void setAdminReasonCode(Integer adminReasonCode) {
+		this.adminReasonCode = adminReasonCode;
 	}
 
 	/**
@@ -243,6 +262,90 @@ public class DealerProfileDetail implements Serializable {
 	 */
 	public void setFinalQty(Integer finalQty) {
 		this.finalQty = finalQty;
+	}
+
+	/**
+	 * @return the createdDate
+	 */
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	/**
+	 * @param createdDate the createdDate to set
+	 */
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	/**
+	 * @return the createdUser
+	 */
+	public String getCreatedUser() {
+		return createdUser;
+	}
+
+	/**
+	 * @param createdUser the createdUser to set
+	 */
+	public void setCreatedUser(String createdUser) {
+		this.createdUser = createdUser;
+	}
+
+	/**
+	 * @return the createdProgram
+	 */
+	public String getCreatedProgram() {
+		return createdProgram;
+	}
+
+	/**
+	 * @param createdProgram the createdProgram to set
+	 */
+	public void setCreatedProgram(String createdProgram) {
+		this.createdProgram = createdProgram;
+	}
+
+	/**
+	 * @return the changedDate
+	 */
+	public Date getChangedDate() {
+		return changedDate;
+	}
+
+	/**
+	 * @param changedDate the changedDate to set
+	 */
+	public void setChangedDate(Date changedDate) {
+		this.changedDate = changedDate;
+	}
+
+	/**
+	 * @return the changedUser
+	 */
+	public String getChangedUser() {
+		return changedUser;
+	}
+
+	/**
+	 * @param changedUser the changedUser to set
+	 */
+	public void setChangedUser(String changedUser) {
+		this.changedUser = changedUser;
+	}
+
+	/**
+	 * @return the changedProgram
+	 */
+	public String getChangedProgram() {
+		return changedProgram;
+	}
+
+	/**
+	 * @param changedProgram the changedProgram to set
+	 */
+	public void setChangedProgram(String changedProgram) {
+		this.changedProgram = changedProgram;
 	}
 	
 }

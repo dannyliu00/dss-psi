@@ -12,6 +12,7 @@ public class Constants {
 	public final static String ENTERPRISE_ATTRIBUTE_TRANSLATION_URL = "getTranslation";
 
     public static final String PROGRAM_NAME = "Inventory Profile Sell-In";
+    public static final String PROGRAM_CODE = "PSIv1";
     public static String APPLICATION_GUID = "02E0E350-DA3B-4C84-BB26-9B1E8F5A9862";
     
     public static final Integer DEALER_NOT_CANCELED_CODE = 0;

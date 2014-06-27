@@ -3,8 +3,6 @@
  */
 package com.polaris.psi.repository.dao;
 
-import java.util.List;
-
 import org.springframework.stereotype.Repository;
 
 import com.polaris.psi.repository.entity.DealerProfileHeaderStatus;
@@ -21,11 +19,4 @@ public class DealerProfileHeaderStatusDao extends AbstractPolarisMinneapolisDao<
 		super(DealerProfileHeaderStatus.class);
 	}
 	
-	public DealerProfileHeaderStatus retrieveById(Integer id) {
-		return select(id);
-	}
-	
-	public List<DealerProfileHeaderStatus> retrieveAll() {
-		return retrieveAll();
-	}
 }
