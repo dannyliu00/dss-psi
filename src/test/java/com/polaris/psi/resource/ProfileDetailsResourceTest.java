@@ -69,6 +69,7 @@ public class ProfileDetailsResourceTest {
 	public void testSaveQuantitiesNoRecords() {
 		orderSegments = new ArrayList<OrderSegmentDto>();
 
+		expectedResult.setSuccessful(false);
 		expectedResult.setMessage(Constants.NO_RECORDS);
 		expectedResult.setOrderSegments(orderSegments);
 
@@ -80,6 +81,7 @@ public class ProfileDetailsResourceTest {
 
 	@Test
 	public void testSaveQuantitiesNotAuthorized() {
+		expectedResult.setSuccessful(false);
 		expectedResult.setMessage(Constants.NOT_AUTHORIZED);
 		expectedResult.setOrderSegments(orderSegments);
 
@@ -99,6 +101,7 @@ public class ProfileDetailsResourceTest {
 
 	@Test
 	public void testSaveQuantitiesAuthorized() {
+		expectedResult.setSuccessful(true);
 		expectedResult.setMessage(Constants.SAVE_SUCCESSFUL);
 		expectedResult.setOrderSegments(orderSegments);
 		

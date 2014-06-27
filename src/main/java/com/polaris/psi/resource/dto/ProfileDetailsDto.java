@@ -14,8 +14,23 @@ public class ProfileDetailsDto implements Serializable {
 
 	private static final long serialVersionUID = 7299486776175540163L;
 
+	private boolean isSuccessful;
 	private String message;
 	private List<OrderSegmentDto> orderSegments;
+
+	/**
+	 * @return the isSuccessful
+	 */
+	public boolean isSuccessful() {
+		return isSuccessful;
+	}
+
+	/**
+	 * @param isSuccessful the isSuccessful to set
+	 */
+	public void setSuccessful(boolean isSuccessful) {
+		this.isSuccessful = isSuccessful;
+	}
 
 	/**
 	 * @return the message

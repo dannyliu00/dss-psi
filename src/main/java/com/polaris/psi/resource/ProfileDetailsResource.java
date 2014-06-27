@@ -41,6 +41,7 @@ public class ProfileDetailsResource {
 		ProfileDetailsDto response = new ProfileDetailsDto();
 		
 		if(records.size() == 0) {
+			response.setSuccessful(false);
 			response.setMessage(Constants.NO_RECORDS);
 			response.setOrderSegments(records);
 			return response;
@@ -48,12 +49,14 @@ public class ProfileDetailsResource {
 		
 		int dealerId = records.get(0).getDealerId();
 		if(dealerId != sessionHelper.getUserData().getDealerId()) {
+			response.setSuccessful(false);
 			response.setMessage(Constants.NOT_AUTHORIZED);
 			response.setOrderSegments(records);
 			return response;
 		}
 		
 		List<OrderSegmentDto> orderSegments = service.saveOrderSegmentQuantities(records);
+		response.setSuccessful(true);
 		response.setMessage(Constants.SAVE_SUCCESSFUL);
 		response.setOrderSegments(orderSegments);
 		
