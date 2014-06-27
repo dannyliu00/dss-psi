@@ -77,8 +77,13 @@
              	
         	var modalInstance = $modal.open({
         		templateUrl: 'js/directives/modal/save-quantities-modal-template.html',
-     			controller: 'reasonModalController',
-     			size: 'sm'
+     			controller: 'saveQuantitiesController',
+     			size: 'sm',
+     			resolve: {
+     			orderSegments: function () {
+     				return $scope.orderSegments;
+     				}
+     			}
      		});
 
             modalInstance.result.then(function () {
@@ -88,7 +93,7 @@
                  console.log('Modal dismissed at: ' + new Date());
             });
         }
-
+        
         $scope.submitRequests = function() {
             if(angular.element('input').hasClass('noncompliant')) {
                 openReasonDialog();

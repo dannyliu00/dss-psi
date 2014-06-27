@@ -1,9 +1,15 @@
 (function() {
     var saveQuantities = sellInNamespace('sellIn.directives.savequantities');
 
-    function SaveQuantitiesController($scope, $modalInstance) {
+    function SaveQuantitiesController($scope, $modalInstance, dealerProfileDetailsResource, orderSegments) {
+    	
         $scope.saveChanges = function () {
-            $modalInstance.close();
+        	dealerProfileDetailsResource.save(orderSegments).then(function(returnedOrderSegments) {
+                orderSegments = returnedOrderSegments;
+        	});
+        	if($modalInstance.open()) {
+        		$modalInstance.close();
+        	}
         };
         
         $scope.cancel = function () {
