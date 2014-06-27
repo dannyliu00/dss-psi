@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import com.polaris.psi.Constants;
 import com.polaris.psi.resource.dto.OrderSegmentDto;
+import com.polaris.psi.resource.dto.ProfileDetailsDto;
 import com.polaris.psi.service.OrderSegmentService;
 import com.polaris.pwf.session.SessionHelper;
 
@@ -36,17 +37,27 @@ public class ProfileDetailsResource {
 	@POST
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String saveQuantities(List<OrderSegmentDto> records) {
+	public ProfileDetailsDto saveQuantities(List<OrderSegmentDto> records) {
+		ProfileDetailsDto response = new ProfileDetailsDto();
 		
-		service.saveOrderSegmentQuantities(records);
-		
-		if(records.size() == 0) return Constants.NO_RECORDS;
+		if(records.size() == 0) {
+			response.setMessage(Constants.NO_RECORDS);
+			response.setOrderSegments(records);
+			return response;
+		}
 		
 		int dealerId = records.get(0).getDealerId();
-		if(dealerId != sessionHelper.getUserData().getDealerId())
-			return Constants.NOT_AUTHORIZED;
+		if(dealerId != sessionHelper.getUserData().getDealerId()) {
+			response.setMessage(Constants.NOT_AUTHORIZED);
+			response.setOrderSegments(records);
+			return response;
+		}
 		
-		return Constants.SAVE_SUCCESSFUL;
+		List<OrderSegmentDto> orderSegments = service.saveOrderSegmentQuantities(records);
+		response.setMessage(Constants.SAVE_SUCCESSFUL);
+		response.setOrderSegments(orderSegments);
+		
+		return response;
 	}
 	
 }
