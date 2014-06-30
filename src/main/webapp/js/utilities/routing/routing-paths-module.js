@@ -12,9 +12,9 @@
         .constant('profilePageControllerName', 'profileController')
         .constant('profilePageTemplateUrl', 'js/pages/profile-detail/profile-detail-template.html')
         
-        .constant('dsmUrl','/dsmSummary/:id')
-        .constant('dsmControllerName','dsmSummaryController')
-        .constant('dsmTemplateUrl','js/pages/dsm-summary/dsm-summary-template.html')
+        .constant('dsmUrl','/nonDealerSummary/:id')
+        .constant('dsmControllerName','nonDealerSummaryController')
+        .constant('dsmTemplateUrl','js/pages/non-dealer-summary/non-dealer-summary-page-template.html')
 
         .constant('defaultRedirection', '/default');
 }());
