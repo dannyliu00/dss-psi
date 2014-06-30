@@ -1,6 +1,5 @@
 package com.polaris.psi.service.mapper;
 
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

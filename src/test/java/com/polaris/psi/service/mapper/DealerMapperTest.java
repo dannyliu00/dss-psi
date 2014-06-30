@@ -22,7 +22,7 @@ public class DealerMapperTest {
 	@Mock private Dealer mockDealer;
 	@Mock private DealerAndDsm mockDsm;
 	private Integer expectedCompany, expectedId;
-	private String expectedName, expectedCity, expectedState, expectedZip, expectedClass, expectedDsmName;
+	private String expectedName, expectedCity, expectedState, expectedZip, expectedDsmName;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -34,11 +34,9 @@ public class DealerMapperTest {
 		expectedCity = "U.T. City";
 		expectedState = "U.T. State";
 		expectedZip = "12345-9099";
-		expectedClass = "U.T. classification";
 		expectedDsmName = "U.T. DSM Name";
 		
 		when(mockDealer.getCity()).thenReturn(expectedCity);
-//		when(mockDealer.getClassification()).thenReturn(expectedClass);
 		when(mockDealer.getCompany()).thenReturn(expectedCompany);
 		when(mockDealer.getId()).thenReturn(expectedId);
 		when(mockDealer.getName()).thenReturn(expectedName);
