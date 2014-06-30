@@ -15,19 +15,14 @@ public class DsmDealerProfilesDto implements Serializable {
 	private static final long serialVersionUID = -284675998986409993L;
 
 	private Integer dsmId;
-	
 	private String dsmName;
-	
 	private Integer dealerid;
-	
 	private String dealerName;
-	
 	private Integer profileId;
-	
 	private Date modifiedDate;
-	
+	private Integer rsmId;
+	private String rsmName;
 	private String status;
-	
 	private String type;
 
 	/**
@@ -115,6 +110,34 @@ public class DsmDealerProfilesDto implements Serializable {
 	}
 
 	/**
+	 * @return the rsmId
+	 */
+	public Integer getRsmId() {
+		return rsmId;
+	}
+
+	/**
+	 * @param rsmId the rsmId to set
+	 */
+	public void setRsmId(Integer rsmId) {
+		this.rsmId = rsmId;
+	}
+
+	/**
+	 * @return the rsmName
+	 */
+	public String getRsmName() {
+		return rsmName;
+	}
+
+	/**
+	 * @param rsmName the rsmName to set
+	 */
+	public void setRsmName(String rsmName) {
+		this.rsmName = rsmName;
+	}
+
+	/**
 	 * @return the status
 	 */
 	public String getStatus() {
@@ -159,6 +182,8 @@ public class DsmDealerProfilesDto implements Serializable {
 				+ ((modifiedDate == null) ? 0 : modifiedDate.hashCode());
 		result = prime * result
 				+ ((profileId == null) ? 0 : profileId.hashCode());
+		result = prime * result + ((rsmId == null) ? 0 : rsmId.hashCode());
+		result = prime * result + ((rsmName == null) ? 0 : rsmName.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
@@ -206,6 +231,16 @@ public class DsmDealerProfilesDto implements Serializable {
 				return false;
 		} else if (!profileId.equals(other.profileId))
 			return false;
+		if (rsmId == null) {
+			if (other.rsmId != null)
+				return false;
+		} else if (!rsmId.equals(other.rsmId))
+			return false;
+		if (rsmName == null) {
+			if (other.rsmName != null)
+				return false;
+		} else if (!rsmName.equals(other.rsmName))
+			return false;
 		if (status == null) {
 			if (other.status != null)
 				return false;
@@ -227,7 +262,8 @@ public class DsmDealerProfilesDto implements Serializable {
 		return "DsmDealerProfilesDto [dsmId=" + dsmId + ", dsmName=" + dsmName
 				+ ", dealerid=" + dealerid + ", dealerName=" + dealerName
 				+ ", profileId=" + profileId + ", modifiedDate=" + modifiedDate
-				+ ", status=" + status + ", type=" + type + "]";
+				+ ", rsmId=" + rsmId + ", rsmName=" + rsmName + ", status="
+				+ status + ", type=" + type + "]";
 	}
 
 }

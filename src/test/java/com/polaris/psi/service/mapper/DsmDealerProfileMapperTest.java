@@ -20,8 +20,8 @@ public class DsmDealerProfileMapperTest {
 	private DsmDealerProfileMapper mapper;
 	@Mock private PSIProfile mockProfile;
 	@Mock private DealerAndDsm mockDealerAndDsm;
-	private Integer dealerId, dsmId, profileId;
-	private String dealerName, dsmName, productLine;
+	private Integer dealerId, dsmId, profileId, rsmId;
+	private String dealerName, dsmName, productLine, rsmName;
 	private Date modifiedDate;
 	
 	@Before
@@ -35,12 +35,16 @@ public class DsmDealerProfileMapperTest {
 		dsmName = "UT DSM Name";
 		productLine = "UT product line";
 		modifiedDate = Calendar.getInstance().getTime();
+		rsmId = 555;
+		rsmName = "UT RSM Name";
 		
 		when(mockDealerAndDsm.getDealerId()).thenReturn(dealerId);
 		when(mockDealerAndDsm.getDealerName()).thenReturn(dealerName);
 		when(mockDealerAndDsm.getDsmId()).thenReturn(dsmId);
 		when(mockDealerAndDsm.getDsmName()).thenReturn(dsmName);
 		when(mockDealerAndDsm.getProductLine()).thenReturn(productLine);
+		when(mockDealerAndDsm.getRsmId()).thenReturn(rsmId);
+		when(mockDealerAndDsm.getRsmName()).thenReturn(rsmName);
 		when(mockProfile.getId()).thenReturn(profileId);
 		when(mockProfile.getLastModifiedDate()).thenReturn(modifiedDate);
 		
@@ -56,6 +60,8 @@ public class DsmDealerProfileMapperTest {
 		verify(mockDealerAndDsm).getDsmId();
 		verify(mockDealerAndDsm).getDsmName();
 		verify(mockDealerAndDsm).getProductLine();
+		verify(mockDealerAndDsm).getRsmId();
+		verify(mockDealerAndDsm).getRsmName();
 		verify(mockProfile).getId();
 		verify(mockProfile).getLastModifiedDate();
 	}
