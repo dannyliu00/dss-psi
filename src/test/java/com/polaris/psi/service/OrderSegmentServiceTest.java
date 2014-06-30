@@ -26,51 +26,29 @@ import com.polaris.psi.repository.entity.DealerProfileDetail;
 import com.polaris.psi.repository.entity.DealerProfileHeader;
 import com.polaris.psi.repository.entity.DealerProfileHeaderStatus;
 import com.polaris.psi.resource.dto.OrderSegmentDto;
+import com.polaris.psi.service.mapper.DetailDataMapper;
+import com.polaris.psi.service.mapper.HeaderDataMapper;
 
 public class OrderSegmentServiceTest {
 
-	private int id;
-	private String name;
-	private String subSegment;
-	private int recMinimum;
-	private int recommended;
-	private int recMaximum;
-	private int actual;
-	private String periodCode;
-	private int periodId;
-	private Date periodStartDate;
-	
-	private Integer complianceId;
-	private Integer sort;
-	
-	private Integer dealerId;
-	
-	private String adminComments;
-	private String dealerComments;
-	private String dsmComments;
-	
-	private Integer adminQty;
-	private Integer dsmQty;
-	private Integer finalQty;
-	
-	private Integer adminReasonCode;
-	private Integer dsmReasonCode;
-	private Integer reasonCode;
-	
 	private OrderSegmentService service;
-	@Mock DealerProfileHeaderStatusDao mockStatusDao;
-	@Mock DealerProfileHeaderStatus mockStatus;
-	@Mock DealerProfileHeaderDao mockHeaderDao;
-	@Mock DealerProfileHeader mockHeader;
-	@Mock DealerProfileDetailDao mockDetailDao;
-	@Mock DealerProfileDetail mockDetail;
-	private Integer statusId, profileId, profileOrderSegmentId, headerId, detailId;
-	private String dealerEmail, userName;
+	@Mock private DealerProfileHeaderStatusDao mockStatusDao;
+	@Mock private DealerProfileHeaderStatus mockStatus;
+	@Mock private DealerProfileHeaderDao mockHeaderDao;
+	@Mock private DealerProfileHeader mockHeader;
+	@Mock private DealerProfileDetailDao mockDetailDao;
+	@Mock private DealerProfileDetail mockDetail;
+	@Mock private HeaderDataMapper mockHeaderMapper;
+	@Mock private DetailDataMapper mockDetailMapper;
+	private Integer statusId, profileId, profileOrderSegmentId, headerId, detailId, dealerId, adminQty, dsmQty, finalQty, 
+					adminReasonCode, dsmReasonCode, reasonCode;
+	private String dealerEmail, userName, adminComments, dealerComments, dsmComments;
 	private Date submittedDate, approvedDate;
 	private List<DealerProfileHeaderStatus> mockAllStatii;
 	private List<OrderSegmentDto> recordsToSave;
 	@Mock private OrderSegmentDto mockOrderSegment;
-
+	private int actual;
+	
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
@@ -137,10 +115,15 @@ public class OrderSegmentServiceTest {
 		when(mockHeader.getId()).thenReturn(headerId);
 		when(mockDetail.getId()).thenReturn(detailId);
 		
+		when(mockHeaderMapper.createNewNonSubmittedNonApprovedHeader(mockOrderSegment, mockStatus)).thenReturn(mockHeader);
+		when(mockDetailMapper.createInitialDetail(mockOrderSegment, mockHeader)).thenReturn(mockDetail);
+		
 		service = new OrderSegmentService();
 		service.statusDao = mockStatusDao;
 		service.headerDao = mockHeaderDao;
 		service.detailDao = mockDetailDao;
+		service.headerDataMapper = mockHeaderMapper;
+		service.detailDataMapper = mockDetailMapper;
 	}
 	
 	@After
@@ -159,14 +142,6 @@ public class OrderSegmentServiceTest {
 		verify(mockStatus).getDescription();
 		verify(mockHeaderDao).insert((DealerProfileHeader) anyObject());
 		verify(mockDetailDao).insert((DealerProfileDetail) anyObject());
-		verify(mockOrderSegment).getProfileId();
-		verify(mockOrderSegment).getDealerId();
-		verify(mockOrderSegment).getDealerEmail();
-		verify(mockOrderSegment, times(2)).getModifiedUserName();
-		verify(mockOrderSegment).getProfileOrderSegmentId();
-		verify(mockOrderSegment).getActual();
-		verify(mockOrderSegment).getReasonCode();
-		verify(mockOrderSegment).getDealerComments();
 		verify(mockHeader).getId();
 		verify(mockDetail).getId();
 	}
@@ -177,15 +152,7 @@ public class OrderSegmentServiceTest {
 		
 		service.saveOrderSegmentQuantities(recordsToSave);
 		
-		verify(mockHeaderDao).select(headerId);
 		verify(mockDetailDao).select(detailId);
-		verify(mockDetail).setActual(actual);
-		verify(mockDetail).setDealerComments(dealerComments);
-		verify(mockDetail).setDealerReasonCode(reasonCode);
-		verify(mockOrderSegment).getActual();
-		verify(mockOrderSegment).getDealerComments();
-		verify(mockOrderSegment).getReasonCode();
-		verify(mockOrderSegment).getModifiedUserName();
 		verify(mockDetailDao).update(mockDetail);
 	}
 

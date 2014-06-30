@@ -35,15 +35,15 @@ public class DsmProfilesResource {
 	DsmService service;
 	
 	@GET
-    @Path("/{dsmId}")
+    @Path("/{dsmId}/{type}")
     @Produces(MediaType.APPLICATION_JSON)
-	public List<DsmDealerProfilesDto> getDsmProfiles(@PathParam("dsmId") int dsmId) {
+	public List<DsmDealerProfilesDto> getDsmProfiles(@PathParam("dsmId") int dsmId, @PathParam("type") String type) {
 		UserData userData = sessionHelper.getUserData();
 		if(!userData.isDsm() || userData.getDealerId() != dsmId) {
 			return new ArrayList<DsmDealerProfilesDto>();
 		}
-		
-		return service.getProfiles(dsmId);
+		if(type.equals(null)) type = "2";
+		return service.getProfiles(dsmId, type);
 	}
 	
 }

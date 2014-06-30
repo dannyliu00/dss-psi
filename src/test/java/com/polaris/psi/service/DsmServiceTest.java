@@ -26,8 +26,9 @@ public class DsmServiceTest {
 	@Mock private PSIProfileDao mockProfileDao;
 	@Mock private DsmDealerProfileMapper mockMapper;
 	private List<DealerAndDsm> dsmDealers;
-	@Mock private DealerAndDsm mockDsmDealer;
-	private Integer dealerId, dsmId;
+	private DealerAndDsm dsmDealer;
+	private Integer dealerId, dsmId, rsmId;
+	private String productType;
 	private List<PSIProfile> psiProfiles;
 	@Mock PSIProfile mockProfile;
 	private List<DsmDealerProfilesDto> dtos;
@@ -39,9 +40,20 @@ public class DsmServiceTest {
 		
 		dealerId = 999;
 		dsmId = 888;
+		rsmId = 777;
+		productType = "UT";
+		
+		dsmDealer = new DealerAndDsm();
+		dsmDealer.setDealerId(dealerId);
+		dsmDealer.setDealerName("UT Dealer");
+		dsmDealer.setDsmId(dsmId);
+		dsmDealer.setDsmName("UT DSM Name");
+		dsmDealer.setProductLine("Z"); // valid value from Constants.PRODUCT_LINE_REGEX
+		dsmDealer.setRsmId(rsmId);
+		dsmDealer.setRsmName("UT RSM Name");
 		
 		dsmDealers = new ArrayList<DealerAndDsm>();
-		dsmDealers.add(mockDsmDealer);
+		dsmDealers.add(dsmDealer);
 		
 		psiProfiles = new ArrayList<PSIProfile>();
 		psiProfiles.add(mockProfile);
@@ -49,10 +61,9 @@ public class DsmServiceTest {
 		dtos = new ArrayList<DsmDealerProfilesDto>();
 		dtos.add(mockDto);
 		
-		when(mockDsmDao.selectByDsmId(dsmId)).thenReturn(dsmDealers);
-		when(mockDsmDealer.getDealerId()).thenReturn(dealerId);
+		when(mockDsmDao.selectByDsmId(dsmId, productType)).thenReturn(dsmDealers);
 		when(mockProfileDao.retrieveListByDealerId(dealerId)).thenReturn(psiProfiles);
-		when(mockMapper.mapToDto(mockDsmDealer, mockProfile)).thenReturn(mockDto);
+		when(mockMapper.mapToDto(dsmDealer, mockProfile)).thenReturn(mockDto);
 		
 		service = new DsmService();
 		service.dsmDao = mockDsmDao;
@@ -62,14 +73,13 @@ public class DsmServiceTest {
 
 	@Test
 	public void testGetProfiles() {
-		List<DsmDealerProfilesDto> results = service.getProfiles(dsmId);
+		List<DsmDealerProfilesDto> results = service.getProfiles(dsmId, productType);
 		
 		assertEquals(dtos.size(), results.size());
 		
-		verify(mockDsmDao).selectByDsmId(dsmId);
-		verify(mockDsmDealer).getDealerId();
+		verify(mockDsmDao).selectByDsmId(dsmId, productType);
 		verify(mockProfileDao).retrieveListByDealerId(dealerId);
-		verify(mockMapper).mapToDto(mockDsmDealer, mockProfile);
+		verify(mockMapper).mapToDto(dsmDealer, mockProfile);
 	}
 
 }

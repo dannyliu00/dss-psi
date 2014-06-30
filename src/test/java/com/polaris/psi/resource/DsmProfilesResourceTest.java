@@ -27,19 +27,21 @@ public class DsmProfilesResourceTest {
 	private List<DsmDealerProfilesDto> profiles;
 	@Mock private DsmDealerProfilesDto profile;
 	private int expectedId;
+	private String expectedType;
 	
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		
 		expectedId = 999;
+		expectedType = "UT";
 		
 		profiles = new ArrayList<DsmDealerProfilesDto>();
 		profiles.add(profile);
 
 		when(mockSessionHelper.getUserData()).thenReturn(mockUserData);
 		when(mockUserData.isDsm()).thenReturn(true);
-		when(mockService.getProfiles(expectedId)).thenReturn(profiles);
+		when(mockService.getProfiles(expectedId, expectedType)).thenReturn(profiles);
 
 		resource = new DsmProfilesResource();
 		resource.sessionHelper = mockSessionHelper;
@@ -49,20 +51,20 @@ public class DsmProfilesResourceTest {
 	@Test
 	public void testGetProfilesDsm() {
 		when(mockUserData.getDealerId()).thenReturn(expectedId);
-		List<DsmDealerProfilesDto> results = resource.getDsmProfiles(expectedId);
+		List<DsmDealerProfilesDto> results = resource.getDsmProfiles(expectedId, expectedType);
 		
 		assertEquals(profiles.size(), results.size());
 		
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).isDsm();
 		verify(mockUserData).getDealerId();
-		verify(mockService).getProfiles(expectedId);
+		verify(mockService).getProfiles(expectedId, expectedType);
 	}
 
 	@Test
 	public void testGetProfilesDsmNullResult() {
 		when(mockUserData.getDealerId()).thenReturn(111);
-		List<DsmDealerProfilesDto> results = resource.getDsmProfiles(expectedId);
+		List<DsmDealerProfilesDto> results = resource.getDsmProfiles(expectedId, expectedType);
 		
 		assertEquals(0, results.size());
 		
@@ -76,7 +78,7 @@ public class DsmProfilesResourceTest {
 	public void testGetProfilesDsmNullResultTwo() {
 		when(mockUserData.getDealerId()).thenReturn(expectedId);
 		when(mockUserData.isDsm()).thenReturn(false);
-		List<DsmDealerProfilesDto> results = resource.getDsmProfiles(expectedId);
+		List<DsmDealerProfilesDto> results = resource.getDsmProfiles(expectedId, expectedType);
 		
 		assertEquals(0, results.size());
 		

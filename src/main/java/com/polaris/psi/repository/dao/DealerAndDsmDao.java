@@ -42,18 +42,20 @@ public class DealerAndDsmDao extends AbstractPolarisDealersExtensionDao<DealerAn
         return dsms.get(0);
 	}
 	
-	public List<DealerAndDsm> selectByDsmId(Object dsmId) {
-        Map<String, Object> keyMap = new HashMap<String, Object>(1);
+	public List<DealerAndDsm> selectByDsmId(Object dsmId, String type) {
+        Map<String, Object> keyMap = new HashMap<String, Object>(2);
         keyMap.put("dsmId", dsmId);
+        keyMap.put("productLine", type);
         
         List<DealerAndDsm> dsms = selectByMap(keyMap, null);
         
         return dsms;
 	}
 	
-	public List<DealerAndDsm> selectByRsmId(Object rsmId) {
-        Map<String, Object> keyMap = new HashMap<String, Object>(1);
+	public List<DealerAndDsm> selectByRsmId(Object rsmId, String type) {
+        Map<String, Object> keyMap = new HashMap<String, Object>(2);
         keyMap.put("rsmId", rsmId);
+        keyMap.put("productLine", type);
         
         List<DealerAndDsm> dsms = selectByMap(keyMap, null);
         

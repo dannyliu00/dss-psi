@@ -10,11 +10,15 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -28,6 +32,7 @@ public class DealerProfileHeader implements Serializable {
 	private static final long serialVersionUID = -8042124328347338586L;
 
 	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "N7DHID")
 	private int id;
 
@@ -41,13 +46,28 @@ public class DealerProfileHeader implements Serializable {
 	private String emailAddress;
 	
 	@Column(name = "N7SBDT")
+    @Temporal(TemporalType.DATE)
 	private Date submittedDate;
 	
+	@Column(name = "N7SBTM")
+    @Temporal(TemporalType.TIME)
+	private Date submittedTime;
+	
 	@Column(name = "N7APDT")
+    @Temporal(TemporalType.DATE)
 	private Date approvedDate;
 	
+	@Column(name = "N7APTM")
+    @Temporal(TemporalType.TIME)
+	private Date approvedTime;
+	
 	@Column(name = "N7CRDT")
+    @Temporal(TemporalType.DATE)
 	private Date createdDate;
+	
+	@Column(name = "N7CRTM")
+    @Temporal(TemporalType.TIME)
+	private Date createdTime;
 	
 	@Column(name = "N7CRUS")
 	private String createdUser;
@@ -56,7 +76,12 @@ public class DealerProfileHeader implements Serializable {
 	private String createdProgram;
 	
 	@Column(name = "N7CHDT")
+    @Temporal(TemporalType.DATE)
 	private Date changedDate;
+	
+	@Column(name = "N7CHTM")
+    @Temporal(TemporalType.TIME)
+	private Date changedTime;
 	
 	@Column(name = "N7CHUS")
 	private String changeUser;
@@ -142,6 +167,20 @@ public class DealerProfileHeader implements Serializable {
 	}
 
 	/**
+	 * @return the submittedTime
+	 */
+	public Date getSubmittedTime() {
+		return submittedTime;
+	}
+
+	/**
+	 * @param submittedTime the submittedTime to set
+	 */
+	public void setSubmittedTime(Date submittedTime) {
+		this.submittedTime = submittedTime;
+	}
+
+	/**
 	 * @return the approvedDate
 	 */
 	public Date getApprovedDate() {
@@ -156,6 +195,20 @@ public class DealerProfileHeader implements Serializable {
 	}
 
 	/**
+	 * @return the approvedTime
+	 */
+	public Date getApprovedTime() {
+		return approvedTime;
+	}
+
+	/**
+	 * @param approvedTime the approvedTime to set
+	 */
+	public void setApprovedTime(Date approvedTime) {
+		this.approvedTime = approvedTime;
+	}
+
+	/**
 	 * @return the createdDate
 	 */
 	public Date getCreatedDate() {
@@ -167,6 +220,20 @@ public class DealerProfileHeader implements Serializable {
 	 */
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	/**
+	 * @return the createdTime
+	 */
+	public Date getCreatedTime() {
+		return createdTime;
+	}
+
+	/**
+	 * @param createdTime the createdTime to set
+	 */
+	public void setCreatedTime(Date createdTime) {
+		this.createdTime = createdTime;
 	}
 
 	/**
@@ -209,6 +276,20 @@ public class DealerProfileHeader implements Serializable {
 	 */
 	public void setChangedDate(Date changedDate) {
 		this.changedDate = changedDate;
+	}
+
+	/**
+	 * @return the changedTime
+	 */
+	public Date getChangedTime() {
+		return changedTime;
+	}
+
+	/**
+	 * @param changedTime the changedTime to set
+	 */
+	public void setChangedTime(Date changedTime) {
+		this.changedTime = changedTime;
 	}
 
 	/**
