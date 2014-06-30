@@ -4,11 +4,9 @@
 package com.polaris.psi.service;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +18,8 @@ import com.polaris.psi.repository.entity.DealerProfileDetail;
 import com.polaris.psi.repository.entity.DealerProfileHeader;
 import com.polaris.psi.repository.entity.DealerProfileHeaderStatus;
 import com.polaris.psi.resource.dto.OrderSegmentDto;
+import com.polaris.psi.service.mapper.DetailDataMapper;
+import com.polaris.psi.service.mapper.HeaderDataMapper;
 
 /**
  * @author bericks
@@ -36,30 +36,25 @@ public class OrderSegmentService {
 	
 	@Autowired
 	DealerProfileDetailDao detailDao;
+	
+	@Autowired
+	HeaderDataMapper headerDataMapper;
+	
+	@Autowired
+	DetailDataMapper detailDataMapper;
 
 	public List<OrderSegmentDto> saveOrderSegmentQuantities(List<OrderSegmentDto> records) {
 		List<OrderSegmentDto> saved = new ArrayList<OrderSegmentDto>();
 		
 		for (OrderSegmentDto orderSegment : records) {
 			if(orderSegment.getHeaderId() != null) {
-				DealerProfileHeader header = headerDao.select(orderSegment.getHeaderId());
-				updateOrderSegmentQty(header, orderSegment);
+				updateOrderSegmentQty(orderSegment);
 				saved.add(orderSegment);
 			} else {
 				List<DealerProfileHeaderStatus> statii = statusDao.selectAll();
 				DealerProfileHeaderStatus status = getDefaultStatus(statii);
-				DealerProfileHeader header = new DealerProfileHeader();
-				header.setCreatedProgram(Constants.PROGRAM_CODE);
-				header.setCreatedDate(DateUtils.truncate(new Date(), Calendar.YEAR));
-				header.setCreatedUser(orderSegment.getModifiedUserName());
-				header.setDealerId(orderSegment.getDealerId());
-				header.setEmailAddress(orderSegment.getDealerEmail());
-				header.setProfileId(orderSegment.getProfileId());
-				header.setStatus(status);
-				header.setSubmittedDate(orderSegment.getSubmittedDate() != null ? orderSegment.getSubmittedDate() : null);
-				
+				DealerProfileHeader header = headerDataMapper.createNewNonSubmittedNonApprovedHeader(orderSegment, status);
 				DealerProfileHeader returnedHeader = headerDao.insert(header);
-				
 				saved.add(createOrderSegmentQty(returnedHeader, orderSegment));
 			}
 		}
@@ -68,16 +63,7 @@ public class OrderSegmentService {
 	}
 	
 	public OrderSegmentDto createOrderSegmentQty(DealerProfileHeader header, OrderSegmentDto orderSegment) {
-		DealerProfileDetail detail = new DealerProfileDetail();
-		detail.setActual(orderSegment.getActual());
-		detail.setDealerComments(orderSegment.getDealerComments());
-		detail.setDealerReasonCode(orderSegment.getReasonCode());
-		detail.setCreatedProgram(Constants.PROGRAM_CODE);
-		detail.setCreatedDate(DateUtils.truncate(new Date(), Calendar.YEAR));
-		detail.setCreatedUser(orderSegment.getModifiedUserName());
-		detail.setHeader(header);
-		detail.setProfileOrderSegmentId(orderSegment.getProfileOrderSegmentId());
-		
+		DealerProfileDetail detail = detailDataMapper.createInitialDetail(orderSegment, header);
 		DealerProfileDetail returnedDetail = detailDao.insert(detail);
 		
 		orderSegment.setId(returnedDetail.getId());
@@ -86,18 +72,15 @@ public class OrderSegmentService {
 		return orderSegment;
 	}
 	
-	public void updateOrderSegmentQty(DealerProfileHeader header, OrderSegmentDto orderSegment) {
+	public void updateOrderSegmentQty(OrderSegmentDto orderSegment) {
 		DealerProfileDetail detail = detailDao.select(orderSegment.getId());
-		detail.setActual(orderSegment.getActual());
-		detail.setDealerReasonCode(orderSegment.getReasonCode());
-		detail.setDealerComments(orderSegment.getDealerComments());
-		detail.setChangedUser(orderSegment.getModifiedUserName());
+		detailDataMapper.updateDealerEnteredDetails(detail, orderSegment);
 		detailDao.update(detail);
 	}
 	
 	protected DealerProfileHeaderStatus getDefaultStatus(List<DealerProfileHeaderStatus> statii) {
 		for (DealerProfileHeaderStatus status : statii) {
-			if(status.getDescription().equals(Constants.IN_PROGRESS_STATUS)) return status;
+			if(status.getDescription().trim().equals(Constants.IN_PROGRESS_STATUS)) return status;
 		}
 		
 		return null;
