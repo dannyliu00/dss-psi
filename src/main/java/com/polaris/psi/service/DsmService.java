@@ -9,7 +9,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.polaris.psi.Constants;
 import com.polaris.psi.repository.dao.DealerAndDsmDao;
 import com.polaris.psi.repository.entity.DealerAndDsm;
 import com.polaris.psi.repository.entity.PSIProfile;
@@ -35,15 +34,9 @@ public class DsmService {
 	
 	public List<DsmDealerProfilesDto> getProfiles(Integer dsmId, String type) {
 		List<DealerAndDsm> dsmDealers = dsmDao.selectByDsmId(dsmId, type);
-		List<DealerAndDsm> finalDsmDealers = new ArrayList<DealerAndDsm>();
-		for (DealerAndDsm dealerAndDsm : dsmDealers) {
-			if(dealerAndDsm.getProductLine().trim().matches(Constants.PRODUCT_LINE_REGEX))
-				finalDsmDealers.add(dealerAndDsm);
-		}
-
 		List<DsmDealerProfilesDto> dtos = new ArrayList<DsmDealerProfilesDto>();
 		
-		for (DealerAndDsm dealerAndDsm : finalDsmDealers) {
+		for (DealerAndDsm dealerAndDsm : dsmDealers) {
 			Integer dealerId = dealerAndDsm.getDealerId();
 
 			List<PSIProfile> psiProfiles = psiProfileDao.retrieveListByDealerId(dealerId);
