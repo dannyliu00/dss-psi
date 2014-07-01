@@ -16,11 +16,15 @@ public class Constants {
     public static String APPLICATION_GUID = "02E0E350-DA3B-4C84-BB26-9B1E8F5A9862";
     
     public static final Integer DEALER_NOT_CANCELED_CODE = 0;
-    
+
+    // Current Dealer Profile statuses
     public static final String DEFAULT_PROFILE_STATUS = "NOT STARTED";
     public static final String IN_PROGRESS_STATUS = "IN PROGRESS";
     public static final String RETURNED_TO_DEALER = "RETURNED TO DEALER";
+    
+    // Current DSM Dealer Profile statuses
     public static final String PENDING_STATUS = "PENDING";
+    public static final String RETURNED_TO_DSM = "RETURNED TO DSM";
     
     public static final String SAVE_SUCCESSFUL = "Successful";
     public static final String NOT_AUTHORIZED = "Not Authorized";
