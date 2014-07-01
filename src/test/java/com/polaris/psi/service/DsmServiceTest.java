@@ -2,11 +2,13 @@ package com.polaris.psi.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -62,6 +64,7 @@ public class DsmServiceTest {
 		dtos.add(mockDto);
 		
 		when(mockDsmDao.selectByDsmId(dsmId, productType)).thenReturn(dsmDealers);
+		when(mockDsmDao.selectByRsmId(rsmId, productType)).thenReturn(dsmDealers);
 		when(mockProfileDao.retrieveListByDealerId(dealerId)).thenReturn(psiProfiles);
 		when(mockMapper.mapToDto(dsmDealer, mockProfile)).thenReturn(mockDto);
 		
@@ -70,14 +73,30 @@ public class DsmServiceTest {
 		service.psiProfileDao = mockProfileDao;
 		service.mapper = mockMapper;
 	}
+	
+	@After
+	public void tearDown() {
+		verifyNoMoreInteractions(mockDsmDao, mockMapper, mockProfileDao);
+	}
 
 	@Test
-	public void testGetProfiles() {
-		List<DsmDealerProfilesDto> results = service.getProfiles(dsmId, productType);
+	public void testGetDsmProfiles() {
+		List<DsmDealerProfilesDto> results = service.getDsmProfiles(dsmId, productType);
 		
 		assertEquals(dtos.size(), results.size());
 		
 		verify(mockDsmDao).selectByDsmId(dsmId, productType);
+		verify(mockProfileDao).retrieveListByDealerId(dealerId);
+		verify(mockMapper).mapToDto(dsmDealer, mockProfile);
+	}
+
+	@Test
+	public void testGetRsmProfiles() {
+		List<DsmDealerProfilesDto> results = service.getRsmProfiles(rsmId, productType);
+		
+		assertEquals(dtos.size(), results.size());
+		
+		verify(mockDsmDao).selectByRsmId(rsmId, productType);
 		verify(mockProfileDao).retrieveListByDealerId(dealerId);
 		verify(mockMapper).mapToDto(dsmDealer, mockProfile);
 	}

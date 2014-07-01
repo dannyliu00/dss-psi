@@ -32,8 +32,24 @@ public class DsmService {
 	@Autowired
 	DsmDealerProfileMapper mapper;
 	
-	public List<DsmDealerProfilesDto> getProfiles(Integer dsmId, String type) {
+	public List<DsmDealerProfilesDto> getDsmProfiles(Integer dsmId, String type) {
 		List<DealerAndDsm> dsmDealers = dsmDao.selectByDsmId(dsmId, type);
+		List<DsmDealerProfilesDto> dtos = new ArrayList<DsmDealerProfilesDto>();
+		
+		for (DealerAndDsm dealerAndDsm : dsmDealers) {
+			Integer dealerId = dealerAndDsm.getDealerId();
+
+			List<PSIProfile> psiProfiles = psiProfileDao.retrieveListByDealerId(dealerId);
+			for (PSIProfile profile : psiProfiles) {
+				dtos.add(mapper.mapToDto(dealerAndDsm, profile));
+			}
+		}
+		
+		return dtos;
+	}
+	
+	public List<DsmDealerProfilesDto> getRsmProfiles(Integer rsmId, String type) {
+		List<DealerAndDsm> dsmDealers = dsmDao.selectByRsmId(rsmId, type);
 		List<DsmDealerProfilesDto> dtos = new ArrayList<DsmDealerProfilesDto>();
 		
 		for (DealerAndDsm dealerAndDsm : dsmDealers) {

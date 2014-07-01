@@ -43,7 +43,7 @@ public class DsmProfilesResource {
 			return new ArrayList<DsmDealerProfilesDto>();
 		}
 		if(type.equals(null)) type = "2";
-		return service.getProfiles(dsmId, type);
+		return service.getDsmProfiles(dsmId, type);
 	}
 	
 }

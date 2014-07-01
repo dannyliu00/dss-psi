@@ -41,7 +41,7 @@ public class DsmProfilesResourceTest {
 
 		when(mockSessionHelper.getUserData()).thenReturn(mockUserData);
 		when(mockUserData.isDsm()).thenReturn(true);
-		when(mockService.getProfiles(expectedId, expectedType)).thenReturn(profiles);
+		when(mockService.getDsmProfiles(expectedId, expectedType)).thenReturn(profiles);
 
 		resource = new DsmProfilesResource();
 		resource.sessionHelper = mockSessionHelper;
@@ -58,7 +58,7 @@ public class DsmProfilesResourceTest {
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).isDsm();
 		verify(mockUserData).getDealerId();
-		verify(mockService).getProfiles(expectedId, expectedType);
+		verify(mockService).getDsmProfiles(expectedId, expectedType);
 	}
 
 	@Test
