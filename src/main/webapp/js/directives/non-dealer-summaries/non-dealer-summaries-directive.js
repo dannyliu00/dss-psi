@@ -12,15 +12,15 @@
                 
                 scope.$watch(attrs.role, function(role) {
                 	if(role != null) {
-                		if(admin === true) {
+                		if(role.admin === true) {
                 			var templateUrl = basePath + "admin" + pathSuffix;
                 			loadTemplate(templateUrl);
-                		} else if (rsm === true) {
-                      	var templateUrl = basePath + "rsm" + pathSuffix;
-                      	loadTemplate(templateUrl);
-               		} else if(dsm === true) {
+                		} else if (role.rsm === true) {
+                			var templateUrl = basePath + "rsm" + pathSuffix;
+                			loadTemplate(templateUrl);
+                		} else if(role.dsm === true) {
                 			var templateUrl = basePath + "dsm" + pathSuffix;
-                      	loadTemplate(templateUrl);
+                			loadTemplate(templateUrl);
                 		}
             		}     
                 });
