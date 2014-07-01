@@ -27,7 +27,7 @@
         </tr>
         </thead>
         <tbody role="alert" aria-live="polite" aria-relevant="all">
-        <tr dt-rows ng-repeat="profile in profiles | filter: {type: activeTabFilter}" >
+        <tr dt-rows ng-repeat="profile in profiles" >
             <td class=" sorting_1">{{profile.type}}</td>
             <td class=""><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.type)" >{{profile.dealerid}}</a></td>
             <td class="">{{profile.dealerName}}</td>

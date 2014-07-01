@@ -13,18 +13,18 @@
                 scope.$watch(attrs.role, function(role) {
                 	if(role != null) {
                 		if(role.admin === true) {
-                			var templateUrl = basePath + "admin" + pathSuffix;
-                			loadTemplate(templateUrl);
+                			templateUrl = basePath + "admin" + pathSuffix;
+                    		loadTemplate(templateUrl);
                 		} else if (role.rsm === true) {
-                			var templateUrl = basePath + "rsm" + pathSuffix;
-                			loadTemplate(templateUrl);
+                    		templateUrl = basePath + "rsm" + pathSuffix;
+                    		loadTemplate(templateUrl);
                 		} else if(role.dsm === true) {
-                			var templateUrl = basePath + "dsm" + pathSuffix;
-                			loadTemplate(templateUrl);
-                		}
-            		}     
+                    		templateUrl = basePath + "dsm" + pathSuffix;
+                    		loadTemplate(templateUrl);
+                			}
+            			}     
                 });
-                	
+                
                 function loadTemplate(template) {
                     $http.get(template, { cache: $templateCache })
                         .success(function(templateContent) {
