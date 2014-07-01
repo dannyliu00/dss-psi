@@ -60,9 +60,8 @@ public class ProfileService {
 	PSIOrderSegmentMapper osMapper;
 	
 	public List<ProfileDto> getDealerProfiles(int dealerId) {
-		
-		
-		List<PSIProfile> psiProfiles = psiProfileDao.retrieveListByDealerId(dealerId);
+
+		List<PSIProfile> psiProfiles = psiProfileDao.retrieveCurrentDealerListByDealerId(dealerId);
 		List<ProfileDto> psiDtos = profileMapper.mapToDto(psiProfiles);
 		
 		return psiDtos;

@@ -35,6 +35,7 @@ public class ProfileDetailsResource {
 	@Autowired
 	OrderSegmentService service;
 	
+	@Path("/save")
 	@POST
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -94,7 +95,7 @@ public class ProfileDetailsResource {
 		
 		setModifiedUserName(records, userData.getUserName());
 		
-		List<OrderSegmentDto> orderSegments = service.saveOrderSegmentQuantities(records);
+		List<OrderSegmentDto> orderSegments = service.submitOrderSegmentQuantities(records);
 		response.setSuccessful(true);
 		response.setMessage(Constants.SAVE_SUCCESSFUL);
 		response.setOrderSegments(orderSegments);
