@@ -10,27 +10,32 @@
                 var basePath = 'js/directives/non-dealer-summaries/';
                 var pathSuffix = '-summary-datatables-template.html';
                 
-                scope.$watch(attrs.role, function(role) {
-                	if(role != null) {
-                		if(role.admin === true) {
-                			templateUrl = basePath + "admin" + pathSuffix;
-                    		loadTemplate(templateUrl);
-                		} else if (role.rsm === true) {
-                    		templateUrl = basePath + "rsm" + pathSuffix;
-                    		loadTemplate(templateUrl);
-                		} else if(role.dsm === true) {
-                    		templateUrl = basePath + "dsm" + pathSuffix;
-                    		loadTemplate(templateUrl);
-                			}
-            			}     
-                });
+                scope.$watch(attrs.profiles, function(profiles) {
+                	if(profiles != null){
                 
-                function loadTemplate(template) {
-                    $http.get(template, { cache: $templateCache })
-                        .success(function(templateContent) {
-                        	element.replaceWith($compile(templateContent)(scope));
-                        });
-                }
+		                scope.$watch(attrs.role, function(role) {
+		                	if(role != null) {
+		                		if(role.admin === true) {
+		                			templateUrl = basePath + "admin" + pathSuffix;
+		                    		loadTemplate(templateUrl);
+		                		} else if (role.rsm === true) {
+		                    		templateUrl = basePath + "rsm" + pathSuffix;
+		                    		loadTemplate(templateUrl);
+		                		} else if(role.dsm === true) {
+		                    		templateUrl = basePath + "dsm" + pathSuffix;
+		                    		loadTemplate(templateUrl);
+		                			}
+		            			}     
+		                });
+		                
+		                function loadTemplate(template) {
+		                    $http.get(template, { cache: $templateCache })
+		                        .success(function(templateContent) {
+		                        	element.replaceWith($compile(templateContent)(scope));
+		                        });
+		                }
+                	}
+                });
         	}
         };
     }

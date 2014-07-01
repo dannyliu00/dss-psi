@@ -6,20 +6,8 @@
     	appRoleResource.get().then(function(role) {
             $scope.role = role;
     		});
-	    	
-//    	var dsmId = $routeParams.id;
-	    	
-//	    var startType = "2";
-	    
-//    	var dsm = {dsmId: dsmId,type: startType};
-	    	
-//    	dsmProfilesResource.query(dsm).then(function(returnedProfiles) {
-        
-// 	        });
-    
+    	
     	 $scope.tabContent = function(activeContent) {
-         	
-    		var retProfiles = {};
     		 
          	if(activeContent != null){
          		$scope.activeTabFilter = activeContent;
@@ -34,9 +22,8 @@
          	var dsm = {dsmId: dsmId,type: type};
          	
          	dsmProfilesResource.query(dsm).then(function(returnedProfiles) {
-      	        retProfiles = returnedProfiles;
+         		$scope.profiles = returnedProfiles;
       	        });
-         		return retProfiles;
          };
          
          $scope.profiles = $scope.tabContent();
