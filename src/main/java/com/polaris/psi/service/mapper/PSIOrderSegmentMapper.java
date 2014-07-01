@@ -47,6 +47,7 @@ public class PSIOrderSegmentMapper {
 		dto.setPeriodCode(os.getPeriodCode());
 //		dto.setPeriodId("");
 //		dto.setPeriodStartDate();
+		dto.setProfileOrderSegmentId(os.getId());
 		dto.setRecMaximum(os.getRecMaximum());
 		dto.setRecMinimum(os.getRecMinimum());
 		dto.setRecommended(os.getRecommended());

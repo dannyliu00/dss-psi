@@ -2,6 +2,7 @@ package com.polaris.psi.service.mapper;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -64,6 +65,37 @@ public class HeaderDataMapperTest {
 		assertNotNull(result.getSubmittedTime());
 		assertNotNull(result.getApprovedDate());
 		assertNotNull(result.getApprovedTime());
+		
+		verify(mockDto, times(2)).getModifiedUserName();
+		verify(mockDto).getDealerEmail();
+		verify(mockDto).getDealerId();
+		verify(mockDto).getProfileId();
+	}
+	
+	@Test
+	public void testCreateNewSubmittedHeader() {
+		DealerProfileHeader result = mapper.createNewSubmittedHeader(mockDto, mockStatus);
+		
+		assertEquals(expectedUserName, result.getCreatedUser());
+		assertEquals(expectedUserName, result.getChangeUser());
+		assertEquals(expectedEmailAddress, result.getEmailAddress());
+		assertEquals(expectedDealerId.intValue(), result.getDealerId());
+		assertEquals(expectedProfileId.intValue(), result.getProfileId());
+		assertEquals(Constants.PROGRAM_CODE, result.getChangedProgram());
+		assertEquals(Constants.PROGRAM_CODE, result.getCreatedProgram());
+
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MINUTE, -1);
+		assertTrue(cal.getTime().before(result.getSubmittedDate()));
+		assertTrue(cal.getTime().before(result.getSubmittedTime()));
+		assertTrue(cal.getTime().before(result.getCreatedDate()));
+		assertTrue(cal.getTime().before(result.getCreatedTime()));
+		assertTrue(cal.getTime().before(result.getChangedDate()));
+		assertTrue(cal.getTime().before(result.getChangedTime()));
+		assertTrue(cal.getTime().after(result.getApprovedDate()));
+		assertTrue(cal.getTime().after(result.getApprovedTime()));
+
+		assertNotNull(result.getStatus());
 		
 		verify(mockDto, times(2)).getModifiedUserName();
 		verify(mockDto).getDealerEmail();

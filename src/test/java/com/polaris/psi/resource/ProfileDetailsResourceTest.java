@@ -31,7 +31,7 @@ public class ProfileDetailsResourceTest {
 	private Integer authId, expectedDealerId;
 	private int dealerId;
 	private boolean isDealer;
-	private String customerClass;
+	private String customerClass, userName;
 	private List<OrderSegmentDto> orderSegments;
 	@Mock private OrderSegmentDto mockDto;
 	private ProfileDetailsDto expectedResult;
@@ -44,6 +44,7 @@ public class ProfileDetailsResourceTest {
 		expectedDealerId = 888;
 		isDealer = true;
 		customerClass = "UT-DLR";
+		userName = "UTUSER";
 		orderSegments = new ArrayList<OrderSegmentDto>();
 		orderSegments.add(mockDto);
 		expectedResult = new ProfileDetailsDto();
@@ -53,6 +54,7 @@ public class ProfileDetailsResourceTest {
 		when(mockUserData.isDealer()).thenReturn(isDealer);
 		when(mockUserData.getCustomerClass()).thenReturn(customerClass);
 		when(mockUserData.getDealerId()).thenReturn(expectedDealerId);
+		when(mockUserData.getUserName()).thenReturn(userName);
 		when(mockService.saveOrderSegmentQuantities(orderSegments)).thenReturn(orderSegments);
 		
 		resource = new ProfileDetailsResource();
@@ -76,7 +78,8 @@ public class ProfileDetailsResourceTest {
 		ProfileDetailsDto result = resource.saveQuantities(orderSegments);
 
 		assertEquals(expectedResult.getMessage(), result.getMessage());
-		verifyZeroInteractions(mockDto, mockSessionHelper, mockUserData);
+		verify(mockSessionHelper).getUserData();
+		verifyZeroInteractions(mockDto, mockUserData);
 	}
 
 	@Test
@@ -105,8 +108,7 @@ public class ProfileDetailsResourceTest {
 		expectedResult.setMessage(Constants.SAVE_SUCCESSFUL);
 		expectedResult.setOrderSegments(orderSegments);
 		
-		dealerId = 888;
-		when(mockDto.getDealerId()).thenReturn(dealerId);
+		when(mockDto.getDealerId()).thenReturn(expectedDealerId);
 		
 		ProfileDetailsDto result = resource.saveQuantities(orderSegments);
 		
@@ -116,7 +118,9 @@ public class ProfileDetailsResourceTest {
 		
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).getDealerId();
+		verify(mockUserData).getUserName();
 		verify(mockService).saveOrderSegmentQuantities(orderSegments);
+		verify(mockDto).setModifiedUserName(userName);
 	}
 
 }

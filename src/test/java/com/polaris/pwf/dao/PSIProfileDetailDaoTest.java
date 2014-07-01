@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,25 +27,25 @@ public class PSIProfileDetailDaoTest {
 	@Mock private Query mockQuery;
 	private Object[] mockResult;
 	private List<Object[]> mockResults;
-	private Integer expectedId, expectedHeaderId, expectedProfileOrderSegmentId;
-	private Integer expectedRequestedQty, expectedDsmQty, expectedAdminQty, expectedFinalQty;
-	private Integer expectedReasonCode, expectedDsmReasonCode, expectedAdminReasonCode;
+	private BigDecimal expectedId, expectedHeaderId, expectedProfileOrderSegmentId;
+	private BigDecimal expectedRequestedQty, expectedDsmQty, expectedAdminQty, expectedFinalQty;
+	private BigDecimal expectedReasonCode, expectedDsmReasonCode, expectedAdminReasonCode;
 	private String expectedDealerComments, expectedDsmComments, expectedAdminComments;
 	
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		
-		expectedId = 999;
-		expectedHeaderId = 888;
-		expectedProfileOrderSegmentId = 777;
-		expectedRequestedQty = 1;
-		expectedDsmQty = 2;
-		expectedAdminQty = 3;
-		expectedFinalQty = 3;
-		expectedReasonCode = 100;
-		expectedDsmReasonCode = 110;
-		expectedAdminReasonCode = 112;
+		expectedId = new BigDecimal(999);
+		expectedHeaderId = new BigDecimal(888);
+		expectedProfileOrderSegmentId = new BigDecimal(777);
+		expectedRequestedQty = new BigDecimal(1);
+		expectedDsmQty = new BigDecimal(2);
+		expectedAdminQty = new BigDecimal(3);
+		expectedFinalQty = new BigDecimal(3);
+		expectedReasonCode = new BigDecimal(100);
+		expectedDsmReasonCode = new BigDecimal(110);
+		expectedAdminReasonCode = new BigDecimal(112);
 		expectedDealerComments = "UT Dealer Comments";
 		expectedDsmComments = "UT DSM Comments";
 		expectedAdminComments = "UT Admin Comments";
@@ -77,25 +78,25 @@ public class PSIProfileDetailDaoTest {
 
 	@Test
 	public void testRetrieveByHeaderId() {
-		List<PSIProfileDetail> results = dao.retrieveByHeaderId(expectedId);
+		List<PSIProfileDetail> results = dao.retrieveByHeaderId(expectedId.intValueExact());
 		
 		verify(mockEM).createNativeQuery(anyString());
-		verify(mockQuery).setParameter("headerId", expectedId);
+		verify(mockQuery).setParameter("headerId", expectedId.intValueExact());
 		verify(mockQuery).getResultList();
 		verify(mockEM).close();
 
 		assertEquals(results.size(), 1);
 		PSIProfileDetail result = results.get(0);
-		assertEquals(expectedId, result.getId());
-		assertEquals(expectedHeaderId, result.getHeaderId());
-		assertEquals(expectedProfileOrderSegmentId, result.getProfileOrderSegmentId());
-		assertEquals(expectedRequestedQty, result.getRequestedQty());
-		assertEquals(expectedDsmQty, result.getDsmQty());
-		assertEquals(expectedAdminQty, result.getAdminQty());
-		assertEquals(expectedFinalQty, result.getFinalQty());
-		assertEquals(expectedReasonCode, result.getReasonCode());
-		assertEquals(expectedDsmReasonCode, result.getDsmReasonCode());
-		assertEquals(expectedAdminReasonCode, result.getAdminReasonCode());
+		assertEquals(expectedId.intValueExact(), result.getId().intValue());
+		assertEquals(expectedHeaderId.intValueExact(), result.getHeaderId().intValue());
+		assertEquals(expectedProfileOrderSegmentId.intValueExact(), result.getProfileOrderSegmentId().intValue());
+		assertEquals(expectedRequestedQty.intValueExact(), result.getRequestedQty().intValue());
+		assertEquals(expectedDsmQty.intValueExact(), result.getDsmQty().intValue());
+		assertEquals(expectedAdminQty.intValueExact(), result.getAdminQty().intValue());
+		assertEquals(expectedFinalQty.intValueExact(), result.getFinalQty().intValue());
+		assertEquals(expectedReasonCode.intValueExact(), result.getReasonCode().intValue());
+		assertEquals(expectedDsmReasonCode.intValueExact(), result.getDsmReasonCode().intValue());
+		assertEquals(expectedAdminReasonCode.intValueExact(), result.getAdminReasonCode().intValue());
 		assertEquals(expectedDealerComments, result.getDealerComments());
 		assertEquals(expectedDsmComments, result.getDsmComments());
 		assertEquals(expectedAdminComments, result.getAdminComments());

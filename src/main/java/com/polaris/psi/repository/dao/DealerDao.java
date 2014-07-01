@@ -28,15 +28,11 @@ public class DealerDao extends AbstractPolarisDealersExtensionDao<DealerId> {
 	
     @Transactional(CommonRepositoryConstants.TX_MANAGER_POLARIS_DEALERS_EXTENSION)
 	public List<DealerId> retrieveListById(Integer dealerId) {
-        Map<String, Object> keyMap = new HashMap<String, Object>(1);
+        Map<String, Object> keyMap = new HashMap<String, Object>(2);
         keyMap.put("id", dealerId + "");
         keyMap.put("canceled", 0);
         
         List<DealerId> dealers = selectByMap(keyMap, null);
-        
-//        for (DealerId id : dealers) {
-//    		Hibernate.initialize(id.getProfiles());
-//		}
         
         return dealers;
 	}

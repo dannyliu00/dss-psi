@@ -43,25 +43,56 @@ public class OrderSegmentService {
 	DetailDataMapper detailDataMapper;
 
 	public List<OrderSegmentDto> saveOrderSegmentQuantities(List<OrderSegmentDto> records) {
+		assert(records.size() > 0);
 		List<OrderSegmentDto> saved = new ArrayList<OrderSegmentDto>();
 		
-		for (OrderSegmentDto orderSegment : records) {
-			if(orderSegment.getHeaderId() != null) {
-				updateOrderSegmentQty(orderSegment);
-				saved.add(orderSegment);
-			} else {
-				List<DealerProfileHeaderStatus> statii = statusDao.selectAll();
-				DealerProfileHeaderStatus status = getDefaultStatus(statii);
-				DealerProfileHeader header = headerDataMapper.createNewNonSubmittedNonApprovedHeader(orderSegment, status);
-				DealerProfileHeader returnedHeader = headerDao.insert(header);
-				saved.add(createOrderSegmentQty(returnedHeader, orderSegment));
-			}
+		OrderSegmentDto testRecord = records.get(0);
+		if(testRecord.getHeaderId() != null) {
+			updateOrderSegmentQty(records);
+			return records;
 		}
 		
+		List<DealerProfileHeaderStatus> statii = statusDao.selectAll();
+		DealerProfileHeaderStatus status = getDefaultStatus(statii);
+		DealerProfileHeader header = headerDataMapper.createNewNonSubmittedNonApprovedHeader(testRecord, status);
+		DealerProfileHeader returnedHeader = headerDao.insert(header);
+		for (OrderSegmentDto orderSegment : records) {
+			OrderSegmentDto returnedSegment = createOrderSegmentQty(returnedHeader, orderSegment);
+			saved.add(returnedSegment);
+		}
+
 		return saved;
 	}
 	
-	public OrderSegmentDto createOrderSegmentQty(DealerProfileHeader header, OrderSegmentDto orderSegment) {
+	public List<OrderSegmentDto> submitOrderSegmentQuantities(List<OrderSegmentDto> records) {
+		assert(records.size() > 0);
+		List<OrderSegmentDto> submitted = new ArrayList<OrderSegmentDto>();
+		DealerProfileHeaderStatus status = statusDao.getPendingStatus();
+
+		OrderSegmentDto testRecord = records.get(0);
+		if(testRecord.getHeaderId() != null) {
+			updateOrderSegmentQty(records);
+			DealerProfileHeader header = headerDao.select(testRecord.getHeaderId());
+			headerDataMapper.updateExistingSubmittedHeader(header, status);
+			headerDao.update(header);
+			
+			for (OrderSegmentDto dto : records) {
+				dto.setSubmittedDate(header.getSubmittedDate());
+			}
+			return records;
+		}
+		
+		DealerProfileHeader header = headerDataMapper.createNewSubmittedHeader(testRecord, status);
+		DealerProfileHeader returnedHeader = headerDao.insert(header);
+		for (OrderSegmentDto orderSegment : records) {
+			OrderSegmentDto returnedSegment = createOrderSegmentQty(returnedHeader, orderSegment);
+			submitted.add(returnedSegment);
+		}
+
+		return submitted;
+	}
+
+	protected OrderSegmentDto createOrderSegmentQty(DealerProfileHeader header, OrderSegmentDto orderSegment) {
 		DealerProfileDetail detail = detailDataMapper.createInitialDetail(orderSegment, header);
 		DealerProfileDetail returnedDetail = detailDao.insert(detail);
 		
@@ -70,13 +101,19 @@ public class OrderSegmentService {
 		
 		return orderSegment;
 	}
+
+	protected void updateOrderSegmentQty(List<OrderSegmentDto> orderSegments) {
+		for (OrderSegmentDto dto : orderSegments) {
+			updateOrderSegmentQty(dto);
+		}
+	}
 	
-	public void updateOrderSegmentQty(OrderSegmentDto orderSegment) {
+	protected void updateOrderSegmentQty(OrderSegmentDto orderSegment) {
 		DealerProfileDetail detail = detailDao.select(orderSegment.getId());
 		detailDataMapper.updateDealerEnteredDetails(detail, orderSegment);
 		detailDao.update(detail);
 	}
-	
+
 	protected DealerProfileHeaderStatus getDefaultStatus(List<DealerProfileHeaderStatus> statii) {
 		for (DealerProfileHeaderStatus status : statii) {
 			if(status.getDescription().trim().equals(Constants.IN_PROGRESS_STATUS)) return status;

@@ -19,6 +19,7 @@ public class Constants {
     
     public static final String DEFAULT_PROFILE_STATUS = "NOT STARTED";
     public static final String IN_PROGRESS_STATUS = "IN PROGRESS";
+    public static final String PENDING_STATUS = "PENDING";
     
     public static final String SAVE_SUCCESSFUL = "Successful";
     public static final String NOT_AUTHORIZED = "Not Authorized";

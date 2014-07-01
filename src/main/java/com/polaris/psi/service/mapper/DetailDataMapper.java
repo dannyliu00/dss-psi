@@ -3,7 +3,9 @@
  */
 package com.polaris.psi.service.mapper;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -19,6 +21,15 @@ import com.polaris.psi.resource.dto.OrderSegmentDto;
 @Component
 public class DetailDataMapper {
 
+	public List<DealerProfileDetail> createInitialDetail(List<OrderSegmentDto> dtos, DealerProfileHeader header) {
+		List<DealerProfileDetail> details = new ArrayList<DealerProfileDetail>();
+		for (OrderSegmentDto dto : dtos) {
+			details.add(createInitialDetail(dto, header));
+		}
+		
+		return details;
+	}
+	
 	public DealerProfileDetail createInitialDetail(OrderSegmentDto dto, DealerProfileHeader header) {
 		DealerProfileDetail detail = new DealerProfileDetail();
 		detail.setActual(dto.getActual());
@@ -27,7 +38,7 @@ public class DetailDataMapper {
 		detail.setCreatedTime(new Date());
 		detail.setCreatedUser(dto.getModifiedUserName());
 		detail.setDealerComments(setStringValue(dto.getDealerComments()));
-		detail.setDealerReasonCode(dto.getReasonCode());
+		detail.setDealerReasonCode(setIntegerValue(dto.getReasonCode()));
 		detail.setHeader(header);
 		detail.setProfileOrderSegmentId(dto.getProfileOrderSegmentId());
 		detail.setAdminApprovedQty(setIntegerValue(null));

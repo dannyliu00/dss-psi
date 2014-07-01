@@ -1,7 +1,9 @@
 package com.polaris.psi.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -36,7 +38,7 @@ public class OrderSegmentServiceTest {
 	@Mock private DealerProfileHeaderDao mockHeaderDao;
 	@Mock private DealerProfileHeader mockHeader;
 	@Mock private DealerProfileDetailDao mockDetailDao;
-	@Mock private DealerProfileDetail mockDetail;
+	@Mock private DealerProfileDetail mockDetail, mockReturnedDetail;
 	@Mock private HeaderDataMapper mockHeaderMapper;
 	@Mock private DetailDataMapper mockDetailMapper;
 	private Integer statusId, profileId, profileOrderSegmentId, headerId, detailId, dealerId, adminQty, dsmQty, finalQty, 
@@ -84,8 +86,10 @@ public class OrderSegmentServiceTest {
 		mockAllStatii.add(mockStatus);
 		
 		when(mockStatusDao.selectAll()).thenReturn(mockAllStatii);
+		when(mockStatusDao.getPendingStatus()).thenReturn(mockStatus);
 		when(mockHeaderDao.insert((DealerProfileHeader) anyObject())).thenReturn(mockHeader);
-		when(mockDetailDao.insert((DealerProfileDetail) anyObject())).thenReturn(mockDetail);
+		when(mockHeaderDao.select(headerId)).thenReturn(mockHeader);
+		when(mockDetailDao.insert((DealerProfileDetail) anyObject())).thenReturn(mockReturnedDetail);
 		when(mockDetailDao.select(detailId)).thenReturn(mockDetail);
 
 		// header data
@@ -95,6 +99,7 @@ public class OrderSegmentServiceTest {
 		when(mockOrderSegment.getSubmittedDate()).thenReturn(submittedDate);
 		when(mockOrderSegment.getApprovedDate()).thenReturn(approvedDate);
 		when(mockOrderSegment.getModifiedUserName()).thenReturn(userName);
+		when(mockOrderSegment.getHeaderId()).thenReturn(headerId);
 		
 		// detail data
 		when(mockOrderSegment.getId()).thenReturn(detailId);
@@ -114,8 +119,12 @@ public class OrderSegmentServiceTest {
 		when(mockHeader.getId()).thenReturn(headerId);
 		when(mockDetail.getId()).thenReturn(detailId);
 		
+		when(mockHeader.getSubmittedDate()).thenReturn(submittedDate);
+		
 		when(mockHeaderMapper.createNewNonSubmittedNonApprovedHeader(mockOrderSegment, mockStatus)).thenReturn(mockHeader);
+		when(mockHeaderMapper.createNewSubmittedHeader(mockOrderSegment, mockStatus)).thenReturn(mockHeader);
 		when(mockDetailMapper.createInitialDetail(mockOrderSegment, mockHeader)).thenReturn(mockDetail);
+		
 		
 		service = new OrderSegmentService();
 		service.statusDao = mockStatusDao;
@@ -142,7 +151,7 @@ public class OrderSegmentServiceTest {
 		verify(mockHeaderDao).insert((DealerProfileHeader) anyObject());
 		verify(mockDetailDao).insert((DealerProfileDetail) anyObject());
 		verify(mockHeader).getId();
-		verify(mockDetail).getId();
+		verify(mockReturnedDetail).getId();
 	}
 
 	@Test
@@ -153,6 +162,46 @@ public class OrderSegmentServiceTest {
 		
 		verify(mockDetailDao).select(detailId);
 		verify(mockDetailDao).update(mockDetail);
+	}
+
+	@Test
+	public void testSubmitQuantitiesCreateRecord() {
+		when(mockOrderSegment.getHeaderId()).thenReturn(null);
+		when(mockStatusDao.getPendingStatus()).thenReturn(mockStatus);
+
+		service.submitOrderSegmentQuantities(recordsToSave);
+
+		verify(mockOrderSegment).getHeaderId();
+		verify(mockStatusDao).getPendingStatus();
+		verify(mockHeaderDao).insert((DealerProfileHeader) anyObject());
+		verify(mockDetailMapper).createInitialDetail(mockOrderSegment, mockHeader);
+		verify(mockDetailDao).insert((DealerProfileDetail) anyObject());
+		verify(mockHeader).getId();
+		verify(mockReturnedDetail).getId();
+		verify(mockOrderSegment).setId(anyInt());
+		verify(mockOrderSegment).setHeaderId(anyInt());
+		verifyNoMoreInteractions(mockOrderSegment, mockStatusDao, mockHeaderDao, mockDetailDao, mockHeader, mockDetail);
+	}
+
+	@Test
+	public void testSubmitQuantitiesUpdateRecord() {
+		when(mockStatusDao.getPendingStatus()).thenReturn(mockStatus);
+
+		service.submitOrderSegmentQuantities(recordsToSave);
+
+		verify(mockStatusDao).getPendingStatus();
+		verify(mockOrderSegment, times(2)).getHeaderId();
+		verify(mockDetailDao).select(detailId);
+		verify(mockDetailMapper).updateDealerEnteredDetails(mockDetail, mockOrderSegment);
+		verify(mockDetailDao).update(mockDetail);
+		verify(mockHeaderDao).select(headerId);
+		verify(mockHeaderMapper).updateExistingSubmittedHeader(mockHeader, mockStatus);
+		verify(mockHeaderDao).update(mockHeader);
+		verify(mockHeader).getSubmittedDate();
+		verify(mockOrderSegment).setSubmittedDate(submittedDate);
+		verify(mockOrderSegment).getId();
+
+		verifyNoMoreInteractions(mockOrderSegment, mockStatusDao, mockHeaderDao, mockDetailDao, mockHeader, mockDetail);
 	}
 
 	@Test
