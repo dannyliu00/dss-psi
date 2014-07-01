@@ -1,6 +1,6 @@
 (function() {
-    var dsmSummary = sellInNamespace('sellIn.pages.dsmsummary');
+    var dsmSummary = sellInNamespace('sellIn.pages.dsmSummary');
 
-    angular.module('sellIn.pages.dsmsummary', ['sellIn.routing.paths'])
+    angular.module('sellIn.pages.dsmSummary', ['sellIn.routing.paths', 'sellIn.resources.dealerProfileDetails'])
         .controller('dsmSummaryController', dsmSummary.DsmSummaryController);
 })();

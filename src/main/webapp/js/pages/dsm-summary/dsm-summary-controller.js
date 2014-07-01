@@ -1,7 +1,12 @@
 (function() {
-    var dsmSummary = sellInNamespace('sellIn.pages.dsmsummary');
+    var dsmSummary = sellInNamespace('sellIn.pages.dsmSummary');
 
-    function DsmSummaryController($scope, dsmUrl) {
+    function DsmSummaryController($scope, $routeParams, dsmProfilesResource) {
+
+        var dsm = {dsmId: $routeParams.dsmId};
+        dsmProfilesResource.query(dsm).then(function(profiles) {
+            $scope.profiles = profiles;
+        });
     }
 
     dsmSummary.DsmSummaryController = DsmSummaryController;

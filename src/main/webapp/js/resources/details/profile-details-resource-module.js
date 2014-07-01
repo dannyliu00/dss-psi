@@ -3,5 +3,6 @@
 
     angular.module('sellIn.resources.dealerProfileDetails', ['ngResource'])
         .service('dealerProfileDetailsResource', dealerProfileDetails.DealerProfileDetailsResource)
-        .constant('detailsUrl', '/dss-psi/webapi/details');
+        .constant('detailsSaveUrl', '/dss-psi/webapi/details/save')
+        .constant('detailsSubmitUrl', '/dss-psi/webapi/details/submit');
 })();

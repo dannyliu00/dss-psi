@@ -17,6 +17,7 @@ angular.module('sellIn', [
         'sellIn.directives.mainbutton',
         'sellIn.directives.reasonmodal',
         'sellIn.directives.savequantities',
+        'sellIn.directives.submitValues',
         'sellIn.directives.summarydatatables',
         'sellIn.directives.producttabs',
         'sellIn.directives.nondealersummaries',

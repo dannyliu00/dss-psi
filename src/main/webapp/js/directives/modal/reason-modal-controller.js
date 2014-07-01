@@ -1,7 +1,7 @@
 (function() {
     var reasonModal = sellInNamespace('sellIn.directives.reasonmodal');
     
-    function ReasonModalController($scope, $modalInstance,reasonCodeResource, appRoleResource) {
+    function ReasonModalController($scope, $modalInstance, reasonCodeResource, appRoleResource, dealerProfileDetailsResource, data) {
     	
     	var authorizationRoleId = 0;
     	
@@ -14,10 +14,16 @@
     	    $scope.reasonCodes = returnedReasonCodes;
     	    });
     	});
-    	
+
         $scope.saveChanges = function (id) {
-        	reasonCommentData = {'comments':this.reasonComments,'id':id};
-            $modalInstance.close(reasonCommentData);
+            for(var i=0; i<data.length; i++) {
+                var item = data[i];
+                item.dealerComments = this.reasonComments;
+                item.reasonCode = id;
+            }
+            dealerProfileDetailsResource.submit(data).then(function() {
+                $modalInstance.close(reasonCommentData);
+            });
        };
     	
         $scope.cancel = function () {

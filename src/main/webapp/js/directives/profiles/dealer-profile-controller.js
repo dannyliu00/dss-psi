@@ -71,7 +71,7 @@
 	            $scope.profile.periods[j].recMinimum = recMin;
 	            $scope.profile.periods[j].recMaximum = recMax;
 	    	}
-	    	$scope.dirtyIndicator = $scope.dirtyIndicator + 1;
+
 	    	return totalRecQty;
 	    };
 	    

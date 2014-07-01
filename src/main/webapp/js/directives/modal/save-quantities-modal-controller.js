@@ -4,12 +4,11 @@
     function SaveQuantitiesController($scope, $modalInstance, dealerProfileDetailsResource, orderSegments) {
     	
         $scope.saveChanges = function () {
-        	dealerProfileDetailsResource.save(orderSegments).then(function(returnedOrderSegments) {
-                orderSegments = returnedOrderSegments;
-        	});
-        	if($modalInstance.open()) {
-        		$modalInstance.close();
-        	}
+        	dealerProfileDetailsResource.save(orderSegments)
+                .then(function(returnedOrderSegments) {
+                    $scope.orderSegments = returnedOrderSegments;
+                    $modalInstance.close();
+                });
         };
         
         $scope.cancel = function () {

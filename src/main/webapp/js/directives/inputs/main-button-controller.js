@@ -1,10 +1,10 @@
 (function() {
     var mainButton = sellInNamespace('sellIn.directives.mainbutton');
 
-    function MainButtonDirectiveController($scope, $location, $modal, dealerSummaryPageUrl, profilePageUrl) {
+    function MainButtonDirectiveController($scope, $location, $modal, dealerSummaryPageUrl) {
     	
         $scope.buttonCaptionFill = function() {
-        	buttonCaption = "";
+        	var buttonCaption;
         	($scope.profile.type === "motorcycle"? buttonCaption = "Auto-fill with Recommendations" : buttonCaption = "Auto-fill with Targets");
         	
         	return buttonCaption;
@@ -12,14 +12,14 @@
              
         $scope.autoFill = function(){
         	($scope.profile.type === "motorcycle" ? autoFillVic() : autoFillATV());
-        	};
+        };
         
         function autoFillVic(){
             for(var i=0; i < $scope.orderSegments.length; i++) {
-           	 $scope.orderSegments[i].actual = $scope.orderSegments[i].recommended;
+           	    $scope.orderSegments[i].actual = $scope.orderSegments[i].recommended;
             }
             $scope.sumActualValues();
-       }
+        }
        
         function autoFillATV() {
                for(var i=0; i < $scope.orderSegments.length; i++) {
@@ -56,7 +56,7 @@
 //                  items: function (dealerId) {
 //                      return dealerId;
 //                  }
-//              }	
+//              }
             });
 
             modalInstance.result.then(function (dealerId) {
@@ -72,31 +72,53 @@
         		openSaveQuantitiesDialog();
         	}
         };
-        	
+
         function openSaveQuantitiesDialog() {
-             	
-        	var modalInstance = $modal.open({
-        		templateUrl: 'js/directives/modal/save-quantities-modal-template.html',
-     			controller: 'saveQuantitiesController',
-     			size: 'sm',
-     			resolve: {
-     			orderSegments: function () {
-     				return $scope.orderSegments;
-     				}
-     			}
-     		});
+
+            var modalInstance = $modal.open({
+                templateUrl: 'js/directives/modal/save-quantities-modal-template.html',
+                controller: 'saveQuantitiesController',
+                size: 'sm',
+                resolve: {
+                    orderSegments: function () {
+                        return $scope.orderSegments;
+                    }
+                }
+            });
 
             modalInstance.result.then(function () {
-            	var finalUrl = dealerSummaryPageUrl.replace(':dealerId', $scope.dealer.dealerId);
-                 $location.path(finalUrl);
+                $scope.dirtyIndicator = 1;
             }, function () {
-                 console.log('Modal dismissed at: ' + new Date());
+                console.log('Modal dismissed at: ' + new Date());
             });
         }
-        
+
+        function openSubmitDialog() {
+
+            var modalInstance = $modal.open({
+                templateUrl: 'js/directives/modal/submit-modal-template.html',
+                controller: 'submitController',
+                size: 'sm',
+                resolve: {
+                    data: function () {
+                        return $scope.orderSegments;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function () {
+                var finalUrl = dealerSummaryPageUrl.replace(':dealerId', $scope.dealer.dealerId);
+                $location.path(finalUrl);
+            }, function () {
+                console.log('Modal dismissed at: ' + new Date());
+            });
+        }
+
         $scope.submitRequests = function() {
             if(angular.element('input').hasClass('noncompliant')) {
                 openReasonDialog();
+            } else {
+                openSubmitDialog();
             }
         };
         
@@ -105,11 +127,16 @@
         	var modalInstance = $modal.open({
 				templateUrl: 'js/directives/modal/reason-modal-template.html',
 				controller: 'reasonModalController',
-				size: 'sm'
+				size: 'sm',
+                resolve: {
+                    data: function () {
+                        return $scope.orderSegments;
+                    }
+                }
 			});
 
         	modalInstance.result.then(function (reasonCommentData) {
-                var finalUrl = profilePageUrl.replace(':dealerId', $scope.dealer.dealerId).replace(':profileId',$scope.profile.profileId).replace(':type',$scope.profile.type);
+                var finalUrl = dealerSummaryPageUrl.replace(':dealerId', $scope.dealer.dealerId);
                 $location.path(finalUrl);
             }, function () {
                 console.log('Modal dismissed at: ' + new Date());
