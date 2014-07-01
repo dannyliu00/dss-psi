@@ -15,13 +15,13 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "Profile.OT080F_ReasonCode")
+@Table(name = "OT080F")
 public class ReasonCode implements Serializable {
 
 	private static final long serialVersionUID = 3070851503046452010L;
 
 	@Id
-	@Column(name = "N9RCODE")
+	@Column(name = "N9RID")
 	private int id;
 	
 	@Column(name = "N9CODE")

@@ -11,13 +11,14 @@ import org.springframework.stereotype.Repository;
 
 import com.polaris.psi.repository.entity.ReasonCode;
 import com.polaris.pwf.dao.AbstractPolarisDealersExtensionDao;
+import com.polaris.pwf.dao.AbstractPolarisMinneapolisDao;
 
 /**
  * @author bericks
  *
  */
 @Repository
-public class ReasonCodeDao extends AbstractPolarisDealersExtensionDao<ReasonCode> {
+public class ReasonCodeDao extends AbstractPolarisMinneapolisDao<ReasonCode> {
 
 	public ReasonCodeDao() {
 		super(ReasonCode.class);
