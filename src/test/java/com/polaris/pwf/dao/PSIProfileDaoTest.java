@@ -20,6 +20,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.polaris.psi.Constants;
 import com.polaris.psi.repository.entity.PSIProfile;
 
 public class PSIProfileDaoTest {
@@ -48,7 +49,7 @@ public class PSIProfileDaoTest {
 		
 		expectedName = "UT Name";
 		expectedProfileStatus = "UT Profile Status";
-		expectedStatus = "UT Status";
+		expectedStatus = Constants.IN_PROGRESS_STATUS;
 		expectedType = "UT Type";
 		expectedLegal = new Character('c');
 		expectedEmail = "ut@test.local";
@@ -80,9 +81,9 @@ public class PSIProfileDaoTest {
 	}
 
 	@Test
-	public void testRetrieveListByDealerId() {
+	public void testRetrieveCurrentDealerListByDealerId() {
 		Integer id = expectedId.intValue();
-		List<PSIProfile> results = dao.retrieveListByDealerId(id);
+		List<PSIProfile> results = dao.retrieveCurrentDealerListByDealerId(id);
 		
 		verify(mockEM).createNativeQuery(anyString());
 		verify(mockQuery).setParameter("dealerId", expectedId.intValue());
@@ -90,7 +91,7 @@ public class PSIProfileDaoTest {
 		verify(mockQuery).getResultList();
 		verify(mockEM).close();
 		
-		assertEquals(results.size(), 1);
+		assertEquals(1, results.size());
 		PSIProfile result = results.get(0);
 		assertEquals(expectedId.intValue(), result.getId().intValue());
 		assertEquals(expectedName, result.getName());
