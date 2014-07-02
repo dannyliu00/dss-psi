@@ -83,7 +83,7 @@ public class DsmServiceTest {
 	public void testGetDsmProfiles() {
 		List<DsmDealerProfilesDto> results = service.getDsmProfiles(dsmId, productType);
 		
-//		assertEquals(dtos.size(), results.size());
+		assertEquals(dtos.size(), results.size());
 		
 		verify(mockDsmDao).selectByDsmId(dsmId, productType);
 		verify(mockProfileDao).retrieveDsmCurrentProfileListByDealerId(dealerId);
