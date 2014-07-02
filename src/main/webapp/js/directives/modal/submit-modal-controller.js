@@ -6,9 +6,7 @@
         $scope.submit = function () {
             dealerProfileDetailsResource.submit(data)
                 .then(function(returnedData) {
-                    if($modalInstance.open()) {
-                        $modalInstance.close();
-                    }
+                    $modalInstance.close();
                 });
         };
 
