@@ -45,7 +45,7 @@
 
         $scope.dtOptions = DTOptionsBuilder.newOptions()
             .withPaginationType('full_numbers')
-            .withDisplayLength(20)
+            .withDisplayLength(25)
             .withBootstrap();
         
         $scope.dealerEmail = "";
