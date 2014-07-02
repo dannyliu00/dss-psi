@@ -1,7 +1,7 @@
 (function() {
     var defaultPage = sellInNamespace('sellIn.pages.default');
 
-    function DefaultPageController($scope, $location, appRoleResource, dealerSummaryPageUrl, dsmUrl, dsmRoleId) {
+    function DefaultPageController($scope, $location, appRoleResource, dealerSummaryPageUrl, dsmUrl, dsmRoleId, rsmRoleId) {
         var finalUrl = '/';
 
         appRoleResource.get().then(function(role) {
@@ -9,6 +9,7 @@
         }).then(function() {
             switch ($scope.role.customerClass) {
                 case dsmRoleId:
+                case rsmRoleId:
                     finalUrl = dsmUrl.replace(':id', $scope.role.dealerId);
                     break;
                 default:

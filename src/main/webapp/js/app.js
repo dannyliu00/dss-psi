@@ -27,6 +27,7 @@ angular.module('sellIn', [
         'sellIn.resources.dealer',
         'sellIn.resources.role',
         'sellIn.resources.dsmProfiles',
+        'sellIn.resources.rsmProfiles',
         'sellIn.resources.reasoncode',
         'sellIn.pages.dealerProfileSummary',
         'sellIn.pages.profile',
