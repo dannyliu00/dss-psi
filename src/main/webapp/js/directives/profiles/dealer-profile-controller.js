@@ -29,9 +29,8 @@
         function findDistinctOSes(data) {
             var keys = [];
 
+            keys.push(data[0].name);
             if(data.length > 1) {
-                keys.push(data[0].name);
-
                 for(var i = 1; i < data.length; i++) {
                     var newName = data[i].name;
                     if(keys.indexOf(newName) == -1) {
