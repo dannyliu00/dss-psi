@@ -58,6 +58,17 @@ public class HeaderDataMapper {
 		header.setSubmittedTime(date);
 		header.setStatus(status);
 	}
+	
+	public void updateApprovedHeader(DealerProfileHeader header, DealerProfileHeaderStatus status, String user) {
+		Date date = Calendar.getInstance().getTime();
+		header.setApprovedDate(date);
+		header.setApprovedTime(date);
+		header.setChangedDate(date);
+		header.setChangedProgram(Constants.PROGRAM_CODE);
+		header.setChangedTime(date);
+		header.setChangeUser(user);
+		header.setStatus(status);
+	}
 
 	protected Date setDate(Date date) {
 		return date != null ? date : Constants.DEFAULT_DATE.getTime();

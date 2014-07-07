@@ -3,6 +3,7 @@ package com.polaris.psi.service.mapper;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -25,6 +26,7 @@ public class HeaderDataMapperTest {
 	private HeaderDataMapper mapper;
 	@Mock private OrderSegmentDto mockDto;
 	@Mock private DealerProfileHeaderStatus mockStatus;
+	@Mock private DealerProfileHeader mockHeader;
 	private String expectedUserName, expectedEmailAddress;
 	private Integer expectedDealerId, expectedProfileId;
 	
@@ -101,6 +103,19 @@ public class HeaderDataMapperTest {
 		verify(mockDto).getDealerEmail();
 		verify(mockDto).getDealerId();
 		verify(mockDto).getProfileId();
+	}
+	
+	@Test
+	public void testUpdateApprovedHeader() {
+		mapper.updateApprovedHeader(mockHeader, mockStatus, expectedUserName);
+		
+		verify(mockHeader).setApprovedDate(any(Date.class));
+		verify(mockHeader).setApprovedTime(any(Date.class));
+		verify(mockHeader).setChangedDate(any(Date.class));
+		verify(mockHeader).setChangedProgram(Constants.PROGRAM_CODE);
+		verify(mockHeader).setChangedTime(any(Date.class));
+		verify(mockHeader).setChangeUser(expectedUserName);
+		verify(mockHeader).setStatus(mockStatus);
 	}
 
 	@Test
