@@ -25,6 +25,8 @@ public class Constants {
     // Current DSM Dealer Profile statuses
     public static final String PENDING_STATUS = "PENDING";
     public static final String RETURNED_TO_DSM = "RETURNED TO DSM";
+
+    public static final String APPROVED_W_CHANGES = "APPROVED WITH CHANGES";
     
     public static final String SAVE_SUCCESSFUL = "Successful";
     public static final String NOT_AUTHORIZED = "Not Authorized";
