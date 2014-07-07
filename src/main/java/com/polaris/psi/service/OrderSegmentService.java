@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.polaris.psi.Constants;
 import com.polaris.psi.repository.dao.DealerProfileDetailDao;
@@ -19,6 +20,7 @@ import com.polaris.psi.repository.entity.DealerProfileHeaderStatus;
 import com.polaris.psi.resource.dto.OrderSegmentDto;
 import com.polaris.psi.service.mapper.DetailDataMapper;
 import com.polaris.psi.service.mapper.HeaderDataMapper;
+import com.polaris.pwf.repository.CommonRepositoryConstants;
 
 /**
  * @author bericks
@@ -42,6 +44,7 @@ public class OrderSegmentService {
 	@Autowired
 	DetailDataMapper detailDataMapper;
 
+	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public List<OrderSegmentDto> saveOrderSegmentQuantities(List<OrderSegmentDto> records) {
 		assert(records.size() > 0);
 		List<OrderSegmentDto> saved = new ArrayList<OrderSegmentDto>();
@@ -64,6 +67,7 @@ public class OrderSegmentService {
 		return saved;
 	}
 	
+	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public List<OrderSegmentDto> submitOrderSegmentQuantities(List<OrderSegmentDto> records) {
 		assert(records.size() > 0);
 		List<OrderSegmentDto> submitted = new ArrayList<OrderSegmentDto>();
