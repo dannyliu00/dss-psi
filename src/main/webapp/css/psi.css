@@ -31,6 +31,7 @@
 }
 
 .noncompliant{
+	background-color: pink;
     color: red;
     font-weight: bold;
 }
@@ -76,7 +77,8 @@
   top: 0;
   left: 4px;
 }
-.circle {
+.green-light {
+    background-color: green;
 	width: 20px;
 	height: 20px;
 	
@@ -85,6 +87,15 @@
 	border-radius: 20px;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: auto;
-	margin-bottom: auto;
+}
+.red-light {
+    background-color: red;
+	width: 20px;
+	height: 20px;
+	
+	display: block;
+	border:1px solid black;
+	border-radius: 20px;
+	margin-left: auto;
+	margin-right: auto;
 }
