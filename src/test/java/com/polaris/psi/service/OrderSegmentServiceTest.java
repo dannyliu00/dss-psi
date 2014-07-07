@@ -6,6 +6,7 @@ import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -22,7 +23,6 @@ import org.mockito.MockitoAnnotations;
 import com.polaris.psi.Constants;
 import com.polaris.psi.repository.dao.DealerProfileDetailDao;
 import com.polaris.psi.repository.dao.DealerProfileHeaderDao;
-import com.polaris.psi.repository.dao.DealerProfileHeaderStatusDao;
 import com.polaris.psi.repository.entity.DealerProfileDetail;
 import com.polaris.psi.repository.entity.DealerProfileHeader;
 import com.polaris.psi.repository.entity.DealerProfileHeaderStatus;
@@ -33,7 +33,7 @@ import com.polaris.psi.service.mapper.HeaderDataMapper;
 public class OrderSegmentServiceTest {
 
 	private OrderSegmentService service;
-	@Mock private DealerProfileHeaderStatusDao mockStatusDao;
+	@Mock private StatusService mockStatusService;
 	@Mock private DealerProfileHeaderStatus mockStatus;
 	@Mock private DealerProfileHeaderDao mockHeaderDao;
 	@Mock private DealerProfileHeader mockHeader;
@@ -85,8 +85,9 @@ public class OrderSegmentServiceTest {
 		mockAllStatii = new ArrayList<DealerProfileHeaderStatus>();
 		mockAllStatii.add(mockStatus);
 		
-		when(mockStatusDao.selectAll()).thenReturn(mockAllStatii);
-		when(mockStatusDao.getPendingStatus()).thenReturn(mockStatus);
+		when(mockStatusService.getAllStatus()).thenReturn(mockAllStatii);
+		when(mockStatusService.getPendingStatus()).thenReturn(mockStatus);
+		when(mockStatusService.getApprovedWithChangesStatus()).thenReturn(mockStatus);
 		when(mockHeaderDao.insert((DealerProfileHeader) anyObject())).thenReturn(mockHeader);
 		when(mockHeaderDao.select(headerId)).thenReturn(mockHeader);
 		when(mockDetailDao.insert((DealerProfileDetail) anyObject())).thenReturn(mockReturnedDetail);
@@ -127,7 +128,7 @@ public class OrderSegmentServiceTest {
 		
 		
 		service = new OrderSegmentService();
-		service.statusDao = mockStatusDao;
+		service.statusService = mockStatusService;
 		service.headerDao = mockHeaderDao;
 		service.detailDao = mockDetailDao;
 		service.headerDataMapper = mockHeaderMapper;
@@ -136,7 +137,7 @@ public class OrderSegmentServiceTest {
 	
 	@After
 	public void tearDown() {
-		verifyNoMoreInteractions(mockStatusDao, mockStatus);
+		verifyNoMoreInteractions(mockStatusService, mockStatus);
 	}
 
 	@Test
@@ -146,7 +147,7 @@ public class OrderSegmentServiceTest {
 		
 		service.saveOrderSegmentQuantities(recordsToSave);
 		
-		verify(mockStatusDao).selectAll();
+		verify(mockStatusService).getAllStatus();
 		verify(mockStatus).getDescription();
 		verify(mockHeaderDao).insert((DealerProfileHeader) anyObject());
 		verify(mockDetailDao).insert((DealerProfileDetail) anyObject());
@@ -167,12 +168,12 @@ public class OrderSegmentServiceTest {
 	@Test
 	public void testSubmitQuantitiesCreateRecord() {
 		when(mockOrderSegment.getHeaderId()).thenReturn(null);
-		when(mockStatusDao.getPendingStatus()).thenReturn(mockStatus);
+		when(mockStatusService.getPendingStatus()).thenReturn(mockStatus);
 
 		service.submitOrderSegmentQuantities(recordsToSave);
 
 		verify(mockOrderSegment).getHeaderId();
-		verify(mockStatusDao).getPendingStatus();
+		verify(mockStatusService).getPendingStatus();
 		verify(mockHeaderDao).insert((DealerProfileHeader) anyObject());
 		verify(mockDetailMapper).createInitialDetail(mockOrderSegment, mockHeader);
 		verify(mockDetailDao).insert((DealerProfileDetail) anyObject());
@@ -180,16 +181,16 @@ public class OrderSegmentServiceTest {
 		verify(mockReturnedDetail).getId();
 		verify(mockOrderSegment).setId(anyInt());
 		verify(mockOrderSegment).setHeaderId(anyInt());
-		verifyNoMoreInteractions(mockOrderSegment, mockStatusDao, mockHeaderDao, mockDetailDao, mockHeader, mockDetail);
+		verifyNoMoreInteractions(mockOrderSegment, mockStatusService, mockHeaderDao, mockDetailDao, mockHeader, mockDetail);
 	}
 
 	@Test
 	public void testSubmitQuantitiesUpdateRecord() {
-		when(mockStatusDao.getPendingStatus()).thenReturn(mockStatus);
+		when(mockStatusService.getPendingStatus()).thenReturn(mockStatus);
 
 		service.submitOrderSegmentQuantities(recordsToSave);
 
-		verify(mockStatusDao).getPendingStatus();
+		verify(mockStatusService).getPendingStatus();
 		verify(mockOrderSegment, times(2)).getHeaderId();
 		verify(mockDetailDao).select(detailId);
 		verify(mockDetailMapper).updateDealerEnteredDetails(mockDetail, mockOrderSegment);
@@ -201,7 +202,25 @@ public class OrderSegmentServiceTest {
 		verify(mockOrderSegment).setSubmittedDate(submittedDate);
 		verify(mockOrderSegment).getId();
 
-		verifyNoMoreInteractions(mockOrderSegment, mockStatusDao, mockHeaderDao, mockDetailDao, mockHeader, mockDetail);
+		verifyNoMoreInteractions(mockOrderSegment, mockStatusService, mockHeaderDao, mockDetailDao, mockHeader, mockDetail);
+	}
+	
+	@Test
+	public void testApproveWithChanges() {
+		
+		service.approveWithChanges(recordsToSave);
+		
+		verify(mockOrderSegment, times(2)).getHeaderId();
+		verify(mockOrderSegment).getModifiedUserName();
+		verify(mockStatusService).getApprovedWithChangesStatus();
+		verify(mockHeaderDao).select(headerId);
+		verify(mockHeaderMapper).updateApprovedHeader(mockHeader, mockStatus, userName);
+		verify(mockHeaderDao).update(mockHeader);
+//		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment);
+//		verify(mockDetailDao).update(mockDetail);
+		
+		verifyNoMoreInteractions(mockOrderSegment, mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao, mockStatusService);
+		verifyZeroInteractions(mockDetail, mockHeader, mockReturnedDetail, mockStatus);
 	}
 
 	@Test

@@ -30,7 +30,7 @@ import com.polaris.pwf.repository.CommonRepositoryConstants;
 public class OrderSegmentService {
 	
 	@Autowired
-	DealerProfileHeaderStatusDao statusDao;
+	StatusService statusService;
 	
 	@Autowired
 	DealerProfileHeaderDao headerDao;
@@ -55,7 +55,7 @@ public class OrderSegmentService {
 			return records;
 		}
 		
-		List<DealerProfileHeaderStatus> statii = statusDao.selectAll();
+		List<DealerProfileHeaderStatus> statii = statusService.getAllStatus();
 		DealerProfileHeaderStatus status = getDefaultStatus(statii);
 		DealerProfileHeader header = headerDataMapper.createNewNonSubmittedNonApprovedHeader(testRecord, status);
 		DealerProfileHeader returnedHeader = headerDao.insert(header);
@@ -71,7 +71,7 @@ public class OrderSegmentService {
 	public List<OrderSegmentDto> submitOrderSegmentQuantities(List<OrderSegmentDto> records) {
 		assert(records.size() > 0);
 		List<OrderSegmentDto> submitted = new ArrayList<OrderSegmentDto>();
-		DealerProfileHeaderStatus status = statusDao.getPendingStatus();
+		DealerProfileHeaderStatus status = statusService.getPendingStatus();
 
 		OrderSegmentDto testRecord = records.get(0);
 		if(testRecord.getHeaderId() != null) {
@@ -94,6 +94,21 @@ public class OrderSegmentService {
 		}
 
 		return submitted;
+	}
+	
+	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
+	public List<OrderSegmentDto> approveWithChanges(List<OrderSegmentDto> records) {
+		assert(records.size() > 0);
+		List<OrderSegmentDto> submitted = new ArrayList<OrderSegmentDto>();
+		DealerProfileHeaderStatus status = statusService.getApprovedWithChangesStatus();
+		
+		OrderSegmentDto testRecord = records.get(0);
+		if(testRecord.getHeaderId() != null) {
+			DealerProfileHeader header = headerDao.select(testRecord.getHeaderId());
+			headerDataMapper.updateApprovedHeader(header, status, testRecord.getModifiedUserName());
+			headerDao.update(header);
+		}
+		return null;
 	}
 
 	protected OrderSegmentDto createOrderSegmentQty(DealerProfileHeader header, OrderSegmentDto orderSegment) {
