@@ -347,5 +347,116 @@ public class DealerProfileHeader implements Serializable {
 	public void setDetails(List<DealerProfileDetail> details) {
 		this.details = details;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((changeUser == null) ? 0 : changeUser.hashCode());
+		result = prime * result
+				+ ((changedDate == null) ? 0 : changedDate.hashCode());
+		result = prime * result
+				+ ((changedProgram == null) ? 0 : changedProgram.hashCode());
+		result = prime * result
+				+ ((changedTime == null) ? 0 : changedTime.hashCode());
+		result = prime * result
+				+ ((createdDate == null) ? 0 : createdDate.hashCode());
+		result = prime * result
+				+ ((createdProgram == null) ? 0 : createdProgram.hashCode());
+		result = prime * result
+				+ ((createdTime == null) ? 0 : createdTime.hashCode());
+		result = prime * result
+				+ ((createdUser == null) ? 0 : createdUser.hashCode());
+		result = prime * result + dealerId;
+		result = prime * result + id;
+		result = prime * result + profileId;
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DealerProfileHeader other = (DealerProfileHeader) obj;
+		if (changeUser == null) {
+			if (other.changeUser != null)
+				return false;
+		} else if (!changeUser.equals(other.changeUser))
+			return false;
+		if (changedDate == null) {
+			if (other.changedDate != null)
+				return false;
+		} else if (!changedDate.equals(other.changedDate))
+			return false;
+		if (changedProgram == null) {
+			if (other.changedProgram != null)
+				return false;
+		} else if (!changedProgram.equals(other.changedProgram))
+			return false;
+		if (changedTime == null) {
+			if (other.changedTime != null)
+				return false;
+		} else if (!changedTime.equals(other.changedTime))
+			return false;
+		if (createdDate == null) {
+			if (other.createdDate != null)
+				return false;
+		} else if (!createdDate.equals(other.createdDate))
+			return false;
+		if (createdProgram == null) {
+			if (other.createdProgram != null)
+				return false;
+		} else if (!createdProgram.equals(other.createdProgram))
+			return false;
+		if (createdTime == null) {
+			if (other.createdTime != null)
+				return false;
+		} else if (!createdTime.equals(other.createdTime))
+			return false;
+		if (createdUser == null) {
+			if (other.createdUser != null)
+				return false;
+		} else if (!createdUser.equals(other.createdUser))
+			return false;
+		if (dealerId != other.dealerId)
+			return false;
+		if (id != other.id)
+			return false;
+		if (profileId != other.profileId)
+			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
+			return false;
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "DealerProfileHeader [id=" + id + ", profileId=" + profileId
+				+ ", dealerId=" + dealerId + ", createdDate=" + createdDate
+				+ ", createdTime=" + createdTime + ", createdUser="
+				+ createdUser + ", createdProgram=" + createdProgram
+				+ ", changedDate=" + changedDate + ", changedTime="
+				+ changedTime + ", changeUser=" + changeUser
+				+ ", changedProgram=" + changedProgram + ", status=" + status
+				+ "]";
+	}
 	
 }

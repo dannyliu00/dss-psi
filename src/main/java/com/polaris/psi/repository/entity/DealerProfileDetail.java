@@ -39,6 +39,9 @@ public class DealerProfileDetail implements Serializable {
 	@Column(name = "N8PSID")
 	private int profileOrderSegmentId;
 	
+	@Column(name = "N8CODE")
+	private String periodCode;
+	
 	@Column(name = "N8DQTY", nullable=true)
 	private Integer actual;
 	
@@ -137,6 +140,20 @@ public class DealerProfileDetail implements Serializable {
 	 */
 	public void setProfileOrderSegmentId(int profileOrderSegmentId) {
 		this.profileOrderSegmentId = profileOrderSegmentId;
+	}
+
+	/**
+	 * @return the periodCode
+	 */
+	public String getPeriodCode() {
+		return periodCode;
+	}
+
+	/**
+	 * @param periodCode the periodCode to set
+	 */
+	public void setPeriodCode(String periodCode) {
+		this.periodCode = periodCode;
 	}
 
 	/**
@@ -389,6 +406,135 @@ public class DealerProfileDetail implements Serializable {
 	 */
 	public void setChangedProgram(String changedProgram) {
 		this.changedProgram = changedProgram;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((actual == null) ? 0 : actual.hashCode());
+		result = prime * result
+				+ ((changedDate == null) ? 0 : changedDate.hashCode());
+		result = prime * result
+				+ ((changedProgram == null) ? 0 : changedProgram.hashCode());
+		result = prime * result
+				+ ((changedTime == null) ? 0 : changedTime.hashCode());
+		result = prime * result
+				+ ((changedUser == null) ? 0 : changedUser.hashCode());
+		result = prime * result
+				+ ((createdDate == null) ? 0 : createdDate.hashCode());
+		result = prime * result
+				+ ((createdProgram == null) ? 0 : createdProgram.hashCode());
+		result = prime * result
+				+ ((createdTime == null) ? 0 : createdTime.hashCode());
+		result = prime * result
+				+ ((createdUser == null) ? 0 : createdUser.hashCode());
+		result = prime * result
+				+ ((finalQty == null) ? 0 : finalQty.hashCode());
+		result = prime * result + ((header == null) ? 0 : header.hashCode());
+		result = prime * result + id;
+		result = prime * result
+				+ ((periodCode == null) ? 0 : periodCode.hashCode());
+		result = prime * result + profileOrderSegmentId;
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DealerProfileDetail other = (DealerProfileDetail) obj;
+		if (actual == null) {
+			if (other.actual != null)
+				return false;
+		} else if (!actual.equals(other.actual))
+			return false;
+		if (changedDate == null) {
+			if (other.changedDate != null)
+				return false;
+		} else if (!changedDate.equals(other.changedDate))
+			return false;
+		if (changedProgram == null) {
+			if (other.changedProgram != null)
+				return false;
+		} else if (!changedProgram.equals(other.changedProgram))
+			return false;
+		if (changedTime == null) {
+			if (other.changedTime != null)
+				return false;
+		} else if (!changedTime.equals(other.changedTime))
+			return false;
+		if (changedUser == null) {
+			if (other.changedUser != null)
+				return false;
+		} else if (!changedUser.equals(other.changedUser))
+			return false;
+		if (createdDate == null) {
+			if (other.createdDate != null)
+				return false;
+		} else if (!createdDate.equals(other.createdDate))
+			return false;
+		if (createdProgram == null) {
+			if (other.createdProgram != null)
+				return false;
+		} else if (!createdProgram.equals(other.createdProgram))
+			return false;
+		if (createdTime == null) {
+			if (other.createdTime != null)
+				return false;
+		} else if (!createdTime.equals(other.createdTime))
+			return false;
+		if (createdUser == null) {
+			if (other.createdUser != null)
+				return false;
+		} else if (!createdUser.equals(other.createdUser))
+			return false;
+		if (finalQty == null) {
+			if (other.finalQty != null)
+				return false;
+		} else if (!finalQty.equals(other.finalQty))
+			return false;
+		if (header == null) {
+			if (other.header != null)
+				return false;
+		} else if (!header.equals(other.header))
+			return false;
+		if (id != other.id)
+			return false;
+		if (periodCode == null) {
+			if (other.periodCode != null)
+				return false;
+		} else if (!periodCode.equals(other.periodCode))
+			return false;
+		if (profileOrderSegmentId != other.profileOrderSegmentId)
+			return false;
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "DealerProfileDetail [id=" + id + ", header=" + header
+				+ ", profileOrderSegmentId=" + profileOrderSegmentId
+				+ ", periodCode=" + periodCode + ", actual=" + actual
+				+ ", finalQty=" + finalQty + ", createdDate=" + createdDate
+				+ ", createdTime=" + createdTime + ", createdUser="
+				+ createdUser + ", createdProgram=" + createdProgram
+				+ ", changedDate=" + changedDate + ", changedTime="
+				+ changedTime + ", changedUser=" + changedUser
+				+ ", changedProgram=" + changedProgram + "]";
 	}
 
 }
