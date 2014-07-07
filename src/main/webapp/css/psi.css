@@ -78,7 +78,7 @@
   left: 4px;
 }
 .green-light {
-    background-color: green;
+    background-color: green !important;
 	width: 20px;
 	height: 20px;
 	
@@ -89,7 +89,7 @@
 	margin-right: auto;
 }
 .red-light {
-    background-color: red;
+    background-color: red !important;
 	width: 20px;
 	height: 20px;
 	
