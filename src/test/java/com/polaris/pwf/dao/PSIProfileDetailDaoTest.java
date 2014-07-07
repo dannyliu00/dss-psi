@@ -30,7 +30,7 @@ public class PSIProfileDetailDaoTest {
 	private BigDecimal expectedId, expectedHeaderId, expectedProfileOrderSegmentId;
 	private BigDecimal expectedRequestedQty, expectedDsmQty, expectedAdminQty, expectedFinalQty;
 	private BigDecimal expectedReasonCode, expectedDsmReasonCode, expectedAdminReasonCode;
-	private String expectedDealerComments, expectedDsmComments, expectedAdminComments;
+	private String expectedDealerComments, expectedDsmComments, expectedAdminComments, expectedPeriodCode;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -49,8 +49,9 @@ public class PSIProfileDetailDaoTest {
 		expectedDealerComments = "UT Dealer Comments";
 		expectedDsmComments = "UT DSM Comments";
 		expectedAdminComments = "UT Admin Comments";
+		expectedPeriodCode = "UTCODE";
 		
-		mockResult = new Object[13];
+		mockResult = new Object[14];
 		mockResult[0] = expectedHeaderId;
 		mockResult[1] = expectedId;
 		mockResult[2] = expectedProfileOrderSegmentId;
@@ -64,6 +65,7 @@ public class PSIProfileDetailDaoTest {
 		mockResult[10] = expectedAdminReasonCode;
 		mockResult[11] = expectedAdminComments;
 		mockResult[12] = expectedFinalQty;
+		mockResult[13] = expectedPeriodCode;
 		
 		mockResults = new ArrayList<Object[]>();
 		mockResults.add(mockResult);
@@ -100,6 +102,7 @@ public class PSIProfileDetailDaoTest {
 		assertEquals(expectedDealerComments, result.getDealerComments());
 		assertEquals(expectedDsmComments, result.getDsmComments());
 		assertEquals(expectedAdminComments, result.getAdminComments());
+		assertEquals(expectedPeriodCode, result.getPeriodCode());
 		
 		verifyNoMoreInteractions(mockEM, mockQuery);
 	}

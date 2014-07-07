@@ -16,6 +16,7 @@ public class PSIProfileDetail implements Serializable {
 	private Integer id;
 	private Integer headerId;
 	private Integer profileOrderSegmentId;
+	private String periodCode;
 	private Integer requestedQty;
 	private Integer reasonCode;
 	private String dealerComments;
@@ -67,6 +68,20 @@ public class PSIProfileDetail implements Serializable {
 	 */
 	public void setProfileOrderSegmentId(Integer profileOrderSegmentId) {
 		this.profileOrderSegmentId = profileOrderSegmentId;
+	}
+
+	/**
+	 * @return the periodCode
+	 */
+	public String getPeriodCode() {
+		return periodCode;
+	}
+
+	/**
+	 * @param periodCode the periodCode to set
+	 */
+	public void setPeriodCode(String periodCode) {
+		this.periodCode = periodCode;
 	}
 
 	/**
@@ -216,13 +231,22 @@ public class PSIProfileDetail implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + headerId;
-		result = prime * result + id;
-		result = prime * result + profileOrderSegmentId;
-		result = prime * result + requestedQty;
+		result = prime * result
+				+ ((finalQty == null) ? 0 : finalQty.hashCode());
+		result = prime * result
+				+ ((headerId == null) ? 0 : headerId.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result
+				+ ((periodCode == null) ? 0 : periodCode.hashCode());
+		result = prime
+				* result
+				+ ((profileOrderSegmentId == null) ? 0 : profileOrderSegmentId
+						.hashCode());
+		result = prime * result
+				+ ((requestedQty == null) ? 0 : requestedQty.hashCode());
 		return result;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -235,17 +259,39 @@ public class PSIProfileDetail implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		PSIProfileDetail other = (PSIProfileDetail) obj;
-		if (headerId != other.headerId)
+		if (finalQty == null) {
+			if (other.finalQty != null)
+				return false;
+		} else if (!finalQty.equals(other.finalQty))
 			return false;
-		if (id != other.id)
+		if (headerId == null) {
+			if (other.headerId != null)
+				return false;
+		} else if (!headerId.equals(other.headerId))
 			return false;
-		if (profileOrderSegmentId != other.profileOrderSegmentId)
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
-		if (requestedQty != other.requestedQty)
+		if (periodCode == null) {
+			if (other.periodCode != null)
+				return false;
+		} else if (!periodCode.equals(other.periodCode))
+			return false;
+		if (profileOrderSegmentId == null) {
+			if (other.profileOrderSegmentId != null)
+				return false;
+		} else if (!profileOrderSegmentId.equals(other.profileOrderSegmentId))
+			return false;
+		if (requestedQty == null) {
+			if (other.requestedQty != null)
+				return false;
+		} else if (!requestedQty.equals(other.requestedQty))
 			return false;
 		return true;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -253,7 +299,8 @@ public class PSIProfileDetail implements Serializable {
 	public String toString() {
 		return "PSIProfileDetail [id=" + id + ", headerId=" + headerId
 				+ ", profileOrderSegmentId=" + profileOrderSegmentId
-				+ ", requestedQty=" + requestedQty + "]";
+				+ ", periodCode=" + periodCode + ", requestedQty="
+				+ requestedQty + ", finalQty=" + finalQty + "]";
 	}
 
 }

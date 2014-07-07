@@ -10,7 +10,6 @@ import java.util.List;
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
-import org.apache.openjpa.lib.log.Log;
 import org.springframework.stereotype.Repository;
 
 import com.polaris.psi.repository.entity.PSIProfileDetail;
@@ -28,7 +27,7 @@ public class PSIProfileDetailDao extends AbstractPolarisMinneapolisDao<PSIProfil
 	private static String QUERY_BY_HEADER = ""
 			+ "SELECT header.N7DHID, detail.N8DDID, detail.N8PSID, detail.N8DQTY, "
 			+ "detail.N8DCOD, detail.N8DCOM, detail.N8SQTY, detail.N8SCOD, detail.N8SCOM, detail.N8AQTY, "
-			+ "detail.N8ACOD, detail.N8ACOM, detail.N8QTY "
+			+ "detail.N8ACOD, detail.N8ACOM, detail.N8QTY, N8CODE "
 			+ "  FROM OT077F header "
 			+ "  LEFT OUTER JOIN OT078F detail ON detail.N8DHID = header.N7DHID "
 			+ " WHERE header.N7DHID = :headerId";
@@ -65,6 +64,7 @@ public class PSIProfileDetailDao extends AbstractPolarisMinneapolisDao<PSIProfil
 			detail.setAdminReasonCode(CommonUtils.convertToInteger((BigDecimal) result[10]));
 			detail.setAdminComments(CommonUtils.trimString(convertToString(result[11])));
 			detail.setFinalQty(CommonUtils.convertToInteger((BigDecimal) result[12]));
+			detail.setPeriodCode(CommonUtils.trimString(convertToString(result[13])));
 			
 			details.add(detail);
 		}
