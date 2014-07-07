@@ -20,7 +20,7 @@ public class DsmDealerProfileMapperTest {
 	@Mock private PSIProfile mockProfile;
 	@Mock private DealerAndDsm mockDealerAndDsm;
 	private Integer dealerId, dsmId, profileId, rsmId;
-	private String dealerName, dsmName, productLine, rsmName;
+	private String dealerName, dsmName, productLine, rsmName, status;
 	private Date modifiedDate;
 	
 	@Before
@@ -36,6 +36,7 @@ public class DsmDealerProfileMapperTest {
 		modifiedDate = Calendar.getInstance().getTime();
 		rsmId = 555;
 		rsmName = "UT RSM Name";
+		status = "UT Status";
 		
 		when(mockDealerAndDsm.getDealerId()).thenReturn(dealerId);
 		when(mockDealerAndDsm.getDealerName()).thenReturn(dealerName);
@@ -46,6 +47,7 @@ public class DsmDealerProfileMapperTest {
 		when(mockDealerAndDsm.getRsmName()).thenReturn(rsmName);
 		when(mockProfile.getId()).thenReturn(profileId);
 		when(mockProfile.getLastModifiedDate()).thenReturn(modifiedDate);
+		when(mockProfile.getStatus()).thenReturn(status);
 		
 		mapper = new DsmDealerProfileMapper();
 	}
@@ -63,6 +65,7 @@ public class DsmDealerProfileMapperTest {
 		verify(mockDealerAndDsm).getRsmName();
 		verify(mockProfile).getId();
 		verify(mockProfile).getLastModifiedDate();
+		verify(mockProfile).getStatus();
 	}
 
 }
