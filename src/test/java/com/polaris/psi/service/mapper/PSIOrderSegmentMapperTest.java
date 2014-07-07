@@ -85,6 +85,7 @@ public class PSIOrderSegmentMapperTest {
 		when(mockDetail.getProfileOrderSegmentId()).thenReturn(expectedProfileOrderSegmentId);
 		when(mockDetail.getReasonCode()).thenReturn(expectedReasonCode);
 		when(mockDetail.getRequestedQty()).thenReturn(expectedRequestedQty);
+		when(mockDetail.getPeriodCode()).thenReturn(expectedPeriodCode);
 		
 		mapper = new PSIOrderSegmentMapper();
 	}
@@ -117,6 +118,7 @@ public class PSIOrderSegmentMapperTest {
 		verify(mockDetail).getProfileOrderSegmentId();
 		verify(mockDetail).getReasonCode();
 		verify(mockDetail).getRequestedQty();
+		verify(mockDetail).getPeriodCode();
 	}
 
 	@Test
@@ -152,7 +154,7 @@ public class PSIOrderSegmentMapperTest {
 		verify(mockOS).getComplianceId();
 		verify(mockOS).getDealerId();
 		verify(mockOS).getName();
-		verify(mockOS).getPeriodCode();
+		verify(mockOS, times(2)).getPeriodCode();
 		verify(mockOS).getRecMaximum();
 		verify(mockOS).getRecMinimum();
 		verify(mockOS).getRecommended();
@@ -172,6 +174,7 @@ public class PSIOrderSegmentMapperTest {
 		verify(mockDetail, times(2)).getProfileOrderSegmentId();
 		verify(mockDetail).getReasonCode();
 		verify(mockDetail).getRequestedQty();
+		verify(mockDetail, times(2)).getPeriodCode();
 	}
 
 	@Test

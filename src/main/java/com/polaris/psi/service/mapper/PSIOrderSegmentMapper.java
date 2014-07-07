@@ -30,7 +30,9 @@ public class PSIOrderSegmentMapper {
 		}
 		
 		for (PSIProfileDetail detail : details) {
-			PSIOrderSegment os = getOrderSegmentWithId(oses, detail.getProfileOrderSegmentId());
+			int posId = detail.getProfileOrderSegmentId();
+			String code = detail.getPeriodCode();
+			PSIOrderSegment os = getOrderSegmentWithIdAndCode(oses, posId, code);
 			dtos.add(mapToDto(os, detail));
 		}
 		
@@ -45,8 +47,6 @@ public class PSIOrderSegmentMapper {
 		dto.setDealerId(os.getDealerId());
 		dto.setName(os.getName());
 		dto.setPeriodCode(os.getPeriodCode());
-//		dto.setPeriodId("");
-//		dto.setPeriodStartDate();
 		dto.setProfileOrderSegmentId(os.getId());
 		dto.setRecMaximum(os.getRecMaximum());
 		dto.setRecMinimum(os.getRecMinimum());
@@ -68,9 +68,20 @@ public class PSIOrderSegmentMapper {
 			dto.setHeaderId(detail.getHeaderId());
 			dto.setProfileOrderSegmentId(detail.getProfileOrderSegmentId());
 			dto.setReasonCode(detail.getReasonCode());
+			dto.setPeriodCode(detail.getPeriodCode());
 		}
 		
 		return dto;
+	}
+	
+	protected PSIOrderSegment getOrderSegmentWithIdAndCode(List<PSIOrderSegment> oses, Integer id, String code) {
+		
+		for (PSIOrderSegment orderSegment : oses) {
+			if(orderSegment.getId().intValue() == id.intValue() && orderSegment.getPeriodCode().equals(code))
+				return orderSegment;
+		}
+		
+		return null;
 	}
 	
 	protected PSIOrderSegment getOrderSegmentWithId(List<PSIOrderSegment> oses, Integer id) {
