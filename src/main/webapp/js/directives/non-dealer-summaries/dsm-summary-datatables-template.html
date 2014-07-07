@@ -5,15 +5,15 @@
            aria-describedby="activeObjectsTable_info">
         <thead>
         <tr role="row">
- <!--             <th role="columnheader" tabindex="0" aria-controls="activeObjectsTable" rowspan="1"
-                colspan="1" style="width: 10%;">
-            </th>-->
+            <th role="columnheader" tabindex="0" aria-controls="activeObjectsTable" rowspan="1"
+                colspan="1" style="width: 5%;">
+            </th>
             <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" rowspan="1"
                 colspan="1" aria-label="Inventory Profile : activate to sort column ascending" style="width: 20%;">
                 Dealer Number
             </th>
             <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" rowspan="1"
-                colspan="1" aria-label="Status : activate to sort column ascending" style="width: 30%;">
+                colspan="1" aria-label="Status : activate to sort column ascending" style="width: 35%;">
                 Dealer Name
             </th>
             <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" rowspan="1"
@@ -28,7 +28,7 @@
         </thead>
         <tbody role="alert" aria-live="polite" aria-relevant="all">
         <tr dt-rows ng-repeat="profile in profiles" >
-  <!--            <td class=" sorting_1">{{profile.type}}</td>-->
+            <td class="circle" style="background-color: green"></td>
             <td class=""><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.type)" >{{profile.dealerid}}</a></td>
             <td class="">{{profile.dealerName}}</td>
             <td class="">{{profile.modifiedDate | date : 'mediumDate'}}</td>
