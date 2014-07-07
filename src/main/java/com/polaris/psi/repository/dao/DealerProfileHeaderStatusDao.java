@@ -43,4 +43,20 @@ public class DealerProfileHeaderStatusDao extends AbstractPolarisMinneapolisDao<
         return statii.get(0);
 	}
 	
+	public DealerProfileHeaderStatus getApprovedWithChangesStatus() {
+        Map<String, Object> keyMap = new HashMap<String, Object>(1);
+        keyMap.put("description", Constants.APPROVED_W_CHANGES);
+        
+        List<DealerProfileHeaderStatus> statii = selectByMap(keyMap, null);
+        
+        try {
+            if(statii.size() > 1) throw new Exception();
+        } catch (Exception e) {
+        	log.error("We expected to get a List with a single item. The List contained " + statii.size() + " instead."
+        			+ " Returning the first entry.");
+        }
+        
+        return statii.get(0);
+	}
+	
 }
