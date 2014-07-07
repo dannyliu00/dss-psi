@@ -65,6 +65,16 @@ public class DetailDataMapper {
 		detail.setChangedTime(new Date());
 		detail.setChangedUser(dto.getModifiedUserName());
 	}
+	
+	public void updateDsmEnteredDetails(DealerProfileDetail detail, OrderSegmentDto dto) {
+		detail.setDsmRecommendedQty(dto.getDsmQty());
+		detail.setDsmReasonCode(dto.getDsmReasonCode());
+		detail.setDsmComments(dto.getDsmComments());
+		detail.setChangedDate(new Date());
+		detail.setChangedProgram(Constants.PROGRAM_CODE);
+		detail.setChangedTime(new Date());
+		detail.setChangedUser(dto.getModifiedUserName());
+	}
 
 	protected Date setDate(Date date) {
 		return date != null ? date : Constants.DEFAULT_DATE.getTime();

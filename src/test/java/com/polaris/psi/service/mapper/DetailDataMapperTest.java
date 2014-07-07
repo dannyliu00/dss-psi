@@ -25,8 +25,8 @@ public class DetailDataMapperTest {
 	@Mock private OrderSegmentDto mockDto;
 	@Mock private DealerProfileHeader mockHeader;
 	@Mock private DealerProfileDetail mockDetail;
-	private Integer expectedActual, expectedReasonCode, expectedOSId;
-	private String expectedUserName, expectedComments;
+	private Integer expectedActual, expectedReasonCode, expectedOSId, expectedDsmQty, expectedDsmReason;
+	private String expectedUserName, expectedComments, expectedDsmComments;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -89,6 +89,25 @@ public class DetailDataMapperTest {
 		verify(mockDetail).setChangedUser(expectedUserName);
 		verify(mockDetail).setDealerComments(expectedComments);
 		verify(mockDetail).setDealerReasonCode(expectedReasonCode);
+	}
+
+	@Test
+	public void testUpdateDsmEnteredDetails() {
+		expectedDsmQty = 2;
+		expectedDsmReason = 222;
+		expectedDsmComments = "UT DSM comments";
+		
+		when(mockDto.getDsmComments()).thenReturn(expectedDsmComments);
+		when(mockDto.getDsmQty()).thenReturn(expectedDsmQty);
+		when(mockDto.getDsmReasonCode()).thenReturn(expectedDsmReason);
+		
+		mapper.updateDsmEnteredDetails(mockDetail, mockDto);
+		
+		verify(mockDetail).setChangedProgram(Constants.PROGRAM_CODE);
+		verify(mockDetail).setChangedUser(expectedUserName);
+		verify(mockDetail).setDsmComments(expectedDsmComments);
+		verify(mockDetail).setDsmReasonCode(expectedDsmReason);
+		verify(mockDetail).setDsmRecommendedQty(expectedDsmQty);
 	}
 
 	@Test
