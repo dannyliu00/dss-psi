@@ -6,6 +6,7 @@ package com.polaris.psi.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.polaris.psi.Constants;
 import com.polaris.psi.repository.dao.DealerProfileDetailDao;
 import com.polaris.psi.repository.dao.DealerProfileHeaderDao;
-import com.polaris.psi.repository.dao.DealerProfileHeaderStatusDao;
 import com.polaris.psi.repository.entity.DealerProfileDetail;
 import com.polaris.psi.repository.entity.DealerProfileHeader;
 import com.polaris.psi.repository.entity.DealerProfileHeaderStatus;
@@ -44,15 +44,26 @@ public class OrderSegmentService {
 	@Autowired
 	DetailDataMapper detailDataMapper;
 
+	private static Logger LOG = Logger.getLogger(OrderSegmentService.class);
+
 	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public List<OrderSegmentDto> saveOrderSegmentQuantities(List<OrderSegmentDto> records) {
-		assert(records.size() > 0);
 		List<OrderSegmentDto> saved = new ArrayList<OrderSegmentDto>();
 		
 		OrderSegmentDto testRecord = records.get(0);
 		if(testRecord.getHeaderId() != null) {
+			if(LOG.isTraceEnabled()) {
+				LOG.trace("Header record does exist for the detail records passed in. System will update existing "
+						+ "header and detail records for saving the profile.");
+			}
+
 			updateOrderSegmentQty(records);
 			return records;
+		}
+		
+		if(LOG.isTraceEnabled()) {
+			LOG.trace("Header record does not exist for the detail records passed in. System will create new "
+					+ "header and detail records for saving the profile.");
 		}
 		
 		List<DealerProfileHeaderStatus> statii = statusService.getAllStatus();
@@ -69,12 +80,16 @@ public class OrderSegmentService {
 	
 	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public List<OrderSegmentDto> submitOrderSegmentQuantities(List<OrderSegmentDto> records) {
-		assert(records.size() > 0);
 		List<OrderSegmentDto> submitted = new ArrayList<OrderSegmentDto>();
 		DealerProfileHeaderStatus status = statusService.getPendingStatus();
 
 		OrderSegmentDto testRecord = records.get(0);
 		if(testRecord.getHeaderId() != null) {
+			if(LOG.isTraceEnabled()) {
+				LOG.trace("Header record does exist for the detail records passed in. System will update existing "
+						+ "header and detail records for submitting the profile.");
+			}
+
 			updateOrderSegmentQty(records);
 			DealerProfileHeader header = headerDao.select(testRecord.getHeaderId());
 			headerDataMapper.updateExistingSubmittedHeader(header, status, testRecord.isNonCompliant());
@@ -84,6 +99,11 @@ public class OrderSegmentService {
 				dto.setSubmittedDate(header.getSubmittedDate());
 			}
 			return records;
+		}
+		
+		if(LOG.isTraceEnabled()) {
+			LOG.trace("Header record does not exist for the detail records passed in. System will create new "
+					+ "header and detail records for submitting the profile.");
 		}
 		
 		DealerProfileHeader header = headerDataMapper.createNewSubmittedHeader(testRecord, status, testRecord.isNonCompliant());
@@ -97,23 +117,32 @@ public class OrderSegmentService {
 	}
 	
 	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
-	public List<OrderSegmentDto> approveWithChanges(List<OrderSegmentDto> records) {
-		assert(records.size() > 0);
-		List<OrderSegmentDto> submitted = new ArrayList<OrderSegmentDto>();
+	public List<OrderSegmentDto> dsmApproveWithChanges(List<OrderSegmentDto> records) {
+		boolean isNonCompliant = areDetailsNonCompliant(records);
 		DealerProfileHeaderStatus status = statusService.getApprovedWithChangesStatus();
 		
 		OrderSegmentDto testRecord = records.get(0);
 		if(testRecord.getHeaderId() != null) {
+			if(LOG.isTraceEnabled()) {
+				LOG.trace("Updating header and detail records for approving the profile with entered changes.");
+			}
+			
+			updateDetailWithDsmData(records);
 			DealerProfileHeader header = headerDao.select(testRecord.getHeaderId());
 			headerDataMapper.updateApprovedHeader(header, status, testRecord.getModifiedUserName());
+			header.setNonCompliant(isNonCompliant);
 			headerDao.update(header);
-		}
-		
-		for (OrderSegmentDto orderSegmentDto : records) {
 			
+			for (OrderSegmentDto dto : records) {
+				dto.setApprovedDate(header.getApprovedDate());
+			}
+
+		} else {
+			LOG.error("Profile detail records passed in did not contain an associated header record.  System will not "
+					+ "do any of the 'approve with changes' work.");
 		}
 		
-		return null;
+		return records;
 	}
 
 	protected OrderSegmentDto createOrderSegmentQty(DealerProfileHeader header, OrderSegmentDto orderSegment) {
@@ -137,6 +166,19 @@ public class OrderSegmentService {
 		detailDataMapper.updateDealerEnteredDetails(detail, orderSegment);
 		detailDao.update(detail);
 	}
+	
+	protected void updateDetailWithDsmData(List<OrderSegmentDto> orderSegments) {
+		for (OrderSegmentDto dto : orderSegments) {
+			updateDetailWithDsmData(dto);
+		}
+	}
+
+	protected void updateDetailWithDsmData(OrderSegmentDto orderSegment) {
+		DealerProfileDetail detail = detailDao.select(orderSegment.getId());
+		detailDataMapper.updateDsmEnteredDetails(detail, orderSegment);
+		detail.setFinalQty(orderSegment.getDsmQty());
+		detailDao.update(detail);
+	}
 
 	protected DealerProfileHeaderStatus getDefaultStatus(List<DealerProfileHeaderStatus> statii) {
 		for (DealerProfileHeaderStatus status : statii) {
@@ -144,5 +186,13 @@ public class OrderSegmentService {
 		}
 		
 		return null;
+	}
+	
+	protected boolean areDetailsNonCompliant(List<OrderSegmentDto> orderSegments) {
+		for (OrderSegmentDto dto : orderSegments) {
+			if(dto.isNonCompliant()) return true;
+		}
+		
+		return false;
 	}
 }

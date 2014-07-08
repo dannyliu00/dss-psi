@@ -124,6 +124,7 @@ public class OrderSegmentServiceTest {
 		when(mockDetail.getId()).thenReturn(detailId);
 		
 		when(mockHeader.getSubmittedDate()).thenReturn(submittedDate);
+		when(mockHeader.getApprovedDate()).thenReturn(approvedDate);
 		
 		when(mockHeaderMapper.createNewNonSubmittedNonApprovedHeader(mockOrderSegment, mockStatus)).thenReturn(mockHeader);
 		when(mockHeaderMapper.createNewSubmittedHeader(mockOrderSegment, mockStatus, nonCompliant)).thenReturn(mockHeader);
@@ -137,13 +138,17 @@ public class OrderSegmentServiceTest {
 		service.detailDataMapper = mockDetailMapper;
 	}
 	
-	@After
-	public void tearDown() {
-		verifyNoMoreInteractions(mockStatusService, mockStatus);
+	@Test(expected=IndexOutOfBoundsException.class)
+	public void testSaveQuantitiesCreateRecordNoRecords() {
+		
+		service.saveOrderSegmentQuantities(new ArrayList<OrderSegmentDto>());
+		
+		verifyZeroInteractions(mockDetail, mockReturnedDetail, mockStatus, mockOrderSegment, mockHeader, 
+				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao, mockStatusService);
 	}
-
+	
 	@Test
-	public void testSaveQuantitiesCreateRecord() {
+	public void testSaveQuantitiesCreateRecord() throws Exception {
 		when(mockOrderSegment.getHeaderId()).thenReturn(null);
 		when(mockStatus.getDescription()).thenReturn(Constants.IN_PROGRESS_STATUS);
 		
@@ -155,20 +160,36 @@ public class OrderSegmentServiceTest {
 		verify(mockDetailDao).insert((DealerProfileDetail) anyObject());
 		verify(mockHeader).getId();
 		verify(mockReturnedDetail).getId();
+		
+		verifyNoMoreInteractions(mockStatusService, mockStatus);
 	}
 
 	@Test
-	public void testSaveQuantitiesUpdateRecord() {
+	public void testSaveQuantitiesUpdateRecord() throws Exception {
 		when(mockOrderSegment.getHeaderId()).thenReturn(headerId);
 		
 		service.saveOrderSegmentQuantities(recordsToSave);
 		
 		verify(mockDetailDao).select(detailId);
 		verify(mockDetailDao).update(mockDetail);
+		
+		verifyNoMoreInteractions(mockStatusService, mockStatus);
 	}
 
+	@Test(expected=IndexOutOfBoundsException.class)
+	public void testSubmitQuantitiesCreateRecordNoRecords() {
+		
+		service.submitOrderSegmentQuantities(new ArrayList<OrderSegmentDto>());
+		
+		verify(mockStatusService).getPendingStatus();
+		
+		verifyNoMoreInteractions(mockStatusService);
+		verifyZeroInteractions(mockDetail, mockReturnedDetail, mockStatus, mockOrderSegment, mockHeader, 
+				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao);
+	}
+	
 	@Test
-	public void testSubmitQuantitiesCreateRecord() {
+	public void testSubmitQuantitiesCreateRecord() throws Exception {
 		when(mockOrderSegment.getHeaderId()).thenReturn(null);
 		when(mockStatusService.getPendingStatus()).thenReturn(mockStatus);
 
@@ -184,11 +205,12 @@ public class OrderSegmentServiceTest {
 		verify(mockOrderSegment).setId(anyInt());
 		verify(mockOrderSegment).setHeaderId(anyInt());
 		verify(mockOrderSegment).isNonCompliant();
+
 		verifyNoMoreInteractions(mockOrderSegment, mockStatusService, mockHeaderDao, mockDetailDao, mockHeader, mockDetail);
 	}
 
 	@Test
-	public void testSubmitQuantitiesUpdateRecord() {
+	public void testSubmitQuantitiesUpdateRecord() throws Exception {
 		when(mockStatusService.getPendingStatus()).thenReturn(mockStatus);
 
 		service.submitOrderSegmentQuantities(recordsToSave);
@@ -209,22 +231,41 @@ public class OrderSegmentServiceTest {
 		verifyNoMoreInteractions(mockOrderSegment, mockStatusService, mockHeaderDao, mockDetailDao, mockHeader, mockDetail);
 	}
 	
+	@Test(expected=IndexOutOfBoundsException.class)
+	public void testDsmApproveWithChangesNoRecords() {
+		
+		service.dsmApproveWithChanges(new ArrayList<OrderSegmentDto>());
+		
+		verify(mockStatusService).getApprovedWithChangesStatus();
+		
+		verifyZeroInteractions(mockDetail, mockReturnedDetail, mockStatus, mockOrderSegment, mockHeader, 
+				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao);
+	}
+	
 	@Test
-	public void testApproveWithChanges() {
+	public void testDsmApproveWithChanges() throws Exception {
 		
-		service.approveWithChanges(recordsToSave);
-		
+		service.dsmApproveWithChanges(recordsToSave);
+
+		verify(mockOrderSegment).getId();
+		verify(mockOrderSegment).getDsmQty();
 		verify(mockOrderSegment, times(2)).getHeaderId();
 		verify(mockOrderSegment).getModifiedUserName();
+		verify(mockOrderSegment).isNonCompliant();
+		verify(mockOrderSegment).setApprovedDate(approvedDate);
 		verify(mockStatusService).getApprovedWithChangesStatus();
 		verify(mockHeaderDao).select(headerId);
 		verify(mockHeaderMapper).updateApprovedHeader(mockHeader, mockStatus, userName);
 		verify(mockHeaderDao).update(mockHeader);
-//		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment);
-//		verify(mockDetailDao).update(mockDetail);
+		verify(mockDetailDao).select(detailId);
+		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment);
+		verify(mockDetailDao).update(mockDetail);
+		verify(mockDetail).setFinalQty(dsmQty);
+		verify(mockHeader).setNonCompliant(nonCompliant);
+		verify(mockHeader).getApprovedDate();
 		
-		verifyNoMoreInteractions(mockOrderSegment, mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao, mockStatusService);
-		verifyZeroInteractions(mockDetail, mockHeader, mockReturnedDetail, mockStatus);
+		verifyNoMoreInteractions(mockOrderSegment, mockHeader, mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao, mockStatusService);
+		verifyZeroInteractions(mockDetail, mockReturnedDetail, mockStatus);
 	}
 
 	@Test
