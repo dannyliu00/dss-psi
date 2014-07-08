@@ -39,6 +39,12 @@ public class CommonUtils {
 		return null;
 	}
 
+	public static int convertToInt(BigDecimal value) {
+		if(value == null) return 0;
+		
+		return value.intValueExact();
+	}
+	
 	public static Integer convertToInteger(BigDecimal value) {
 		if(value == null) return null;
 		
