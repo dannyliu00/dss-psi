@@ -71,7 +71,7 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 			profile.setTargetCompleteDate((Date) result[3]);
 			profile.setType(CommonUtils.trimString((String) result[4]));
 			profile.setStatus(CommonUtils.trimString((String) result[5]));
-			profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInteger((BigDecimal) result[6])));
+			profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInt((BigDecimal) result[6])));
 			
 			String status = profile.getStatus();
 			if(status == null || status.equals(Constants.IN_PROGRESS_STATUS) || status.equals(Constants.RETURNED_TO_DEALER)) {
@@ -106,7 +106,7 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 			profile.setTargetCompleteDate((Date) result[3]);
 			profile.setType(CommonUtils.trimString((String) result[4]));
 			profile.setStatus(CommonUtils.trimString((String) result[5]));
-			profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInteger((BigDecimal) result[6])));
+			profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInt((BigDecimal) result[6])));
 			
 			String status = profile.getStatus();
 			if(status != null && (status.equals(Constants.PENDING_STATUS) || status.equals(Constants.RETURNED_TO_DSM))) {
@@ -143,7 +143,7 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 		profile.setTargetCompleteDate((Date) result[3]);
 		profile.setType(CommonUtils.trimString((String) result[4]));
 		profile.setStatus(CommonUtils.trimString((String) result[5]));
-		profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInteger((BigDecimal) result[6])));
+		profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInt((BigDecimal) result[6])));
 		profile.setLegalText(CommonUtils.trimString((Character) result[7]));
 		profile.setHeaderId(CommonUtils.convertToInteger((BigDecimal) result[8]));
 		profile.setDealer(CommonUtils.convertToInteger((BigDecimal) result[9]));
