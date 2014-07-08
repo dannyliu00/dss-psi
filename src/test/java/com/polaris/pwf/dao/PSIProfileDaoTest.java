@@ -1,6 +1,7 @@
 package com.polaris.pwf.dao;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -15,6 +16,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -30,7 +32,7 @@ public class PSIProfileDaoTest {
 	@Mock private Query mockQuery;
 	private Object[] mockResult;
 	private List<Object[]> mockResults;
-	private BigDecimal expectedId, expectedHeaderId, expectedDealer;
+	private BigDecimal expectedId, expectedHeaderId, expectedDealer, expectedNonCompliant;
 	private Date expectedDate, expectedSubmittedDate, expectedApprovedDate, expectedCreatedDate, expectedChangedDate;
 	private Character expectedLegal;
 	private String expectedName, expectedProfileStatus, expectedStatus, expectedType, expectedEmail;
@@ -42,8 +44,11 @@ public class PSIProfileDaoTest {
 		expectedId = new BigDecimal(999);
 		expectedHeaderId = new BigDecimal(888);
 		expectedDealer = new BigDecimal(777);
-		
-		expectedDate = Calendar.getInstance().getTime();
+		expectedNonCompliant = new BigDecimal(0);
+
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MINUTE, -1);
+		expectedDate = cal.getTime();
 		expectedSubmittedDate = expectedDate;
 		expectedApprovedDate = expectedDate;
 		
@@ -54,19 +59,20 @@ public class PSIProfileDaoTest {
 		expectedLegal = new Character('c');
 		expectedEmail = "ut@test.local";
 		
-		mockResult = new Object[14];
+		mockResult = new Object[15];
 		mockResult[0] = expectedProfileStatus;
 		mockResult[1] = expectedId;
 		mockResult[2] = expectedName;
 		mockResult[3] = expectedDate;
 		mockResult[4] = expectedType;
 		mockResult[5] = expectedStatus;
-		mockResult[6] = expectedLegal;
-		mockResult[7] = expectedHeaderId;
-		mockResult[8] = expectedDealer;
-		mockResult[9] = expectedEmail;
-		mockResult[10] = expectedSubmittedDate;
-		mockResult[11] = expectedApprovedDate;
+		mockResult[6] = expectedNonCompliant;
+		mockResult[7] = expectedLegal;
+		mockResult[8] = expectedHeaderId;
+		mockResult[9] = expectedDealer;
+		mockResult[10] = expectedEmail;
+		mockResult[11] = expectedSubmittedDate;
+		mockResult[12] = expectedApprovedDate;
 		
 		mockResults = new ArrayList<Object[]>();
 		mockResults.add(mockResult);
@@ -99,6 +105,7 @@ public class PSIProfileDaoTest {
 		assertEquals(expectedStatus, result.getStatus());
 		assertEquals(expectedDate, result.getTargetCompleteDate());
 		assertEquals(expectedType, result.getType());
+		assertEquals(BooleanUtils.toBoolean(expectedNonCompliant.intValueExact()), result.isNonCompliant());
 		
 		verifyNoMoreInteractions(mockEM, mockQuery);
 	}
@@ -106,8 +113,8 @@ public class PSIProfileDaoTest {
 	@Test
 	public void testRetrieveProfileByIdWithCreatedDate() {
 		expectedCreatedDate = Calendar.getInstance().getTime();
-		mockResult[12] = expectedCreatedDate;
-		mockResult[13] = null;
+		mockResult[13] = expectedCreatedDate;
+		mockResult[14] = null;
 		mockResults = new ArrayList<Object[]>();
 		mockResults.add(mockResult);
 
@@ -133,6 +140,7 @@ public class PSIProfileDaoTest {
 		assertEquals(expectedSubmittedDate, result.getSubmittedDate());
 		assertEquals(expectedApprovedDate, result.getApprovedDate());
 		assertEquals(expectedCreatedDate, result.getLastModifiedDate());
+		assertEquals(BooleanUtils.toBoolean(expectedNonCompliant.intValueExact()), result.isNonCompliant());
 		
 		verifyNoMoreInteractions(mockEM, mockQuery);
 	}
@@ -140,8 +148,8 @@ public class PSIProfileDaoTest {
 	@Test
 	public void testRetrieveProfileByIdWithChangedDate() {
 		expectedCreatedDate = expectedChangedDate = Calendar.getInstance().getTime();
-		mockResult[12] = expectedCreatedDate;
-		mockResult[13] = expectedChangedDate;
+		mockResult[13] = expectedCreatedDate;
+		mockResult[14] = expectedChangedDate;
 		mockResults = new ArrayList<Object[]>();
 		mockResults.add(mockResult);
 
@@ -167,6 +175,7 @@ public class PSIProfileDaoTest {
 		assertEquals(expectedSubmittedDate, result.getSubmittedDate());
 		assertEquals(expectedApprovedDate, result.getApprovedDate());
 		assertEquals(expectedChangedDate, result.getLastModifiedDate());
+		assertEquals(BooleanUtils.toBoolean(expectedNonCompliant.intValueExact()), result.isNonCompliant());
 		
 		verifyNoMoreInteractions(mockEM, mockQuery);
 	}

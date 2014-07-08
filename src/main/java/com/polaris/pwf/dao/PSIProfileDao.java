@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
@@ -28,15 +29,17 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 	private static Logger LOG = Logger.getLogger(PSIProfileDao.class);
 
 	private static String QRY_DLR_CURRENT = ""
-			+ "SELECT pstatus.N2DESC, profile.N1IPID, profile.N1DESC, profile.N1TDAT, profile.N1PDLN, CAST( CAST(status.N9DESC AS CHAR(50)) AS VARCHAR(50)) as N9DESC "
+			+ "SELECT pstatus.N2DESC, profile.N1IPID, profile.N1DESC, profile.N1TDAT, profile.N1PDLN, "
+			+ "  CAST( CAST(status.N9DESC AS CHAR(50)) AS VARCHAR(50)) as N9DESC, header.N7NFLG "
 			+ "  FROM cm006f dealer INNER JOIN ot071f profile ON profile.N1PDLN = dealer.PTSFAM "
 			+ "  INNER JOIN ot072f pstatus ON pstatus.N2STID = profile.N1STID "
 			+ "  LEFT OUTER JOIN ot077f header ON header.N7IPID = profile.N1IPID AND header.N7DLR  = dealer.ptcust "
 			+ "  LEFT OUTER JOIN ot079f status ON header.N7STID = status.N9STID "
 			+ " WHERE dealer.ptcust = :dealerId AND dealer.PTCANDT= :canceled ";
 	private static String QUERY_BY_ID = ""
-			+ "SELECT pstatus.N2DESC, profile.N1IPID, profile.N1DESC, profile.N1TDAT, profile.N1PDLN, CAST( CAST(status.N9DESC AS CHAR(50)) AS VARCHAR(50)) as N9DESC, "
-			+ "profile.N1LGLT, header.N7DHID, header.N7DLR, header.N7MAIL, header.N7SBDT, header.N7APDT, header.N7CRDT, header.N7CHDT "
+			+ "SELECT pstatus.N2DESC, profile.N1IPID, profile.N1DESC, profile.N1TDAT, profile.N1PDLN, "
+			+ "		CAST( CAST(status.N9DESC AS CHAR(50)) AS VARCHAR(50)) as N9DESC, header.N7NFLG, profile.N1LGLT, "
+			+ "		header.N7DHID, header.N7DLR, header.N7MAIL, header.N7SBDT, header.N7APDT, header.N7CRDT, header.N7CHDT "
 			+ "  FROM OT071F profile INNER JOIN OT072F pstatus ON pstatus.N2STID = profile.N1STID "
 			+ "  LEFT OUTER JOIN OT077F header ON header.N7IPID = profile.N1IPID "
 			+ "  LEFT OUTER JOIN OT079F status ON header.N7STID = status.N9STID "
@@ -68,6 +71,7 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 			profile.setTargetCompleteDate((Date) result[3]);
 			profile.setType(CommonUtils.trimString((String) result[4]));
 			profile.setStatus(CommonUtils.trimString((String) result[5]));
+			profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInteger((BigDecimal) result[6])));
 			
 			String status = profile.getStatus();
 			if(status == null || status.equals(Constants.IN_PROGRESS_STATUS) || status.equals(Constants.RETURNED_TO_DEALER)) {
@@ -102,6 +106,7 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 			profile.setTargetCompleteDate((Date) result[3]);
 			profile.setType(CommonUtils.trimString((String) result[4]));
 			profile.setStatus(CommonUtils.trimString((String) result[5]));
+			profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInteger((BigDecimal) result[6])));
 			
 			String status = profile.getStatus();
 			if(status != null && (status.equals(Constants.PENDING_STATUS) || status.equals(Constants.RETURNED_TO_DSM))) {
@@ -138,13 +143,14 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 		profile.setTargetCompleteDate((Date) result[3]);
 		profile.setType(CommonUtils.trimString((String) result[4]));
 		profile.setStatus(CommonUtils.trimString((String) result[5]));
-		profile.setLegalText(CommonUtils.trimString((Character) result[6]));
-		profile.setHeaderId(CommonUtils.convertToInteger((BigDecimal) result[7]));
-		profile.setDealer(CommonUtils.convertToInteger((BigDecimal) result[8]));
-		profile.setEmail(CommonUtils.trimString((String) result[9]));
-		profile.setSubmittedDate((Date) result[10]); 
-		profile.setApprovedDate((Date) result[11]);
-		profile.setLastModifiedDate(result[13] != null ? (Date) result[13] : (Date) result[12]);
+		profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInteger((BigDecimal) result[6])));
+		profile.setLegalText(CommonUtils.trimString((Character) result[7]));
+		profile.setHeaderId(CommonUtils.convertToInteger((BigDecimal) result[8]));
+		profile.setDealer(CommonUtils.convertToInteger((BigDecimal) result[9]));
+		profile.setEmail(CommonUtils.trimString((String) result[10]));
+		profile.setSubmittedDate((Date) result[11]); 
+		profile.setApprovedDate((Date) result[12]);
+		profile.setLastModifiedDate(result[14] != null ? (Date) result[14] : (Date) result[13]);
 		
 		entityManager.close();
 		

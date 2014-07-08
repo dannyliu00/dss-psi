@@ -22,6 +22,7 @@ public class DsmDealerProfileMapperTest {
 	private Integer dealerId, dsmId, profileId, rsmId;
 	private String dealerName, dsmName, productLine, rsmName, status;
 	private Date modifiedDate;
+	private boolean nonCompliant;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -37,6 +38,7 @@ public class DsmDealerProfileMapperTest {
 		rsmId = 555;
 		rsmName = "UT RSM Name";
 		status = "UT Status";
+		nonCompliant = true;
 		
 		when(mockDealerAndDsm.getDealerId()).thenReturn(dealerId);
 		when(mockDealerAndDsm.getDealerName()).thenReturn(dealerName);
@@ -48,6 +50,7 @@ public class DsmDealerProfileMapperTest {
 		when(mockProfile.getId()).thenReturn(profileId);
 		when(mockProfile.getLastModifiedDate()).thenReturn(modifiedDate);
 		when(mockProfile.getStatus()).thenReturn(status);
+		when(mockProfile.isNonCompliant()).thenReturn(nonCompliant);
 		
 		mapper = new DsmDealerProfileMapper();
 	}
@@ -66,6 +69,7 @@ public class DsmDealerProfileMapperTest {
 		verify(mockProfile).getId();
 		verify(mockProfile).getLastModifiedDate();
 		verify(mockProfile).getStatus();
+		verify(mockProfile).isNonCompliant();
 	}
 
 }

@@ -61,6 +61,9 @@ public class DealerProfileHeader implements Serializable {
     @Temporal(TemporalType.TIME)
 	private Date approvedTime;
 	
+	@Column(name = "N7NFLG", columnDefinition="INT(1)")
+	private boolean nonCompliant;
+	
 	@Column(name = "N7CRDT")
     @Temporal(TemporalType.DATE)
 	private Date createdDate;
@@ -206,6 +209,20 @@ public class DealerProfileHeader implements Serializable {
 	 */
 	public void setApprovedTime(Date approvedTime) {
 		this.approvedTime = approvedTime;
+	}
+
+	/**
+	 * @return the nonCompliant
+	 */
+	public boolean isNonCompliant() {
+		return nonCompliant;
+	}
+
+	/**
+	 * @param nonCompliant the nonCompliant to set
+	 */
+	public void setNonCompliant(boolean nonCompliant) {
+		this.nonCompliant = nonCompliant;
 	}
 
 	/**
@@ -373,6 +390,7 @@ public class DealerProfileHeader implements Serializable {
 				+ ((createdUser == null) ? 0 : createdUser.hashCode());
 		result = prime * result + dealerId;
 		result = prime * result + id;
+		result = prime * result + (nonCompliant ? 1231 : 1237);
 		result = prime * result + profileId;
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
@@ -434,6 +452,8 @@ public class DealerProfileHeader implements Serializable {
 			return false;
 		if (id != other.id)
 			return false;
+		if (nonCompliant != other.nonCompliant)
+			return false;
 		if (profileId != other.profileId)
 			return false;
 		if (status == null) {
@@ -450,13 +470,13 @@ public class DealerProfileHeader implements Serializable {
 	@Override
 	public String toString() {
 		return "DealerProfileHeader [id=" + id + ", profileId=" + profileId
-				+ ", dealerId=" + dealerId + ", createdDate=" + createdDate
-				+ ", createdTime=" + createdTime + ", createdUser="
-				+ createdUser + ", createdProgram=" + createdProgram
-				+ ", changedDate=" + changedDate + ", changedTime="
-				+ changedTime + ", changeUser=" + changeUser
-				+ ", changedProgram=" + changedProgram + ", status=" + status
-				+ "]";
+				+ ", dealerId=" + dealerId + ", nonCompliant=" + nonCompliant
+				+ ", createdDate=" + createdDate + ", createdTime="
+				+ createdTime + ", createdUser=" + createdUser
+				+ ", createdProgram=" + createdProgram + ", changedDate="
+				+ changedDate + ", changedTime=" + changedTime
+				+ ", changeUser=" + changeUser + ", changedProgram="
+				+ changedProgram + "]";
 	}
-	
+
 }

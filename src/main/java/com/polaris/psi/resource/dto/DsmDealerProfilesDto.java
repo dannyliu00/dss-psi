@@ -24,6 +24,7 @@ public class DsmDealerProfilesDto implements Serializable {
 	private String rsmName;
 	private String status;
 	private String type;
+	private boolean nonCompliant;
 
 	/**
 	 * @return the dsmId
@@ -163,6 +164,20 @@ public class DsmDealerProfilesDto implements Serializable {
 	 */
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	/**
+	 * @return the nonCompliant
+	 */
+	public boolean isNonCompliant() {
+		return nonCompliant;
+	}
+
+	/**
+	 * @param nonCompliant the nonCompliant to set
+	 */
+	public void setNonCompliant(boolean nonCompliant) {
+		this.nonCompliant = nonCompliant;
 	}
 
 	/* (non-Javadoc)

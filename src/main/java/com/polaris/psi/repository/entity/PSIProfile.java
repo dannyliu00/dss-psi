@@ -23,6 +23,7 @@ public class PSIProfile implements Serializable {
 	private String legalText;
 	private Integer headerId;
 	private Integer dealer;
+	private boolean nonCompliant;
 	private String email;
 	private Date submittedDate;
 	private Date approvedDate;
@@ -154,6 +155,20 @@ public class PSIProfile implements Serializable {
 		this.dealer = dealer;
 	}
 	
+	/**
+	 * @return the nonCompliant
+	 */
+	public boolean isNonCompliant() {
+		return nonCompliant;
+	}
+
+	/**
+	 * @param nonCompliant the nonCompliant to set
+	 */
+	public void setNonCompliant(boolean nonCompliant) {
+		this.nonCompliant = nonCompliant;
+	}
+
 	/**
 	 * @return the email
 	 */

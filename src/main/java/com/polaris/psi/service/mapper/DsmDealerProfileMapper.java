@@ -28,6 +28,7 @@ public class DsmDealerProfileMapper {
 		ddProfile.setRsmName(dealerAndDsm.getRsmName().trim());
 		ddProfile.setStatus(psiProfile.getStatus().trim());
 		ddProfile.setType(dealerAndDsm.getProductLine().trim());
+		ddProfile.setNonCompliant(psiProfile.isNonCompliant());
 		
 		return ddProfile;
 	}
