@@ -43,20 +43,22 @@ public class HeaderDataMapper {
 		return header;
 	}
 	
-	public DealerProfileHeader createNewSubmittedHeader(OrderSegmentDto dto, DealerProfileHeaderStatus status) {
+	public DealerProfileHeader createNewSubmittedHeader(OrderSegmentDto dto, DealerProfileHeaderStatus status, boolean nonCompliant) {
 		DealerProfileHeader header = createNewNonSubmittedNonApprovedHeader(dto, status);
 		Date date = Calendar.getInstance().getTime();
 		header.setSubmittedDate(date);
 		header.setSubmittedTime(date);
+		header.setNonCompliant(nonCompliant);
 		
 		return header;
 	}
 	
-	public void updateExistingSubmittedHeader(DealerProfileHeader header, DealerProfileHeaderStatus status) {
+	public void updateExistingSubmittedHeader(DealerProfileHeader header, DealerProfileHeaderStatus status, boolean nonCompliant) {
 		Date date = Calendar.getInstance().getTime();
 		header.setSubmittedDate(date);
 		header.setSubmittedTime(date);
 		header.setStatus(status);
+		header.setNonCompliant(nonCompliant);
 	}
 	
 	public void updateApprovedHeader(DealerProfileHeader header, DealerProfileHeaderStatus status, String user) {

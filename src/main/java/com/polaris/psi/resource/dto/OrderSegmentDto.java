@@ -50,6 +50,8 @@ public class OrderSegmentDto implements IBaseDto, Serializable {
 	
 	private String modifiedUserName;
 	
+	private boolean nonCompliant;
+	
 	/**
 	 * @return the id
 	 */
@@ -462,6 +464,20 @@ public class OrderSegmentDto implements IBaseDto, Serializable {
 	 */
 	public void setModifiedUserName(String modifiedUserName) {
 		this.modifiedUserName = modifiedUserName;
+	}
+
+	/**
+	 * @return the nonCompliant
+	 */
+	public boolean isNonCompliant() {
+		return nonCompliant;
+	}
+
+	/**
+	 * @param nonCompliant the nonCompliant to set
+	 */
+	public void setNonCompliant(boolean nonCompliant) {
+		this.nonCompliant = nonCompliant;
 	}
 
 }

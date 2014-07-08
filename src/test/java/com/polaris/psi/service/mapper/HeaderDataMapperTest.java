@@ -29,6 +29,7 @@ public class HeaderDataMapperTest {
 	@Mock private DealerProfileHeader mockHeader;
 	private String expectedUserName, expectedEmailAddress;
 	private Integer expectedDealerId, expectedProfileId;
+	private boolean expectedCompliance;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -38,6 +39,7 @@ public class HeaderDataMapperTest {
 		expectedEmailAddress = "utuser@localhost";
 		expectedDealerId = 999;
 		expectedProfileId = 888;
+		expectedCompliance = false;
 		
 		when(mockDto.getModifiedUserName()).thenReturn(expectedUserName);
 		when(mockDto.getDealerEmail()).thenReturn(expectedEmailAddress);
@@ -76,7 +78,7 @@ public class HeaderDataMapperTest {
 	
 	@Test
 	public void testCreateNewSubmittedHeader() {
-		DealerProfileHeader result = mapper.createNewSubmittedHeader(mockDto, mockStatus);
+		DealerProfileHeader result = mapper.createNewSubmittedHeader(mockDto, mockStatus, expectedCompliance);
 		
 		assertEquals(expectedUserName, result.getCreatedUser());
 		assertEquals(expectedUserName, result.getChangeUser());
@@ -85,6 +87,7 @@ public class HeaderDataMapperTest {
 		assertEquals(expectedProfileId.intValue(), result.getProfileId());
 		assertEquals(Constants.PROGRAM_CODE, result.getChangedProgram());
 		assertEquals(Constants.PROGRAM_CODE, result.getCreatedProgram());
+		assertEquals(expectedCompliance, result.isNonCompliant());
 
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MINUTE, -1);

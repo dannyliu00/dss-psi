@@ -49,6 +49,7 @@ public class OrderSegmentServiceTest {
 	private List<OrderSegmentDto> recordsToSave;
 	@Mock private OrderSegmentDto mockOrderSegment;
 	private int actual;
+	private boolean nonCompliant;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -63,6 +64,7 @@ public class OrderSegmentServiceTest {
 		submittedDate = Calendar.getInstance().getTime();
 		approvedDate = Calendar.getInstance().getTime();
 		userName = "UT User";
+		nonCompliant = true;
 		
 		profileOrderSegmentId = 88;
 		reasonCode = 3;
@@ -101,6 +103,7 @@ public class OrderSegmentServiceTest {
 		when(mockOrderSegment.getApprovedDate()).thenReturn(approvedDate);
 		when(mockOrderSegment.getModifiedUserName()).thenReturn(userName);
 		when(mockOrderSegment.getHeaderId()).thenReturn(headerId);
+		when(mockOrderSegment.isNonCompliant()).thenReturn(nonCompliant);
 		
 		// detail data
 		when(mockOrderSegment.getId()).thenReturn(detailId);
@@ -123,9 +126,8 @@ public class OrderSegmentServiceTest {
 		when(mockHeader.getSubmittedDate()).thenReturn(submittedDate);
 		
 		when(mockHeaderMapper.createNewNonSubmittedNonApprovedHeader(mockOrderSegment, mockStatus)).thenReturn(mockHeader);
-		when(mockHeaderMapper.createNewSubmittedHeader(mockOrderSegment, mockStatus)).thenReturn(mockHeader);
+		when(mockHeaderMapper.createNewSubmittedHeader(mockOrderSegment, mockStatus, nonCompliant)).thenReturn(mockHeader);
 		when(mockDetailMapper.createInitialDetail(mockOrderSegment, mockHeader)).thenReturn(mockDetail);
-		
 		
 		service = new OrderSegmentService();
 		service.statusService = mockStatusService;
@@ -181,6 +183,7 @@ public class OrderSegmentServiceTest {
 		verify(mockReturnedDetail).getId();
 		verify(mockOrderSegment).setId(anyInt());
 		verify(mockOrderSegment).setHeaderId(anyInt());
+		verify(mockOrderSegment).isNonCompliant();
 		verifyNoMoreInteractions(mockOrderSegment, mockStatusService, mockHeaderDao, mockDetailDao, mockHeader, mockDetail);
 	}
 
@@ -196,11 +199,12 @@ public class OrderSegmentServiceTest {
 		verify(mockDetailMapper).updateDealerEnteredDetails(mockDetail, mockOrderSegment);
 		verify(mockDetailDao).update(mockDetail);
 		verify(mockHeaderDao).select(headerId);
-		verify(mockHeaderMapper).updateExistingSubmittedHeader(mockHeader, mockStatus);
+		verify(mockHeaderMapper).updateExistingSubmittedHeader(mockHeader, mockStatus, nonCompliant);
 		verify(mockHeaderDao).update(mockHeader);
 		verify(mockHeader).getSubmittedDate();
 		verify(mockOrderSegment).setSubmittedDate(submittedDate);
 		verify(mockOrderSegment).getId();
+		verify(mockOrderSegment).isNonCompliant();
 
 		verifyNoMoreInteractions(mockOrderSegment, mockStatusService, mockHeaderDao, mockDetailDao, mockHeader, mockDetail);
 	}
