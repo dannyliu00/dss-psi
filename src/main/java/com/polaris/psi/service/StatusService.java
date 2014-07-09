@@ -38,6 +38,10 @@ public class StatusService {
 		return statusDao.getStatus(Constants.EXCEPTION_REQUESTED);
 	}
 	
+	public DealerProfileHeaderStatus getSendToDealerStatus() {
+		return statusDao.getStatus(Constants.RETURNED_TO_DEALER);
+	}
+	
 	public List<DealerProfileHeaderStatus> getAllStatus() {
 		return statusDao.selectAll();
 	}

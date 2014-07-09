@@ -72,6 +72,14 @@ public class StatusServiceTest {
 	}
 
 	@Test
+	public void testGetSendToDealerStatus() {
+		service.getSendToDealerStatus();
+		
+		verify(mockDao).getStatus(Constants.RETURNED_TO_DEALER);
+		verifyNoMoreInteractions(mockDao);
+	}
+
+	@Test
 	public void testGetAllStatus() {
 		service.getAllStatus();
 		
