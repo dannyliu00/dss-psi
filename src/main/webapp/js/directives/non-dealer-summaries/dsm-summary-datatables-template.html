@@ -28,7 +28,7 @@
         </thead>
         <tbody role="alert" aria-live="polite" aria-relevant="all">
         <tr dt-rows ng-repeat="profile in profiles" >
-            <td class="lightColor(profile.nonCompliant)" ></td>
+            <td ng-class="profile.nonCompliant === true ? 'red-light' : 'green-light'" ></td>
             <td class=""><a ng-click="navigateToNonDealerProfile(profile.dealerId, profile.profileId, profile.type)" >{{profile.dealerid}}</a></td>
             <td class="">{{profile.dealerName}}</td>
             <td class="">{{profile.modifiedDate | date : 'mediumDate'}}</td>
