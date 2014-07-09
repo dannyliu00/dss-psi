@@ -26,7 +26,9 @@ public class Constants {
     public static final String PENDING_STATUS = "PENDING";
     public static final String RETURNED_TO_DSM = "RETURNED TO DSM";
 
+    public static final String APPROVED_AS_REQUESTED = "APPROVED AS REQUESTED";
     public static final String APPROVED_W_CHANGES = "APPROVED WITH CHANGES";
+    public static final String EXCEPTION_REQUESTED = "EXCEPTION REQUESTED";
     
     public static final String SAVE_SUCCESSFUL = "Successful";
     public static final String NOT_AUTHORIZED = "Not Authorized";
