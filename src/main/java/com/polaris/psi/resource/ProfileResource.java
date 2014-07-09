@@ -43,7 +43,7 @@ public class ProfileResource {
 	OrderSegmentService osService;
 	
 	@GET
-    @Path("/{profileId}")
+    @Path("/{profileId}/{dealerId}")
     @Produces(MediaType.APPLICATION_JSON)
 	public ProfileDto getProfile(@PathParam("profileId") int profileId, @PathParam("dealerId") int dealerId) {
 
@@ -54,11 +54,11 @@ public class ProfileResource {
 		}
 	}
 
-	@Path("/{profileId}/save")
+	@Path("/{profileId}/{dealerId}/save")
 	@POST
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public ProfileDetailsDto saveQuantities(@PathParam("profileId") int profileId, ProfileDetailsDto dto) {
+	public ProfileDetailsDto saveQuantities(@PathParam("profileId") int profileId, @PathParam("dealerId") int dealerId, ProfileDetailsDto dto) {
 		UserData userData = sessionHelper.getUserData();
 		
 		List<OrderSegmentDto> records = dto.getOrderSegments();
@@ -70,7 +70,6 @@ public class ProfileResource {
 			return response;
 		}
 		
-		int dealerId = records.get(0).getDealerId();
 		int expectedDealerId = userData.getDealerId();
 		if(dealerId != expectedDealerId) {
 			ProfileDetailsDto response = new ProfileDetailsDto();
@@ -85,11 +84,11 @@ public class ProfileResource {
 		return osService.saveOrderSegmentQuantities(dto);
 	}
 	
-	@Path("/{profileId}/submit")
+	@Path("/{profileId}/{dealerId}/submit")
 	@POST
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public ProfileDetailsDto submitQuantities(@PathParam("profileId") int profileId, ProfileDetailsDto dto) {
+	public ProfileDetailsDto submitQuantities(@PathParam("profileId") int profileId, @PathParam("dealerId") int dealerId, ProfileDetailsDto dto) {
 		ProfileDetailsDto response = new ProfileDetailsDto();
 		UserData userData = sessionHelper.getUserData();
 		
@@ -101,7 +100,6 @@ public class ProfileResource {
 			return response;
 		}
 		
-		int dealerId = records.get(0).getDealerId();
 		int expectedDealerId = userData.getDealerId();
 		if(dealerId != expectedDealerId) {
 			response.setSuccessful(false);

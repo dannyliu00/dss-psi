@@ -114,7 +114,7 @@ public class ProfileResourceTest {
 		expectedResult.setMessage(Constants.NO_RECORDS);
 		expectedResult.setOrderSegments(orderSegments);
 
-		ProfileDetailsDto result = resource.saveQuantities(expectedProfileId, mockDetailDto);
+		ProfileDetailsDto result = resource.saveQuantities(expectedProfileId, expectedDealerId, mockDetailDto);
 
 		assertEquals(expectedResult.getMessage(), result.getMessage());
 		verify(mockSessionHelper).getUserData();
@@ -131,7 +131,7 @@ public class ProfileResourceTest {
 		dealerId = 777;
 		when(mockOSDto.getDealerId()).thenReturn(dealerId);
 
-		ProfileDetailsDto result = resource.saveQuantities(expectedProfileId, mockDetailDto);
+		ProfileDetailsDto result = resource.saveQuantities(expectedProfileId, dealerId, mockDetailDto);
 		
 		assertEquals(expectedResult.getMessage(), result.getMessage());
 		assertEquals(expectedResult.getOrderSegments().size(), result.getOrderSegments().size());
@@ -152,7 +152,7 @@ public class ProfileResourceTest {
 		
 		when(mockOSDto.getDealerId()).thenReturn(expectedDealerId);
 		
-		ProfileDetailsDto result = resource.saveQuantities(expectedProfileId, mockDetailDto);
+		ProfileDetailsDto result = resource.saveQuantities(expectedProfileId, expectedDealerId, mockDetailDto);
 		
 		assertEquals(expectedResult.getMessage(), result.getMessage());
 		assertEquals(expectedResult.getOrderSegments().size(), result.getOrderSegments().size());
@@ -175,7 +175,7 @@ public class ProfileResourceTest {
 		expectedResult.setMessage(Constants.NO_RECORDS);
 		expectedResult.setOrderSegments(orderSegments);
 
-		ProfileDetailsDto result = resource.submitQuantities(expectedProfileId, mockDetailDto);
+		ProfileDetailsDto result = resource.submitQuantities(expectedProfileId, expectedDealerId, mockDetailDto);
 
 		assertEquals(expectedResult.getMessage(), result.getMessage());
 		verify(mockSessionHelper).getUserData();
@@ -192,7 +192,7 @@ public class ProfileResourceTest {
 		dealerId = 777;
 		when(mockOSDto.getDealerId()).thenReturn(dealerId);
 
-		ProfileDetailsDto result = resource.submitQuantities(expectedProfileId, mockDetailDto);
+		ProfileDetailsDto result = resource.submitQuantities(expectedProfileId, dealerId, mockDetailDto);
 		
 		assertEquals(expectedResult.getMessage(), result.getMessage());
 		assertEquals(expectedResult.getOrderSegments().size(), result.getOrderSegments().size());
@@ -213,7 +213,7 @@ public class ProfileResourceTest {
 		
 		when(mockOSDto.getDealerId()).thenReturn(expectedDealerId);
 		
-		ProfileDetailsDto result = resource.submitQuantities(expectedProfileId, mockDetailDto);
+		ProfileDetailsDto result = resource.submitQuantities(expectedProfileId, expectedDealerId, mockDetailDto);
 		
 		assertEquals(expectedResult.getMessage(), result.getMessage());
 		assertEquals(expectedResult.getOrderSegments().size(), result.getOrderSegments().size());
