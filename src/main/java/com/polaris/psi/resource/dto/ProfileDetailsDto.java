@@ -14,9 +14,24 @@ public class ProfileDetailsDto implements Serializable {
 
 	private static final long serialVersionUID = 7299486776175540163L;
 
+	private boolean nonCompliant;
 	private boolean isSuccessful;
 	private String message;
 	private List<OrderSegmentDto> orderSegments;
+
+	/**
+	 * @return the nonCompliant
+	 */
+	public boolean isNonCompliant() {
+		return nonCompliant;
+	}
+
+	/**
+	 * @param nonCompliant the nonCompliant to set
+	 */
+	public void setNonCompliant(boolean nonCompliant) {
+		this.nonCompliant = nonCompliant;
+	}
 
 	/**
 	 * @return the isSuccessful
