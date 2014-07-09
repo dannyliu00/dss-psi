@@ -15,10 +15,11 @@ describe('DsmProfilesResource', function() {
     });
 
     describe('query', function() {
-        it('returns a promise with a list of dealer profiles of a specified dsm', inject(function(dsmProfilesResource, dsmProfilesUrl) {
+        it('returns a promise with a list of dealer profiles of a specified dsm and of a specified type', inject(function(dsmProfilesResource, dsmProfilesUrl) {
             var dsmId = 123456;
-            var dsm = {dsmId: dsmId};
-            var expectedRequest = dsmProfilesUrl.replace(':dsmId', dsmId);
+            var type = 'vehicle';
+            var dsm = {dsmId: dsmId,type: type};
+            var expectedRequest = dsmProfilesUrl.replace(':dsmId', dsmId).replace(':type', type);
             var expectedList = [{name: 'U.T. Victory Profile For A Dealer'}];
 
             httpBackend.when('GET', expectedRequest).respond(expectedList);

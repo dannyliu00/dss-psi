@@ -1,0 +1,84 @@
+<dsm-button></dsm-button>
+<div class="container-full">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Profile Details</h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12">
+                <div id="activeObjectsTable_processing" class="dataTables_processing" style="visibility: hidden;">Processing...</div>
+                <table datatable dt-options="dtOptions" id="activeObjectsTable"
+                       class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
+                       aria-describedby="activeObjectsTable_info">
+                    <thead>
+                    <tr role="row">
+                        <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
+                            Order Segment
+                        </th>
+                        <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
+                            {{period.name}}<br/>Min - Target - Max<br/>Qty - Approve Qty
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody role="alert" aria-live="polite" aria-relevant="all">
+                    <tr ng-repeat="key in distinctOS" class="odd">
+                        <td class="">{{key}}</td>
+                        <td ng-repeat="os in orderSegments | filter:{name: key}:true" class="text-center"><span>{{os.recMinimum}} - {{os.recommended}} - {{os.recMaximum}}<br/>
+                                <input tabindex="0"
+                                       ng-class="{noncompliant: os.actual < os.recMinimum || os.actual > os.recMaximum}"
+                                       ng-model="os.actual"
+                                       class="text-center"
+                                       type="number"
+                                       min="0"
+                                       max="999"
+                                       numbers-only
+                                       ng-disabled="{os.actual != null}" ></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>
+                                 <input tabindex="0"
+                                       ng-class="{noncompliant: os.dsmQty < os.recMinimum || os.dsmQty > os.recMaximum}"
+                                       ng-model="os.dsmQty"
+                                       class="text-center"
+                                       type="number"
+                                       min="0"
+                                       max="999"
+                                       numbers-only
+                                       ng-change="getActualGrandTotal()" ></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Data table summary and Page Controls -->
+<div class="container-full">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Profile Totals</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row table-col-hdr">
+                <div class="col-md-4" ng-repeat="period in profile.periods" >
+                    <div class="col-md-6 text-center">
+                        {{period.name}}<br/>Min - Target - Max
+                    </div>
+                    <div class="col-md-6 text-center">
+                        {{period.name}}<br/>Qty
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" ng-repeat="period in profile.periods" >
+                    <div class="col-md-6 text-center">
+                        {{period.recMinimum}} - {{period.recommended}} - {{period.recMaximum}}
+                    </div>
+                    <div ng-class="{noncompliant: period.actual < period.recMinimum || period.actual > period.recMaximum}" class="col-md-6 text-center">
+                        {{period.actual}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <email-entry></email-entry>
+</div>
+<dsm-button></dsm-button>

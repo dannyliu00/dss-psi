@@ -2,14 +2,18 @@
     var dealerProfiles = sellInNamespace('sellIn.directives.profiles');
 
     describe('DealerProfileController', function() {
-        var scope, DTOptionsBuilder, DTOptions, routeParams, dealerResource, dealerProfileResource, expectedDealerId, expectedProfileId;
-        var expectedDealerDeferred, expectedDealer, expectedProfileDeferred, expectedProfile;
+        var scope, DTOptionsBuilder, DTOptions, routeParams, dealerResource, dealerProfileResource, expectedDealerId, expectedProfileId, appRoleResource;
+        var expectedDealerDeferred, expectedDealer, expectedProfileDeferred, expectedProfile, expectedRoleDeferred, expectedRole;
         var ctrl;
 
         beforeEach(function() {
             angular.mock.module('sellIn.directives.profiles');
 
             angular.mock.module(function($provide) {
+            	appRoleResource = jasmine.createSpyObj('appRoleResource',['get']);
+            	$provide.decorator('appRoleResource',[function() {
+            		return appRoleResource;
+            	}]);
                 dealerResource = jasmine.createSpyObj('dealerResource', ['get']);
                 $provide.decorator('dealerResource', [function() {
                     return dealerResource;
@@ -32,7 +36,13 @@
             DTOptions.withDisplayLength.andReturn(DTOptions);
         });
 
-        beforeEach(inject(function($q, $rootScope, dealerResource, dealerProfileResource) {
+        beforeEach(inject(function($q, $rootScope, dealerResource, dealerProfileResource, appRoleResource) {
+        	expectedRoleDeferred = $q.defer();
+        	appRoleResource.get.andReturn(expectedRoleDeferred.promise);
+        	expectedRole = {
+        			name: 'U.T. Role',
+        			roleId: 5
+        	};
             expectedDealerDeferred = $q.defer();
             dealerResource.get.andReturn(expectedDealerDeferred.promise);
             expectedDealer = {
@@ -57,17 +67,18 @@
 
         describe('constructor', function() {
             it('initializes dealer on scope',
-                inject(function($rootScope, dealerResource, dealerProfileResource, orderSegmentResourceMapper) {
+                inject(function($rootScope, dealerResource, dealerProfileResource, orderSegmentResourceMapper, appRoleResource) {
                 ctrl = new dealerProfiles.DealerProfileDirectiveController(
                     scope,
                     DTOptionsBuilder,
                     routeParams,
                     dealerResource,
                     dealerProfileResource,
-                    orderSegmentResourceMapper);
+                    orderSegmentResourceMapper,
+                    appRoleResource);
 
                 var expectedDealer = {dealerId: expectedDealerId};
-                var expectedProfile = {profileId: expectedProfileId};
+                var expectedProfile = {profileId: expectedProfileId,dealerId: expectedDealerId};
                 expect(dealerResource.get).toHaveBeenCalledWith(expectedDealer);
                 expect(dealerProfileResource.get).toHaveBeenCalledWith(expectedProfile);
 
