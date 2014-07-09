@@ -36,7 +36,7 @@ public class DsmProfileResource {
 	@Autowired
 	OrderSegmentService service;
 
-	@Path("{:profileId}/toDealer")
+	@Path("{profileId}/toDealer")
 	@POST
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -45,7 +45,7 @@ public class DsmProfileResource {
 		return null;
 	}
 
-	@Path("{:profileId}/approveWChanges")
+	@Path("{profileId}/approveWChanges")
 	@POST
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -72,7 +72,7 @@ public class DsmProfileResource {
 		return returnDto;
 	}
 
-	@Path("{:profileId}/approveRequested")
+	@Path("{profileId}/approveRequested")
 	@POST
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -81,7 +81,7 @@ public class DsmProfileResource {
 		return null;
 	}
 
-	@Path("{:profileId}/approveException")
+	@Path("{profileId}/approveException")
 	@POST
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
