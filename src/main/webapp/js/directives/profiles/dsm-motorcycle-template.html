@@ -1,0 +1,104 @@
+<dsm-button></dsm-button>
+<div class="container-full">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Profile Details</h3>
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12">
+                <div id="activeObjectsTable_processing" class="dataTables_processing" style="visibility: hidden;">Processing...</div>
+                <table datatable dt-options="dtOptions" id="activeObjectsTable"
+                       class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
+                       aria-describedby="activeObjectsTable_info">
+                    <thead>
+                    <tr role="row">
+                        <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
+                            Segment
+                        </th>
+                        <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
+                            Order Segment
+                        </th>
+                        <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
+                            {{period.name}}<br/>Recommendation - Qty - Approve Qty
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody role="alert" aria-live="polite" aria-relevant="all">
+                    <tr ng-repeat="orderSegment in orderSegments" class="odd">
+                        <td ng-class="">{{segName(orderSegment.subSegment)}}</td>
+                        <td class="">{{orderSegment.name}}</td>
+                        <td class="text-center"><span>{{orderSegment.recommended}}&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input tabindex="0"
+                                   ng-class="{noncompliant: orderSegment.actual < orderSegment.recommended}"
+                                   class="text-center"
+                                   type="number"
+                                   ng-model="orderSegment.actual"
+                                   min="0"
+                                   max="999"
+                                   numbers-only
+                                   ng-disabled="{orderSegment.actual != null}"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>
+								<input tabindex="0"
+                                   ng-class="{noncompliant: orderSegment.dsmQty < orderSegment.recommended}"
+                                   class="text-center"
+                                   type="number"
+                                   ng-model="orderSegment.dsmQty"
+                                   min="0"
+                                   max="999"
+                                   numbers-only
+                                   ng-change="sumActualValues()"></span>
+                        </td>
+                            
+                        </td>
+                    </tr>
+					</tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Data table summary and Page Controls -->
+<div class="container-full">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Profile Totals</h3>
+        </div>
+        <div class="panel-body">
+            <table id="activeObjectsSummaryTable"
+                   class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
+                   aria-describedby="activeObjectsSummaryTable">
+                <thead>
+                <tr role="row">
+                    <th class="text-left" role="columnheader" aria-controls="activeObjectsSummaryTable" >
+                        Super Segment
+                    </th>
+                    <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" aria-controls="activeObjectsSummaryTable" >
+                        {{period.name}}<br/>Min - <b>Recommendation</b> - Max
+                    </th>
+                    <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" aria-controls="activeObjectsSummaryTable" >
+                        {{period.name}}<br/>Qty
+                    </th>
+                    <th class="text-center" aria-controls="activeObjectsSummaryTable">
+                        Segments<br/>Requested / Min
+                    </th>
+                </tr>
+                </thead>
+                <tbody role="alert" aria-live="polite" aria-relevant="all">
+                <tr ng-repeat="segment in segments | orderBy: 'name'" class="odd">
+                    <td class="">{{segment.name}}</td>
+                    <td class="text-center">{{segment.recommended}}</td>
+                    <td class="text-center" ng-class="{noncompliant: segment.actual < segment.recommended}" >{{segment.actual}}</td>
+                    <td class="text-center" ng-class="{noncompliant: segment.oSTotal < segment.recommendedOSCount}" >{{segment.oSTotal}} / {{segment.recommendedOSCount}}</td>
+                </tr>
+                <tr class="even">
+                    <td class="text-left">Grand Total</td>
+                    <td class="text-center">{{recommendedGrandTotal - 1}} - {{recommendedGrandTotal}} - {{recommendedGrandTotal + 2}}</td>
+                    <td ng-class="{noncompliant: actualGrandTotal < profile.recMinimum || actualGrandTotal > profile.recMaximum}" class="text-center">{{actualGrandTotal}}</td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <email-entry></email-entry>
+</div>
+<dsm-button></dsm-button>
