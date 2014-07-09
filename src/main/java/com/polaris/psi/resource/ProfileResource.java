@@ -54,11 +54,11 @@ public class ProfileResource {
 		}
 	}
 
-	@Path("/{profileId}/{dealerId}/save")
+	@Path("/save")
 	@POST
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public ProfileDetailsDto saveQuantities(@PathParam("profileId") int profileId, @PathParam("dealerId") int dealerId, ProfileDetailsDto dto) {
+	public ProfileDetailsDto saveQuantities(ProfileDetailsDto dto) {
 		UserData userData = sessionHelper.getUserData();
 		
 		List<OrderSegmentDto> records = dto.getOrderSegments();
@@ -70,8 +70,7 @@ public class ProfileResource {
 			return response;
 		}
 		
-		int expectedDealerId = userData.getDealerId();
-		if(dealerId != expectedDealerId) {
+		if(!isCorrectDealer(userData, dto)) {
 			ProfileDetailsDto response = new ProfileDetailsDto();
 			response.setSuccessful(false);
 			response.setMessage(Constants.NOT_AUTHORIZED);
@@ -84,11 +83,11 @@ public class ProfileResource {
 		return osService.saveOrderSegmentQuantities(dto);
 	}
 	
-	@Path("/{profileId}/{dealerId}/submit")
+	@Path("/submit")
 	@POST
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public ProfileDetailsDto submitQuantities(@PathParam("profileId") int profileId, @PathParam("dealerId") int dealerId, ProfileDetailsDto dto) {
+	public ProfileDetailsDto submitQuantities(ProfileDetailsDto dto) {
 		ProfileDetailsDto response = new ProfileDetailsDto();
 		UserData userData = sessionHelper.getUserData();
 		
@@ -100,8 +99,7 @@ public class ProfileResource {
 			return response;
 		}
 		
-		int expectedDealerId = userData.getDealerId();
-		if(dealerId != expectedDealerId) {
+		if(!isCorrectDealer(userData, dto)) {
 			response.setSuccessful(false);
 			response.setMessage(Constants.NOT_AUTHORIZED);
 			response.setOrderSegments(records);
@@ -117,6 +115,18 @@ public class ProfileResource {
 		for (OrderSegmentDto dto : dtos) {
 			dto.setModifiedUserName(userName);
 		}
+	}
+	
+	protected boolean isCorrectDealer(UserData userData, ProfileDetailsDto dto) {
+		if(!userData.isDealer()) return false;
+		
+		List<OrderSegmentDto> orderSegments = dto.getOrderSegments();
+		int expectedDealerId = userData.getDealerId();
+		for (OrderSegmentDto orderSegment : orderSegments) {
+			if(expectedDealerId != orderSegment.getDealerId()) return false;
+		}
+
+		return true;
 	}
 
 }

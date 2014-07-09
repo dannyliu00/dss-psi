@@ -47,7 +47,6 @@ public class ProfileResourceTest {
 		MockitoAnnotations.initMocks(this);
 		
 		authId = 999;
-		expectedDealerId = 888;
 		isDealer = true;
 		customerClass = "UT-DLR";
 		userName = "UTUSER";
@@ -114,7 +113,7 @@ public class ProfileResourceTest {
 		expectedResult.setMessage(Constants.NO_RECORDS);
 		expectedResult.setOrderSegments(orderSegments);
 
-		ProfileDetailsDto result = resource.saveQuantities(expectedProfileId, expectedDealerId, mockDetailDto);
+		ProfileDetailsDto result = resource.saveQuantities(mockDetailDto);
 
 		assertEquals(expectedResult.getMessage(), result.getMessage());
 		verify(mockSessionHelper).getUserData();
@@ -131,15 +130,16 @@ public class ProfileResourceTest {
 		dealerId = 777;
 		when(mockOSDto.getDealerId()).thenReturn(dealerId);
 
-		ProfileDetailsDto result = resource.saveQuantities(expectedProfileId, dealerId, mockDetailDto);
+		ProfileDetailsDto result = resource.saveQuantities(mockDetailDto);
 		
 		assertEquals(expectedResult.getMessage(), result.getMessage());
 		assertEquals(expectedResult.getOrderSegments().size(), result.getOrderSegments().size());
 		assertEquals(expectedResult.getOrderSegments().get(0), result.getOrderSegments().get(0));
 
 		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).isDealer();
 		verify(mockUserData).getDealerId();
-		verify(mockDetailDto).getOrderSegments();
+		verify(mockDetailDto, times(2)).getOrderSegments();
 		verifyZeroInteractions(mockService);
 	}
 
@@ -152,7 +152,7 @@ public class ProfileResourceTest {
 		
 		when(mockOSDto.getDealerId()).thenReturn(expectedDealerId);
 		
-		ProfileDetailsDto result = resource.saveQuantities(expectedProfileId, expectedDealerId, mockDetailDto);
+		ProfileDetailsDto result = resource.saveQuantities(mockDetailDto);
 		
 		assertEquals(expectedResult.getMessage(), result.getMessage());
 		assertEquals(expectedResult.getOrderSegments().size(), result.getOrderSegments().size());
@@ -161,7 +161,8 @@ public class ProfileResourceTest {
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).getDealerId();
 		verify(mockUserData).getUserName();
-		verify(mockDetailDto).getOrderSegments();
+		verify(mockUserData).isDealer();
+		verify(mockDetailDto, times(2)).getOrderSegments();
 		verify(mockOSService).saveOrderSegmentQuantities(mockDetailDto);
 		verify(mockOSDto).setModifiedUserName(userName);
 	}
@@ -175,7 +176,7 @@ public class ProfileResourceTest {
 		expectedResult.setMessage(Constants.NO_RECORDS);
 		expectedResult.setOrderSegments(orderSegments);
 
-		ProfileDetailsDto result = resource.submitQuantities(expectedProfileId, expectedDealerId, mockDetailDto);
+		ProfileDetailsDto result = resource.submitQuantities(mockDetailDto);
 
 		assertEquals(expectedResult.getMessage(), result.getMessage());
 		verify(mockSessionHelper).getUserData();
@@ -192,7 +193,7 @@ public class ProfileResourceTest {
 		dealerId = 777;
 		when(mockOSDto.getDealerId()).thenReturn(dealerId);
 
-		ProfileDetailsDto result = resource.submitQuantities(expectedProfileId, dealerId, mockDetailDto);
+		ProfileDetailsDto result = resource.submitQuantities(mockDetailDto);
 		
 		assertEquals(expectedResult.getMessage(), result.getMessage());
 		assertEquals(expectedResult.getOrderSegments().size(), result.getOrderSegments().size());
@@ -200,7 +201,8 @@ public class ProfileResourceTest {
 
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).getDealerId();
-		verify(mockDetailDto).getOrderSegments();
+		verify(mockUserData).isDealer();
+		verify(mockDetailDto, times(2)).getOrderSegments();
 		verifyZeroInteractions(mockService);
 	}
 
@@ -213,7 +215,7 @@ public class ProfileResourceTest {
 		
 		when(mockOSDto.getDealerId()).thenReturn(expectedDealerId);
 		
-		ProfileDetailsDto result = resource.submitQuantities(expectedProfileId, expectedDealerId, mockDetailDto);
+		ProfileDetailsDto result = resource.submitQuantities(mockDetailDto);
 		
 		assertEquals(expectedResult.getMessage(), result.getMessage());
 		assertEquals(expectedResult.getOrderSegments().size(), result.getOrderSegments().size());
@@ -222,7 +224,8 @@ public class ProfileResourceTest {
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).getDealerId();
 		verify(mockUserData).getUserName();
-		verify(mockDetailDto).getOrderSegments();
+		verify(mockUserData).isDealer();
+		verify(mockDetailDto, times(2)).getOrderSegments();
 		verify(mockOSService).submitOrderSegmentQuantities(mockDetailDto);
 		verify(mockOSDto).setModifiedUserName(userName);
 	}
