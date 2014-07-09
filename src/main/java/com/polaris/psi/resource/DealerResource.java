@@ -21,7 +21,7 @@ import com.polaris.pwf.session.SessionHelper;
  *
  */
 @Component
-@Path("/dealers")
+@Path("/dealer")
 public class DealerResource {
 	
 	@Autowired
