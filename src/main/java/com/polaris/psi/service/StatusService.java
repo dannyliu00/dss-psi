@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.polaris.psi.Constants;
 import com.polaris.psi.repository.dao.DealerProfileHeaderStatusDao;
 import com.polaris.psi.repository.entity.DealerProfileHeaderStatus;
 
@@ -22,11 +23,19 @@ public class StatusService {
 	DealerProfileHeaderStatusDao statusDao;
 
 	public DealerProfileHeaderStatus getPendingStatus() {
-		return statusDao.getPendingStatus();
+		return statusDao.getStatus(Constants.PENDING_STATUS);
 	}
 	
 	public DealerProfileHeaderStatus getApprovedWithChangesStatus() {
-		return statusDao.getApprovedWithChangesStatus();
+		return statusDao.getStatus(Constants.APPROVED_W_CHANGES);
+	}
+	
+	public DealerProfileHeaderStatus getApprovedAsRequestedStatus() {
+		return statusDao.getStatus(Constants.APPROVED_AS_REQUESTED);
+	}
+	
+	public DealerProfileHeaderStatus getExceptionRequestedStatus() {
+		return statusDao.getStatus(Constants.EXCEPTION_REQUESTED);
 	}
 	
 	public List<DealerProfileHeaderStatus> getAllStatus() {
