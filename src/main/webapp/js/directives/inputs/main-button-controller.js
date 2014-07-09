@@ -100,9 +100,12 @@
                 controller: 'submitController',
                 size: 'sm',
                 resolve: {
-                    data: function () {
+                    orderSegments: function () {
                         return $scope.orderSegments;
-                    }
+                    },
+            		profile: function() {
+            			return $scope.profile;
+            		}
                 }
             });
 
@@ -131,7 +134,10 @@
                 resolve: {
                     data: function () {
                         return $scope.orderSegments;
-                    }
+                    },
+            		profile: function() {
+            			return $scope.profile;
+            		}
                 }
 			});
 

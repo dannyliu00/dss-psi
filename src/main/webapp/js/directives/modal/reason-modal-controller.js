@@ -1,11 +1,11 @@
 (function() {
     var reasonModal = sellInNamespace('sellIn.directives.reasonmodal');
     
-    function ReasonModalController($scope, $modalInstance, reasonCodeResource, appRoleResource, dealerProfileDetailsResource, data) {
+    function ReasonModalController($scope, $modalInstance, reasonCodeResource, appRoleResource, dealerProfileResource, data, profile) {
     	
     	var authorizationRoleId = 0;
     	
-    	var reasonCommentData = {};
+//    	var reasonCommentData = {};
     	
     	appRoleResource.get().then(function(returnedRole){
     		authorizationRoleId = returnedRole.authorizationRoleId;
@@ -21,8 +21,18 @@
                 item.dealerComments = this.reasonComments;
                 item.reasonCode = id;
             }
-            dealerProfileDetailsResource.submit(data).then(function() {
-                $modalInstance.close(reasonCommentData);
+            
+            if(angular.element('input').hasClass('noncompliant')) {
+	            profile.nonCompliant = true;
+	        } else {
+	            profile.nonCompliant = false;
+	        }
+	    	
+	    	var os = {nonCompliant: profile.nonCompliant,orderSegments: data};
+	    	
+            dealerProfileResource.submit(os)
+            	.then(function(returnedos) {
+            		$modalInstance.close();
             });
        };
     	
