@@ -1,7 +1,9 @@
 (function() {
     var nonDealerSummary = sellInNamespace('sellIn.pages.nondealersummary');
 
-    function NonDealerSummaryController($scope, dsmUrl, dsmProfilesResource, $routeParams, appRoleResource, rsmProfilesResource) {
+    function NonDealerSummaryController($scope, dsmUrl, dsmProfilesResource, $routeParams, appRoleResource, rsmProfilesResource, $location, profilePageUrl) {
+    	
+    	this.location = $location;
      	
     	appRoleResource.get().then(function(role) {
             $scope.role = role;
@@ -34,12 +36,12 @@
          	}
          };
          
-//         $scope.navigateToProfile = function(dealerId, profileId, type) {
-//             var finalUrl = profilePageUrl.replace(':dealerId', dealerId)
-//                 .replace(':profileId', profileId)
-//                 .replace(':type', type);
-//             $location.path(finalUrl);
-//             };
+         $scope.navigateToNonDealerProfile = function(dealerId, profileId, type) {
+             var finalUrl = profilePageUrl.replace(':dealerId', dealerId)
+                 .replace(':profileId', profileId)
+                 .replace(':type', type);
+             $location.path(finalUrl);
+             };
     }
 
     nonDealerSummary.NonDealerSummaryController = NonDealerSummaryController;

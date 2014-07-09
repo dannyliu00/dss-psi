@@ -5,6 +5,6 @@
         .service('dealerProfileResource', dealerProfile.DealerProfileResource)
         .service('orderSegmentResourceMapper', dealerProfile.OrderSegmentResourceMapper)
         .constant('profileUrl', '/dss-psi/webapi/profile/:profileId/:dealerId')
-        .constant('profileUrl', '/dss-psi/webapi/profile/:profileId/save')
-        .constant('profileUrl', '/dss-psi/webapi/profile/:profileId/submit');
+        .constant('profileSaveUrl', '/dss-psi/webapi/profile/:profileId/save')
+        .constant('profileSubmitUrl', '/dss-psi/webapi/profile/:profileId/submit');
 }());

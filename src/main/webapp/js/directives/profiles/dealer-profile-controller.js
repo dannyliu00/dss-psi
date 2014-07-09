@@ -1,10 +1,14 @@
 (function() {
     var dealerProfiles = sellInNamespace('sellIn.directives.profiles');
 
-    function DealerProfileDirectiveController($scope, DTOptionsBuilder, $routeParams, dealerResource,
-    		dealerProfileResource, orderSegmentResourceMapper) {
+    function DealerProfileDirectiveController($scope, $rootScope, DTOptionsBuilder, $routeParams, dealerResource,
+    		dealerProfileResource, orderSegmentResourceMapper,appRoleResource) {
     	
     	$scope.dirtyIndicator = 0;
+    	
+    	appRoleResource.get().then(function(role) {
+            $scope.role = role;
+    		});
     	
     	this.orderSegmentResourceMapper = orderSegmentResourceMapper;
     	
@@ -13,7 +17,7 @@
             $scope.dealer = returnedDealer;
         });
 
-        var profile = {profileId: $routeParams.profileId};
+        var profile = {profileId: $routeParams.profileId,dealerId: $routeParams.dealerId};
         dealerProfileResource.get(profile)
             .then(function(returnedProfile) {
                 $scope.profile = returnedProfile;
