@@ -4,6 +4,7 @@
 package com.polaris.psi.service.mapper;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class DetailDataMapper {
 		detail.setDealerComments(setStringValue(dto.getDealerComments()));
 		detail.setDealerReasonCode(setIntegerValue(dto.getReasonCode()));
 		detail.setHeader(header);
+		detail.setPeriodCode(dto.getPeriodCode());
 		detail.setProfileOrderSegmentId(dto.getProfileOrderSegmentId());
 		detail.setAdminApprovedQty(setIntegerValue(null));
 		detail.setAdminComments(setStringValue(null));
@@ -67,12 +69,13 @@ public class DetailDataMapper {
 	}
 	
 	public void updateDsmEnteredDetails(DealerProfileDetail detail, OrderSegmentDto dto) {
+		Date date = Calendar.getInstance().getTime();
 		detail.setDsmRecommendedQty(dto.getDsmQty());
 		detail.setDsmReasonCode(dto.getDsmReasonCode());
 		detail.setDsmComments(dto.getDsmComments());
-		detail.setChangedDate(new Date());
+		detail.setChangedDate(date);
 		detail.setChangedProgram(Constants.PROGRAM_CODE);
-		detail.setChangedTime(new Date());
+		detail.setChangedTime(date);
 		detail.setChangedUser(dto.getModifiedUserName());
 	}
 

@@ -26,7 +26,7 @@ public class DetailDataMapperTest {
 	@Mock private DealerProfileHeader mockHeader;
 	@Mock private DealerProfileDetail mockDetail;
 	private Integer expectedActual, expectedReasonCode, expectedOSId, expectedDsmQty, expectedDsmReason;
-	private String expectedUserName, expectedComments, expectedDsmComments;
+	private String expectedUserName, expectedComments, expectedDsmComments, expectedPeriodCode;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -37,12 +37,14 @@ public class DetailDataMapperTest {
 		expectedOSId = 999;
 		expectedUserName = "UTUser";
 		expectedComments = "UT comments";
+		expectedPeriodCode = "UTCODE";
 		
 		when(mockDto.getActual()).thenReturn(expectedActual);
 		when(mockDto.getDealerComments()).thenReturn(expectedComments);
 		when(mockDto.getReasonCode()).thenReturn(expectedReasonCode);
 		when(mockDto.getModifiedUserName()).thenReturn(expectedUserName);
 		when(mockDto.getProfileOrderSegmentId()).thenReturn(expectedOSId);
+		when(mockDto.getPeriodCode()).thenReturn(expectedPeriodCode);
 		
 		mapper = new DetailDataMapper();
 	}
@@ -56,6 +58,7 @@ public class DetailDataMapperTest {
 		assertEquals(expectedOSId.intValue(), result.getProfileOrderSegmentId());
 		assertEquals(expectedUserName, result.getCreatedUser());
 		assertEquals(expectedComments, result.getDealerComments());
+		assertEquals(expectedPeriodCode, result.getPeriodCode());
 		
 		assertNotNull(result.getAdminApprovedQty());
 		assertNotNull(result.getAdminComments());
@@ -78,6 +81,7 @@ public class DetailDataMapperTest {
 		verify(mockDto).getReasonCode();
 		verify(mockDto, times(2)).getModifiedUserName();
 		verify(mockDto).getProfileOrderSegmentId();
+		verify(mockDto).getPeriodCode();
 	}
 	
 	@Test
