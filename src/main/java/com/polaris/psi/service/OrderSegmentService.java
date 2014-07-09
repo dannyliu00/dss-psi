@@ -18,6 +18,7 @@ import com.polaris.psi.repository.entity.DealerProfileDetail;
 import com.polaris.psi.repository.entity.DealerProfileHeader;
 import com.polaris.psi.repository.entity.DealerProfileHeaderStatus;
 import com.polaris.psi.resource.dto.OrderSegmentDto;
+import com.polaris.psi.resource.dto.ProfileDetailsDto;
 import com.polaris.psi.service.mapper.DetailDataMapper;
 import com.polaris.psi.service.mapper.HeaderDataMapper;
 import com.polaris.pwf.repository.CommonRepositoryConstants;
@@ -47,7 +48,8 @@ public class OrderSegmentService {
 	private static Logger LOG = Logger.getLogger(OrderSegmentService.class);
 
 	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
-	public List<OrderSegmentDto> saveOrderSegmentQuantities(List<OrderSegmentDto> records) {
+	public ProfileDetailsDto saveOrderSegmentQuantities(ProfileDetailsDto profileDetailsDto) {
+		List<OrderSegmentDto> records = profileDetailsDto.getOrderSegments();
 		List<OrderSegmentDto> saved = new ArrayList<OrderSegmentDto>();
 		
 		OrderSegmentDto testRecord = records.get(0);
@@ -58,7 +60,10 @@ public class OrderSegmentService {
 			}
 
 			updateOrderSegmentQty(records);
-			return records;
+			profileDetailsDto.setOrderSegments(records);
+			profileDetailsDto.setMessage(Constants.SAVE_SUCCESSFUL);
+			profileDetailsDto.setSuccessful(true);
+			return profileDetailsDto;
 		}
 		
 		if(LOG.isTraceEnabled()) {
@@ -75,11 +80,15 @@ public class OrderSegmentService {
 			saved.add(returnedSegment);
 		}
 
-		return saved;
+		profileDetailsDto.setOrderSegments(saved);
+		profileDetailsDto.setMessage(Constants.SAVE_SUCCESSFUL);
+		profileDetailsDto.setSuccessful(true);
+		return profileDetailsDto;
 	}
 	
 	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
-	public List<OrderSegmentDto> submitOrderSegmentQuantities(List<OrderSegmentDto> records) {
+	public ProfileDetailsDto submitOrderSegmentQuantities(ProfileDetailsDto profileDetailsDto) {
+		List<OrderSegmentDto> records = profileDetailsDto.getOrderSegments();
 		List<OrderSegmentDto> submitted = new ArrayList<OrderSegmentDto>();
 		DealerProfileHeaderStatus status = statusService.getPendingStatus();
 
@@ -98,7 +107,10 @@ public class OrderSegmentService {
 			for (OrderSegmentDto dto : records) {
 				dto.setSubmittedDate(header.getSubmittedDate());
 			}
-			return records;
+			profileDetailsDto.setOrderSegments(records);
+			profileDetailsDto.setMessage(Constants.SAVE_SUCCESSFUL);
+			profileDetailsDto.setSuccessful(true);
+			return profileDetailsDto;
 		}
 		
 		if(LOG.isTraceEnabled()) {
@@ -112,8 +124,11 @@ public class OrderSegmentService {
 			OrderSegmentDto returnedSegment = createOrderSegmentQty(returnedHeader, orderSegment);
 			submitted.add(returnedSegment);
 		}
+		profileDetailsDto.setOrderSegments(submitted);
+		profileDetailsDto.setMessage(Constants.SAVE_SUCCESSFUL);
+		profileDetailsDto.setSuccessful(true);
 
-		return submitted;
+		return profileDetailsDto;
 	}
 	
 	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
