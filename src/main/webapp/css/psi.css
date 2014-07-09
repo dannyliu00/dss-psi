@@ -36,6 +36,11 @@
     font-weight: bold;
 }
 
+.noncomplianttotal{
+    color: red;
+    font-weight: bold;
+}
+
 .modal-header {
     background-color: #004990;
     color: #ffffff;

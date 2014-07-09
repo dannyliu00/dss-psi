@@ -75,13 +75,13 @@
                 <tr ng-repeat="segment in segments | orderBy: 'name'" class="odd">
                     <td class="">{{segment.name}}</td>
                     <td class="text-center">{{segment.recommended}}</td>
-                    <td class="text-center" ng-class="{noncompliant: segment.actual < segment.recommended}" >{{segment.actual}}</td>
-                    <td class="text-center" ng-class="{noncompliant: segment.oSTotal < segment.recommendedOSCount}" >{{segment.oSTotal}} / {{segment.recommendedOSCount}}</td>
+                    <td class="text-center" ng-class="{noncomplianttotal: segment.actual < segment.recommended}" >{{segment.actual}}</td>
+                    <td class="text-center" ng-class="{noncomplianttotal: segment.oSTotal < segment.recommendedOSCount}" >{{segment.oSTotal}} / {{segment.recommendedOSCount}}</td>
                 </tr>
                 <tr class="even">
                     <td class="text-left">Grand Total</td>
                     <td class="text-center">{{recommendedGrandTotal - 1}} - {{recommendedGrandTotal}} - {{recommendedGrandTotal + 2}}</td>
-                    <td ng-class="{noncompliant: actualGrandTotal < profile.recMinimum || actualGrandTotal > profile.recMaximum}" class="text-center">{{actualGrandTotal}}</td>
+                    <td ng-class="{noncomplianttotal: actualGrandTotal < recommendedGrandTotal-1 || actualGrandTotal > recommendedGrandTotal+2}" class="text-center">{{actualGrandTotal}}</td>
                     <td></td>
                 </tr>
                 </tbody>
