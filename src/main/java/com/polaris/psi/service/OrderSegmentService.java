@@ -159,6 +159,49 @@ public class OrderSegmentService {
 		
 		return records;
 	}
+	
+	public ProfileDetailsDto dsmSendToDealer(ProfileDetailsDto profile) {
+		DealerProfileHeaderStatus status = statusService.getSendToDealerStatus();
+		
+		return updateDataFromDsm(profile, status);
+	}
+	
+	public ProfileDetailsDto dsmApproveAsRequested(ProfileDetailsDto profile) {
+		DealerProfileHeaderStatus status = statusService.getApprovedAsRequestedStatus();
+		
+		return updateDataFromDsm(profile, status);
+	}
+	
+	public ProfileDetailsDto dsmSubmitForException(ProfileDetailsDto profile) {
+		DealerProfileHeaderStatus status = statusService.getExceptionRequestedStatus();
+		
+		return updateDataFromDsm(profile, status);
+	}
+	
+	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
+	protected ProfileDetailsDto updateDataFromDsm(ProfileDetailsDto profile, DealerProfileHeaderStatus status) {
+		List<OrderSegmentDto> orderSegments = profile.getOrderSegments();
+		if(orderSegments.size() == 0) {
+			profile.setMessage(Constants.NO_RECORDS);
+			profile.setSuccessful(false);
+			return profile;
+		}
+		
+		for (OrderSegmentDto dto : orderSegments) {
+			DealerProfileDetail detail = detailDao.select(dto.getId());
+			detailDataMapper.updateDsmEnteredDetails(detail, dto);
+			detailDao.update(detail);
+		}
+		
+		OrderSegmentDto testRecord = orderSegments.get(0);
+		DealerProfileHeader header = headerDao.select(testRecord.getHeaderId());
+		headerDataMapper.updateChangedAttributes(header, status, testRecord.getModifiedUserName(), isNonCompliant(profile));
+		headerDao.update(header);
+		
+		profile.setMessage(Constants.SAVE_SUCCESSFUL);
+		profile.setSuccessful(true);
+		return profile;
+	}
 
 	protected OrderSegmentDto createOrderSegmentQty(DealerProfileHeader header, OrderSegmentDto orderSegment) {
 		DealerProfileDetail detail = detailDataMapper.createInitialDetail(orderSegment, header);
@@ -201,6 +244,12 @@ public class OrderSegmentService {
 		}
 		
 		return null;
+	}
+	
+	protected boolean isNonCompliant(ProfileDetailsDto profile) {
+		if(!areDetailsNonCompliant(profile.getOrderSegments())) return false;
+		
+		return profile.isNonCompliant();
 	}
 	
 	protected boolean areDetailsNonCompliant(List<OrderSegmentDto> orderSegments) {

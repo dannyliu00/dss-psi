@@ -71,6 +71,16 @@ public class HeaderDataMapper {
 		header.setChangeUser(user);
 		header.setStatus(status);
 	}
+	
+	public void updateChangedAttributes(DealerProfileHeader header, DealerProfileHeaderStatus status, String user, boolean nonCompliant) {
+		Date date = Calendar.getInstance().getTime();
+		header.setChangedDate(date);
+		header.setChangedProgram(Constants.PROGRAM_CODE);
+		header.setChangedTime(date);
+		header.setChangeUser(user);
+		header.setStatus(status);
+		header.setNonCompliant(nonCompliant);
+	}
 
 	protected Date setDate(Date date) {
 		return date != null ? date : Constants.DEFAULT_DATE.getTime();
