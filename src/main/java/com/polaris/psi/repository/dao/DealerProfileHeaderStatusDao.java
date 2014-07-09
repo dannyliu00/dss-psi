@@ -10,7 +10,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
-import com.polaris.psi.Constants;
 import com.polaris.psi.repository.entity.DealerProfileHeaderStatus;
 import com.polaris.pwf.dao.AbstractPolarisMinneapolisDao;
 
