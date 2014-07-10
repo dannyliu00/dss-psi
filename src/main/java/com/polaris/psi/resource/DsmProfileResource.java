@@ -8,7 +8,6 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -36,20 +35,11 @@ public class DsmProfileResource {
 	@Autowired
 	OrderSegmentService service;
 
-	@Path("{profileId}/toDealer")
+	@Path("/approveWChanges")
 	@POST
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public ProfileDetailsDto sendToDealer(@PathParam("profileId") int profileId, List<OrderSegmentDto> records) {
-		
-		return null;
-	}
-
-	@Path("{profileId}/approveWChanges")
-	@POST
-    @Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public ProfileDetailsDto approveWithChanges(@PathParam("profileId") int profileId, ProfileDetailsDto dto) {
+	public ProfileDetailsDto approveWithChanges(ProfileDetailsDto dto) {
 		ProfileDetailsDto returnDto = new ProfileDetailsDto();
 		UserData userData = sessionHelper.getUserData();
 		
@@ -72,22 +62,55 @@ public class DsmProfileResource {
 		return returnDto;
 	}
 
-	@Path("{profileId}/approveRequested")
+	@Path("/approveRequested")
 	@POST
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public ProfileDetailsDto approveAsRequested(@PathParam("profileId") int profileId, List<OrderSegmentDto> records) {
+	public ProfileDetailsDto approveAsRequested(ProfileDetailsDto dto) {
+		UserData userData = sessionHelper.getUserData();
 		
-		return null;
+		if(!userData.isDsm()) {
+			ProfileDetailsDto response = new ProfileDetailsDto();
+			response.setMessage(Constants.NOT_AUTHORIZED);
+			response.setSuccessful(false);
+			return response;
+		}
+		
+		return service.dsmApproveAsRequested(dto);
 	}
 
-	@Path("{profileId}/approveException")
+	@Path("/approveException")
 	@POST
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public ProfileDetailsDto submitForException(@PathParam("profileId") int profileId, List<OrderSegmentDto> records) {
+	public ProfileDetailsDto submitForException(ProfileDetailsDto dto) {
+		UserData userData = sessionHelper.getUserData();
 		
-		return null;
+		if(!userData.isDsm()) {
+			ProfileDetailsDto response = new ProfileDetailsDto();
+			response.setMessage(Constants.NOT_AUTHORIZED);
+			response.setSuccessful(false);
+			return response;
+		}
+		
+		return service.dsmSubmitForException(dto);
+	}
+
+	@Path("/toDealer")
+	@POST
+    @Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ProfileDetailsDto sendToDealer(ProfileDetailsDto dto) {
+		UserData userData = sessionHelper.getUserData();
+		
+		if(!userData.isDsm()) {
+			ProfileDetailsDto response = new ProfileDetailsDto();
+			response.setMessage(Constants.NOT_AUTHORIZED);
+			response.setSuccessful(false);
+			return response;
+		}
+		
+		return service.dsmSendToDealer(dto);
 	}
 
 }

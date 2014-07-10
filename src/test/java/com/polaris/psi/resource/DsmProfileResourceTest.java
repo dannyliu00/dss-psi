@@ -32,7 +32,6 @@ public class DsmProfileResourceTest {
 	private List<OrderSegmentDto> dtos;
 	@Mock private OrderSegmentDto mockOSDto;
 	private boolean isDsm, isNotDsm;
-	private int profileId;
 	private String userId;
 	
 	@Before
@@ -40,7 +39,6 @@ public class DsmProfileResourceTest {
 		MockitoAnnotations.initMocks(this);
 		
 		userId = "UTUSER";
-		profileId = 999;
 		isDsm = true;
 		isNotDsm = false;
 		dtos = new ArrayList<OrderSegmentDto>();
@@ -51,6 +49,7 @@ public class DsmProfileResourceTest {
 		when(mockUserData.getUserName()).thenReturn(userId);
 		when(mockDetailDto.getOrderSegments()).thenReturn(dtos);
 		when(mockService.dsmApproveWithChanges(dtos)).thenReturn(dtos);
+		when(mockService.dsmApproveAsRequested(mockDetailDto)).thenReturn(mockDetailDto);
 
 		resource = new DsmProfileResource();
 		resource.service = mockService;
@@ -58,15 +57,10 @@ public class DsmProfileResourceTest {
 	}
 
 	@Test
-	public void testSendToDealer() {
-//		fail("Not yet implemented");
-	}
-
-	@Test
 	public void testApproveWithChangesNotAuthorized() {
 		when(mockUserData.isDsm()).thenReturn(isNotDsm);
 		
-		ProfileDetailsDto result = resource.approveWithChanges(profileId, mockDetailDto);
+		ProfileDetailsDto result = resource.approveWithChanges(mockDetailDto);
 
 		assertEquals(Constants.NOT_AUTHORIZED, result.getMessage());
 		assertEquals(false, result.isSuccessful());
@@ -82,7 +76,7 @@ public class DsmProfileResourceTest {
 	public void testApproveWithChangesNoRecords() {
 		when(mockDetailDto.getOrderSegments()).thenReturn(new ArrayList<OrderSegmentDto>());
 		
-		ProfileDetailsDto result = resource.approveWithChanges(profileId, mockDetailDto);
+		ProfileDetailsDto result = resource.approveWithChanges(mockDetailDto);
 		
 		assertEquals(Constants.NO_RECORDS, result.getMessage());
 		assertEquals(false, result.isSuccessful());
@@ -97,7 +91,7 @@ public class DsmProfileResourceTest {
 
 	@Test
 	public void testApproveWithChanges() {
-		ProfileDetailsDto result = resource.approveWithChanges(profileId, mockDetailDto);
+		ProfileDetailsDto result = resource.approveWithChanges(mockDetailDto);
 		
 		assertEquals(Constants.SAVE_SUCCESSFUL, result.getMessage());
 		assertEquals(true, result.isSuccessful());
@@ -110,13 +104,85 @@ public class DsmProfileResourceTest {
 	}
 
 	@Test
+	public void testApproveAsRequestedNotAuthorized() {
+		when(mockUserData.isDsm()).thenReturn(isNotDsm);
+		
+		ProfileDetailsDto result = resource.approveAsRequested(mockDetailDto);
+
+		assertEquals(Constants.NOT_AUTHORIZED, result.getMessage());
+		assertEquals(false, result.isSuccessful());
+
+		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).isDsm();
+		
+		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockDetailDto);
+		verifyZeroInteractions(mockOSDto, mockService);
+	}
+
+	@Test
 	public void testApproveAsRequested() {
-//		fail("Not yet implemented");
+
+		ProfileDetailsDto result = resource.approveAsRequested(mockDetailDto);
+		
+		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).isDsm();
+		verify(mockService).dsmApproveAsRequested(mockDetailDto);
+		
+		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockService, mockDetailDto);
+	}
+
+	@Test
+	public void testSubmitForExceptionNotAuthorized() {
+		when(mockUserData.isDsm()).thenReturn(isNotDsm);
+		
+		ProfileDetailsDto result = resource.submitForException(mockDetailDto);
+
+		assertEquals(Constants.NOT_AUTHORIZED, result.getMessage());
+		assertEquals(false, result.isSuccessful());
+
+		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).isDsm();
+		
+		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockDetailDto);
+		verifyZeroInteractions(mockOSDto, mockService);
 	}
 
 	@Test
 	public void testSubmitForException() {
-//		fail("Not yet implemented");
+		resource.submitForException(mockDetailDto);
+		
+		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).isDsm();
+		verify(mockService).dsmSubmitForException(mockDetailDto);
+		
+		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockService, mockDetailDto);
+	}
+
+	@Test
+	public void testSendToDealerNotAuthorized() {
+		when(mockUserData.isDsm()).thenReturn(isNotDsm);
+		
+		ProfileDetailsDto result = resource.sendToDealer(mockDetailDto);
+
+		assertEquals(Constants.NOT_AUTHORIZED, result.getMessage());
+		assertEquals(false, result.isSuccessful());
+
+		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).isDsm();
+		
+		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockDetailDto);
+		verifyZeroInteractions(mockOSDto, mockService);
+	}
+	
+	@Test
+	public void testSendToDealer() {
+		resource.sendToDealer(mockDetailDto);
+		
+		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).isDsm();
+		verify(mockService).dsmSendToDealer(mockDetailDto);
+		
+		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockService, mockDetailDto);
 	}
 
 }
