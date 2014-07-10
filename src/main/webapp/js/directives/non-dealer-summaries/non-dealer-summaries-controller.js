@@ -7,7 +7,6 @@
 	        .withPaginationType('full_numbers')
 	        .withDisplayLength(25)
 	        .withBootstrap();
-	       
     }
 
     nonDealerSummaries.NonDealerSummariesController = NonDealerSummariesController;

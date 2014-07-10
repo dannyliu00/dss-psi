@@ -8,12 +8,12 @@
 //    	var reasonCommentData = {};
     	
     	appRoleResource.get().then(function(returnedRole){
-    		authorizationRoleId = returnedRole.authorizationRoleId;
-    		reasonCodeResource.get({roleId:authorizationRoleId})
-    	.then(function(returnedReasonCodes) {
-    	    $scope.reasonCodes = returnedReasonCodes;
-    	    });
-    	});
+    		authorizationRoleId = {roleId: returnedRole.authorizationRoleId};
+    		reasonCodeResource.query(authorizationRoleId)
+    			.then(function(returnedReasonCodes) {
+    				$scope.reasonCodes = returnedReasonCodes;
+    			});
+    		});
 
         $scope.saveChanges = function (id) {
             for(var i=0; i<data.length; i++) {

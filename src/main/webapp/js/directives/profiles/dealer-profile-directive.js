@@ -12,8 +12,16 @@
 
                 scope.$watch(attrs.type, function(type) {
                     if(type != null) {
+                    	if(scope.role.rsm === true || scope.role.admin === true){
+                    		var templateUrl = basePath + "rsm-" + type + pathSuffix;
+                            loadTemplate(templateUrl);
+                    	} else if(scope.role.dsm === true) {
+                    		var templateUrl = basePath + "dsm-" + type + pathSuffix;
+                            loadTemplate(templateUrl);
+                    	} else{
                         var templateUrl = basePath + type + pathSuffix;
                         loadTemplate(templateUrl);
+                    	}
                     }
                 });
 

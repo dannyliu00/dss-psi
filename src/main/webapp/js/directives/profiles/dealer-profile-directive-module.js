@@ -7,7 +7,8 @@
             'ui.bootstrap',
             'sellIn.resources.dealerProfile',
             'sellIn.resources.dealer',
-            'sellIn.routing.paths'])
+            'sellIn.routing.paths',
+            'sellIn.resources.role'])
         .controller('dealerProfileDirectiveController', dealerProfiles.DealerProfileDirectiveController)
         .directive('profileDetails', dealerProfiles.ProfileDetailsDirective);
 })();

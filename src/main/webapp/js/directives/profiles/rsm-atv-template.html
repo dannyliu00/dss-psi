@@ -32,7 +32,7 @@
                                        min="0"
                                        max="999"
                                        numbers-only
-                                       ng-disabled="{os.actual != null}" ></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>
+                                       ng-disabled="os.actual != null" ></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>
                                  <input tabindex="0"
                                        ng-class="{noncompliant: os.dsmQty < os.recMinimum || os.dsmQty > os.recMaximum}"
                                        ng-model="os.dsmQty"
@@ -41,7 +41,7 @@
                                        min="0"
                                        max="999"
                                        numbers-only
-                                       ng-disabled="{os.dsmQty != null}" ></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>
+                                       ng-disabled="os.dsmQty != null" ></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>
                                  <input tabindex="0"
                                        ng-class="{noncompliant: os.adminQty < os.recMinimum || os.adminQty > os.recMaximum}"
                                        ng-model="os.adminQty"
@@ -81,7 +81,7 @@
                     <div class="col-md-6 text-center">
                         {{period.recMinimum}} - {{period.recommended}} - {{period.recMaximum}}
                     </div>
-                    <div ng-class="{noncompliant: period.actual < period.recMinimum || period.actual > period.recMaximum}" class="col-md-6 text-center">
+                    <div ng-class="{noncomplianttotal: period.actual < period.recMinimum || period.actual > period.recMaximum}" class="col-md-6 text-center">
                         {{period.actual}}
                     </div>
                 </div>
