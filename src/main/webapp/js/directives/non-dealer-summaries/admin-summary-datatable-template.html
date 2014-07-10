@@ -35,7 +35,7 @@
         <tr dt-rows ng-repeat="profile in profiles" >
             <td class="">{{profile.rsmName}}</td>
             <td class="">{{profile.dsmName}}</td>
-            <td class=""><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.type)" >{{profile.dealerid}}</a></td>
+            <td class=""><a ng-click="navigateToNonDealerProfile(profile.dealerId, profile.profileId, profile.type)" >{{profile.dealerid}}</a></td>
             <td class="">{{profile.dealerName}}</td>
             <td class="">{{profile.modifiedDate | date : 'mediumDate'}}</td>
             <td class="">{{profile.status}}</td>
