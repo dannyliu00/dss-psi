@@ -5,7 +5,7 @@
     	
         return {
             restrict: 'E',
-            controller: dsmButton.DsmButtonDirectiveController,
+            controller: dsmButton.DsmButtonController,
             templateUrl: 'js/directives/inputs/dsm-button-template.html'
         };
     }

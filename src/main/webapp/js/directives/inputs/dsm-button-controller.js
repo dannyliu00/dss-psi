@@ -1,10 +1,10 @@
 (function() {
     var dsmButton = sellInNamespace('sellIn.directives.dsmbutton');
 
-    function DsmButtonController($scope, $location, $modal, dealerSummaryPageUrl, profilePageUrl) {
+    function DsmButtonController($scope, $location, $modal, dealerSummaryPageUrl, profilePageUrl, dsmUrl) {
     	
-        $scope.dsmButtonCaptionFill(function() {
-        	dsmButtonCaption = "";
+        $scope.dsmButtonCaptionFill = function() {
+        	var dsmButtonCaption = "";
         	if(angular.element('input').hasClass('noncompliant')) {
         		dsmButtonCaption = "Submit for Exception";
         	} else if ($scope.dirtyIndicator > 1) {
@@ -13,7 +13,7 @@
         		dsmButtonCaption = "Approve as Requested";
         	}
         	return  dsmButtonCaption;
-        });
+        };
         
         
         $scope.dsmToSummary = function(dealerId) {
@@ -22,7 +22,8 @@
             switch(dsmChanges) {
                 case 0:
                 case 1:
-                    $location.path(dsmUrl);
+                	var finalDsmUrl = dsmUrl.replace(':id', dealerId);
+                    $location.path(finalDsmUrl);
                     break;
                 default:
                     openSaveDialog();
@@ -38,8 +39,9 @@
                 size: 'sm'	
             });
 
-            modalInstance.result.then(function (dealerId) {
-                $location.path(dsmUrl);
+            modalInstance.result.then(function () {
+            	var finalDsmUrl = dsmUrl.replace(':id', $scope.role.dealerId);
+                $location.path(finalDsmUrl);
             }, function () {
                 console.log('Modal dismissed at: ' + new Date());
             });
