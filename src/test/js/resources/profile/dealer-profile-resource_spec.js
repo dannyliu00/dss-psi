@@ -90,4 +90,85 @@ describe('DealerProfileResource', function() {
             httpBackend.flush();
         }));
     });
+
+    describe('approveWChanges', function() {
+        it('returns a promise with a single object containing a message and array of details', inject(function(dealerProfileResource, profileApproveWChangesUrl) {
+            var details = [{name: 'UT Detail'}, {name: 'UT Detail 2'}];
+            var expectedRequest = profileApproveWChangesUrl;
+            var expectedSuccess = true;
+            var expectedMessage = 'UT response message';
+            var expectedDetails = [{id: 'UT1', name: 'UT Detail'}, {id: 'UT2', name: 'UT Detail 2'}];
+            var expectedResponse = {isSuccessful: expectedSuccess, message: expectedMessage, objects: expectedDetails};
+
+            httpBackend.when('POST', expectedRequest).respond(expectedResponse);
+            httpBackend.expectPOST(expectedRequest);
+
+            var promise = dealerProfileResource.approveWChanges(details);
+
+            promise.then(function(actualResponse) {
+                expect(actualResponse.message).toEqual(expectedMessage);
+                for(var i = 0; i < actualResponse.objects.length; i++) {
+                    var returnedDetail = actualResponse.objects[i];
+                    var expectedDetail = expectedDetails[i];
+                    expect(returnedDetail.id).toEqual(expectedDetail.id);
+                    expect(returnedDetail.name).toEqual(expectedDetail.name);
+                }
+            });
+            httpBackend.flush();
+        }));
+    });
+
+    describe('approveRequested', function() {
+        it('returns a promise with a single object containing a message and array of details', inject(function(dealerProfileResource, profileApproveRequestedUrl) {
+            var details = [{name: 'UT Detail'}, {name: 'UT Detail 2'}];
+            var expectedRequest = profileApproveRequestedUrl;
+            var expectedSuccess = true;
+            var expectedMessage = 'UT response message';
+            var expectedDetails = [{id: 'UT1', name: 'UT Detail'}, {id: 'UT2', name: 'UT Detail 2'}];
+            var expectedResponse = {isSuccessful: expectedSuccess, message: expectedMessage, objects: expectedDetails};
+
+            httpBackend.when('POST', expectedRequest).respond(expectedResponse);
+            httpBackend.expectPOST(expectedRequest);
+
+            var promise = dealerProfileResource.approveRequested(details);
+
+            promise.then(function(actualResponse) {
+                expect(actualResponse.message).toEqual(expectedMessage);
+                for(var i = 0; i < actualResponse.objects.length; i++) {
+                    var returnedDetail = actualResponse.objects[i];
+                    var expectedDetail = expectedDetails[i];
+                    expect(returnedDetail.id).toEqual(expectedDetail.id);
+                    expect(returnedDetail.name).toEqual(expectedDetail.name);
+                }
+            });
+            httpBackend.flush();
+        }));
+    });
+
+    describe('submitException', function() {
+        it('returns a promise with a single object containing a message and array of details', inject(function(dealerProfileResource, profileSubmitExceptionUrl) {
+            var details = [{name: 'UT Detail'}, {name: 'UT Detail 2'}];
+            var expectedRequest = profileSubmitExceptionUrl;
+            var expectedSuccess = true;
+            var expectedMessage = 'UT response message';
+            var expectedDetails = [{id: 'UT1', name: 'UT Detail'}, {id: 'UT2', name: 'UT Detail 2'}];
+            var expectedResponse = {isSuccessful: expectedSuccess, message: expectedMessage, objects: expectedDetails};
+
+            httpBackend.when('POST', expectedRequest).respond(expectedResponse);
+            httpBackend.expectPOST(expectedRequest);
+
+            var promise = dealerProfileResource.submitException(details);
+
+            promise.then(function(actualResponse) {
+                expect(actualResponse.message).toEqual(expectedMessage);
+                for(var i = 0; i < actualResponse.objects.length; i++) {
+                    var returnedDetail = actualResponse.objects[i];
+                    var expectedDetail = expectedDetails[i];
+                    expect(returnedDetail.id).toEqual(expectedDetail.id);
+                    expect(returnedDetail.name).toEqual(expectedDetail.name);
+                }
+            });
+            httpBackend.flush();
+        }));
+    });
 });
