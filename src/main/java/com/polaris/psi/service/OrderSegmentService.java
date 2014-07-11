@@ -51,6 +51,7 @@ public class OrderSegmentService {
 	public ProfileDetailsDto saveOrderSegmentQuantities(ProfileDetailsDto profileDetailsDto) {
 		List<OrderSegmentDto> records = profileDetailsDto.getOrderSegments();
 		List<OrderSegmentDto> saved = new ArrayList<OrderSegmentDto>();
+		DealerProfileHeaderStatus status = statusService.getInProgressStatus();
 		
 		OrderSegmentDto testRecord = records.get(0);
 		if(testRecord.getHeaderId() != null) {
@@ -60,9 +61,14 @@ public class OrderSegmentService {
 			}
 
 			updateOrderSegmentQty(records);
+			DealerProfileHeader header = headerDao.select(testRecord.getHeaderId());
+			headerDataMapper.updateChangedAttributes(header, status, testRecord.getModifiedUserName(), profileDetailsDto.isNonCompliant());
+			headerDao.update(header);
+			
 			profileDetailsDto.setOrderSegments(records);
 			profileDetailsDto.setMessage(Constants.SAVE_SUCCESSFUL);
 			profileDetailsDto.setSuccessful(true);
+
 			return profileDetailsDto;
 		}
 		
@@ -71,9 +77,7 @@ public class OrderSegmentService {
 					+ "header and detail records for saving the profile.");
 		}
 		
-		List<DealerProfileHeaderStatus> statii = statusService.getAllStatus();
-		DealerProfileHeaderStatus status = getDefaultStatus(statii);
-		DealerProfileHeader header = headerDataMapper.createNewNonSubmittedNonApprovedHeader(testRecord, status);
+		DealerProfileHeader header = headerDataMapper.createNewNonSubmittedNonApprovedHeader(testRecord, status, profileDetailsDto.isNonCompliant());
 		DealerProfileHeader returnedHeader = headerDao.insert(header);
 		for (OrderSegmentDto orderSegment : records) {
 			OrderSegmentDto returnedSegment = createOrderSegmentQty(returnedHeader, orderSegment);
@@ -132,32 +136,10 @@ public class OrderSegmentService {
 	}
 	
 	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
-	public List<OrderSegmentDto> dsmApproveWithChanges(List<OrderSegmentDto> records) {
-		boolean isNonCompliant = areDetailsNonCompliant(records);
+	public ProfileDetailsDto dsmApproveWithChanges(ProfileDetailsDto profileDetailsDto) {
 		DealerProfileHeaderStatus status = statusService.getApprovedWithChangesStatus();
 		
-		OrderSegmentDto testRecord = records.get(0);
-		if(testRecord.getHeaderId() != null) {
-			if(LOG.isTraceEnabled()) {
-				LOG.trace("Updating header and detail records for approving the profile with entered changes.");
-			}
-			
-			updateDetailWithDsmData(records);
-			DealerProfileHeader header = headerDao.select(testRecord.getHeaderId());
-			headerDataMapper.updateApprovedHeader(header, status, testRecord.getModifiedUserName());
-			header.setNonCompliant(isNonCompliant);
-			headerDao.update(header);
-			
-			for (OrderSegmentDto dto : records) {
-				dto.setApprovedDate(header.getApprovedDate());
-			}
-
-		} else {
-			LOG.error("Profile detail records passed in did not contain an associated header record.  System will not "
-					+ "do any of the 'approve with changes' work.");
-		}
-		
-		return records;
+		return updateDataFromDsm(profileDetailsDto, status);
 	}
 	
 	public ProfileDetailsDto dsmSendToDealer(ProfileDetailsDto profile) {
@@ -182,21 +164,32 @@ public class OrderSegmentService {
 	protected ProfileDetailsDto updateDataFromDsm(ProfileDetailsDto profile, DealerProfileHeaderStatus status) {
 		List<OrderSegmentDto> orderSegments = profile.getOrderSegments();
 		if(orderSegments.size() == 0) {
+			LOG.error("No records passed in to do any work.  System will not make any changes.");
 			profile.setMessage(Constants.NO_RECORDS);
 			profile.setSuccessful(false);
 			return profile;
 		}
+		
+		OrderSegmentDto testRecord = orderSegments.get(0);
+		Integer headerId = testRecord.getHeaderId();
+		if(headerId == null) {
+			LOG.error("Profile detail records passed in did not contain an associated header record.  System will not "
+					+ "make any changes.");
+			
+			profile.setMessage(Constants.NO_RECORDS);
+			profile.setSuccessful(false);
+			return profile;
+		}
+		
+		DealerProfileHeader header = headerDao.select(headerId);
+		headerDataMapper.updateChangedAttributes(header, status, testRecord.getModifiedUserName(), isNonCompliant(profile));
+		headerDao.update(header);
 		
 		for (OrderSegmentDto dto : orderSegments) {
 			DealerProfileDetail detail = detailDao.select(dto.getId());
 			detailDataMapper.updateDsmEnteredDetails(detail, dto);
 			detailDao.update(detail);
 		}
-		
-		OrderSegmentDto testRecord = orderSegments.get(0);
-		DealerProfileHeader header = headerDao.select(testRecord.getHeaderId());
-		headerDataMapper.updateChangedAttributes(header, status, testRecord.getModifiedUserName(), isNonCompliant(profile));
-		headerDao.update(header);
 		
 		profile.setMessage(Constants.SAVE_SUCCESSFUL);
 		profile.setSuccessful(true);
@@ -238,14 +231,6 @@ public class OrderSegmentService {
 		detailDao.update(detail);
 	}
 
-	protected DealerProfileHeaderStatus getDefaultStatus(List<DealerProfileHeaderStatus> statii) {
-		for (DealerProfileHeaderStatus status : statii) {
-			if(status.getDescription().trim().equals(Constants.IN_PROGRESS_STATUS)) return status;
-		}
-		
-		return null;
-	}
-	
 	protected boolean isNonCompliant(ProfileDetailsDto profile) {
 		if(!areDetailsNonCompliant(profile.getOrderSegments())) return false;
 		

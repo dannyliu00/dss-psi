@@ -1,6 +1,5 @@
 package com.polaris.psi.resource;
 
-import static org.junit.Assert.fail;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -48,7 +47,7 @@ public class DsmProfileResourceTest {
 		when(mockUserData.isDsm()).thenReturn(isDsm);
 		when(mockUserData.getUserName()).thenReturn(userId);
 		when(mockDetailDto.getOrderSegments()).thenReturn(dtos);
-		when(mockService.dsmApproveWithChanges(dtos)).thenReturn(dtos);
+		when(mockService.dsmApproveWithChanges(mockDetailDto)).thenReturn(mockDetailDto);
 		when(mockService.dsmApproveAsRequested(mockDetailDto)).thenReturn(mockDetailDto);
 
 		resource = new DsmProfileResource();
@@ -73,34 +72,14 @@ public class DsmProfileResourceTest {
 	}
 
 	@Test
-	public void testApproveWithChangesNoRecords() {
-		when(mockDetailDto.getOrderSegments()).thenReturn(new ArrayList<OrderSegmentDto>());
-		
-		ProfileDetailsDto result = resource.approveWithChanges(mockDetailDto);
-		
-		assertEquals(Constants.NO_RECORDS, result.getMessage());
-		assertEquals(false, result.isSuccessful());
-
-		verify(mockSessionHelper).getUserData();
-		verify(mockUserData).isDsm();
-		verify(mockDetailDto).getOrderSegments();
-		
-		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockDetailDto);
-		verifyZeroInteractions(mockOSDto, mockService);
-	}
-
-	@Test
 	public void testApproveWithChanges() {
-		ProfileDetailsDto result = resource.approveWithChanges(mockDetailDto);
-		
-		assertEquals(Constants.SAVE_SUCCESSFUL, result.getMessage());
-		assertEquals(true, result.isSuccessful());
-		assertEquals(1, result.getOrderSegments().size());
+		resource.approveWithChanges(mockDetailDto);
 		
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).isDsm();
-		verify(mockDetailDto).getOrderSegments();
-		verify(mockService).dsmApproveWithChanges(dtos);
+		verify(mockService).dsmApproveWithChanges(mockDetailDto);
+		
+		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockService, mockDetailDto);
 	}
 
 	@Test
@@ -121,8 +100,7 @@ public class DsmProfileResourceTest {
 
 	@Test
 	public void testApproveAsRequested() {
-
-		ProfileDetailsDto result = resource.approveAsRequested(mockDetailDto);
+		resource.approveAsRequested(mockDetailDto);
 		
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).isDsm();
