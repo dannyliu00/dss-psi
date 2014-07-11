@@ -31,9 +31,15 @@
                 $scope.profile = returnedProfile;
                 $scope.segments = returnedProfile.segments;
                 for(var i = 0; i < returnedProfile.orderSegments.length; i++) {
-	                returnedProfile.orderSegments[i].dsmQty = returnedProfile.orderSegments[i].recommended;
-	                returnedProfile.orderSegments[i].adminQty = returnedProfile.orderSegments[i].recommended;
+                	if($scope.authLevel === 'adminQty' && returnedProfile.orderSegments[i].dsmQty > -1){
+                		returnedProfile.orderSegments[i].adminQty = returnedProfile.orderSegments[i].dsmQty;
+                	} else if($scope.authLevel === 'adminQty' && returnedProfile.orderSegments[i].dsmQty <= -1) {
+                		returnedProfile.orderSegments[i].adminQty = returnedProfile.orderSegments[i].actual;
+                		returnedProfile.orderSegments[i].dsmQty = returnedProfile.orderSegments[i].actual;
+                	} else if($scope.authLevel === 'dsmQty') {
+                		returnedProfile.orderSegments[i].dsmQty = returnedProfile.orderSegments[i].actual;
                 	}
+                }
                 $scope.orderSegments = returnedProfile.orderSegments;
                 $scope.distinctOS = findDistinctOSes($scope.orderSegments);
                 
