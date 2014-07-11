@@ -28,7 +28,8 @@ public class PSIProfilePeriodDao extends AbstractPolarisMinneapolisDao<PSIProfil
 	private static String QUERY_BY_PROFILE_ID = ""
 			+ "SELECT N0PPID, N0CODE, N0DESC, N0SDAT, N0EDAT, N3SORT "
 			+ "  FROM OT070F period INNER JOIN OT073F pp ON pp.N3PPID = period.N0PPID "
-			+ " WHERE pp.N3IPID = :profileId";
+			+ " WHERE pp.N3IPID = :profileId"
+			+ "ORDER BY N3SORT ASC";
 	
 	public PSIProfilePeriodDao() {
 		super(PSIProfilePeriod.class);
