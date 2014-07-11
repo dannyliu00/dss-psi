@@ -224,7 +224,7 @@ public class OrderSegmentServiceTest {
 		verify(mockReturnedDetail).getId();
 		verify(mockOrderSegment).setId(anyInt());
 		verify(mockOrderSegment).setHeaderId(anyInt());
-		verify(mockOrderSegment).isNonCompliant();
+		verify(mockProfileDetailsDto).isNonCompliant();
 		verify(mockProfileDetailsDto).setOrderSegments(recordsToSave);
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockProfileDetailsDto).setSuccessful(true);
@@ -251,7 +251,7 @@ public class OrderSegmentServiceTest {
 		verify(mockHeader).getSubmittedDate();
 		verify(mockOrderSegment).setSubmittedDate(submittedDate);
 		verify(mockOrderSegment).getId();
-		verify(mockOrderSegment).isNonCompliant();
+		verify(mockProfileDetailsDto).isNonCompliant();
 		verify(mockProfileDetailsDto).setOrderSegments(recordsToSave);
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockProfileDetailsDto).setSuccessful(true);

@@ -101,7 +101,7 @@ public class OrderSegmentService {
 
 			updateOrderSegmentQty(records);
 			DealerProfileHeader header = headerDao.select(testRecord.getHeaderId());
-			headerDataMapper.updateExistingSubmittedHeader(header, status, testRecord.isNonCompliant());
+			headerDataMapper.updateExistingSubmittedHeader(header, status, profileDetailsDto.isNonCompliant());
 			headerDao.update(header);
 			
 			for (OrderSegmentDto dto : records) {
@@ -118,7 +118,7 @@ public class OrderSegmentService {
 					+ "header and detail records for submitting the profile.");
 		}
 		
-		DealerProfileHeader header = headerDataMapper.createNewSubmittedHeader(testRecord, status, testRecord.isNonCompliant());
+		DealerProfileHeader header = headerDataMapper.createNewSubmittedHeader(testRecord, status, profileDetailsDto.isNonCompliant());
 		DealerProfileHeader returnedHeader = headerDao.insert(header);
 		for (OrderSegmentDto orderSegment : records) {
 			OrderSegmentDto returnedSegment = createOrderSegmentQty(returnedHeader, orderSegment);
