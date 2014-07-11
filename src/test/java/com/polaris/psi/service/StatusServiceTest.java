@@ -40,6 +40,14 @@ public class StatusServiceTest {
 	}
 
 	@Test
+	public void testGetInProgressStatus() {
+		service.getInProgressStatus();
+		
+		verify(mockDao).getStatus(Constants.IN_PROGRESS_STATUS);
+		verifyNoMoreInteractions(mockDao);
+	}
+
+	@Test
 	public void testGetPendingStatus() {
 		service.getPendingStatus();
 		

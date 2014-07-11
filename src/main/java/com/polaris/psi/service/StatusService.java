@@ -22,6 +22,10 @@ public class StatusService {
 	@Autowired
 	DealerProfileHeaderStatusDao statusDao;
 
+	public DealerProfileHeaderStatus getInProgressStatus() {
+		return statusDao.getStatus(Constants.IN_PROGRESS_STATUS);
+	}
+	
 	public DealerProfileHeaderStatus getPendingStatus() {
 		return statusDao.getStatus(Constants.PENDING_STATUS);
 	}
