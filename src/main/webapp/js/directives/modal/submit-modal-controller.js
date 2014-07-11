@@ -1,7 +1,7 @@
 (function() {
     var submitValues = sellInNamespace('sellIn.directives.submitValues');
 
-    function SubmitController($scope, $modalInstance, dealerProfileResource, orderSegments, profile, profileSubmitUrl) {
+    function SubmitController($scope, $modalInstance, dealerProfileResource, orderSegments, profile) {
     	
         $scope.submit = function (os) {
         	
@@ -11,10 +11,10 @@
 	            profile.nonCompliant = false;
 	        }
 	    	
-	    	var os = {nonCompliant: profile.nonCompliant,orderSegments: orderSegments};
+	    	var os = {nonCompliant: profile.nonCompliant, orderSegments: orderSegments};
 	    	
             dealerProfileResource.submit(os)
-                .then(function(returnedos) {
+                .then(function(returnedOs) {
                     $modalInstance.close();
                 });
         };
