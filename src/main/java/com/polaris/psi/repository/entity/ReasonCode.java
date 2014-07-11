@@ -28,7 +28,7 @@ public class ReasonCode implements Serializable {
 	private String descsription;
 	
 	@Column(name = "N9ROLE")
-	private int role;
+	private String role;
 
 	/**
 	 * @return the id
@@ -61,14 +61,14 @@ public class ReasonCode implements Serializable {
 	/**
 	 * @return the role
 	 */
-	public int getRole() {
+	public String getRole() {
 		return role;
 	}
 
 	/**
 	 * @param role the role to set
 	 */
-	public void setRole(int role) {
+	public void setRole(String role) {
 		this.role = role;
 	}
 	
