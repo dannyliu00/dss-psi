@@ -51,7 +51,7 @@ public class HeaderDataMapperTest {
 
 	@Test
 	public void testCreateNewNonSubmittedNonApprovedHeader() {
-		DealerProfileHeader result = mapper.createNewNonSubmittedNonApprovedHeader(mockDto, mockStatus);
+		DealerProfileHeader result = mapper.createNewNonSubmittedNonApprovedHeader(mockDto, mockStatus, expectedCompliance);
 		
 		assertEquals(expectedUserName, result.getCreatedUser());
 		assertEquals(expectedUserName, result.getChangeUser());
@@ -110,7 +110,7 @@ public class HeaderDataMapperTest {
 	
 	@Test
 	public void testUpdateApprovedHeader() {
-		mapper.updateApprovedHeader(mockHeader, mockStatus, expectedUserName);
+		mapper.updateApprovedHeader(mockHeader, mockStatus, expectedUserName, expectedCompliance);
 		
 		verify(mockHeader).setApprovedDate(any(Date.class));
 		verify(mockHeader).setApprovedTime(any(Date.class));
@@ -118,6 +118,7 @@ public class HeaderDataMapperTest {
 		verify(mockHeader).setChangedProgram(Constants.PROGRAM_CODE);
 		verify(mockHeader).setChangedTime(any(Date.class));
 		verify(mockHeader).setChangeUser(expectedUserName);
+		verify(mockHeader).setNonCompliant(expectedCompliance);
 		verify(mockHeader).setStatus(mockStatus);
 	}
 

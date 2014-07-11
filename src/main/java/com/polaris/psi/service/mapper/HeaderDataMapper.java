@@ -20,7 +20,7 @@ import com.polaris.psi.resource.dto.OrderSegmentDto;
 @Component
 public class HeaderDataMapper {
 	
-	public DealerProfileHeader createNewNonSubmittedNonApprovedHeader(OrderSegmentDto dto, DealerProfileHeaderStatus status) {
+	public DealerProfileHeader createNewNonSubmittedNonApprovedHeader(OrderSegmentDto dto, DealerProfileHeaderStatus status, boolean nonCompliant) {
 		DealerProfileHeader header = new DealerProfileHeader();
 		Date date = Calendar.getInstance().getTime();
 		header.setCreatedProgram(Constants.PROGRAM_CODE);
@@ -29,6 +29,7 @@ public class HeaderDataMapper {
 		header.setCreatedUser(dto.getModifiedUserName());
 		header.setDealerId(dto.getDealerId());
 		header.setEmailAddress(setStringValue(dto.getDealerEmail()));
+		header.setNonCompliant(nonCompliant);
 		header.setProfileId(dto.getProfileId());
 		header.setStatus(status);
 		header.setSubmittedDate(setDate(null));
@@ -44,7 +45,7 @@ public class HeaderDataMapper {
 	}
 	
 	public DealerProfileHeader createNewSubmittedHeader(OrderSegmentDto dto, DealerProfileHeaderStatus status, boolean nonCompliant) {
-		DealerProfileHeader header = createNewNonSubmittedNonApprovedHeader(dto, status);
+		DealerProfileHeader header = createNewNonSubmittedNonApprovedHeader(dto, status, nonCompliant);
 		Date date = Calendar.getInstance().getTime();
 		header.setSubmittedDate(date);
 		header.setSubmittedTime(date);
@@ -61,15 +62,11 @@ public class HeaderDataMapper {
 		header.setNonCompliant(nonCompliant);
 	}
 	
-	public void updateApprovedHeader(DealerProfileHeader header, DealerProfileHeaderStatus status, String user) {
+	public void updateApprovedHeader(DealerProfileHeader header, DealerProfileHeaderStatus status, String user, boolean nonCompliant) {
 		Date date = Calendar.getInstance().getTime();
+		updateChangedAttributes(header, status, user, nonCompliant);
 		header.setApprovedDate(date);
 		header.setApprovedTime(date);
-		header.setChangedDate(date);
-		header.setChangedProgram(Constants.PROGRAM_CODE);
-		header.setChangedTime(date);
-		header.setChangeUser(user);
-		header.setStatus(status);
 	}
 	
 	public void updateChangedAttributes(DealerProfileHeader header, DealerProfileHeaderStatus status, String user, boolean nonCompliant) {
