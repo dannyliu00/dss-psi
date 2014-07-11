@@ -7,8 +7,8 @@
         	var dsmButtonCaption = "";
         	if(angular.element('input').hasClass('noncompliant')) {
         		dsmButtonCaption = "Submit for Exception";
-        	} else if ($scope.dirtyIndicator > 1) {
-        		dsmButtonCaption = "Approve with Changes";
+        	} else if ($scope.dirtyIndicator > 1 && isChanged()) {
+				dsmButtonCaption = "Approve with Changes";	
         	} else {
         		dsmButtonCaption = "Approve as Requested";
         	}
@@ -71,6 +71,15 @@
                 console.log('Modal dismissed at: ' + new Date());
             });
 		}
+        
+        function isChanged() {
+        	for(var i = 0; i < $scope.orderSegments.length; i++) {
+        		if($scope.orderSegments[i].actual !== $scope.orderSegments[i].dsmQty) {
+        			return true;
+        		}
+        	}
+        	return false;
+        } 
     }
 
     dsmButton.DsmButtonController = DsmButtonController;
