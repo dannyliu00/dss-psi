@@ -7,8 +7,7 @@
      	
     	appRoleResource.get().then(function(role) {
             $scope.role = role;
-    		}).then(function(role){
-    			$scope.profiles = $scope.tabContent();
+            $scope.profiles = $scope.tabContent();
     		});
     	
     	 $scope.tabContent = function(activeContent) {

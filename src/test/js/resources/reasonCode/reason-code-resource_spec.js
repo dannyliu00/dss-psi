@@ -24,7 +24,7 @@ describe('ReasonCodeResource', function() {
             httpBackend.when('GET', expectedRequest).respond(expectedList);
             httpBackend.expectGET;
 
-            var promise = reasonCodeResource.get(role);
+            var promise = reasonCodeResource.query(role);
 
             promise.then(function(reasonCodes) {
                 expect(reasonCodes[0].name).toEqual(expectedList[0].name);

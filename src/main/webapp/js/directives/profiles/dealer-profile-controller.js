@@ -153,7 +153,7 @@
             for(var i=0; i < $scope.orderSegments.length; i++) {
             	var checkList = segment.subSegments.indexOf($scope.orderSegments[i].subSegment);
                 if(checkList !== -1) {
-                	var actual = parseInt($scope.orderSegments[i][level]);
+                	var actual = angular.isNumber($scope.orderSegments[i][level]) && $scope.orderSegments[i][level] > -1 ? parseInt($scope.orderSegments[i][level]) : 0;
                 	total = total + actual;
                 	if(actual > 0) {
                 		count = count + 1;
