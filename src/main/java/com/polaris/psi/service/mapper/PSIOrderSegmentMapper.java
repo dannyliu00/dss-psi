@@ -31,16 +31,16 @@ public class PSIOrderSegmentMapper {
 			return dtos;
 		}
 		
-		for (PSIProfileDetail detail : details) {
-			int posId = detail.getProfileOrderSegmentId();
-			String code = detail.getPeriodCode();
-			PSIOrderSegment os = getOrderSegmentWithIdAndCode(oses, posId, code);
-			if(os != null) dtos.add(mapToDto(os, detail));
+		for (PSIOrderSegment orderSegment : oses) {
+			Integer profileOrderSegmentId = orderSegment.getId();
+			String periodCode = orderSegment.getPeriodCode();
+			PSIProfileDetail detail = getDetailObject(details, profileOrderSegmentId, periodCode);
+			dtos.add(mapToDto(orderSegment, detail));
 		}
 		
 		return dtos;
 	}
-
+	
 	public OrderSegmentDto mapToDto(PSIOrderSegment os, PSIProfileDetail detail) {
 		OrderSegmentDto dto = new OrderSegmentDto();
 		
@@ -76,22 +76,15 @@ public class PSIOrderSegmentMapper {
 		return dto;
 	}
 	
-	protected PSIOrderSegment getOrderSegmentWithIdAndCode(List<PSIOrderSegment> oses, Integer id, String code) {
-		
-		for (PSIOrderSegment orderSegment : oses) {
-			if(orderSegment.getId().intValue() == id.intValue() && orderSegment.getPeriodCode().equals(code))
-				return orderSegment;
+	protected PSIProfileDetail getDetailObject(List<PSIProfileDetail> details, Integer profileOrderSegmentId, String periodCode) {
+
+		for (PSIProfileDetail detail : details) {
+			if(detail.getPeriodCode().equals(periodCode) 
+					&& detail.getProfileOrderSegmentId().intValue() == profileOrderSegmentId.intValue())
+				return detail;
 		}
 		
 		return null;
 	}
-	
-	protected PSIOrderSegment getOrderSegmentWithId(List<PSIOrderSegment> oses, Integer id) {
-		
-		for (PSIOrderSegment orderSegment : oses) {
-			if(orderSegment.getId().intValue() == id.intValue()) return orderSegment;
-		}
-		
-		return null;
-	}
+
 }
