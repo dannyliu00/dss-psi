@@ -5,8 +5,6 @@
     	
     	var authorizationRoleId = 0;
     	
-//    	var reasonCommentData = {};
-    	
     	appRoleResource.get().then(function(returnedRole){
     		authorizationRoleId = {roleId: returnedRole.authorizationRoleId};
     		reasonCodeResource.query(authorizationRoleId)

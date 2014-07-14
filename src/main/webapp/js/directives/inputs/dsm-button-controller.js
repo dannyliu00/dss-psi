@@ -36,7 +36,18 @@
             var modalInstance = $modal.open({
                 templateUrl: 'js/directives/modal/unsaved-changes-modal-template.html',
                 controller: 'unsavedChangesController',
-                size: 'sm'	
+                size: 'sm',
+                resolve: {
+                    role: function () {
+                        return $scope.role;
+                    },
+		            orderSegments: function () {
+		                return $scope.orderSegments;
+		            },
+		    		profile: function() {
+		    			return $scope.profile;
+		    		}
+                }
             });
 
             modalInstance.result.then(function () {

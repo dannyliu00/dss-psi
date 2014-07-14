@@ -2,7 +2,7 @@
     var dealerProfile = sellInNamespace('sellIn.resources.dealerProfile');
 
     function DealerProfileResource($resource, profileUrl, profileSaveUrl, profileSubmitUrl,
-                                   profileApproveWChangesUrl, profileApproveRequestedUrl, profileSubmitExceptionUrl) {
+                                   profileApproveWChangesUrl, profileApproveRequestedUrl, profileSubmitExceptionUrl, profileDsmSaveUrl) {
         this.resource = $resource(profileUrl, {}, {
             save: {method: 'POST', url: profileSaveUrl},
             submit: {method: 'POST', url: profileSubmitUrl},

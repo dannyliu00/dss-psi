@@ -51,12 +51,15 @@
             var modalInstance = $modal.open({
                 templateUrl: 'js/directives/modal/unsaved-changes-modal-template.html',
                 controller: 'unsavedChangesController',
-                size: 'sm'
-//                  resolve: {
-//                  items: function (dealerId) {
-//                      return dealerId;
-//                  }
-//              }
+                size: 'sm',
+                resolve: {
+                    orderSegments: function () {
+                        return $scope.orderSegments;
+                    },
+            		profile: function() {
+            			return $scope.profile;
+            		}
+                }
             });
 
             modalInstance.result.then(function (dealerId) {
@@ -82,7 +85,10 @@
                 resolve: {
                     orderSegments: function () {
                         return $scope.orderSegments;
-                    }
+                    },
+            		profile: function() {
+            			return $scope.profile;
+            		}
                 }
             });
 
