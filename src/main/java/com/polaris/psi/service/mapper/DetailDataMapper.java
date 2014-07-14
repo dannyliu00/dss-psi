@@ -60,7 +60,7 @@ public class DetailDataMapper {
 	
 	public void updateDealerEnteredDetails(DealerProfileDetail detail, OrderSegmentDto dto) {
 		detail.setActual(dto.getActual());
-		detail.setDealerReasonCode(dto.getReasonCode());
+		detail.setDealerReasonCode(setIntegerValue(dto.getReasonCode()));
 		detail.setDealerComments(setStringValue(dto.getDealerComments()));
 		detail.setChangedDate(new Date());
 		detail.setChangedProgram(Constants.PROGRAM_CODE);
@@ -68,15 +68,15 @@ public class DetailDataMapper {
 		detail.setChangedUser(dto.getModifiedUserName());
 	}
 	
-	public void updateDsmEnteredDetails(DealerProfileDetail detail, OrderSegmentDto dto) {
+	public void updateDsmEnteredDetails(DealerProfileDetail detail, OrderSegmentDto dto, String userName) {
 		Date date = Calendar.getInstance().getTime();
-		detail.setDsmRecommendedQty(dto.getDsmQty());
-		detail.setDsmReasonCode(dto.getDsmReasonCode());
-		detail.setDsmComments(dto.getDsmComments());
+		detail.setDsmRecommendedQty(setIntegerValue(dto.getDsmQty()));
+		detail.setDsmReasonCode(setIntegerValue(dto.getDsmReasonCode()));
+		detail.setDsmComments(setStringValue(dto.getDsmComments()));
 		detail.setChangedDate(date);
 		detail.setChangedProgram(Constants.PROGRAM_CODE);
 		detail.setChangedTime(date);
-		detail.setChangedUser(dto.getModifiedUserName());
+		detail.setChangedUser(userName);
 	}
 
 	protected Date setDate(Date date) {

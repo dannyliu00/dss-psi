@@ -105,7 +105,7 @@ public class DetailDataMapperTest {
 		when(mockDto.getDsmQty()).thenReturn(expectedDsmQty);
 		when(mockDto.getDsmReasonCode()).thenReturn(expectedDsmReason);
 		
-		mapper.updateDsmEnteredDetails(mockDetail, mockDto);
+		mapper.updateDsmEnteredDetails(mockDetail, mockDto, expectedUserName);
 		
 		verify(mockDetail).setChangedProgram(Constants.PROGRAM_CODE);
 		verify(mockDetail).setChangedUser(expectedUserName);
