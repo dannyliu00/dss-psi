@@ -51,7 +51,7 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 		super(PSIProfile.class);
 	}
 	
-	public List<PSIProfile> retrieveCurrentDealerListByDealerId(Integer dealerId) {
+	public List<PSIProfile> retrieveDealerCurrentProfileListByDealerId(Integer dealerId) {
 		Query query = entityManager.createNativeQuery(QRY_DLR_CURRENT);
 		query.setParameter("dealerId", dealerId);
 		query.setParameter("canceled", Constants.DEALER_NOT_CANCELED_CODE);
@@ -75,10 +75,8 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 			profile.setStatus(CommonUtils.trimString((String) result[5]));
 			profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInt((BigDecimal) result[6])));
 			
-			String status = profile.getStatus();
-			if(status == null || status.equals(Constants.IN_PROGRESS_STATUS) || status.equals(Constants.RETURNED_TO_DEALER)) {
-				profiles.add(profile);
-			}
+			String status = profile.getProfileStatus();
+			if(status.equals(Constants.ACTIVE)) profiles.add(profile);
 		}
 		
 		entityManager.close();
