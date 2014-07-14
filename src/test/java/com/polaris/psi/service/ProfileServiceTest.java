@@ -113,11 +113,11 @@ public class ProfileServiceTest {
 
 	@Test
 	public void testGetDealerProfiles() {
-		when(mockPsiProfileDao.retrieveCurrentDealerListByDealerId(dealerId)).thenReturn(mockProfiles);
+		when(mockPsiProfileDao.retrieveDealerCurrentProfileListByDealerId(dealerId)).thenReturn(mockProfiles);
 		
 		service.getDealerProfiles(dealerId);
 		
-		verify(mockPsiProfileDao).retrieveCurrentDealerListByDealerId(dealerId);
+		verify(mockPsiProfileDao).retrieveDealerCurrentProfileListByDealerId(dealerId);
 		verify(mockProfileMapper).mapToDto(mockProfiles);
 		
 	}

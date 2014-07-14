@@ -65,7 +65,7 @@ public class ProfileService {
 	
 	public List<ProfileDto> getDealerProfiles(int dealerId) {
 
-		List<PSIProfile> psiProfiles = psiProfileDao.retrieveCurrentDealerListByDealerId(dealerId);
+		List<PSIProfile> psiProfiles = psiProfileDao.retrieveDealerCurrentProfileListByDealerId(dealerId);
 		List<ProfileDto> psiDtos = profileMapper.mapToDto(psiProfiles);
 		
 		return psiDtos;
