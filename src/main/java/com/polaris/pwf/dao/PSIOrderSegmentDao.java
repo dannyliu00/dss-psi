@@ -25,11 +25,16 @@ public class PSIOrderSegmentDao extends AbstractPolarisMinneapolisDao<PSIOrderSe
 	private static Logger LOG = Logger.getLogger(PSIOrderSegmentDao.class);
 	
 	private static String QUERY_BY_PROFILE_AND_DEALER = ""
-			+ "SELECT distinct pandos.N4PSID, pandos.N4OSEG, pandos.N4SORT, "
-			+ "os.C7SBSG, oscomp.N5ID, oscomp.N5CODE, oscomp.N5RMIN, oscomp.N5REC, oscomp.N5RMAX "
+			+ "SELECT distinct pandos.N4PSID, pandos.N4OSEG, pandos.N4SORT, os.C7SBSG, oscomp.N5ID, "
+			+ " oscomp.N5CODE, oscomp.N5RMIN, oscomp.N5REC, oscomp.N5RMAX, period.N3SORT "
 			+ "  FROM OT074F pandos INNER JOIN OT025F os ON os.C7OSEG = pandos.N4OSEG "
 			+ "  INNER JOIN OT075F oscomp ON oscomp.N5IPID = pandos.N4IPID AND oscomp.N5OSEG = pandos.N4OSEG "
-			+ " WHERE pandos.N4IPID = :profileId AND oscomp.N5DLR = :dealerId";
+			+ "  INNER JOIN (SELECT periods.N0CODE, pperiod.N3SORT, pperiod.N3IPID "
+			+ "					FROM OT073F pperiod INNER JOIN OT070F periods ON pperiod.N3PPID = periods.N0PPID"
+			+ "					ORDER BY pperiod.n3sort asc) period ON period.N0CODE = oscomp.N5CODE AND period.N3IPID = pandos.N4IPID "
+			+ " WHERE pandos.N4IPID = :profileId "
+			+ "   AND oscomp.N5DLR = :dealerId "
+			+ " ORDER BY pandos.N4SORT ASC, os.C7SBSG ASC, period.N3SORT ASC";
 	
 	public PSIOrderSegmentDao() {
 		super(PSIOrderSegment.class);
