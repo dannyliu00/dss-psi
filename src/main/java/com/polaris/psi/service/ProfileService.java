@@ -4,6 +4,7 @@
 package com.polaris.psi.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import com.polaris.psi.repository.entity.PSIProfile;
 import com.polaris.psi.repository.entity.PSIProfileDetail;
 import com.polaris.psi.repository.entity.PSIProfilePeriod;
 import com.polaris.psi.repository.entity.PSISegment;
+import com.polaris.psi.resource.dto.OrderSegmentComparator;
 import com.polaris.psi.resource.dto.ProfileDto;
 import com.polaris.psi.service.mapper.PSIOrderSegmentMapper;
 import com.polaris.psi.service.mapper.PSIProfileMapper;
@@ -59,6 +61,9 @@ public class ProfileService {
 	@Autowired
 	PSIOrderSegmentMapper osMapper;
 	
+	@Autowired
+	OrderSegmentComparator osComparator;
+	
 	public List<ProfileDto> getDealerProfiles(int dealerId) {
 
 		List<PSIProfile> psiProfiles = psiProfileDao.retrieveCurrentDealerListByDealerId(dealerId);
@@ -80,6 +85,7 @@ public class ProfileService {
     	ProfileDto dto = profileMapper.mapToDto(psiProfile);
     	dto.setSegments(segmentMapper.mapToDto(psiSegments));
     	dto.setOrderSegments(osMapper.mapToDto(psiOSes, details));
+    	Collections.sort(dto.getOrderSegments(), osComparator);
     	
     	List<PSIProfilePeriod> periods = profilePeriodDao.retrieveByProfileId(psiProfile.getId());
     	dto.setPeriods(periodMapper.mapToDto(periods));
