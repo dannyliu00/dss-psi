@@ -100,4 +100,21 @@ public class DsmProfileResource {
 		return service.dsmSendToDealer(dto);
 	}
 
+	@Path("/save")
+	@POST
+    @Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ProfileDetailsDto saveChanges(ProfileDetailsDto dto) {
+		UserData userData = sessionHelper.getUserData();
+		
+		if(!userData.isDsm()) {
+			ProfileDetailsDto response = new ProfileDetailsDto();
+			response.setMessage(Constants.NOT_AUTHORIZED);
+			response.setSuccessful(false);
+			return response;
+		}
+		
+		return service.dsmSaveChanges(dto);
+	}
+
 }

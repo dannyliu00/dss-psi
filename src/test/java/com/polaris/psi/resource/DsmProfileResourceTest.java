@@ -163,4 +163,31 @@ public class DsmProfileResourceTest {
 		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockService, mockDetailDto);
 	}
 
+	@Test
+	public void testSaveChangesNotAuthorized() {
+		when(mockUserData.isDsm()).thenReturn(isNotDsm);
+		
+		ProfileDetailsDto result = resource.saveChanges(mockDetailDto);
+
+		assertEquals(Constants.NOT_AUTHORIZED, result.getMessage());
+		assertEquals(false, result.isSuccessful());
+
+		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).isDsm();
+		
+		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockDetailDto);
+		verifyZeroInteractions(mockOSDto, mockService);
+	}
+	
+	@Test
+	public void testSaveChanges() {
+		resource.saveChanges(mockDetailDto);
+		
+		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).isDsm();
+		verify(mockService).dsmSaveChanges(mockDetailDto);
+		
+		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockService, mockDetailDto);
+	}
+
 }
