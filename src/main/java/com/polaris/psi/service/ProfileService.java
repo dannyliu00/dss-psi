@@ -4,7 +4,6 @@
 package com.polaris.psi.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +84,6 @@ public class ProfileService {
     	ProfileDto dto = profileMapper.mapToDto(psiProfile);
     	dto.setSegments(segmentMapper.mapToDto(psiSegments));
     	dto.setOrderSegments(osMapper.mapToDto(psiOSes, details));
-    	Collections.sort(dto.getOrderSegments(), osComparator);
     	
     	List<PSIProfilePeriod> periods = profilePeriodDao.retrieveByProfileId(psiProfile.getId());
     	dto.setPeriods(periodMapper.mapToDto(periods));
