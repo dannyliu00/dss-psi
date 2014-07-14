@@ -135,39 +135,38 @@ public class OrderSegmentService {
 		return profileDetailsDto;
 	}
 	
-	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
-	public ProfileDetailsDto dsmApproveWithChanges(ProfileDetailsDto profileDetailsDto) {
+	public ProfileDetailsDto dsmApproveWithChanges(ProfileDetailsDto profileDetailsDto, String userName) {
 		DealerProfileHeaderStatus status = statusService.getApprovedWithChangesStatus();
 		
-		return updateDataFromDsm(profileDetailsDto, status);
+		return updateDataFromDsm(profileDetailsDto, status, userName);
 	}
 	
-	public ProfileDetailsDto dsmSendToDealer(ProfileDetailsDto profile) {
+	public ProfileDetailsDto dsmSendToDealer(ProfileDetailsDto profile, String userName) {
 		DealerProfileHeaderStatus status = statusService.getSendToDealerStatus();
 		
-		return updateDataFromDsm(profile, status);
+		return updateDataFromDsm(profile, status, userName);
 	}
 	
-	public ProfileDetailsDto dsmApproveAsRequested(ProfileDetailsDto profile) {
+	public ProfileDetailsDto dsmApproveAsRequested(ProfileDetailsDto profile, String userName) {
 		DealerProfileHeaderStatus status = statusService.getApprovedAsRequestedStatus();
 		
-		return updateDataFromDsm(profile, status);
+		return updateDataFromDsm(profile, status, userName);
 	}
 	
-	public ProfileDetailsDto dsmSubmitForException(ProfileDetailsDto profile) {
+	public ProfileDetailsDto dsmSubmitForException(ProfileDetailsDto profile, String userName) {
 		DealerProfileHeaderStatus status = statusService.getExceptionRequestedStatus();
 		
-		return updateDataFromDsm(profile, status);
+		return updateDataFromDsm(profile, status, userName);
 	}
 	
-	public ProfileDetailsDto dsmSaveChanges(ProfileDetailsDto profile) {
+	public ProfileDetailsDto dsmSaveChanges(ProfileDetailsDto profile, String userName) {
 		DealerProfileHeaderStatus status = statusService.getPendingStatus();
 		
-		return updateDataFromDsm(profile, status);
+		return updateDataFromDsm(profile, status, userName);
 	}
 	
 	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
-	protected ProfileDetailsDto updateDataFromDsm(ProfileDetailsDto profile, DealerProfileHeaderStatus status) {
+	protected ProfileDetailsDto updateDataFromDsm(ProfileDetailsDto profile, DealerProfileHeaderStatus status, String userName) {
 		List<OrderSegmentDto> orderSegments = profile.getOrderSegments();
 		if(orderSegments.size() == 0) {
 			LOG.error("No records passed in to do any work.  System will not make any changes.");
@@ -188,7 +187,7 @@ public class OrderSegmentService {
 		}
 		
 		DealerProfileHeader header = headerDao.select(headerId);
-		headerDataMapper.updateChangedAttributes(header, status, testRecord.getModifiedUserName(), isNonCompliant(profile));
+		headerDataMapper.updateChangedAttributes(header, status, userName, isNonCompliant(profile));
 		headerDao.update(header);
 		
 		for (OrderSegmentDto dto : orderSegments) {

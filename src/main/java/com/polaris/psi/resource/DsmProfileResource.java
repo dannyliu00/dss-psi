@@ -46,7 +46,7 @@ public class DsmProfileResource {
 			return response;
 		}
 		
-		return service.dsmApproveWithChanges(dto);
+		return service.dsmApproveWithChanges(dto, userData.getUserName());
 	}
 
 	@Path("/approveRequested")
@@ -63,7 +63,7 @@ public class DsmProfileResource {
 			return response;
 		}
 		
-		return service.dsmApproveAsRequested(dto);
+		return service.dsmApproveAsRequested(dto, userData.getUserName());
 	}
 
 	@Path("/approveException")
@@ -80,7 +80,7 @@ public class DsmProfileResource {
 			return response;
 		}
 		
-		return service.dsmSubmitForException(dto);
+		return service.dsmSubmitForException(dto, userData.getUserName());
 	}
 
 	@Path("/toDealer")
@@ -97,7 +97,7 @@ public class DsmProfileResource {
 			return response;
 		}
 		
-		return service.dsmSendToDealer(dto);
+		return service.dsmSendToDealer(dto, userData.getUserName());
 	}
 
 	@Path("/save")
@@ -114,7 +114,7 @@ public class DsmProfileResource {
 			return response;
 		}
 		
-		return service.dsmSaveChanges(dto);
+		return service.dsmSaveChanges(dto, userData.getUserName());
 	}
 
 }

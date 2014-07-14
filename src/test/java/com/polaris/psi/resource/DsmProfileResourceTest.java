@@ -47,8 +47,8 @@ public class DsmProfileResourceTest {
 		when(mockUserData.isDsm()).thenReturn(isDsm);
 		when(mockUserData.getUserName()).thenReturn(userId);
 		when(mockDetailDto.getOrderSegments()).thenReturn(dtos);
-		when(mockService.dsmApproveWithChanges(mockDetailDto)).thenReturn(mockDetailDto);
-		when(mockService.dsmApproveAsRequested(mockDetailDto)).thenReturn(mockDetailDto);
+		when(mockService.dsmApproveWithChanges(mockDetailDto, userId)).thenReturn(mockDetailDto);
+		when(mockService.dsmApproveAsRequested(mockDetailDto, userId)).thenReturn(mockDetailDto);
 
 		resource = new DsmProfileResource();
 		resource.service = mockService;
@@ -76,8 +76,9 @@ public class DsmProfileResourceTest {
 		resource.approveWithChanges(mockDetailDto);
 		
 		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).getUserName();
 		verify(mockUserData).isDsm();
-		verify(mockService).dsmApproveWithChanges(mockDetailDto);
+		verify(mockService).dsmApproveWithChanges(mockDetailDto, userId);
 		
 		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockService, mockDetailDto);
 	}
@@ -103,8 +104,9 @@ public class DsmProfileResourceTest {
 		resource.approveAsRequested(mockDetailDto);
 		
 		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).getUserName();
 		verify(mockUserData).isDsm();
-		verify(mockService).dsmApproveAsRequested(mockDetailDto);
+		verify(mockService).dsmApproveAsRequested(mockDetailDto, userId);
 		
 		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockService, mockDetailDto);
 	}
@@ -130,8 +132,9 @@ public class DsmProfileResourceTest {
 		resource.submitForException(mockDetailDto);
 		
 		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).getUserName();
 		verify(mockUserData).isDsm();
-		verify(mockService).dsmSubmitForException(mockDetailDto);
+		verify(mockService).dsmSubmitForException(mockDetailDto, userId);
 		
 		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockService, mockDetailDto);
 	}
@@ -157,8 +160,9 @@ public class DsmProfileResourceTest {
 		resource.sendToDealer(mockDetailDto);
 		
 		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).getUserName();
 		verify(mockUserData).isDsm();
-		verify(mockService).dsmSendToDealer(mockDetailDto);
+		verify(mockService).dsmSendToDealer(mockDetailDto, userId);
 		
 		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockService, mockDetailDto);
 	}
@@ -184,8 +188,9 @@ public class DsmProfileResourceTest {
 		resource.saveChanges(mockDetailDto);
 		
 		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).getUserName();
 		verify(mockUserData).isDsm();
-		verify(mockService).dsmSaveChanges(mockDetailDto);
+		verify(mockService).dsmSaveChanges(mockDetailDto, userId);
 		
 		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockService, mockDetailDto);
 	}
