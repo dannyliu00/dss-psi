@@ -160,6 +160,12 @@ public class OrderSegmentService {
 		return updateDataFromDsm(profile, status);
 	}
 	
+	public ProfileDetailsDto dsmSaveChanges(ProfileDetailsDto profile) {
+		DealerProfileHeaderStatus status = statusService.getPendingStatus();
+		
+		return updateDataFromDsm(profile, status);
+	}
+	
 	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	protected ProfileDetailsDto updateDataFromDsm(ProfileDetailsDto profile, DealerProfileHeaderStatus status) {
 		List<OrderSegmentDto> orderSegments = profile.getOrderSegments();

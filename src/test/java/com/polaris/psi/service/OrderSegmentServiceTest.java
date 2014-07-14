@@ -88,6 +88,7 @@ public class OrderSegmentServiceTest {
 		when(mockStatusService.getApprovedWithChangesStatus()).thenReturn(mockStatus);
 		when(mockStatusService.getApprovedAsRequestedStatus()).thenReturn(mockStatus);
 		when(mockStatusService.getExceptionRequestedStatus()).thenReturn(mockStatus);
+		when(mockStatusService.getSendToDealerStatus()).thenReturn(mockStatus);
 		when(mockHeaderDao.insert((DealerProfileHeader) anyObject())).thenReturn(mockHeader);
 		when(mockHeaderDao.select(headerId)).thenReturn(mockHeader);
 		when(mockDetailDao.insert((DealerProfileDetail) anyObject())).thenReturn(mockReturnedDetail);
@@ -401,14 +402,52 @@ public class OrderSegmentServiceTest {
 	
 	@Test
 	public void testDsmSubmitForException() {
-		when(mockStatusService.getSendToDealerStatus()).thenReturn(mockStatus);
-		
 		service.dsmSubmitForException(mockProfileDetailsDto);
 		
 		verify(mockDetailDao).select(detailId);
 		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment);
 		verify(mockDetailDao).update(mockDetail);
 		verify(mockStatusService).getExceptionRequestedStatus();
+		verify(mockProfileDetailsDto, times(2)).getOrderSegments();
+		verify(mockProfileDetailsDto).isNonCompliant();
+		verify(mockOrderSegment).getHeaderId();
+		verify(mockOrderSegment).getModifiedUserName();
+		verify(mockOrderSegment).isNonCompliant();
+		verify(mockOrderSegment).getId();
+		verify(mockHeaderDao).select(headerId);
+		verify(mockHeaderDao).update(mockHeader);
+		verify(mockHeaderMapper).updateChangedAttributes(mockHeader, mockStatus, userName, nonCompliant);
+		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
+		verify(mockProfileDetailsDto).setSuccessful(true);
+		
+		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, mockHeaderMapper);
+	}
+	
+	@Test
+	public void testDsmSaveChangesNoRecords() {
+		when(mockProfileDetailsDto.getOrderSegments()).thenReturn(new ArrayList<OrderSegmentDto>());
+		
+		service.dsmSaveChanges(mockProfileDetailsDto);
+		
+		verify(mockStatusService).getPendingStatus();
+		verify(mockProfileDetailsDto).getOrderSegments();
+		verify(mockProfileDetailsDto).setMessage(Constants.NO_RECORDS);
+		verify(mockProfileDetailsDto).setSuccessful(false);
+
+		verifyNoMoreInteractions(mockStatusService);
+
+		verifyZeroInteractions(mockDetail, mockReturnedDetail, mockStatus, mockOrderSegment, mockHeader, 
+				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao);
+	}
+	
+	@Test
+	public void testDsmSaveChanges() {
+		service.dsmSaveChanges(mockProfileDetailsDto);
+		
+		verify(mockDetailDao).select(detailId);
+		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment);
+		verify(mockDetailDao).update(mockDetail);
+		verify(mockStatusService).getPendingStatus();
 		verify(mockProfileDetailsDto, times(2)).getOrderSegments();
 		verify(mockProfileDetailsDto).isNonCompliant();
 		verify(mockOrderSegment).getHeaderId();
