@@ -22,6 +22,8 @@ public class PSIOrderSegmentMapper {
 	public List<OrderSegmentDto> mapToDto(List<PSIOrderSegment> oses, List<PSIProfileDetail> details) {
 		List<OrderSegmentDto> dtos = new ArrayList<OrderSegmentDto>();
 		
+		if(oses.size() == 0) return dtos;
+		
 		if(details.size() == 0) {
 			for (PSIOrderSegment entity : oses) {
 				dtos.add(mapToDto(entity, null));
@@ -33,7 +35,7 @@ public class PSIOrderSegmentMapper {
 			int posId = detail.getProfileOrderSegmentId();
 			String code = detail.getPeriodCode();
 			PSIOrderSegment os = getOrderSegmentWithIdAndCode(oses, posId, code);
-			dtos.add(mapToDto(os, detail));
+			if(os != null) dtos.add(mapToDto(os, detail));
 		}
 		
 		return dtos;

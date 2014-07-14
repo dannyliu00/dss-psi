@@ -178,6 +178,32 @@ public class PSIOrderSegmentMapperTest {
 	}
 
 	@Test
+	public void testMapToDtoListsNoOS() {
+		List<PSIOrderSegment> oses = new ArrayList<PSIOrderSegment>();
+		List<PSIProfileDetail> details = new ArrayList<PSIProfileDetail>();
+		details.add(mockDetail);
+		
+		List<OrderSegmentDto> results = mapper.mapToDto(oses, details);
+		
+		assertEquals(0, results.size());
+		
+		verifyZeroInteractions(mockOS, mockDetail);
+	}
+
+	@Test
+	public void testMapToDtoListsNullOSes() {
+		List<PSIOrderSegment> oses = new ArrayList<PSIOrderSegment>();
+		List<PSIProfileDetail> details = new ArrayList<PSIProfileDetail>();
+		details.add(mockDetail);
+		
+		List<OrderSegmentDto> results = mapper.mapToDto(oses, details);
+		
+		assertEquals(0, results.size());
+		
+		verifyZeroInteractions(mockOS, mockDetail);
+	}
+
+	@Test
 	public void testMapToDtoListsNullDetails() {
 		List<PSIOrderSegment> oses = new ArrayList<PSIOrderSegment>();
 		oses.add(mockOS);
