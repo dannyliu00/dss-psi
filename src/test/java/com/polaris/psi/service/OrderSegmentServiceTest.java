@@ -63,7 +63,7 @@ public class OrderSegmentServiceTest {
 		submittedDate = Calendar.getInstance().getTime();
 		approvedDate = Calendar.getInstance().getTime();
 		userName = "UT User";
-		nonCompliant = true;
+		nonCompliant = false;
 		
 		profileOrderSegmentId = 88;
 		reasonCode = 3;
@@ -281,7 +281,7 @@ public class OrderSegmentServiceTest {
 		service.dsmApproveWithChanges(mockProfileDetailsDto, userName);
 
 		verify(mockDetailDao).select(detailId);
-		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment);
+		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment, userName);
 		verify(mockDetailDao).update(mockDetail);
 		verify(mockStatusService).getApprovedWithChangesStatus();
 		verify(mockProfileDetailsDto, times(2)).getOrderSegments();
@@ -322,7 +322,7 @@ public class OrderSegmentServiceTest {
 		service.dsmSendToDealer(mockProfileDetailsDto, userName);
 		
 		verify(mockDetailDao).select(detailId);
-		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment);
+		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment, userName);
 		verify(mockDetailDao).update(mockDetail);
 		verify(mockStatusService).getSendToDealerStatus();
 		verify(mockProfileDetailsDto, times(2)).getOrderSegments();
@@ -363,7 +363,7 @@ public class OrderSegmentServiceTest {
 		service.dsmApproveAsRequested(mockProfileDetailsDto, userName);
 		
 		verify(mockDetailDao).select(detailId);
-		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment);
+		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment, userName);
 		verify(mockDetailDao).update(mockDetail);
 		verify(mockStatusService).getApprovedAsRequestedStatus();
 		verify(mockProfileDetailsDto, times(2)).getOrderSegments();
@@ -402,7 +402,7 @@ public class OrderSegmentServiceTest {
 		service.dsmSubmitForException(mockProfileDetailsDto, userName);
 		
 		verify(mockDetailDao).select(detailId);
-		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment);
+		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment, userName);
 		verify(mockDetailDao).update(mockDetail);
 		verify(mockStatusService).getExceptionRequestedStatus();
 		verify(mockProfileDetailsDto, times(2)).getOrderSegments();
@@ -441,7 +441,7 @@ public class OrderSegmentServiceTest {
 		service.dsmSaveChanges(mockProfileDetailsDto, userName);
 		
 		verify(mockDetailDao).select(detailId);
-		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment);
+		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment, userName);
 		verify(mockDetailDao).update(mockDetail);
 		verify(mockStatusService).getPendingStatus();
 		verify(mockProfileDetailsDto, times(2)).getOrderSegments();

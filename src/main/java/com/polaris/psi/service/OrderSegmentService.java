@@ -192,7 +192,7 @@ public class OrderSegmentService {
 		
 		for (OrderSegmentDto dto : orderSegments) {
 			DealerProfileDetail detail = detailDao.select(dto.getId());
-			detailDataMapper.updateDsmEnteredDetails(detail, dto);
+			detailDataMapper.updateDsmEnteredDetails(detail, dto, userName);
 			detailDao.update(detail);
 		}
 		
@@ -223,21 +223,8 @@ public class OrderSegmentService {
 		detailDao.update(detail);
 	}
 	
-	protected void updateDetailWithDsmData(List<OrderSegmentDto> orderSegments) {
-		for (OrderSegmentDto dto : orderSegments) {
-			updateDetailWithDsmData(dto);
-		}
-	}
-
-	protected void updateDetailWithDsmData(OrderSegmentDto orderSegment) {
-		DealerProfileDetail detail = detailDao.select(orderSegment.getId());
-		detailDataMapper.updateDsmEnteredDetails(detail, orderSegment);
-		detail.setFinalQty(orderSegment.getDsmQty());
-		detailDao.update(detail);
-	}
-
 	protected boolean isNonCompliant(ProfileDetailsDto profile) {
-		if(!areDetailsNonCompliant(profile.getOrderSegments())) return false;
+		if(areDetailsNonCompliant(profile.getOrderSegments())) return true;
 		
 		return profile.isNonCompliant();
 	}
