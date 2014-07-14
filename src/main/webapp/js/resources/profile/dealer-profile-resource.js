@@ -6,6 +6,7 @@
         this.resource = $resource(profileUrl, {}, {
             save: {method: 'POST', url: profileSaveUrl},
             submit: {method: 'POST', url: profileSubmitUrl},
+            dsmSave: {method: 'POST', url: profileDsmSaveUrl},
             changed: {method: 'POST', url: profileApproveWChangesUrl},
             requested: {method: 'POST', url: profileApproveRequestedUrl},
             exception: {method: 'POST', url: profileSubmitExceptionUrl}
@@ -23,6 +24,10 @@
 
     DealerProfileResource.prototype.submit = function(profile) {
         return this.resource.submit(profile).$promise;
+    };
+    
+    DealerProfileResource.prototype.dsmSave = function(profile) {
+    	return this.resource.dsmSave(profile).$promise;
     };
 
     DealerProfileResource.prototype.approveWChanges = function(profile) {
