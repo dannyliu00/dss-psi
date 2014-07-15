@@ -126,7 +126,7 @@ public class ProfileServiceTest {
 	public void testGetDealerProfile() {
 		when(mockProfile.getHeaderId()).thenReturn(headerId);
 		when(mockProfile.getType()).thenReturn(typeCode);
-		when(mockPsiProfileDao.retrieveProfileById(profileId)).thenReturn(mockProfile);
+		when(mockPsiProfileDao.retrieveProfileById(profileId, dealerId)).thenReturn(mockProfile);
 		when(mockPsiDetailDao.retrieveByHeaderId(headerId)).thenReturn(mockDetails);
 		when(mockPsiOsDao.retrieveByProfileAndDealer(profileId, dealerId)).thenReturn(mockOSes);
 		when(mockPsiSegmentDao.retrieveByProfileDealerAndType(profileId, dealerId, typeCode)).thenReturn(mockSegments);
@@ -138,7 +138,7 @@ public class ProfileServiceTest {
 		
 		verify(mockProfile, times(2)).getHeaderId();
 		verify(mockProfile).getType();
-		verify(mockPsiProfileDao).retrieveProfileById(profileId);
+		verify(mockPsiProfileDao).retrieveProfileById(profileId, dealerId);
 		verify(mockPsiDetailDao).retrieveByHeaderId(headerId);
 		verify(mockPsiOsDao).retrieveByProfileAndDealer(profileId, dealerId);
 		verify(mockPsiSegmentDao).retrieveByProfileDealerAndType(profileId, dealerId, typeCode);

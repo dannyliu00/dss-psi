@@ -153,10 +153,12 @@ public class PSIProfileDaoTest {
 		mockResults.add(mockResult);
 
 		Integer id = expectedId.intValue();
-		PSIProfile result = dao.retrieveProfileById(id);
+		Integer dealerId = expectedDealer.intValue();
+		PSIProfile result = dao.retrieveProfileById(id, dealerId);
 		
 		verify(mockEM).createNativeQuery(anyString());
 		verify(mockQuery).setParameter("profileId", id);
+		verify(mockQuery).setParameter("dealerId", dealerId);
 		verify(mockQuery).setMaxResults(1);
 		verify(mockQuery).getResultList();
 		verify(mockEM).close();
@@ -188,10 +190,12 @@ public class PSIProfileDaoTest {
 		mockResults.add(mockResult);
 
 		Integer id = expectedId.intValue();
-		PSIProfile result = dao.retrieveProfileById(id);
+		Integer dealerId = expectedDealer.intValue();
+		PSIProfile result = dao.retrieveProfileById(id, dealerId);
 		
 		verify(mockEM).createNativeQuery(anyString());
 		verify(mockQuery).setParameter("profileId", id);
+		verify(mockQuery).setParameter("dealerId", dealerId);
 		verify(mockQuery).setMaxResults(1);
 		verify(mockQuery).getResultList();
 		verify(mockEM).close();
