@@ -33,9 +33,9 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 			+ "  CAST( CAST(header.N9DESC AS CHAR(50)) AS VARCHAR(50)) as N9DESC, header.N7NFLG "
 			+ "  FROM cm006f dealer INNER JOIN ot071f profile ON profile.N1PDLN = dealer.PTSFAM "
 			+ "  INNER JOIN ot072f pstatus ON pstatus.N2STID = profile.N1STID "
-		    + "  INNER JOIN ot075f osComp ON osComp.N5IPID = profile.N1IPID "
-		    + "  LEFT OUTER JOIN (SELECT header.N7DLR, header.N7NFLG, status.N9DESC "
-		    + "  FROM ot077f header INNER JOIN ot079f status ON status.N9STID = header.N7STID) header ON header.N7DLR = osComp.N5DLR "
+		    + "  INNER JOIN ot075f osComp ON osComp.N5IPID = profile.N1IPID AND osComp.N5DLR = dealer.PTCUST "
+		    + "  LEFT OUTER JOIN (SELECT header.N7IPID, header.N7DLR, header.N7NFLG, status.N9DESC "
+		    + "  FROM ot077f header INNER JOIN ot079f status ON status.N9STID = header.N7STID) header ON header.N7DLR = osComp.N5DLR AND header.N7IPID = profile.N1IPID "
 			+ " WHERE osComp.N5DLR = :dealerId AND dealer.PTCANDT= :canceled ";
 	private static String QUERY_BY_ID = ""
 			+ "SELECT distinct pstatus.N2DESC, profile.N1IPID, profile.N1DESC, profile.N1TDAT, profile.N1PDLN, "
