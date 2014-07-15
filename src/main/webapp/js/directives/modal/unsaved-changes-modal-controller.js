@@ -11,24 +11,24 @@
                 profile.nonCompliant = false;
             }
         	
-        	var os = {nonCompliant: profile.nonCompliant,orderSegments: orderSegments};
+        	var os = {nonCompliant: profile.nonCompliant, orderSegments: orderSegments};
         	
         	if(role.dsm === true) {
         		dealerProfileResource.dsmSave(os)
-                .then(function(returnedos) {
-                    orderSegments = returnedos.orderSegments;
-                    profile.nonCompliant = returnedos.nonCompliant
-                    $modalInstance.close();
+                    .then(function(returnedos) {
+                        orderSegments = returnedos.orderSegments;
+                        profile.nonCompliant = returnedos.nonCompliant;
+                        $modalInstance.close();
                 });
         	} else {
-        	dealerProfileResource.save(os)
-                .then(function(returnedos) {
-                    orderSegments = returnedos.orderSegments;
-                    profile.nonCompliant = returnedos.nonCompliant
-                    $modalInstance.close();
+                dealerProfileResource.save(os)
+                    .then(function(returnedos) {
+                        orderSegments = returnedos.orderSegments;
+                        profile.nonCompliant = returnedos.nonCompliant;
+                        $modalInstance.close();
                 });
-        		}
-        	};
+        	}
+        };
 
         $scope.exitWithNoChanges = function () {
             $modalInstance.close();
