@@ -127,7 +127,7 @@
         }
 
         $scope.submitRequests = function() {
-            if(angular.element('.compliant').hasClass('noncompliant')) {
+            if(angular.element('.compliant').hasClass('noncompliant') || angular.element('.compliant').hasClass('noncomplianttotal')) {
                 openReasonDialog();
             } else {
                 openSubmitDialog();

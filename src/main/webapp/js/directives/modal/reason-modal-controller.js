@@ -20,7 +20,7 @@
                 item.reasonCode = id;
             }
             
-            if(angular.element('.compliant').hasClass('noncompliant')) {
+            if(angular.element('.compliant').hasClass('noncompliant') || angular.element('.compliant').hasClass('noncomplianttotal')) {
 	            profile.nonCompliant = true;
 	        } else {
 	            profile.nonCompliant = false;
