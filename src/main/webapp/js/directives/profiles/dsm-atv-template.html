@@ -36,7 +36,7 @@
                                  <input tabindex="0"
                                        ng-class="{noncompliant: os.dsmQty < os.recMinimum || os.dsmQty > os.recMaximum}"
                                        ng-model="os.dsmQty"
-                                       class="text-center"
+                                       class="text-center compliant"
                                        type="number"
                                        min="0"
                                        max="999"
@@ -72,7 +72,7 @@
                     <div class="col-md-6 text-center">
                         {{period.recMinimum}} - {{period.recommended}} - {{period.recMaximum}}
                     </div>
-                    <div ng-class="{noncomplianttotal: period.actual < period.recMinimum || period.actual > period.recMaximum}" class="col-md-6 text-center">
+                    <div ng-class="{noncomplianttotal: period.actual < period.recMinimum || period.actual > period.recMaximum}" class="col-md-6 text-center compliant">
                         {{period.actual}}
                     </div>
                 </div>

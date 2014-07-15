@@ -5,7 +5,7 @@
     	
         $scope.dsmButtonCaptionFill = function() {
         	var dsmButtonCaption = "";
-        	if(angular.element('input').hasClass('noncompliant')) {
+        	if(angular.element('.compliant').hasClass('noncompliant')) {
         		dsmButtonCaption = "Submit for Exception";
         	} else if ($scope.dirtyIndicator > 1 && isChanged()) {
 				dsmButtonCaption = "Approve with Changes";	
@@ -59,7 +59,7 @@
         }
 
         $scope.approveSubmit = function() {
-            if(angular.element('input').hasClass('noncompliant')) {
+            if(angular.element('.compliant').hasClass('noncompliant')) {
                 openReasonDialog();
             }
         };

@@ -5,7 +5,7 @@
     	
         $scope.submit = function (os) {
         	
-        	if(angular.element('input').hasClass('noncompliant')) {
+        	if(angular.element('.compliant').hasClass('noncompliant')) {
 	            profile.nonCompliant = true;
 	        } else {
 	            profile.nonCompliant = false;
@@ -15,6 +15,8 @@
 	    	
             dealerProfileResource.submit(os)
                 .then(function(returnedOs) {
+                	profile.nonCompliant = returnedOs.nonCompliant;
+                	profile.orderSegments = returnedOs.orderSegments;
                     $modalInstance.close();
                 });
         };
