@@ -37,6 +37,15 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 		    + "  LEFT OUTER JOIN (SELECT header.N7IPID, header.N7DLR, header.N7NFLG, status.N9DESC "
 		    + "  FROM ot077f header INNER JOIN ot079f status ON status.N9STID = header.N7STID) header ON header.N7DLR = osComp.N5DLR AND header.N7IPID = profile.N1IPID "
 			+ " WHERE osComp.N5DLR = :dealerId AND dealer.PTCANDT= :canceled ";
+	private static String QRY_BY_DLR_CANCELED_TYPE = ""
+			+ "SELECT distinct pstatus.N2DESC, profile.N1IPID, profile.N1DESC, profile.N1TDAT, profile.N1PDLN, "
+			+ "  CAST( CAST(header.N9DESC AS CHAR(50)) AS VARCHAR(50)) as N9DESC, header.N7NFLG "
+			+ "  FROM cm006f dealer INNER JOIN ot071f profile ON profile.N1PDLN = dealer.PTSFAM "
+			+ "  INNER JOIN ot072f pstatus ON pstatus.N2STID = profile.N1STID "
+		    + "  INNER JOIN ot075f osComp ON osComp.N5IPID = profile.N1IPID AND osComp.N5DLR = dealer.PTCUST "
+		    + "  LEFT OUTER JOIN (SELECT header.N7IPID, header.N7DLR, header.N7NFLG, status.N9DESC "
+		    + "  FROM ot077f header INNER JOIN ot079f status ON status.N9STID = header.N7STID) header ON header.N7DLR = osComp.N5DLR AND header.N7IPID = profile.N1IPID "
+			+ " WHERE osComp.N5DLR = :dealerId AND dealer.PTCANDT= :canceled AND profile.N1PDLN = :type";
 	private static String QUERY_BY_ID = ""
 			+ "SELECT distinct pstatus.N2DESC, profile.N1IPID, profile.N1DESC, profile.N1TDAT, profile.N1PDLN, "
 			+ "       CAST( CAST(header.N9DESC AS CHAR(50)) AS VARCHAR(50)) as N9DESC, header.N7NFLG, profile.N1LGLT, "
@@ -85,14 +94,16 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
         return profiles;
 	}
 	
-	public List<PSIProfile> retrieveDsmCurrentProfileListByDealerId(Integer dealerId) {
-		Query query = entityManager.createNativeQuery(QRY_DLR_CURRENT);
+	public List<PSIProfile> retrieveDsmCurrentProfileListByDealerId(Integer dealerId, String type) {
+		Query query = entityManager.createNativeQuery(QRY_BY_DLR_CANCELED_TYPE);
 		query.setParameter("dealerId", dealerId);
 		query.setParameter("canceled", Constants.DEALER_NOT_CANCELED_CODE);
+		query.setParameter("type", type);
 		
 		if(LOG.isTraceEnabled()) {
 			LOG.trace("query to run: " + QRY_DLR_CURRENT);
-			LOG.trace("query paramters: dealerId = " + dealerId + ", canceled = " + Constants.DEALER_NOT_CANCELED_CODE);
+			LOG.trace("query paramters: dealerId = " + dealerId + ", canceled = " + Constants.DEALER_NOT_CANCELED_CODE
+					+ ", type = " + type);
 		}
 		
 		@SuppressWarnings("unchecked")
