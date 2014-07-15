@@ -73,7 +73,7 @@ public class ProfileService {
 
 	public ProfileDto getDealerProfile(int profileId, int dealerId) {
 		
-		PSIProfile psiProfile = psiProfileDao.retrieveProfileById(profileId);
+		PSIProfile psiProfile = psiProfileDao.retrieveProfileById(profileId, dealerId);
 
 		List<PSIProfileDetail> details = new ArrayList<PSIProfileDetail>();
 		if(psiProfile.getHeaderId() != null) details = psiDetailDao.retrieveByHeaderId(psiProfile.getHeaderId());

@@ -30,22 +30,23 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 
 	private static String QRY_DLR_CURRENT = ""
 			+ "SELECT distinct pstatus.N2DESC, profile.N1IPID, profile.N1DESC, profile.N1TDAT, profile.N1PDLN, "
-			+ "  CAST( CAST(status.N9DESC AS CHAR(50)) AS VARCHAR(50)) as N9DESC, header.N7NFLG "
+			+ "  CAST( CAST(header.N9DESC AS CHAR(50)) AS VARCHAR(50)) as N9DESC, header.N7NFLG "
 			+ "  FROM cm006f dealer INNER JOIN ot071f profile ON profile.N1PDLN = dealer.PTSFAM "
 			+ "  INNER JOIN ot072f pstatus ON pstatus.N2STID = profile.N1STID "
-			+ "  INNER JOIN ot075f osComp ON osComp.N5IPID = profile.N1IPID "
-			+ "  LEFT OUTER JOIN ot077f header ON header.N7IPID = profile.N1IPID AND header.N7DLR  = dealer.ptcust "
-			+ "  LEFT OUTER JOIN ot079f status ON header.N7STID = status.N9STID "
-			+ " WHERE dealer.ptcust = :dealerId AND dealer.PTCANDT= :canceled ";
+		    + "  INNER JOIN ot075f osComp ON osComp.N5IPID = profile.N1IPID "
+		    + "  LEFT OUTER JOIN (SELECT header.N7DLR, header.N7NFLG, status.N9DESC "
+		    + "  FROM ot077f header INNER JOIN ot079f status ON status.N9STID = header.N7STID) header ON header.N7DLR = osComp.N5DLR "
+			+ " WHERE osComp.N5DLR = :dealerId AND dealer.PTCANDT= :canceled ";
 	private static String QUERY_BY_ID = ""
 			+ "SELECT distinct pstatus.N2DESC, profile.N1IPID, profile.N1DESC, profile.N1TDAT, profile.N1PDLN, "
-			+ "		CAST( CAST(status.N9DESC AS CHAR(50)) AS VARCHAR(50)) as N9DESC, header.N7NFLG, profile.N1LGLT, "
-			+ "		header.N7DHID, header.N7DLR, header.N7MAIL, header.N7SBDT, header.N7APDT, header.N7CRDT, header.N7CHDT "
+			+ "       CAST( CAST(header.N9DESC AS CHAR(50)) AS VARCHAR(50)) as N9DESC, header.N7NFLG, profile.N1LGLT, "
+			+ "       header.N7DHID, header.N7DLR, header.N7MAIL, header.N7SBDT, header.N7APDT, header.N7CRDT, header.N7CHDT "
 			+ "  FROM OT071F profile INNER JOIN OT072F pstatus ON pstatus.N2STID = profile.N1STID "
-			+ "  INNER JOIN ot075f osComp ON osComp.N5IPID = profile.N1IPID "
-			+ "  LEFT OUTER JOIN OT077F header ON header.N7IPID = profile.N1IPID "
-			+ "  LEFT OUTER JOIN OT079F status ON header.N7STID = status.N9STID "
-			+ " WHERE profile.N1IPID = :profileId";
+			+ "       INNER JOIN ot075f osComp ON osComp.N5IPID = profile.N1IPID "
+			+ "       LEFT OUTER JOIN (SELECT header.N7DHID, header.N7DLR, header.N7NFLG, header.N7MAIL, header.N7SBDT, header.N7APDT, header.N7CRDT, header.N7CHDT, status.N9DESC "
+			+ "	                         FROM ot077f header INNER JOIN ot079f status ON status.N9STID = header.N7STID) header ON header.N7DLR = osComp.N5DLR "
+			+ " WHERE profile.N1IPID = :profileId "
+			+ "   AND osComp.N5DLR = :dealerId" ;
 
 	public PSIProfileDao() {
 		super(PSIProfile.class);
@@ -119,9 +120,10 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
         return profiles;
 	}
 	
-	public PSIProfile retrieveProfileById(Integer profileId) {
+	public PSIProfile retrieveProfileById(Integer profileId, Integer dealerId) {
 		Query query = entityManager.createNativeQuery(QUERY_BY_ID);
 		query.setParameter("profileId", profileId);
+		query.setParameter("dealerId", dealerId);
 		query.setMaxResults(1);
 		
 		if(LOG.isTraceEnabled()) {
