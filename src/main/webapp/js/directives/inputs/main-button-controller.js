@@ -58,7 +58,10 @@
                     },
             		profile: function() {
             			return $scope.profile;
-            		}
+            		},
+                    role: function() {
+                        return $scope.role;
+                    }
                 }
             });
 
