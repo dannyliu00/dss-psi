@@ -39,7 +39,7 @@ public class DsmService {
 		for (DealerAndDsm dealerAndDsm : dsmDealers) {
 			Integer dealerId = dealerAndDsm.getDealerId();
 
-			List<PSIProfile> psiProfiles = psiProfileDao.retrieveDsmCurrentProfileListByDealerId(dealerId);
+			List<PSIProfile> psiProfiles = psiProfileDao.retrieveDsmCurrentProfileListByDealerId(dealerId, type);
 			for (PSIProfile profile : psiProfiles) {
 				dtos.add(mapper.mapToDto(dealerAndDsm, profile));
 			}
@@ -55,7 +55,7 @@ public class DsmService {
 		for (DealerAndDsm dealerAndDsm : dsmDealers) {
 			Integer dealerId = dealerAndDsm.getDealerId();
 
-			List<PSIProfile> psiProfiles = psiProfileDao.retrieveDsmCurrentProfileListByDealerId(dealerId);
+			List<PSIProfile> psiProfiles = psiProfileDao.retrieveDsmCurrentProfileListByDealerId(dealerId, type);
 			for (PSIProfile profile : psiProfiles) {
 				dtos.add(mapper.mapToDto(dealerAndDsm, profile));
 			}
