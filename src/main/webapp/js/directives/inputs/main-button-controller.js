@@ -146,11 +146,14 @@
                     },
             		profile: function() {
             			return $scope.profile;
+            		},
+            		caption: function() {
+            			return 'dealerReason';
             		}
                 }
 			});
 
-        	modalInstance.result.then(function (reasonCommentData) {
+        	modalInstance.result.then(function () {
                 var finalUrl = dealerSummaryPageUrl.replace(':dealerId', $scope.dealer.dealerId);
                 $location.path(finalUrl);
             }, function () {

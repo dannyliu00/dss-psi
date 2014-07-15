@@ -2,9 +2,11 @@
     var dsmButton = sellInNamespace('sellIn.directives.dsmbutton');
 
     function DsmButtonController($scope, $location, $modal, dealerSummaryPageUrl, profilePageUrl, dsmUrl) {
+    	var caption = '';
+    	var changeCaption = 0;
+    	var dsmButtonCaption = "";
     	
         $scope.dsmButtonCaptionFill = function() {
-        	var dsmButtonCaption = "";
         	if(angular.element('.compliant').hasClass('noncompliant') || angular.element('.compliant').hasClass('noncomplianttotal')) {
         		dsmButtonCaption = "Submit for Exception";
         	} else if ($scope.dirtyIndicator > 1 && isChanged()) {
@@ -59,12 +61,12 @@
         }
 
         $scope.approveSubmit = function() {
-            if(angular.element('.compliant').hasClass('noncompliant') || angular.element('.compliant').hasClass('noncomplianttotal')) {
+        		changeCaption = 0;
                 openReasonDialog();
-            }
         };
         
         $scope.sendBack = function() {
+        	changeCaption = 1;
         	openReasonDialog();
         };
         
@@ -73,11 +75,28 @@
         	var modalInstance = $modal.open({
 				templateUrl: 'js/directives/modal/reason-modal-template.html',
 				controller: 'reasonModalController',
-				size: 'sm'
+				size: 'sm',
+                resolve: {
+		            orderSegments: function () {
+		                return $scope.orderSegments;
+		            },
+		    		profile: function() {
+		    			return $scope.profile;
+		    		},
+		    		caption: function() {
+		    			if(changeCaption === 1) {
+		    				caption = 'sendBack';
+		    			} else {
+		    				caption = dsmButtonCaption;
+		    			}
+		    			return caption;
+		    		}
+                }
 			});
 
-        	modalInstance.result.then(function (reasonCommentData) {
-                $location.path(dsmUrl);
+        	modalInstance.result.then(function () {
+        		var finalDsmUrl = dsmUrl.replace(':id', $scope.role.dealerId)
+                $location.path(finalDsmUrl);
             }, function () {
                 console.log('Modal dismissed at: ' + new Date());
             });

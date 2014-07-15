@@ -8,6 +8,7 @@
         .constant('profileSaveUrl', '/dss-psi/webapi/profile/save')
         .constant('profileSubmitUrl', '/dss-psi/webapi/profile/submit')
         .constant('profileDsmSaveUrl','/dss-psi/webapi/dsm/profile/save')
+        .constant('profileSendBackUrl','/dss-psi/webapi/dsm/profile/toDealer')
         .constant('profileApproveWChangesUrl', '/dss-psi/webapi/dsm/profile/approveWChanges')
         .constant('profileApproveRequestedUrl', '/dss-psi/webapi/dsm/profile/approveRequested')
         .constant('profileSubmitExceptionUrl', '/dss-psi/webapi/dsm/profile/approveException');

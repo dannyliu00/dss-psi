@@ -31,12 +31,15 @@
                 $scope.profile = returnedProfile;
                 $scope.segments = returnedProfile.segments;
                 for(var i = 0; i < returnedProfile.orderSegments.length; i++) {
-                	if($scope.authLevel === 'adminQty' && returnedProfile.orderSegments[i].dsmQty > -1){
-                		returnedProfile.orderSegments[i].adminQty = returnedProfile.orderSegments[i].dsmQty;
-                	} else if($scope.authLevel === 'adminQty' && returnedProfile.orderSegments[i].dsmQty <= -1) {
-                		returnedProfile.orderSegments[i].adminQty = returnedProfile.orderSegments[i].actual;
-                		returnedProfile.orderSegments[i].dsmQty = returnedProfile.orderSegments[i].actual;
-                	} else if($scope.authLevel === 'dsmQty' && returnedProfile.orderSegments[i].dsmQty <= -1) {
+                	var seg = returnedProfile.orderSegments[i];
+                	if($scope.authLevel === 'adminQty') {
+                		if((seg.adminQty === null || seg.adminQty <= -1) && (seg.dsmQty > -1 && seg.dsmQty !== null)) {
+                			returnedProfile.orderSegments[i].adminQty = returnedProfile.orderSegments[i].dsmQty;
+                		} else if((seg.adminQty === null || seg.adminQty <= -1) && (seg.dsmQty <= -1 || seg.dsmQty === null)) {
+	                		returnedProfile.orderSegments[i].adminQty = returnedProfile.orderSegments[i].actual;
+	                		returnedProfile.orderSegments[i].dsmQty = returnedProfile.orderSegments[i].actual;
+                		}
+                	} else if($scope.authLevel === 'dsmQty' && (seg.dsmQty <= -1 || seg.dsmQty === null)) {
                 		returnedProfile.orderSegments[i].dsmQty = returnedProfile.orderSegments[i].actual;
                 	}
                 }

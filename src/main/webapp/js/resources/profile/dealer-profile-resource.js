@@ -2,11 +2,12 @@
     var dealerProfile = sellInNamespace('sellIn.resources.dealerProfile');
 
     function DealerProfileResource($resource, profileUrl, profileSaveUrl, profileSubmitUrl,
-                                   profileApproveWChangesUrl, profileApproveRequestedUrl, profileSubmitExceptionUrl, profileDsmSaveUrl) {
+                                   profileApproveWChangesUrl, profileApproveRequestedUrl, profileSubmitExceptionUrl, profileDsmSaveUrl, profileSendBackUrl) {
         this.resource = $resource(profileUrl, {}, {
             save: {method: 'POST', url: profileSaveUrl},
             submit: {method: 'POST', url: profileSubmitUrl},
             dsmSave: {method: 'POST', url: profileDsmSaveUrl},
+            sendBack: {method: 'POST', url: profileSendBackUrl},
             changed: {method: 'POST', url: profileApproveWChangesUrl},
             requested: {method: 'POST', url: profileApproveRequestedUrl},
             exception: {method: 'POST', url: profileSubmitExceptionUrl}
@@ -28,6 +29,10 @@
     
     DealerProfileResource.prototype.dsmSave = function(profile) {
     	return this.resource.dsmSave(profile).$promise;
+    };
+    
+    DealerProfileResource.prototype.sendBack = function(profile) {
+    	return this.resource.sendBack(profile).$promise;
     };
 
     DealerProfileResource.prototype.approveWChanges = function(profile) {
