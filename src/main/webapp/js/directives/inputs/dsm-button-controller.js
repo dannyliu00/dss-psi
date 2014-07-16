@@ -61,8 +61,12 @@
         }
 
         $scope.approveSubmit = function() {
-        		changeCaption = 0;
+    		changeCaption = 0;
+        	if(dsmButtonCaption === "Approve as Requested") {
+        		openSubmitDialog();
+        	}else{	
                 openReasonDialog();
+        	}
         };
         
         $scope.sendBack = function() {
@@ -101,6 +105,35 @@
                 console.log('Modal dismissed at: ' + new Date());
             });
 		}
+        
+        function openSubmitDialog() {
+        	
+        	var dsm = "dsm";
+        	
+            var modalInstance = $modal.open({
+                templateUrl: 'js/directives/modal/submit-modal-template.html',
+                controller: 'submitController',
+                size: 'sm',
+                resolve: {
+                    orderSegments: function () {
+                        return $scope.orderSegments;
+                    },
+            		profile: function() {
+            			return $scope.profile;
+            		},
+            		level: function() {
+            			return dsm;
+            		}
+                }
+            });
+
+            modalInstance.result.then(function () {
+            	var finalDsmUrl = dsmUrl.replace(':id', $scope.role.dealerId)
+                $location.path(finalDsmUrl);
+            }, function () {
+                console.log('Modal dismissed at: ' + new Date());
+            });
+        }
         
         function isChanged() {
         	for(var i = 0; i < $scope.orderSegments.length; i++) {

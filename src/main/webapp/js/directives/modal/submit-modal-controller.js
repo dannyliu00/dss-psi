@@ -1,7 +1,7 @@
 (function() {
     var submitValues = sellInNamespace('sellIn.directives.submitValues');
 
-    function SubmitController($scope, $modalInstance, dealerProfileResource, orderSegments, profile) {
+    function SubmitController($scope, $modalInstance, dealerProfileResource, orderSegments, profile, level) {
     	
         $scope.submit = function (os) {
         	
@@ -13,12 +13,19 @@
 	    	
 	    	var os = {nonCompliant: profile.nonCompliant, orderSegments: orderSegments};
 	    	
-            dealerProfileResource.submit(os)
-                .then(function(returnedOs) {
-                	profile.nonCompliant = returnedOs.nonCompliant;
-                	profile.orderSegments = returnedOs.orderSegments;
-                    $modalInstance.close();
-                });
+	    	if(level === "dealer") {
+	            dealerProfileResource.submit(os)
+	                .then(function(returnedOs) {
+	                	profile.nonCompliant = returnedOs.nonCompliant;
+	                	profile.orderSegments = returnedOs.orderSegments;
+	                    $modalInstance.close();
+	                });
+	    	} else if(level === "dsm") {
+	    		dealerProfileResource.approveRequested(os)
+	    			.then(function(returnedos) {
+	    				$modalInstance.close();
+    			});
+	    	}
         };
 
         $scope.cancel = function () {

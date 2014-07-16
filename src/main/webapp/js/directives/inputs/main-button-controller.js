@@ -103,6 +103,8 @@
         }
 
         function openSubmitDialog() {
+        	
+        	var dealer = "dealer";
 
             var modalInstance = $modal.open({
                 templateUrl: 'js/directives/modal/submit-modal-template.html',
@@ -114,6 +116,9 @@
                     },
             		profile: function() {
             			return $scope.profile;
+            		},
+            		level: function() {
+            			return dealer;
             		}
                 }
             });

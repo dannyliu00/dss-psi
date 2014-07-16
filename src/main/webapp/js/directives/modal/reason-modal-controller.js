@@ -54,11 +54,6 @@
     				.then(function(returnedos) {
     					$modalInstance.close();
     				});
-	    	} else if(caption === "Approve as Requested") {
-	    		dealerProfileResource.approveRequested(os)
-	    			.then(function(returnedos) {
-	    				$modalInstance.close();
-	    			});
 	    	} else if(caption === "sendBack") {
 	    		dealerProfileResource.sendBack(os)
 	    			.then(function(returnedos) {
