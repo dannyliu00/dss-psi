@@ -136,19 +136,20 @@
         
         function openReasonDialog() {
         	
+        	var dealerReason = "dealerReason";
         	var modalInstance = $modal.open({
 				templateUrl: 'js/directives/modal/reason-modal-template.html',
 				controller: 'reasonModalController',
 				size: 'sm',
                 resolve: {
-                    data: function () {
+                    orderSegments: function () {
                         return $scope.orderSegments;
                     },
             		profile: function() {
             			return $scope.profile;
             		},
             		caption: function() {
-            			return 'dealerReason';
+            			return dealerReason;
             		}
                 }
 			});
