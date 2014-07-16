@@ -9,7 +9,7 @@
         $scope.dsmButtonCaptionFill = function() {
         	if(angular.element('.compliant').hasClass('noncompliant') || angular.element('.compliant').hasClass('noncomplianttotal')) {
         		dsmButtonCaption = "Submit for Exception";
-        	} else if ($scope.dirtyIndicator > 1 && isChanged()) {
+        	} else if ($scope.dirtyIndicator > 1 && isChanged() || angular.element('input').hasClass('noncompliant')) {
 				dsmButtonCaption = "Approve with Changes";	
         	} else {
         		dsmButtonCaption = "Approve as Requested";
