@@ -47,16 +47,18 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 			+ "   AND dealer.ptcandt = :canceled "
 			+ "   AND profile.N1PDLN = :type "
 			+ "   AND EXISTS (SELECT * FROM ot075f where N5IPID = N1IPID and N5DLR = PTCUST)";
-	private static String QUERY_BY_ID = ""
-			+ "SELECT distinct pstatus.N2DESC, profile.N1IPID, profile.N1DESC, profile.N1TDAT, profile.N1PDLN, "
-			+ "       CAST( CAST(header.N9DESC AS CHAR(50)) AS VARCHAR(50)) as N9DESC, header.N7NFLG, profile.N1LGLT, "
-			+ "       header.N7DHID, header.N7DLR, header.N7MAIL, header.N7SBDT, header.N7APDT, header.N7CRDT, header.N7CHDT "
-			+ "  FROM OT071F profile INNER JOIN OT072F pstatus ON pstatus.N2STID = profile.N1STID "
-			+ "       INNER JOIN ot075f osComp ON osComp.N5IPID = profile.N1IPID "
-			+ "       LEFT OUTER JOIN (SELECT header.N7DHID, header.N7DLR, header.N7NFLG, header.N7MAIL, header.N7SBDT, header.N7APDT, header.N7CRDT, header.N7CHDT, status.N9DESC "
-			+ "	                         FROM ot077f header INNER JOIN ot079f status ON status.N9STID = header.N7STID) header ON header.N7DLR = osComp.N5DLR "
-			+ " WHERE profile.N1IPID = :profileId "
-			+ "   AND osComp.N5DLR = :dealerId" ;
+	private static String QUERY_BY_DLR_PROFILE_IDS = ""
+			+ "SELECT pstatus.N2DESC, profile.N1IPID, profile.N1DESC, profile.N1TDAT, profile.N1PDLN, trim(status.N9DESC), "
+			+ "       header.N7NFLG, profile.N1LGLT, header.N7DHID, header.N7DLR, header.N7MAIL, header.N7SBDT, "
+			+ "       header.N7APDT, header.N7CRDT, header.N7CHDT "
+			+ "  FROM cm006f dealer INNER JOIN ot071f profile ON profile.N1PDLN = dealer.PTSFAM "
+			+ "       INNER JOIN ot072f pstatus ON pstatus.N2STID = profile.N1STID "
+			+ "       LEFT OUTER JOIN ot077f header ON header.N7DLR = ptcust AND header.N7IPID = profile.N1IPID "
+			+ "       LEFT OUTER JOIN ot079f status ON status.N9STID = header.N7STID "
+			+ " WHERE dealer.ptcust = :dealerId "
+			+ "   AND dealer.ptcandt = :canceled "
+			+ "   AND profile.N1IPID = :profileId "
+			+ "   AND EXISTS (SELECT * FROM ot075f where N5IPID = N1IPID and N5DLR = PTCUST)";
 
 	public PSIProfileDao() {
 		super(PSIProfile.class);
@@ -133,14 +135,15 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 	}
 	
 	public PSIProfile retrieveProfileById(Integer profileId, Integer dealerId) {
-		Query query = entityManager.createNativeQuery(QUERY_BY_ID);
+		Query query = entityManager.createNativeQuery(QUERY_BY_DLR_PROFILE_IDS);
 		query.setParameter("profileId", profileId);
 		query.setParameter("dealerId", dealerId);
-		query.setMaxResults(1);
+		query.setParameter("canceled", Constants.DEALER_NOT_CANCELED_CODE);
 		
 		if(LOG.isTraceEnabled()) {
-			LOG.trace("query to run: " + QUERY_BY_ID);
-			LOG.trace("query paramters: profileId = " + profileId);
+			LOG.trace("query to run: " + QUERY_BY_DLR_PROFILE_IDS);
+			LOG.trace("query paramters: profileId = " + profileId + ", dealerId = " + dealerId 
+					+ ", canceled = " + Constants.DEALER_NOT_CANCELED_CODE);
 		}
 		
 		@SuppressWarnings("unchecked")
