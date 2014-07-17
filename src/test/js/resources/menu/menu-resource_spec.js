@@ -15,7 +15,7 @@ describe('MenuResource', function() {
     });
 
     describe('get', function() {
-        it('returns a promise containing the menulinks based on the user role', inject(function(menuResource,menuUrl){
+        it('returns a promise containing the menulink based on the user role', inject(function(menuResource,menuUrl){
         	
             var expectedRequest = menuUrl;
             var expectedList = [{menuLinks: 'displayName'}];
@@ -23,7 +23,7 @@ describe('MenuResource', function() {
             httpBackend.when('GET', expectedRequest).respond(expectedList);
             httpBackend.expectGET;
 
-            var promise = menuResource.query();
+            var promise = menuResource.get();
 
             promise.then(function(menuLinks) {
                 expect(menuLinks[0].displayName).toEqual(expectedList[0].displayName);
