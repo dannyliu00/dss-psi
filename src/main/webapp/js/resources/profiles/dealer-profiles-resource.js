@@ -7,8 +7,6 @@
                 // parameter added to URL to work around IE caching mechanism
                 return new Date().getTime();
             }
-        }, {
-            query: {method: 'GET', isArray: true, cache: true}
         });
     }
 
