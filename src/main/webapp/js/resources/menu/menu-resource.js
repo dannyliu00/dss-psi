@@ -10,7 +10,7 @@
     }
 
     MenuResource.prototype.get = function(profile) {
-        return this.resource.query(profile).$promise;
+        return this.resource.get(profile).$promise;
     };
 
     menu.MenuResource = MenuResource;

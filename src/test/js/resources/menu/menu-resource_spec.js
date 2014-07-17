@@ -20,7 +20,7 @@ describe('MenuResource', function() {
             var expectedRequest = menuUrl;
             var expectedList = [{menuLinks: 'displayName'}];
             
-            httpBackend.when('GET', expectedRequest).respond(expectedList);
+            httpBackend.when('Get', expectedRequest).respond(expectedList);
             httpBackend.expectGET;
 
             var promise = menuResource.get();
