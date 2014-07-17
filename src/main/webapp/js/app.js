@@ -30,6 +30,7 @@ angular.module('sellIn', [
         'sellIn.resources.dsmProfiles',
         'sellIn.resources.rsmProfiles',
         'sellIn.resources.reasoncode',
+        'sellIn.resources.menu',
         'sellIn.pages.dealerProfileSummary',
         'sellIn.pages.profile',
         'sellIn.pages.default',

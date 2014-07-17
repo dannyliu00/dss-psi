@@ -30,6 +30,13 @@ If CSS is specific to all DEX web applications place it in the "core-dealerdev.c
     list-style-type:none;
 }
 
+.table tbody .dropdown-menu li a {
+	display: block;
+	padding: 3px 20px;
+	margin: 2px 0 0;
+	width: 100%;
+}
+
 .available-items-input-quantity {
     /*max-width: 75px;
     display:inline-block;*/
