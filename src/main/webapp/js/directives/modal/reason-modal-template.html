@@ -3,7 +3,7 @@
 </div>
 <div class="modal-body">
 	<div class = "text-left">Reason</div>
-		<select ng-model='selectedReasonCodes' ng-options='reasonCode.description for reasonCode in reasonCodes' ></select>
+		<select ng-model='selectedReasonCode' ng-options='reasonCode.description for reasonCode in reasonCodes' >{{selectedReasonCode}}</select>
 	<div class = "text-left">Comments</div>
 	<textarea class = "input" style="width: 530px; height: 75px" type="text" ng-model="reasonComments" ></textarea>
 </div>
