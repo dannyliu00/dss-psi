@@ -39,7 +39,7 @@
                                    ng-disabled="orderSegment.actual != null"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>
 								<input tabindex="0"
                                    ng-class="{noncompliant: orderSegment.dsmQty < orderSegment.recommended}"
-                                   class="text-center"
+                                   class="text-center compliant"
                                    type="number"
                                    ng-model="orderSegment.dsmQty"
                                    min="0"
@@ -86,13 +86,13 @@
                 <tr ng-repeat="segment in segments | orderBy: 'name'" class="odd">
                     <td class="">{{segment.name}}</td>
                     <td class="text-center">{{segment.recommended}}</td>
-                    <td class="text-center" ng-class="{noncomplianttotal: segment.actual < segment.recommended}" >{{segment.actual}}</td>
-                    <td class="text-center" ng-class="{noncomplianttotal: segment.oSTotal < segment.recommendedOSCount}" >{{segment.oSTotal}} / {{segment.recommendedOSCount}}</td>
+                    <td class="text-center compliant" ng-class="{noncomplianttotal: segment.actual < segment.recommended}" >{{segment.actual}}</td>
+                    <td class="text-center compliant" ng-class="{noncomplianttotal: segment.oSTotal < segment.recommendedOSCount}" >{{segment.oSTotal}} / {{segment.recommendedOSCount}}</td>
                 </tr>
                 <tr class="even">
                     <td class="text-left">Grand Total</td>
                     <td class="text-center">{{recommendedGrandTotal - 1}} - {{recommendedGrandTotal}} - {{recommendedGrandTotal + 2}}</td>
-                    <td ng-class="{noncomplianttotal: actualGrandTotal < recommendedGrandTotal - 1 || actualGrandTotal > recommendedGrandTotal + 2}" class="text-center">{{actualGrandTotal}}</td>
+                    <td ng-class="{noncomplianttotal: actualGrandTotal < recommendedGrandTotal - 1 || actualGrandTotal > recommendedGrandTotal + 2}" class="text-center compliant">{{actualGrandTotal}}</td>
                     <td></td>
                 </tr>
                 </tbody>

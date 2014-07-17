@@ -52,7 +52,7 @@ public class PSIProfileDaoTest {
 		expectedApprovedDate = expectedDate;
 		
 		expectedName = "UT Name";
-		expectedProfileStatus = "UT Profile Status";
+		expectedProfileStatus = Constants.ACTIVE;
 		expectedStatus = Constants.IN_PROGRESS_STATUS;
 		expectedType = "UT Type";
 		expectedLegal = new Character('c');
@@ -86,9 +86,9 @@ public class PSIProfileDaoTest {
 	}
 
 	@Test
-	public void testRetrieveCurrentDealerListByDealerId() {
+	public void testRetrieveDealerCurrentProfileListByDealerId() {
 		Integer id = expectedId.intValue();
-		List<PSIProfile> results = dao.retrieveCurrentDealerListByDealerId(id);
+		List<PSIProfile> results = dao.retrieveDealerCurrentProfileListByDealerId(id);
 		
 		verify(mockEM).createNativeQuery(anyString());
 		verify(mockQuery).setParameter("dealerId", expectedId.intValue());
@@ -110,6 +110,41 @@ public class PSIProfileDaoTest {
 	}
 
 	@Test
+	public void testRetrieveDealerCurrentProfileListByDealerIdNonActive() {
+		mockResult = new Object[15];
+		mockResult[0] = "UT NOT ACTIVE";
+		mockResult[1] = expectedId;
+		mockResult[2] = expectedName;
+		mockResult[3] = expectedDate;
+		mockResult[4] = expectedType;
+		mockResult[5] = expectedStatus;
+		mockResult[6] = expectedNonCompliant;
+		mockResult[7] = expectedLegal;
+		mockResult[8] = expectedHeaderId;
+		mockResult[9] = expectedDealer;
+		mockResult[10] = expectedEmail;
+		mockResult[11] = expectedSubmittedDate;
+		mockResult[12] = expectedApprovedDate;
+		
+		mockResults = new ArrayList<Object[]>();
+		mockResults.add(mockResult);
+		when(mockQuery.getResultList()).thenReturn(mockResults);
+		
+		Integer id = expectedId.intValue();
+		List<PSIProfile> results = dao.retrieveDealerCurrentProfileListByDealerId(id);
+		
+		assertEquals(0, results.size());
+		
+		verify(mockEM).createNativeQuery(anyString());
+		verify(mockQuery).setParameter("dealerId", expectedId.intValue());
+		verify(mockQuery).setParameter("canceled", 0);
+		verify(mockQuery).getResultList();
+		verify(mockEM).close();
+		
+		verifyNoMoreInteractions(mockEM, mockQuery);
+	}
+
+	@Test
 	public void testRetrieveProfileByIdWithCreatedDate() {
 		expectedCreatedDate = Calendar.getInstance().getTime();
 		mockResult[13] = expectedCreatedDate;
@@ -118,10 +153,12 @@ public class PSIProfileDaoTest {
 		mockResults.add(mockResult);
 
 		Integer id = expectedId.intValue();
-		PSIProfile result = dao.retrieveProfileById(id);
+		Integer dealerId = expectedDealer.intValue();
+		PSIProfile result = dao.retrieveProfileById(id, dealerId);
 		
 		verify(mockEM).createNativeQuery(anyString());
 		verify(mockQuery).setParameter("profileId", id);
+		verify(mockQuery).setParameter("dealerId", dealerId);
 		verify(mockQuery).setMaxResults(1);
 		verify(mockQuery).getResultList();
 		verify(mockEM).close();
@@ -153,10 +190,12 @@ public class PSIProfileDaoTest {
 		mockResults.add(mockResult);
 
 		Integer id = expectedId.intValue();
-		PSIProfile result = dao.retrieveProfileById(id);
+		Integer dealerId = expectedDealer.intValue();
+		PSIProfile result = dao.retrieveProfileById(id, dealerId);
 		
 		verify(mockEM).createNativeQuery(anyString());
 		verify(mockQuery).setParameter("profileId", id);
+		verify(mockQuery).setParameter("dealerId", dealerId);
 		verify(mockQuery).setMaxResults(1);
 		verify(mockQuery).getResultList();
 		verify(mockEM).close();

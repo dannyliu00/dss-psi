@@ -18,61 +18,32 @@ import org.mockito.MockitoAnnotations;
 public class OrderSegmentComparatorTest {
 	
 	private OrderSegmentComparator comparator;
-	@Mock private OrderSegmentDto os1, os2, os3;
-	private Calendar cal;
-	private Date oneDate, anotherDate;
-	private String name1, name2;
+	@Mock private OrderSegmentDto os1, os2;
+	private int sort1, sort2;
 
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		
-		name1 = "name 1";
-		name2 = "name 2";
+		sort1 = 1;
+		sort2 = 2;
+		
+		when(os1.getSort()).thenReturn(sort1);
+		when(os2.getSort()).thenReturn(sort2);
 
-		when(os1.getName()).thenReturn(name1);
-		when(os2.getName()).thenReturn(name2);
-		when(os3.getName()).thenReturn(name1);
-		
-		cal = Calendar.getInstance();
-		oneDate = cal.getTime();
-		
-		cal.add(Calendar.DAY_OF_MONTH, 3);
-		anotherDate = cal.getTime();
-		
-		when(os1.getPeriodStartDate()).thenReturn(oneDate);
-		when(os2.getPeriodStartDate()).thenReturn(anotherDate);
-		when(os3.getPeriodStartDate()).thenReturn(anotherDate);
-		
 		comparator = new OrderSegmentComparator();
 	}
 
 	@Test
-	public void testCompareStartNameOnly() {
+	public void testCompare() {
 		int result = comparator.compare(os1, os2);
 		
 		assertTrue(result < 0);
 		
-		verify(os1).getName();
-		verify(os2).getName();
+		verify(os1).getSort();
+		verify(os2).getSort();
 		
 		verifyNoMoreInteractions(os1, os2);
-		verifyZeroInteractions(os3);
-	}
-
-	@Test
-	public void testCompareNameAndStartDate() {
-		int result = comparator.compare(os1, os3);
-		
-		assertTrue(result < 0);
-		
-		verify(os1).getName();
-		verify(os1).getPeriodStartDate();
-		verify(os3).getName();
-		verify(os3).getPeriodStartDate();
-		
-		verifyNoMoreInteractions(os1, os3);
-		verifyZeroInteractions(os2);
 	}
 
 	@Test
@@ -81,11 +52,10 @@ public class OrderSegmentComparatorTest {
 		
 		assertTrue(result == 0);
 		
-		verify(os1, times(2)).getName();
-		verify(os1, times(2)).getPeriodStartDate();
+		verify(os1, times(2)).getSort();
 		
 		verifyNoMoreInteractions(os1);
-		verifyZeroInteractions(os2, os3);
+		verifyZeroInteractions(os2);
 	}
 
 }

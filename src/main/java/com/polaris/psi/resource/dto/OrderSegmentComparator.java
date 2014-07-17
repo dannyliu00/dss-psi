@@ -15,11 +15,7 @@ public class OrderSegmentComparator implements IOrderSegmentComparator {
 	@Override
 	public int compare(OrderSegmentDto lhs, OrderSegmentDto rhs) {
 
-		int result = lhs.getName().compareTo(rhs.getName());
-		
-		if(result == 0) result = lhs.getPeriodStartDate().compareTo(rhs.getPeriodStartDate());
-		
-		return result;
+		return lhs.getSort().compareTo(rhs.getSort());
 	}
 
 }

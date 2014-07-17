@@ -51,12 +51,18 @@
             var modalInstance = $modal.open({
                 templateUrl: 'js/directives/modal/unsaved-changes-modal-template.html',
                 controller: 'unsavedChangesController',
-                size: 'sm'
-//                  resolve: {
-//                  items: function (dealerId) {
-//                      return dealerId;
-//                  }
-//              }
+                size: 'sm',
+                resolve: {
+                    orderSegments: function () {
+                        return $scope.orderSegments;
+                    },
+            		profile: function() {
+            			return $scope.profile;
+            		},
+                    role: function() {
+                        return $scope.role;
+                    }
+                }
             });
 
             modalInstance.result.then(function (dealerId) {
@@ -82,7 +88,10 @@
                 resolve: {
                     orderSegments: function () {
                         return $scope.orderSegments;
-                    }
+                    },
+            		profile: function() {
+            			return $scope.profile;
+            		}
                 }
             });
 
@@ -94,6 +103,8 @@
         }
 
         function openSubmitDialog() {
+        	
+        	var dealer = "dealer";
 
             var modalInstance = $modal.open({
                 templateUrl: 'js/directives/modal/submit-modal-template.html',
@@ -105,6 +116,9 @@
                     },
             		profile: function() {
             			return $scope.profile;
+            		},
+            		level: function() {
+            			return dealer;
             		}
                 }
             });
@@ -118,7 +132,7 @@
         }
 
         $scope.submitRequests = function() {
-            if(angular.element('input').hasClass('noncompliant')) {
+            if(angular.element('.compliant').hasClass('noncompliant') || angular.element('.compliant').hasClass('noncomplianttotal')) {
                 openReasonDialog();
             } else {
                 openSubmitDialog();
@@ -127,21 +141,25 @@
         
         function openReasonDialog() {
         	
+        	var dealerReason = "dealerReason";
         	var modalInstance = $modal.open({
 				templateUrl: 'js/directives/modal/reason-modal-template.html',
 				controller: 'reasonModalController',
 				size: 'sm',
                 resolve: {
-                    data: function () {
+                    orderSegments: function () {
                         return $scope.orderSegments;
                     },
             		profile: function() {
             			return $scope.profile;
+            		},
+            		caption: function() {
+            			return dealerReason;
             		}
                 }
 			});
 
-        	modalInstance.result.then(function (reasonCommentData) {
+        	modalInstance.result.then(function () {
                 var finalUrl = dealerSummaryPageUrl.replace(':dealerId', $scope.dealer.dealerId);
                 $location.path(finalUrl);
             }, function () {

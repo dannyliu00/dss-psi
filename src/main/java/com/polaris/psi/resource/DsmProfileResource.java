@@ -46,7 +46,7 @@ public class DsmProfileResource {
 			return response;
 		}
 		
-		return service.dsmApproveWithChanges(dto);
+		return service.dsmApproveWithChanges(dto, userData.getUserName());
 	}
 
 	@Path("/approveRequested")
@@ -63,7 +63,7 @@ public class DsmProfileResource {
 			return response;
 		}
 		
-		return service.dsmApproveAsRequested(dto);
+		return service.dsmApproveAsRequested(dto, userData.getUserName());
 	}
 
 	@Path("/approveException")
@@ -80,7 +80,7 @@ public class DsmProfileResource {
 			return response;
 		}
 		
-		return service.dsmSubmitForException(dto);
+		return service.dsmSubmitForException(dto, userData.getUserName());
 	}
 
 	@Path("/toDealer")
@@ -97,7 +97,24 @@ public class DsmProfileResource {
 			return response;
 		}
 		
-		return service.dsmSendToDealer(dto);
+		return service.dsmSendToDealer(dto, userData.getUserName());
+	}
+
+	@Path("/save")
+	@POST
+    @Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ProfileDetailsDto saveChanges(ProfileDetailsDto dto) {
+		UserData userData = sessionHelper.getUserData();
+		
+		if(!userData.isDsm()) {
+			ProfileDetailsDto response = new ProfileDetailsDto();
+			response.setMessage(Constants.NOT_AUTHORIZED);
+			response.setSuccessful(false);
+			return response;
+		}
+		
+		return service.dsmSaveChanges(dto, userData.getUserName());
 	}
 
 }

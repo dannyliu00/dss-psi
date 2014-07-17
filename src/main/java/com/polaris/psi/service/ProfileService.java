@@ -14,6 +14,7 @@ import com.polaris.psi.repository.entity.PSIProfile;
 import com.polaris.psi.repository.entity.PSIProfileDetail;
 import com.polaris.psi.repository.entity.PSIProfilePeriod;
 import com.polaris.psi.repository.entity.PSISegment;
+import com.polaris.psi.resource.dto.OrderSegmentComparator;
 import com.polaris.psi.resource.dto.ProfileDto;
 import com.polaris.psi.service.mapper.PSIOrderSegmentMapper;
 import com.polaris.psi.service.mapper.PSIProfileMapper;
@@ -59,9 +60,12 @@ public class ProfileService {
 	@Autowired
 	PSIOrderSegmentMapper osMapper;
 	
+	@Autowired
+	OrderSegmentComparator osComparator;
+	
 	public List<ProfileDto> getDealerProfiles(int dealerId) {
 
-		List<PSIProfile> psiProfiles = psiProfileDao.retrieveCurrentDealerListByDealerId(dealerId);
+		List<PSIProfile> psiProfiles = psiProfileDao.retrieveDealerCurrentProfileListByDealerId(dealerId);
 		List<ProfileDto> psiDtos = profileMapper.mapToDto(psiProfiles);
 		
 		return psiDtos;
@@ -69,7 +73,7 @@ public class ProfileService {
 
 	public ProfileDto getDealerProfile(int profileId, int dealerId) {
 		
-		PSIProfile psiProfile = psiProfileDao.retrieveProfileById(profileId);
+		PSIProfile psiProfile = psiProfileDao.retrieveProfileById(profileId, dealerId);
 
 		List<PSIProfileDetail> details = new ArrayList<PSIProfileDetail>();
 		if(psiProfile.getHeaderId() != null) details = psiDetailDao.retrieveByHeaderId(psiProfile.getHeaderId());

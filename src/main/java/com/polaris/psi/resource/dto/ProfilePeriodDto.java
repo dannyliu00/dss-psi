@@ -24,6 +24,7 @@ public class ProfilePeriodDto implements IBaseDto, Serializable {
 	private int recommended;
 	private int recMaximum;
 	private int actual;
+	private int sort;
 	
 	private List<IBaseDto> quantities;
 	
@@ -159,6 +160,20 @@ public class ProfilePeriodDto implements IBaseDto, Serializable {
 	@Override
 	public void setActual(int actual) {
 		this.actual = actual;
+	}
+
+	/**
+	 * @return the sort
+	 */
+	public int getSort() {
+		return sort;
+	}
+
+	/**
+	 * @param sort the sort to set
+	 */
+	public void setSort(int sort) {
+		this.sort = sort;
 	}
 
 	/**

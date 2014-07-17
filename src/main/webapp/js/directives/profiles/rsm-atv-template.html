@@ -45,12 +45,12 @@
                                  <input tabindex="0"
                                        ng-class="{noncompliant: os.adminQty < os.recMinimum || os.adminQty > os.recMaximum}"
                                        ng-model="os.adminQty"
-                                       class="text-center"
+                                       class="text-center compliant"
                                        type="number"
                                        min="0"
                                        max="999"
                                        numbers-only
-                                       ng-change="actualGrandTotal" ></span>
+                                       ng-change="getActualGrandTotal()" ></span>
                         </td>
                     </tr>
                     </tbody>
@@ -81,7 +81,7 @@
                     <div class="col-md-6 text-center">
                         {{period.recMinimum}} - {{period.recommended}} - {{period.recMaximum}}
                     </div>
-                    <div ng-class="{noncomplianttotal: period.actual < period.recMinimum || period.actual > period.recMaximum}" class="col-md-6 text-center">
+                    <div ng-class="{noncomplianttotal: period.actual < period.recMinimum || period.actual > period.recMaximum}" class="col-md-6 text-center compliant">
                         {{period.actual}}
                     </div>
                 </div>

@@ -19,7 +19,7 @@ public class PSIProfilePeriodMapperTest {
 
 	private PSIProfilePeriodMapper mapper;
 	@Mock PSIProfilePeriod mockPeriod;
-	private Integer expectedId;
+	private Integer expectedId, expectedSort;
 	private String expectedName, expectedCode;
 	private Date expectedEndDate, expectedStartDate;
 	
@@ -28,6 +28,7 @@ public class PSIProfilePeriodMapperTest {
 		MockitoAnnotations.initMocks(this);
 		
 		expectedId = 999;
+		expectedSort = 1;
 		expectedName = "UT Name";
 		expectedCode = "UT Code";
 		expectedEndDate = Calendar.getInstance().getTime();
@@ -37,6 +38,7 @@ public class PSIProfilePeriodMapperTest {
 		when(mockPeriod.getId()).thenReturn(expectedId);
 		when(mockPeriod.getName()).thenReturn(expectedName);
 		when(mockPeriod.getPeriodCode()).thenReturn(expectedCode);
+		when(mockPeriod.getSort()).thenReturn(expectedSort);
 		when(mockPeriod.getStartDate()).thenReturn(expectedStartDate);
 		
 		mapper = new PSIProfilePeriodMapper();
@@ -51,11 +53,13 @@ public class PSIProfilePeriodMapperTest {
 		assertEquals(expectedId.intValue(), result.getId());
 		assertEquals(expectedName, result.getName());
 		assertEquals(expectedStartDate, result.getStartDate());
+		assertEquals(expectedSort.intValue(), result.getSort());
 		
 		verify(mockPeriod).getEndDate();
 		verify(mockPeriod).getId();
 		verify(mockPeriod).getName();
 		verify(mockPeriod).getPeriodCode();
+		verify(mockPeriod).getSort();
 		verify(mockPeriod).getStartDate();
 	}
 

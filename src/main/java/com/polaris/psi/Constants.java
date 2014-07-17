@@ -21,6 +21,9 @@ public class Constants {
     public static final String DSM_REASON_ROLE_DESC = "DSM";
     public static final String ADMIN_REASON_ROLE_DESC = "ADMIN";
 
+    // Active profile status
+    public static final String ACTIVE = "ACTIVE PROFILE SESSION";
+
     // Current Dealer Profile statuses
     public static final String DEFAULT_PROFILE_STATUS = "NOT STARTED";
     public static final String IN_PROGRESS_STATUS = "IN PROGRESS";
@@ -30,9 +33,14 @@ public class Constants {
     public static final String PENDING_STATUS = "PENDING";
     public static final String RETURNED_TO_DSM = "RETURNED TO DSM";
 
+    // Current Admin Dealer Profile statuses
+    public static final String EXCEPTION_REQUESTED = "EXCEPTION REQUESTED";
+
+    // Approved Profile statuses
     public static final String APPROVED_AS_REQUESTED = "APPROVED AS REQUESTED";
     public static final String APPROVED_W_CHANGES = "APPROVED WITH CHANGES";
-    public static final String EXCEPTION_REQUESTED = "EXCEPTION REQUESTED";
+    public static final String APPROVED_COMPLIANT = "APPROVED AS COMPLIANT";
+    public static final String APPROVED_NONCOMPLIANT = "APPROVED AS NON-COMPLIANT";
     
     public static final String SAVE_SUCCESSFUL = "Successful";
     public static final String NOT_AUTHORIZED = "Not Authorized";

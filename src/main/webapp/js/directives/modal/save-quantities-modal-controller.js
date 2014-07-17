@@ -1,22 +1,22 @@
 (function() {
     var saveQuantities = sellInNamespace('sellIn.directives.savequantities');
 
-    function SaveQuantitiesController($scope, $modalInstance, dealerProfileResource, orderSegments) {
+    function SaveQuantitiesController($scope, $modalInstance, dealerProfileResource, orderSegments, profile) {
     	
         $scope.saveChanges = function () {
         	
-        	if(angular.element('input').hasClass('noncompliant')) {
-                $scope.profile.nonCompliant = true;
+        	if(angular.element('.compliant').hasClass('noncompliant') || angular.element('.compliant').hasClass('noncomplianttotal')) {
+                profile.nonCompliant = true;
             } else {
-                $scope.profile.nonCompliant = false;
+                profile.nonCompliant = false;
             }
         	
-        	var os = {nonCompliant: $scope.profile.nonCompliant,orderSegments: orderSegments};
+        	var os = {nonCompliant: profile.nonCompliant,orderSegments: orderSegments};
         	
         	dealerProfileResource.save(os)
                 .then(function(returnedos) {
-                    $scope.orderSegments = returnedos.orderSegments;
-                    $scope.profile.nonCompliant = returnedos.nonCompliant
+                    orderSegments = returnedos.orderSegments;
+                    profile.nonCompliant = returnedos.nonCompliant
                     $modalInstance.close();
                 });
         };
