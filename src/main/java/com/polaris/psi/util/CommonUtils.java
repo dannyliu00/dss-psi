@@ -7,6 +7,8 @@ import java.util.Date;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 
+import com.polaris.psi.Constants;
+
 public class CommonUtils {
 	
 	private static Logger log = Logger.getLogger(CommonUtils.class);
@@ -39,6 +41,10 @@ public class CommonUtils {
 		return null;
 	}
 
+	public static Date setDate(Date date) {
+		return date != null ? date : Constants.DEFAULT_DATE.getTime();
+	}
+
 	public static int convertToInt(BigDecimal value) {
 		if(value == null) return 0;
 		
@@ -49,6 +55,16 @@ public class CommonUtils {
 		if(value == null) return null;
 		
 		return value.intValueExact();
+	}
+	
+	public static int setIntegerValue(Integer value) {
+		if(value == null) return -1;
+		return value; 
+	}
+	
+	public static String setStringValue(String value) {
+		if(value == null || value.length() == 0) return "";
+		return value;
 	}
 	
 	public static  String trimString(Character value) {
