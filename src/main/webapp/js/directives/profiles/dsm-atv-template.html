@@ -57,28 +57,28 @@
             <h3 class="panel-title">Profile Totals</h3>
         </div>
         <div class="panel-body">
-            <div class="row table-col-hdr">
-                <div class="col-md-4" ng-repeat="period in profile.periods" >
-                    <div class="col-md-6 text-center">
-                        {{period.name}}<br/>Min - Target - Max
-                    </div>
-                    <div class="col-md-6 text-center">
-                        {{period.name}}<br/>Qty
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4" ng-repeat="period in profile.periods" >
-                    <div class="col-md-6 text-center">
-                        {{period.recMinimum}} - {{period.recommended}} - {{period.recMaximum}}
-                    </div>
-                    <div ng-class="{noncomplianttotal: period.actual < period.recMinimum || period.actual > period.recMaximum}" class="col-md-6 text-center compliant">
-                        {{period.actual}}
-                    </div>
-                </div>
+        	<div class="col-md-12">
+                <div id="activeObjectsTable_processing" class="dataTables_processing" style="visibility: hidden;">Processing...</div>
+                <table datatable dt-options="{bPaginate: false,bInfo: false,bSort: false,bFilter: false}" id="activeObjectsTable"
+                       class="table table-condensed table-bordered table-default table-available-items dataTable"
+                       aria-describedby="activeObjectsTable_info">
+                    <thead>
+	                    <tr role="row" >
+	                       <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
+			                        <span class="col-xs-6">{{period.name}}</span><span class="col-xs-6">{{period.name}}</span><br/>
+			                        <span class="col-xs-6">Min - Target - Max</span><span class="col-xs-6" >Qty</span>
+			                </th>
+	                    </tr>
+                    </thead>
+                    <tbody role="alert" aria-live="polite" aria-relevant="all">
+	                    <td ng-repeat="period in profile.periods" class="text-center">
+	                        <span class="col-xs-6">{{period.recMinimum}} - {{period.recommended}} - {{period.recMaximum}}</span><span ng-class="{noncomplianttotal: period.actual < period.recMinimum || period.actual > period.recMaximum}" class="compliant col-xs-6" >{{period.actual}}</span>
+	                    </td>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </div>
-    <email-entry></email-entry>
+   	</div>
 </div>
+<email-entry></email-entry>
 <dsm-button></dsm-button>

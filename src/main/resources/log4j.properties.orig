@@ -1,0 +1,27 @@
+<<<<<<< HEAD
+log4j.rootLogger=warn, Console, File
+
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.EnhancedPatternLayout
+log4j.appender.Console.layout.ConversionPattern=:::%d{ISO8601}{GMT}, localTime = "%d{ISO8601}", level = "%-5p", thread = "%t", source = "%37c", %m:::%n
+
+log4j.appender.File=org.apache.log4j.RollingFileAppender
+log4j.appender.File.layout=org.apache.log4j.EnhancedPatternLayout
+log4j.appender.File.layout.ConversionPattern=:::%d{ISO8601}{GMT}, localTime = "%d{ISO8601}", level = "%-5p", thread = "%t", source = "%37c", %m:::%n
+log4j.appender.File.MaxFileSize=4096KB
+log4j.appender.File.MaxBackupIndex=1
+log4j.appender.File.File=logs/PSI/current.txt
+=======
+log4j.rootLogger=INFO, Console, File
+
+log4j.appender.Console=org.apache.log4j.ConsoleAppender
+log4j.appender.Console.layout=org.apache.log4j.EnhancedPatternLayout
+log4j.appender.Console.layout.ConversionPattern=:::%d{ISO8601}{GMT}, localTime = "%d{ISO8601}", level = "%-5p", thread = "%t", source = "%37c", %m%n
+
+log4j.appender.File=org.apache.log4j.RollingFileAppender
+log4j.appender.File.layout=org.apache.log4j.EnhancedPatternLayout
+log4j.appender.File.layout.ConversionPattern=:::%d{ISO8601}{GMT}, localTime = "%d{ISO8601}", level = "%-5p", thread = "%t", source = "%37c", %m%n
+log4j.appender.File.File=logs/dss-psi.log
+log4j.appender.File.MaxFileSize=4096KB
+log4j.appender.File.MaxBackupIndex=1
+>>>>>>> 13309e5c5cceb5956e83f8723ecfadcb83cf4474
