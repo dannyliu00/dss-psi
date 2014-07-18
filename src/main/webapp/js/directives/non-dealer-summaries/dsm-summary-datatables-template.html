@@ -9,12 +9,16 @@
                 colspan="1" style="width: 5%;">
             </th>
             <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" rowspan="1"
-                colspan="1" aria-label="Inventory Profile : activate to sort column ascending" style="width: 20%;">
+                colspan="1" aria-label="Inventory Profile : activate to sort column ascending" style="width: 15%;">
                 Dealer Number
             </th>
             <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" rowspan="1"
-                colspan="1" aria-label="Status : activate to sort column ascending" style="width: 35%;">
+                colspan="1" aria-label="Status : activate to sort column ascending" style="width: 20%;">
                 Dealer Name
+            </th>
+            <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" rowspan="1"
+                colspan="1" aria-label="Status : activate to sort column ascending" style="width: 20%;">
+                Profile Name
             </th>
             <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" rowspan="1"
                 colspan="1" aria-label="Status : activate to sort column ascending" style="width: 20%;">
@@ -31,6 +35,7 @@
             <td ng-class="profile.nonCompliant === true ? 'red-light' : 'green-light'" ></td>
             <td class=""><a ng-click="navigateToNonDealerProfile(profile.dealerid, profile.profileId, profile.type)" >{{profile.dealerid}}</a></td>
             <td class="">{{profile.dealerName}}</td>
+            <td class="">{{profile.profileName}}</td>
             <td class="">{{profile.modifiedDate | date : 'mediumDate'}}</td>
             <td class="">{{profile.status}}</td>
         </tr>
