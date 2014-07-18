@@ -19,6 +19,7 @@ public class DsmDealerProfilesDto implements Serializable {
 	private Integer dealerid;
 	private String dealerName;
 	private Integer profileId;
+	private String profileName;
 	private Date modifiedDate;
 	private Integer rsmId;
 	private String rsmName;
@@ -97,6 +98,20 @@ public class DsmDealerProfilesDto implements Serializable {
 	}
 
 	/**
+     * @return the profileName
+     */
+    public String getProfileName() {
+        return profileName;
+    }
+
+    /**
+     * @param profileName the profileName to set
+     */
+    public void setProfileName(String profileName) {
+        this.profileName = profileName;
+    }
+
+    /**
 	 * @return the modifiedDate
 	 */
 	public Date getModifiedDate() {
