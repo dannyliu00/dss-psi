@@ -5,7 +5,9 @@ package com.polaris.psi.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
@@ -42,7 +44,7 @@ public class DealerServiceTest {
 		MockitoAnnotations.initMocks(this);
 		
 		when(mockDao.select(anyInt())).thenReturn(mockDealer);
-		when(mockDsmDao.selectByDealerId(anyInt())).thenReturn(mockDsm);
+		when(mockDsmDao.selectByDealerId(anyInt(), anyString())).thenReturn(mockDsm);
 		when(mockMapper.mapToDto(mockDealer, mockDsm)).thenReturn(mockDto);
 		
 		service = new DealerService();
@@ -55,14 +57,17 @@ public class DealerServiceTest {
 	public void testGetDealer() {
 		int id = 9999;
 		Integer idObject = new Integer(id);
+		String type = "TYPE";
 		
-		DealerDto result = service.getDealer(id);
+		DealerDto result = service.getDealer(id, type);
 		
+        assertEquals(result, mockDto);
+        
 		verify(mockDao).select(idObject);
-		verify(mockDsmDao).selectByDealerId(idObject);
-
+		verify(mockDsmDao).selectByDealerId(idObject, type);
 		verify(mockMapper).mapToDto(mockDealer, mockDsm);
-		assertEquals(result, mockDto);
+		
+		verifyNoMoreInteractions(mockDao, mockDsmDao, mockDealer, mockDsm, mockMapper, mockDto);
 	}
 
 }
