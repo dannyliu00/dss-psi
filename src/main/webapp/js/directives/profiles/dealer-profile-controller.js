@@ -3,9 +3,9 @@
 
     function DealerProfileDirectiveController($scope, DTOptionsBuilder, $routeParams, dealerResource,
     		dealerProfileResource, orderSegmentResourceMapper,appRoleResource) {
-    	
+
     	$scope.dirtyIndicator = 0;
-    	
+
     	appRoleResource.get().then(function(role) {
             $scope.role = role;
     		}).then(function(role) {
@@ -17,14 +17,14 @@
     				$scope.authLevel = 'actual';
     			}
     		});
-    	
+
     	this.orderSegmentResourceMapper = orderSegmentResourceMapper;
-    	
-	    var dealer = {dealerId: $routeParams.dealerId};
+
+	    var dealer = {dealerId: $routeParams.dealerId, type: $routeParams.type};
 	        dealerResource.get(dealer).then(function(returnedDealer) {
 	            $scope.dealer = returnedDealer;
 	        });
-	        
+
         var profile = {profileId: $routeParams.profileId,dealerId: $routeParams.dealerId};
         dealerProfileResource.get(profile)
             .then(function(returnedProfile) {
@@ -45,7 +45,7 @@
                 }
                 $scope.orderSegments = returnedProfile.orderSegments;
                 $scope.distinctOS = findDistinctOSes($scope.orderSegments);
-                
+
             })
             .then(function() {
                 ($scope.profile.type === 'atv' ? $scope.actualGrandTotal = $scope.getActualGrandTotal() : $scope.actualGrandTotal = $scope.sumActualValues());
@@ -72,9 +72,9 @@
             .withPaginationType('full_numbers')
             .withDisplayLength(25)
             .withBootstrap();
-        
+
         $scope.dealerEmail = "";
-        
+
         $scope.getRecTotals = function() {
         	var totalRecQty = 0;
 	    	for(var j=0; j < $scope.profile.periods.length; j++) {
@@ -99,7 +99,7 @@
 
 	    	return totalRecQty;
 	    };
-	    
+
 	    function recSegmentTotal(sub) {
             var segment = getSegment(sub);
             var total = 0;
@@ -119,20 +119,20 @@
         			return $scope.segments[i];
         			i = $scope.segments.length;
         		}
-        	}	
+        	}
         }
-          
+
         $scope.getActualGrandTotal = function() {
         	var totalQty = 0;
         	var level = $scope.authLevel;
 	    	for(var j=0; j < $scope.profile.periods.length; j++) {
                 var periodCode = $scope.profile.periods[j].code;
-	            var actQty = 0;    
+	            var actQty = 0;
 	            for(var i=0; i < $scope.orderSegments.length; i++) {
 	                var orderSegment = $scope.orderSegments[i];
                     if(orderSegment.periodCode === periodCode) {
                     	var actual = angular.isNumber(orderSegment[level]) && orderSegment[level] > -1 ? parseInt(orderSegment[level]) : 0;
-                		actQty = actQty + actual;       
+                		actQty = actQty + actual;
                     }
 	            }
 	            totalQty = totalQty + actQty;
@@ -141,7 +141,7 @@
 	    	$scope.dirtyIndicator = $scope.dirtyIndicator + 1;
 	    	return totalQty;
 	    };
-	    
+
 		$scope.sumActualValues = function() {
 		     var total = 0;
 		     var level = $scope.authLevel;
@@ -155,9 +155,9 @@
 		         }
 		     $scope.actualGrandTotal = total;
 		     $scope.dirtyIndicator = $scope.dirtyIndicator + 1;
-		     return total;   
+		     return total;
 		};
-		
+
         function sumSegmentTotal(sub) {
             var segment = getSegment(sub);
             var level = $scope.authLevel;
@@ -174,7 +174,7 @@
                 	}
                 segment.actual = total;
                 segment.oSTotal = count;
-            } 
+            }
         }
 
         function getSegment(subSegment) {
@@ -184,9 +184,9 @@
         			return $scope.segments[i];
         			i = $scope.segments.length;
         		}
-        	}	
+        	}
         }
-        
+
         $scope.segName = function(sub) {
         	var nameCheck = 0;
         	var segmentName = "";
@@ -199,7 +199,7 @@
         	}
         	return segmentName;
         };
-        
+
     }
     dealerProfiles.DealerProfileDirectiveController = DealerProfileDirectiveController;
 })();
