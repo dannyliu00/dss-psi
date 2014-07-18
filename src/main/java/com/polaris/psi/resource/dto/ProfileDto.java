@@ -17,6 +17,7 @@ public class ProfileDto implements IBaseDto, Serializable {
 
 	private int profileId;
 	private String type;
+	private String typeCode;
 	private String name;
 	private Date modifiedDate;
 	private Date targetCompletionDate;
@@ -74,6 +75,20 @@ public class ProfileDto implements IBaseDto, Serializable {
 	}
 
 	/**
+     * @return the typeCode
+     */
+    public String getTypeCode() {
+        return typeCode;
+    }
+
+    /**
+     * @param typeCode the typeCode to set
+     */
+    public void setTypeCode(String typeCode) {
+        this.typeCode = typeCode;
+    }
+
+    /**
 	 * @return the name
 	 */
 	public String getName() {
