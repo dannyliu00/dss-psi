@@ -33,11 +33,11 @@
 
             switch(changes) {
                 case 0:
-                    var finalUrl = dealerSummaryPageUrl.replace(':dealerId', dealerId);
+                    var finalUrl = dealerSummaryPageUrl.replace(':dealerId', dealerId).replace(':type', $scope.profile.typeCode);
                     $location.path(finalUrl);
                     break;
                 case 1:
-                    var finalUrl = dealerSummaryPageUrl.replace(':dealerId', dealerId);
+                    var finalUrl = dealerSummaryPageUrl.replace(':dealerId', dealerId).replace(':type', $scope.profile.typeCode);
                     $location.path(finalUrl);
                     break;
                 default:
@@ -66,7 +66,7 @@
             });
 
             modalInstance.result.then(function (dealerId) {
-                var finalUrl = dealerSummaryPageUrl.replace(':dealerId', $scope.dealer.dealerId);
+                var finalUrl = dealerSummaryPageUrl.replace(':dealerId', $scope.dealer.dealerId).replace(':type', $scope.profile.typeCode);
                 $location.path(finalUrl);
             }, function () {
                 console.log('Modal dismissed at: ' + new Date());
@@ -124,7 +124,7 @@
             });
 
             modalInstance.result.then(function () {
-                var finalUrl = dealerSummaryPageUrl.replace(':dealerId', $scope.dealer.dealerId);
+                var finalUrl = dealerSummaryPageUrl.replace(':dealerId', $scope.dealer.dealerId).replace(':type', $scope.profile.typeCode);
                 $location.path(finalUrl);
             }, function () {
                 console.log('Modal dismissed at: ' + new Date());
@@ -160,7 +160,7 @@
 			});
 
         	modalInstance.result.then(function () {
-                var finalUrl = dealerSummaryPageUrl.replace(':dealerId', $scope.dealer.dealerId);
+                var finalUrl = dealerSummaryPageUrl.replace(':dealerId', $scope.dealer.dealerId).replace(':type', $scope.profile.typeCode);
                 $location.path(finalUrl);
             }, function () {
                 console.log('Modal dismissed at: ' + new Date());
