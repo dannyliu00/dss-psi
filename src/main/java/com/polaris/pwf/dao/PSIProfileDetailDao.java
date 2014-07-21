@@ -56,15 +56,15 @@ public class PSIProfileDetailDao extends AbstractPolarisMinneapolisDao<PSIProfil
 			detail.setProfileOrderSegmentId(CommonUtils.convertToInteger((BigDecimal) result[2]));
 			detail.setRequestedQty(CommonUtils.convertToInteger((BigDecimal) result[3]));
 			detail.setReasonCode(CommonUtils.convertToInteger((BigDecimal) result[4]));
-			detail.setDealerComments(CommonUtils.trimString(convertToString(result[5])));
+			detail.setDealerComments(CommonUtils.trimString((String) result[5]));
 			detail.setDsmQty(CommonUtils.convertToInteger((BigDecimal) result[6]));
 			detail.setDsmReasonCode(CommonUtils.convertToInteger((BigDecimal) result[7]));
-			detail.setDsmComments(CommonUtils.trimString(convertToString(result[8])));
+			detail.setDsmComments(CommonUtils.trimString((String) result[8]));
 			detail.setAdminQty(CommonUtils.convertToInteger((BigDecimal) result[9]));
 			detail.setAdminReasonCode(CommonUtils.convertToInteger((BigDecimal) result[10]));
-			detail.setAdminComments(CommonUtils.trimString(convertToString(result[11])));
+			detail.setAdminComments(CommonUtils.trimString((String) result[11]));
 			detail.setFinalQty(CommonUtils.convertToInteger((BigDecimal) result[12]));
-			detail.setPeriodCode(CommonUtils.trimString(convertToString(result[13])));
+			detail.setPeriodCode(CommonUtils.trimString((String) result[13]));
 			
 			details.add(detail);
 		}
@@ -72,21 +72,6 @@ public class PSIProfileDetailDao extends AbstractPolarisMinneapolisDao<PSIProfil
 		entityManager.close();
 		
 		return details;
-	}
-	
-	public PSIProfileDetail retrieveById(Integer detailId) {
-		
-		return null;
-	}
-	
-	protected String convertToString(Object obj) {
-		try {
-			Character c = (Character) obj;
-			return c.toString();
-		} catch (ClassCastException cce) {
-			LOG.info("Object parameter failed to be cast as a Character");
-			return (String) obj;
-		}
 	}
 	
 }
