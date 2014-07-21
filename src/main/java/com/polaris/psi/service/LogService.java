@@ -23,7 +23,7 @@ public class LogService {
 	@Autowired
 	PSILogMapper mapper;
 	
-	public void writeToLog(DealerProfileHeader header, DealerProfileDetail detail, PSIOrderSegment os) {
+	public void writeDealerChangesToLog(DealerProfileHeader header, DealerProfileDetail detail, PSIOrderSegment os) {
 		PSILog log = mapper.mapDealerDataToLog(header, detail, os, header.getChangeUser());
 		
 		logDao.insert(log);

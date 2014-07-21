@@ -44,9 +44,9 @@ public class LogServiceTest {
 	}
 
 	@Test
-	public void testWriteToLog() {
+	public void testWriteDealerChangesToLog() {
 		
-		service.writeToLog(mockHeader, mockDetail, mockOS);
+		service.writeDealerChangesToLog(mockHeader, mockDetail, mockOS);
 		
 		verify(mockMapper).mapDealerDataToLog(mockHeader, mockDetail, mockOS, userName);
 		verify(mockHeader).getChangeUser();
