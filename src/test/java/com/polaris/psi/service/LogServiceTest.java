@@ -1,7 +1,5 @@
 package com.polaris.psi.service;
 
-import static org.junit.Assert.fail;
-
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -15,7 +13,7 @@ import com.polaris.psi.repository.dao.PSILogDao;
 import com.polaris.psi.repository.entity.DealerProfileDetail;
 import com.polaris.psi.repository.entity.DealerProfileHeader;
 import com.polaris.psi.repository.entity.PSILog;
-import com.polaris.psi.repository.entity.PSIOrderSegment;
+import com.polaris.psi.resource.dto.OrderSegmentDto;
 import com.polaris.psi.service.mapper.PSILogMapper;
 
 public class LogServiceTest {
@@ -26,17 +24,23 @@ public class LogServiceTest {
 	@Mock private PSILogMapper mockMapper;
 	@Mock private DealerProfileHeader mockHeader;
 	@Mock private DealerProfileDetail mockDetail;
-	@Mock private PSIOrderSegment mockOS;
-	private String userName;
+	@Mock private OrderSegmentDto mockOS;
+	private int expectedCount, headerId, detailId, expectedRows;
 	
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		
-		userName = "UTUser";
+		headerId = 999;
+		detailId = 888;
+		expectedCount = 0;
+		expectedRows = 2;
 		
-		when(mockMapper.mapDealerDataToLog(mockHeader, mockDetail, mockOS, userName)).thenReturn(mockLog);		
-		when(mockHeader.getChangeUser()).thenReturn(userName);
+		when(mockDao.count()).thenReturn(expectedCount);
+		when(mockDao.getLogEntryCount(headerId, detailId)).thenReturn(expectedRows);
+		when(mockMapper.mapDealerDataToLog(mockHeader, mockOS)).thenReturn(mockLog);
+		when(mockHeader.getId()).thenReturn(headerId);
+		when(mockOS.getId()).thenReturn(detailId);
 		
 		service = new LogService();
 		service.logDao = mockDao;
@@ -44,12 +48,15 @@ public class LogServiceTest {
 	}
 
 	@Test
-	public void testWriteDealerChangesToLog() {
+	public void testWriteDealerChangesToLogWithOrderSegmentDto() {
 		
-		service.writeDealerChangesToLog(mockHeader, mockDetail, mockOS);
+		service.writeDealerChangesToLog(mockHeader, mockOS);
 		
-		verify(mockMapper).mapDealerDataToLog(mockHeader, mockDetail, mockOS, userName);
-		verify(mockHeader).getChangeUser();
+		verify(mockHeader).getId();
+		verify(mockOS).getId();
+		verify(mockMapper).mapDealerDataToLog(mockHeader, mockOS);
+		verify(mockLog).setRowNumber(expectedRows + 1);
+		verify(mockDao).getLogEntryCount(headerId, detailId);
 		verify(mockDao).insert(mockLog);
 		
 		verifyNoMoreInteractions(mockLog, mockDao, mockMapper, mockHeader, mockDetail, mockOS);
