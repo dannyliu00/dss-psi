@@ -39,6 +39,7 @@ public class LogServiceTest {
 		when(mockDao.count()).thenReturn(expectedCount);
 		when(mockDao.getLogEntryCount(headerId, detailId)).thenReturn(expectedRows);
 		when(mockMapper.mapDealerDataToLog(mockHeader, mockOS)).thenReturn(mockLog);
+		when(mockMapper.mapDsmDataToLog(mockHeader, mockOS)).thenReturn(mockLog);
 		when(mockHeader.getId()).thenReturn(headerId);
 		when(mockOS.getId()).thenReturn(detailId);
 		
@@ -48,13 +49,28 @@ public class LogServiceTest {
 	}
 
 	@Test
-	public void testWriteDealerChangesToLogWithOrderSegmentDto() {
+	public void testWriteDealerChangesToLog() {
 		
 		service.writeDealerChangesToLog(mockHeader, mockOS);
 		
 		verify(mockHeader).getId();
 		verify(mockOS).getId();
 		verify(mockMapper).mapDealerDataToLog(mockHeader, mockOS);
+		verify(mockLog).setRowNumber(expectedRows + 1);
+		verify(mockDao).getLogEntryCount(headerId, detailId);
+		verify(mockDao).insert(mockLog);
+		
+		verifyNoMoreInteractions(mockLog, mockDao, mockMapper, mockHeader, mockDetail, mockOS);
+	}
+
+	@Test
+	public void testWriteDsmChangesToLog() {
+		
+		service.writeDsmChangesToLog(mockHeader, mockOS);
+		
+		verify(mockHeader).getId();
+		verify(mockOS).getId();
+		verify(mockMapper).mapDsmDataToLog(mockHeader, mockOS);
 		verify(mockLog).setRowNumber(expectedRows + 1);
 		verify(mockDao).getLogEntryCount(headerId, detailId);
 		verify(mockDao).insert(mockLog);
