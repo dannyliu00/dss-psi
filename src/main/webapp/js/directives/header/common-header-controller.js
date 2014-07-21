@@ -1,7 +1,7 @@
 (function () {
     var commonHeader = sellInNamespace('polaris.directives.commonHeader');
 
-    function CommonHeaderController ($scope, appTitle, menuResource, appRoleResource) {
+    function CommonHeaderController ($scope, appTitle, menuResource, appRoleResource, appAttributeResource) {
         this.scope = $scope;
         this.scope.appTitle = appTitle;
         
@@ -13,9 +13,15 @@
         	$scope.dealerId = roleData.sessionDetail.DealerID;
         	$scope.dealerName = roleData.sessionDetail.DealerName;
         	
-        	menuResource.get().then(function(menuData) {
-        		buildMenu(menuData);
-        		});
+        	// Get the attributes
+        	appAttributeResource.get().then(function(attributesData) {
+
+        		$scope.attributes = attributesData;
+        		
+        		menuResource.get().then(function(menuData) {
+            		buildMenu(menuData);
+            		});
+        	});
         });
     	
     	

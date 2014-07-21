@@ -31,6 +31,7 @@ angular.module('sellIn', [
         'sellIn.resources.rsmProfiles',
         'sellIn.resources.reasoncode',
         'sellIn.resources.menu',
+        'sellIn.resources.attribute',
         'sellIn.pages.dealerProfileSummary',
         'sellIn.pages.profile',
         'sellIn.pages.default',
