@@ -13,16 +13,14 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.polaris.psi.repository.entity.DealerProfileDetail;
 import com.polaris.psi.repository.entity.DealerProfileHeader;
-import com.polaris.psi.repository.entity.PSIOrderSegment;
+import com.polaris.psi.resource.dto.OrderSegmentDto;
 
 public class PSILogMapperTest {
 
 	private PSILogMapper mapper;
 	@Mock private DealerProfileHeader mockHeader;
-	@Mock private DealerProfileDetail mockDetail;
-	@Mock private PSIOrderSegment mockOS;
+	@Mock private OrderSegmentDto mockOS;
 	private String userName, adminComments, dealerComments, orderSegmentName;
 	private Date date;
 	private int headerId, adminQty, adminReasonCode, dealerQty, dealerReasonCode, detailId;
@@ -49,44 +47,44 @@ public class PSILogMapperTest {
 		when(mockHeader.getId()).thenReturn(headerId);
 		when(mockHeader.getSubmittedDate()).thenReturn(date);
 		when(mockHeader.getSubmittedTime()).thenReturn(date);
+		when(mockHeader.getChangeUser()).thenReturn(userName);
 		
-		when(mockDetail.getAdminComments()).thenReturn(adminComments);
-		when(mockDetail.getAdminApprovedQty()).thenReturn(adminQty);
-		when(mockDetail.getAdminReasonCode()).thenReturn(adminReasonCode);
-		when(mockDetail.getDealerComments()).thenReturn(dealerComments);
-		when(mockDetail.getActual()).thenReturn(dealerQty);
-		when(mockDetail.getDealerReasonCode()).thenReturn(dealerReasonCode);
-		when(mockDetail.getChangedDate()).thenReturn(date);
-		when(mockDetail.getChangedTime()).thenReturn(date);
-		when(mockDetail.getId()).thenReturn(detailId);
-		
+		when(mockOS.getAdminComments()).thenReturn(adminComments);
+		when(mockOS.getAdminQty()).thenReturn(adminQty);
+		when(mockOS.getAdminReasonCode()).thenReturn(adminReasonCode);
+		when(mockOS.getDealerComments()).thenReturn(dealerComments);
+		when(mockOS.getActual()).thenReturn(dealerQty);
+		when(mockOS.getReasonCode()).thenReturn(dealerReasonCode);
+		when(mockOS.getSubmittedDate()).thenReturn(date);
+		when(mockOS.getSubmittedDate()).thenReturn(date);
+		when(mockOS.getId()).thenReturn(detailId);
 		when(mockOS.getName()).thenReturn(orderSegmentName);
 		
 		mapper = new PSILogMapper();
 	}
 
 	@Test
-	public void testMapDealerDataToLog() {
+	public void testMapDealerDataToLogWithOrderSegmentDto() {
 
-		mapper.mapDealerDataToLog(mockHeader, mockDetail, mockOS, userName);
+		mapper.mapDealerDataToLog(mockHeader, mockOS);
 		
 		verify(mockHeader).getApprovedDate();
 		verify(mockHeader).getApprovedTime();
 		verify(mockHeader).getId();
 		verify(mockHeader).getSubmittedDate();
 		verify(mockHeader).getSubmittedTime();
-		verify(mockDetail).getAdminComments();
-		verify(mockDetail).getAdminApprovedQty();
-		verify(mockDetail).getAdminReasonCode();
-		verify(mockDetail).getDealerComments();
-		verify(mockDetail).getActual();
-		verify(mockDetail).getDealerReasonCode();
-		verify(mockDetail).getChangedDate();
-		verify(mockDetail).getChangedTime();
-		verify(mockDetail).getId();
+		verify(mockHeader, times(3)).getChangeUser();
+		verify(mockOS).getAdminComments();
+		verify(mockOS).getAdminQty();
+		verify(mockOS).getAdminReasonCode();
+		verify(mockOS).getDealerComments();
+		verify(mockOS).getActual();
+		verify(mockOS).getReasonCode();
+		verify(mockOS, times(2)).getSubmittedDate();
+		verify(mockOS).getId();
 		verify(mockOS).getName();
 		
-		verifyNoMoreInteractions(mockHeader, mockDetail, mockOS);
+		verifyNoMoreInteractions(mockHeader, mockOS);
 	}
 
 }
