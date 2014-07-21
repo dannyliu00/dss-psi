@@ -33,9 +33,9 @@ public class DealerService {
 	@Autowired
 	DealerMapper mapper;
 
-	public DealerDto getDealer(Integer id) {
+	public DealerDto getDealer(Integer id, String type) {
 		Dealer dealer = dealerInfoDao.select(id);
-		DealerAndDsm dsm = dsmDao.selectByDealerId(id);
+		DealerAndDsm dsm = dsmDao.selectByDealerId(id, type);
 		return mapper.mapToDto(dealer, dsm);
 	}
 	

@@ -7,8 +7,8 @@
     function DealerProfileSummaryCtrl ($scope, $routeParams, $location, dealerResource, dealerProfilesResource,
                                        profilePageUrl) {
         this.location = $location;
-            
-	    var dealer = {dealerId: $routeParams.dealerId};
+
+	    var dealer = {dealerId: $routeParams.dealerId, type: $routeParams.type};
 	    dealerResource.get(dealer).then(function(returnedDealer) {
 	    	$scope.dealer = returnedDealer;
 	        });
@@ -16,7 +16,7 @@
 	    dealerProfilesResource.query(dealer).then(function(returnedProfiles) {
 	        $scope.profiles = returnedProfiles;
 	        });
-	    
+
         $scope.navigateToProfile = function(dealerId, profileId, type) {
             var finalUrl = profilePageUrl.replace(':dealerId', dealerId)
                 .replace(':profileId', profileId)

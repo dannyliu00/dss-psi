@@ -1,6 +1,7 @@
 package com.polaris.psi.service.mapper;
 
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.Calendar;
@@ -20,7 +21,7 @@ public class DsmDealerProfileMapperTest {
 	@Mock private PSIProfile mockProfile;
 	@Mock private DealerAndDsm mockDealerAndDsm;
 	private Integer dealerId, dsmId, profileId, rsmId;
-	private String dealerName, dsmName, productLine, rsmName, status;
+	private String dealerName, dsmName, productLine, rsmName, status, profileName;
 	private Date modifiedDate;
 	private boolean nonCompliant;
 	
@@ -39,6 +40,7 @@ public class DsmDealerProfileMapperTest {
 		rsmName = "UT RSM Name";
 		status = "UT Status";
 		nonCompliant = true;
+		profileName = "UT Profile Name";
 		
 		when(mockDealerAndDsm.getDealerId()).thenReturn(dealerId);
 		when(mockDealerAndDsm.getDealerName()).thenReturn(dealerName);
@@ -51,6 +53,7 @@ public class DsmDealerProfileMapperTest {
 		when(mockProfile.getLastModifiedDate()).thenReturn(modifiedDate);
 		when(mockProfile.getStatus()).thenReturn(status);
 		when(mockProfile.isNonCompliant()).thenReturn(nonCompliant);
+		when(mockProfile.getName()).thenReturn(profileName);
 		
 		mapper = new DsmDealerProfileMapper();
 	}
@@ -70,6 +73,9 @@ public class DsmDealerProfileMapperTest {
 		verify(mockProfile).getLastModifiedDate();
 		verify(mockProfile).getStatus();
 		verify(mockProfile).isNonCompliant();
+		verify(mockProfile).getName();
+		
+		verifyNoMoreInteractions(mockDealerAndDsm, mockProfile);
 	}
 
 }

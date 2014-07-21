@@ -5,7 +5,7 @@
     var dealerProfileSummary = sellInNamespace('sellIn.pages.dealerProfileSummary');
 
     describe('DealerProfileSummaryCtrl', function() {
-        var scope, DTOptionsBuilder, DTOptions, routeParams, location, dealerResource, dealerProfilesResource, expectedDealerId, expectedUrl;
+        var scope, DTOptionsBuilder, DTOptions, routeParams, location, dealerResource, dealerProfilesResource, expectedDealerId, expectedUrl, expectedType;
         var expectedDealerDeferred, expectedProfilesDeferred;
         var ctrl;
 
@@ -26,7 +26,8 @@
             location = jasmine.createSpyObj('location', ['path']);
 
             expectedDealerId = 111;
-            routeParams = {dealerId: expectedDealerId};
+	        expectedType = 'T';
+            routeParams = {dealerId: expectedDealerId, type: expectedType};
             expectedUrl = '/segment1/:dealerId/segment2/:profileId/segment3/:type';
 
             DTOptionsBuilder = jasmine.createSpyObj('DTOptionsBuilder', ['newOptions']);
@@ -58,8 +59,9 @@
                     expectedUrl,
                     DTOptionsBuilder);
 
-                var expectedDealer = {dealerId: expectedDealerId};
-                expect(dealerResource.get).toHaveBeenCalledWith(expectedDealer);
+	            var expectedDealerAndType = {dealerId: expectedDealerId, type: expectedType};
+	            var expectedDealer = {dealerId: expectedDealerId, type: expectedType};
+                expect(dealerResource.get).toHaveBeenCalledWith(expectedDealerAndType);
                 expect(dealerProfilesResource.query).toHaveBeenCalledWith(expectedDealer);
 
 //                expect(DTOptionsBuilder.newOptions).toHaveBeenCalled();

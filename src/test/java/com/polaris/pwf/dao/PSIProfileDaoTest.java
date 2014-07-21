@@ -159,7 +159,7 @@ public class PSIProfileDaoTest {
 		verify(mockEM).createNativeQuery(anyString());
 		verify(mockQuery).setParameter("profileId", id);
 		verify(mockQuery).setParameter("dealerId", dealerId);
-		verify(mockQuery).setMaxResults(1);
+		verify(mockQuery).setParameter("canceled", Constants.DEALER_NOT_CANCELED_CODE);
 		verify(mockQuery).getResultList();
 		verify(mockEM).close();
 		
@@ -196,7 +196,7 @@ public class PSIProfileDaoTest {
 		verify(mockEM).createNativeQuery(anyString());
 		verify(mockQuery).setParameter("profileId", id);
 		verify(mockQuery).setParameter("dealerId", dealerId);
-		verify(mockQuery).setMaxResults(1);
+		verify(mockQuery).setParameter("canceled", Constants.DEALER_NOT_CANCELED_CODE);
 		verify(mockQuery).getResultList();
 		verify(mockEM).close();
 		

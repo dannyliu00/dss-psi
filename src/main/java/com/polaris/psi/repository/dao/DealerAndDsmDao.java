@@ -26,9 +26,10 @@ public class DealerAndDsmDao extends AbstractPolarisDealersExtensionDao<DealerAn
 		super(DealerAndDsm.class);
 	}
 
-	public DealerAndDsm selectByDealerId(Object dealerId) {
-        Map<String, Object> keyMap = new HashMap<String, Object>(1);
+	public DealerAndDsm selectByDealerId(Object dealerId, String productLine) {
+        Map<String, Object> keyMap = new HashMap<String, Object>(2);
         keyMap.put("dealerId", dealerId);
+        keyMap.put("productLine", productLine);
         
         List<DealerAndDsm> dsms = selectByMap(keyMap, null);
         

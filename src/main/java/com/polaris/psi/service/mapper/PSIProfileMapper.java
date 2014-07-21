@@ -43,6 +43,7 @@ public class PSIProfileMapper implements IMapper<PSIProfile, ProfileDto> {
 		dto.setModifiedDate(entity.getLastModifiedDate());
 		dto.setProfileId(entity.getId());
 		dto.setStatus(getStatus(entity.getStatus()));
+		dto.setTypeCode(entity.getType());
 		
 		typeMapper.mapTypeToProfile(entity.getType(), dto);
 		

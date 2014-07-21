@@ -3,7 +3,7 @@
 
     describe('DealerProfileController', function() {
         var scope, DTOptionsBuilder, DTOptions, routeParams, dealerResource, dealerProfileResource, expectedDealerId, expectedProfileId, appRoleResource;
-        var expectedDealerDeferred, expectedDealer, expectedProfileDeferred, expectedProfile, expectedRoleDeferred, expectedRole;
+        var expectedDealerDeferred, expectedDealer, expectedProfileDeferred, expectedProfile, expectedRoleDeferred, expectedRole, expectedType;
         var ctrl;
 
         beforeEach(function() {
@@ -26,7 +26,8 @@
 
             expectedProfileId = 1234;
             expectedDealerId = 111;
-            routeParams = {dealerId: expectedDealerId, profileId: expectedProfileId};
+	        expectedType = 'T';
+            routeParams = {dealerId: expectedDealerId, profileId: expectedProfileId, type: expectedType};
 
             DTOptionsBuilder = jasmine.createSpyObj('DTOptionsBuilder', ['newOptions']);
 
@@ -77,15 +78,15 @@
                     orderSegmentResourceMapper,
                     appRoleResource);
 
-                var expectedDealer = {dealerId: expectedDealerId};
+                var expectedDealer = {dealerId: expectedDealerId, type: expectedType};
                 var expectedProfile = {profileId: expectedProfileId,dealerId: expectedDealerId};
                 expect(dealerResource.get).toHaveBeenCalledWith(expectedDealer);
                 expect(dealerProfileResource.get).toHaveBeenCalledWith(expectedProfile);
 
-//                expect(DTOptionsBuilder.newOptions).toHaveBeenCalled();
-//                expect(DTOptions.withPaginationType).toHaveBeenCalled();
-//                expect(DTOptions.withDisplayLength).toHaveBeenCalled();
-//                expect(DTOptions.withBootstrap).toHaveBeenCalled();
+                expect(DTOptionsBuilder.newOptions).toHaveBeenCalled();
+                expect(DTOptions.withPaginationType).toHaveBeenCalled();
+                expect(DTOptions.withDisplayLength).toHaveBeenCalled();
+                expect(DTOptions.withBootstrap).toHaveBeenCalled();
             }));
         });
     });

@@ -6,39 +6,44 @@
         <thead>
         <tr role="row">
             <th role="columnheader" tabindex="0" aria-controls="activeObjectsTable"
-                colspan="1" aria-label="RSM/RRM : activate to sort column ascending" style="width: 10%;">
+                colspan="1" aria-label="RSM/RRM : activate to sort column ascending" style="width: 15%;">
                 RSM/RRM
             </th>
             <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable"
-            	colspan="1" aria-label="DSM/DRM : activate to sort column ascending" style="width: 0%;">
+            	colspan="1" aria-label="DSM/DRM : activate to sort column ascending" style="width: 15%;">
             	DSM/DRM
             	</th>
             <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable"
-                colspan="1" aria-label="Dealer Number : activate to sort column ascending" style="width: 20%;">
+                colspan="1" aria-label="Dealer Number : activate to sort column ascending" style="width: 10%;">
                 Dealer Number
             </th>
             <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable"
                 colspan="1" aria-label="Status : activate to sort column ascending" style="width: 20%;">
                 Dealer Name
             </th>
-            <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable"
+            <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" rowspan="1"
                 colspan="1" aria-label="Status : activate to sort column ascending" style="width: 20%;">
+                Profile Name
+            </th>
+            <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable"
+                colspan="1" aria-label="Status : activate to sort column ascending" style="width: 10%;">
                 Last Updated
             </th>
             <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable"
-                colspan="1" aria-label="Status : activate to sort column ascending" style="width: 20%;">
+                colspan="1" aria-label="Status : activate to sort column ascending" style="width: 10%;">
                 Status
             </th>
         </tr>
         </thead>
         <tbody role="alert" aria-live="polite" aria-relevant="all">
         <tr dt-rows ng-repeat="profile in profiles" >
-            <td class="">{{profile.rsmName}}</td>
-            <td class="">{{profile.dsmName}}</td>
-            <td class=""><a ng-click="navigateToNonDealerProfile(profile.dealerId, profile.profileId, profile.type)" >{{profile.dealerid}}</a></td>
-            <td class="">{{profile.dealerName}}</td>
-            <td class="">{{profile.modifiedDate | date : 'mediumDate'}}</td>
-            <td class="">{{profile.status}}</td>
+            <td class=" navLink">{{profile.rsmName}}</td>
+            <td class=" navLink">{{profile.dsmName}}</td>
+            <td class=" navLink"><a ng-click="navigateToNonDealerProfile(profile.dealerId, profile.profileId, profile.type)" >{{profile.dealerid}}</a></td>
+            <td class=" navLink">{{profile.dealerName}}</td>
+            <td class=" navLink">{{profile.profileName}}</td>
+            <td class=" navLink">{{profile.modifiedDate | date : 'mediumDate'}}</td>
+            <td class=" navLink">{{profile.status}}</td>
         </tr>
         </tbody>
     </table>

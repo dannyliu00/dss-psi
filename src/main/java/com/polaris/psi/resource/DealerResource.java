@@ -31,11 +31,11 @@ public class DealerResource {
 	DealerService service;
 
 	@GET
-    @Path("/{dealerId}")
+    @Path("/{dealerId}/{type}")
     @Produces(MediaType.APPLICATION_JSON)
-	public DealerDto getDealer(@PathParam("dealerId") int dealerId) {
+	public DealerDto getDealer(@PathParam("dealerId") int dealerId, @PathParam("type") String type) {
 		
-		return service.getDealer(dealerId);
+		return service.getDealer(dealerId, type);
 	}
 	
 }

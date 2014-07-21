@@ -104,3 +104,11 @@
 	margin-left: auto;
 	margin-right: auto;
 }
+
+.navLink {
+    cursor:pointer;
+}
+
+.numberInput {
+    width: 50px;
+}

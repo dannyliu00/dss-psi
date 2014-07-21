@@ -30,7 +30,7 @@
                         <td class="text-center"><span>{{orderSegment.recommended}}&nbsp;&nbsp;&nbsp;&nbsp;
                              <input tabindex="0"
                                    ng-class="{noncompliant: orderSegment.actual < orderSegment.recommended}"
-                                   class="text-center"
+                                   class="text-center numberInput"
                                    type="number"
                                    ng-model="orderSegment.actual"
                                    min="0"
@@ -39,7 +39,7 @@
                                    ng-disabled="orderSegment.actual != null"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>
                                  <input tabindex="0"
                                    ng-class="{noncompliant: orderSegment.dsmQty < orderSegment.recommended}"
-                                   class="text-center"
+                                   class="text-center numberInput"
                                    type="number"
                                    ng-model="orderSegment.dsmQty"
                                    min="0"
@@ -48,7 +48,7 @@
                                    ng-disabled="orderSegment.dsmQty != null"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>
 								<input tabindex="0"
                                    ng-class="{noncompliant: orderSegment.adminQty < orderSegment.recommended}"
-                                   class="text-center compliant"
+                                   class="text-center compliant numberInput"
                                    type="number"
                                    ng-model="orderSegment.adminQty"
                                    min="0"

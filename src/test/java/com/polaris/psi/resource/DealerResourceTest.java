@@ -2,6 +2,7 @@ package com.polaris.psi.resource;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -21,14 +22,16 @@ public class DealerResourceTest {
 	@Mock private DealerService mockService;
 	@Mock private DealerDto mockDto;
 	private int id;
+	private String type;
 	
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		
-		when(mockService.getDealer(anyInt())).thenReturn(mockDto);
+		when(mockService.getDealer(anyInt(), anyString())).thenReturn(mockDto);
 		
 		id = 1111;
+		type = "TYPE";
 
 		resource = new DealerResource();
 		resource.service = mockService;
@@ -41,9 +44,9 @@ public class DealerResourceTest {
 
 	@Test
 	public void testGetDealer() {
-		DealerDto actual = resource.getDealer(id);
+		DealerDto actual = resource.getDealer(id, type);
 		
-		verify(mockService).getDealer(id);
+		verify(mockService).getDealer(id, type);
 		
 		assertEquals(actual, mockDto);
 	}
