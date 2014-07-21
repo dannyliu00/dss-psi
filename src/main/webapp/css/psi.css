@@ -108,3 +108,7 @@
 .navLink {
     cursor:pointer;
 }
+
+.numberInput {
+    width: 50px;
+}
