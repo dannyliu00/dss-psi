@@ -49,22 +49,20 @@ public class PSILogMapperTest {
 		when(mockHeader.getSubmittedTime()).thenReturn(date);
 		when(mockHeader.getChangeUser()).thenReturn(userName);
 		
+		when(mockOS.getActual()).thenReturn(dealerQty);
 		when(mockOS.getAdminComments()).thenReturn(adminComments);
 		when(mockOS.getAdminQty()).thenReturn(adminQty);
 		when(mockOS.getAdminReasonCode()).thenReturn(adminReasonCode);
 		when(mockOS.getDealerComments()).thenReturn(dealerComments);
-		when(mockOS.getActual()).thenReturn(dealerQty);
-		when(mockOS.getReasonCode()).thenReturn(dealerReasonCode);
-		when(mockOS.getSubmittedDate()).thenReturn(date);
-		when(mockOS.getSubmittedDate()).thenReturn(date);
 		when(mockOS.getId()).thenReturn(detailId);
 		when(mockOS.getName()).thenReturn(orderSegmentName);
+		when(mockOS.getReasonCode()).thenReturn(dealerReasonCode);
 		
 		mapper = new PSILogMapper();
 	}
 
 	@Test
-	public void testMapDealerDataToLogWithOrderSegmentDto() {
+	public void testMapDealerDataToLog() {
 
 		mapper.mapDealerDataToLog(mockHeader, mockOS);
 		
@@ -74,15 +72,45 @@ public class PSILogMapperTest {
 		verify(mockHeader).getSubmittedDate();
 		verify(mockHeader).getSubmittedTime();
 		verify(mockHeader, times(3)).getChangeUser();
+		verify(mockOS).getActual();
 		verify(mockOS).getAdminComments();
 		verify(mockOS).getAdminQty();
 		verify(mockOS).getAdminReasonCode();
 		verify(mockOS).getDealerComments();
-		verify(mockOS).getActual();
-		verify(mockOS).getReasonCode();
-		verify(mockOS, times(2)).getSubmittedDate();
+		verify(mockOS).getDsmComments();
+		verify(mockOS).getDsmQty();
+		verify(mockOS).getDsmReasonCode();
+		verify(mockOS).getFinalQty();
 		verify(mockOS).getId();
 		verify(mockOS).getName();
+		verify(mockOS).getReasonCode();
+		
+		verifyNoMoreInteractions(mockHeader, mockOS);
+	}
+
+	@Test
+	public void testMapDsmDataToLog() {
+
+		mapper.mapDsmDataToLog(mockHeader, mockOS);
+
+		verify(mockHeader).getApprovedDate();
+		verify(mockHeader).getApprovedTime();
+		verify(mockHeader).getId();
+		verify(mockHeader).getSubmittedDate();
+		verify(mockHeader).getSubmittedTime();
+		verify(mockHeader, times(3)).getChangeUser();
+		verify(mockOS).getActual();
+		verify(mockOS).getAdminComments();
+		verify(mockOS).getAdminQty();
+		verify(mockOS).getAdminReasonCode();
+		verify(mockOS).getDealerComments();
+		verify(mockOS).getDsmComments();
+		verify(mockOS).getDsmQty();
+		verify(mockOS).getDsmReasonCode();
+		verify(mockOS).getFinalQty();
+		verify(mockOS).getId();
+		verify(mockOS).getName();
+		verify(mockOS).getReasonCode();
 		
 		verifyNoMoreInteractions(mockHeader, mockOS);
 	}
