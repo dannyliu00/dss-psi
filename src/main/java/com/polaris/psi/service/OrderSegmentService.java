@@ -31,6 +31,9 @@ import com.polaris.pwf.repository.CommonRepositoryConstants;
 public class OrderSegmentService {
 	
 	@Autowired
+	LogService logService;
+	
+	@Autowired
 	StatusService statusService;
 	
 	@Autowired
@@ -110,7 +113,9 @@ public class OrderSegmentService {
 			
 			for (OrderSegmentDto dto : records) {
 				dto.setSubmittedDate(header.getSubmittedDate());
+				logService.writeDealerChangesToLog(header, dto);
 			}
+			
 			profileDetailsDto.setOrderSegments(records);
 			profileDetailsDto.setMessage(Constants.SAVE_SUCCESSFUL);
 			profileDetailsDto.setSuccessful(true);
@@ -124,10 +129,12 @@ public class OrderSegmentService {
 		
 		DealerProfileHeader header = headerDataMapper.createNewSubmittedHeader(testRecord, status, profileDetailsDto.isNonCompliant());
 		DealerProfileHeader returnedHeader = headerDao.insert(header);
-		for (OrderSegmentDto orderSegment : records) {
-			OrderSegmentDto returnedSegment = createOrderSegmentQty(returnedHeader, orderSegment);
+		for (OrderSegmentDto dto : records) {
+			OrderSegmentDto returnedSegment = createOrderSegmentQty(returnedHeader, dto);
 			submitted.add(returnedSegment);
+			logService.writeDealerChangesToLog(header, dto);
 		}
+		
 		profileDetailsDto.setOrderSegments(submitted);
 		profileDetailsDto.setMessage(Constants.SAVE_SUCCESSFUL);
 		profileDetailsDto.setSuccessful(true);
@@ -235,5 +242,16 @@ public class OrderSegmentService {
 		}
 		
 		return false;
+	}
+	
+	protected DealerProfileDetail getDetailsFromOrderSegment(List<DealerProfileDetail> details, OrderSegmentDto orderSegment) {
+		for (DealerProfileDetail detail : details) {
+			if(orderSegment.getHeaderId() == detail.getHeader().getId()
+					&& orderSegment.getProfileOrderSegmentId() == detail.getProfileOrderSegmentId()
+					&& orderSegment.getPeriodCode().equals(detail.getPeriodCode()))
+				return detail;
+		}
+		
+		return null;
 	}
 }
