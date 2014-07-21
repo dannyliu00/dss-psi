@@ -21,9 +21,9 @@
         </thead>
         <tbody role="alert" aria-live="polite" aria-relevant="all">
         <tr dt-rows ng-repeat="profile in profiles" >
-            <td class="text-center sorting_1"><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.typeCode)" >{{profile.targetCompletionDate | date : 'mediumDate'}}</a></td>
-            <td class=""><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.typeCode)" >{{profile.name}}</a></td>
-            <td class=""><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.typeCode)" ><span style="color:#3AB050">{{profile.status}}</span></a></td>
+            <td class="text-center sorting_1 navLink"><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.typeCode)" >{{profile.targetCompletionDate | date : 'mediumDate'}}</a></td>
+            <td class="navLink"><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.typeCode)" >{{profile.name}}</a></td>
+            <td class="navLink"><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.typeCode)" ><span style="color:#3AB050">{{profile.status}}</span></a></td>
         </tr>
         </tbody>
     </table>
