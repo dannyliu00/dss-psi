@@ -32,6 +32,7 @@ import com.polaris.psi.service.mapper.HeaderDataMapper;
 public class OrderSegmentServiceTest {
 
 	private OrderSegmentService service;
+	@Mock private LogService mockLogService;
 	@Mock private StatusService mockStatusService;
 	@Mock private DealerProfileHeaderStatus mockStatus;
 	@Mock private DealerProfileHeaderDao mockHeaderDao;
@@ -42,7 +43,7 @@ public class OrderSegmentServiceTest {
 	@Mock private DetailDataMapper mockDetailMapper;
 	private Integer statusId, profileId, profileOrderSegmentId, headerId, detailId, dealerId, adminQty, dsmQty, finalQty, 
 					adminReasonCode, dsmReasonCode, reasonCode;
-	private String dealerEmail, userName, adminComments, dealerComments, dsmComments;
+	private String dealerEmail, userName, adminComments, dealerComments, dsmComments, orderSegmentName, periodCode;
 	private Date submittedDate, approvedDate;
 	private List<OrderSegmentDto> recordsToSave;
 	@Mock private OrderSegmentDto mockOrderSegment;
@@ -64,6 +65,8 @@ public class OrderSegmentServiceTest {
 		approvedDate = Calendar.getInstance().getTime();
 		userName = "UT User";
 		nonCompliant = false;
+		orderSegmentName = "UT OS";
+		periodCode = "UTCODE";
 		
 		profileOrderSegmentId = 88;
 		reasonCode = 3;
@@ -97,29 +100,11 @@ public class OrderSegmentServiceTest {
 		when(mockProfileDetailsDto.getOrderSegments()).thenReturn(recordsToSave);
 		when(mockProfileDetailsDto.isNonCompliant()).thenReturn(nonCompliant);
 
-		// header data
-		when(mockOrderSegment.getProfileId()).thenReturn(profileId);
-		when(mockOrderSegment.getDealerId()).thenReturn(dealerId);
-		when(mockOrderSegment.getDealerEmail()).thenReturn(dealerEmail);
 		when(mockOrderSegment.getSubmittedDate()).thenReturn(submittedDate);
-		when(mockOrderSegment.getApprovedDate()).thenReturn(approvedDate);
 		when(mockOrderSegment.getModifiedUserName()).thenReturn(userName);
 		when(mockOrderSegment.getHeaderId()).thenReturn(headerId);
-		when(mockOrderSegment.isNonCompliant()).thenReturn(nonCompliant);
 		
-		// detail data
 		when(mockOrderSegment.getId()).thenReturn(detailId);
-		when(mockOrderSegment.getProfileOrderSegmentId()).thenReturn(profileOrderSegmentId);
-		when(mockOrderSegment.getActual()).thenReturn(actual);
-		when(mockOrderSegment.getReasonCode()).thenReturn(reasonCode);
-		when(mockOrderSegment.getDealerComments()).thenReturn(dealerComments);
-		when(mockOrderSegment.getDsmQty()).thenReturn(dsmQty);
-		when(mockOrderSegment.getDsmReasonCode()).thenReturn(dsmReasonCode);
-		when(mockOrderSegment.getDsmComments()).thenReturn(dsmComments);
-		when(mockOrderSegment.getAdminQty()).thenReturn(adminQty);
-		when(mockOrderSegment.getAdminReasonCode()).thenReturn(adminReasonCode);
-		when(mockOrderSegment.getAdminComments()).thenReturn(adminComments);
-		when(mockOrderSegment.getFinalQty()).thenReturn(finalQty);
 		
 		when(mockStatus.getId()).thenReturn(statusId);
 		when(mockHeader.getId()).thenReturn(headerId);
@@ -133,6 +118,7 @@ public class OrderSegmentServiceTest {
 		when(mockDetailMapper.createInitialDetail(mockOrderSegment, mockHeader)).thenReturn(mockDetail);
 		
 		service = new OrderSegmentService();
+		service.logService = mockLogService;
 		service.statusService = mockStatusService;
 		service.headerDao = mockHeaderDao;
 		service.detailDao = mockDetailDao;
@@ -205,7 +191,7 @@ public class OrderSegmentServiceTest {
 		
 		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto);
 		verifyZeroInteractions(mockDetail, mockReturnedDetail, mockStatus, mockOrderSegment, mockHeader, 
-				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao);
+				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao, mockLogService);
 	}
 	
 	@Test
@@ -225,13 +211,14 @@ public class OrderSegmentServiceTest {
 		verify(mockReturnedDetail).getId();
 		verify(mockOrderSegment).setId(anyInt());
 		verify(mockOrderSegment).setHeaderId(anyInt());
+		verify(mockLogService).writeDealerChangesToLog(mockHeader, mockOrderSegment);
 		verify(mockProfileDetailsDto).isNonCompliant();
 		verify(mockProfileDetailsDto).setOrderSegments(recordsToSave);
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockProfileDetailsDto).setSuccessful(true);
 
 		verifyNoMoreInteractions(mockOrderSegment, mockStatusService, mockHeaderDao, mockDetailDao, 
-				mockHeader, mockDetail, mockProfileDetailsDto);
+				mockHeader, mockDetail, mockProfileDetailsDto, mockLogService);
 	}
 
 	@Test
@@ -252,13 +239,14 @@ public class OrderSegmentServiceTest {
 		verify(mockHeader).getSubmittedDate();
 		verify(mockOrderSegment).setSubmittedDate(submittedDate);
 		verify(mockOrderSegment).getId();
+		verify(mockLogService).writeDealerChangesToLog(mockHeader, mockOrderSegment);
 		verify(mockProfileDetailsDto).isNonCompliant();
 		verify(mockProfileDetailsDto).setOrderSegments(recordsToSave);
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockProfileDetailsDto).setSuccessful(true);
 
 		verifyNoMoreInteractions(mockOrderSegment, mockStatusService, mockHeaderDao, mockDetailDao, 
-				mockHeader, mockDetail, mockProfileDetailsDto);
+				mockHeader, mockDetail, mockProfileDetailsDto, mockLogService);
 	}
 	
 	@Test

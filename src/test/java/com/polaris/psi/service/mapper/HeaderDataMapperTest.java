@@ -122,18 +122,4 @@ public class HeaderDataMapperTest {
 		verify(mockHeader).setStatus(mockStatus);
 	}
 
-	@Test
-	public void testSetDateDefaultDateResult() {
-		Date result = mapper.setDate(null);
-		assertEquals(Constants.DEFAULT_DATE.getTime(), result);
-	}
-
-	@Test
-	public void testSetDateDefaultRealResult() {
-		Calendar cal = Calendar.getInstance();
-		Date date = cal.getTime();
-		Date result = mapper.setDate(date);
-		assertEquals(date, result);
-	}
-
 }

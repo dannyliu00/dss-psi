@@ -12,6 +12,7 @@ import com.polaris.psi.Constants;
 import com.polaris.psi.repository.entity.DealerProfileHeader;
 import com.polaris.psi.repository.entity.DealerProfileHeaderStatus;
 import com.polaris.psi.resource.dto.OrderSegmentDto;
+import com.polaris.psi.util.CommonUtils;
 
 /**
  * @author bericks
@@ -28,14 +29,14 @@ public class HeaderDataMapper {
 		header.setCreatedTime(date);
 		header.setCreatedUser(dto.getModifiedUserName());
 		header.setDealerId(dto.getDealerId());
-		header.setEmailAddress(setStringValue(dto.getDealerEmail()));
+		header.setEmailAddress(CommonUtils.setStringValue(dto.getDealerEmail()));
 		header.setNonCompliant(nonCompliant);
 		header.setProfileId(dto.getProfileId());
 		header.setStatus(status);
-		header.setSubmittedDate(setDate(null));
-		header.setSubmittedTime(setDate(null));
-		header.setApprovedDate(setDate(null));
-		header.setApprovedTime(setDate(null));
+		header.setSubmittedDate(CommonUtils.setDate(null));
+		header.setSubmittedTime(CommonUtils.setDate(null));
+		header.setApprovedDate(CommonUtils.setDate(null));
+		header.setApprovedTime(CommonUtils.setDate(null));
 		header.setChangedDate(date);
 		header.setChangedTime(date);
 		header.setChangedProgram(Constants.PROGRAM_CODE);
@@ -79,18 +80,4 @@ public class HeaderDataMapper {
 		header.setNonCompliant(nonCompliant);
 	}
 
-	protected Date setDate(Date date) {
-		return date != null ? date : Constants.DEFAULT_DATE.getTime();
-	}
-
-	protected int setIntegerValue(Integer value) {
-		if(value == null) return -1;
-		return value; 
-	}
-	
-	protected String setStringValue(String value) {
-		if(value == null || value.length() == 0) return "";
-		return value;
-	}
-	
 }
