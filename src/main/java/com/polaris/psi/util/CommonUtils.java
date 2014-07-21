@@ -63,7 +63,7 @@ public class CommonUtils {
 	}
 	
 	public static String setStringValue(String value) {
-		if(value == null || value.length() == 0) return "";
+		if(value == null) return "";
 		return value;
 	}
 	
