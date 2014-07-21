@@ -14,6 +14,7 @@ public class Constants {
     public static final String PROGRAM_NAME = "Inventory Profile Sell-In";
     public static final String PROGRAM_CODE = "PSIv1";
     public static String APPLICATION_GUID = "02E0E350-DA3B-4C84-BB26-9B1E8F5A9862";
+    public static String GLOBAL_APPLICATION_GUID = "16C36E64-F410-47D9-BE4E-65FA2CF29FC8";    
     
     public static final Integer DEALER_NOT_CANCELED_CODE = 0;
     
@@ -47,6 +48,18 @@ public class Constants {
     public static final String NO_RECORDS = "No Records";
     
     public static final String PRODUCT_LINE_REGEX = "2|5|6|9|D|F|Z";
+    
+    // Application Attributes
+    public static final String ATTR_ASKPOLARISURL = "AskPolaris";
+    public static final String ATTR_ECHATURL = "eChatUrl";
+    public static final String ATTR_DSMHOME = "DsmHome";
+    public static final String ATTR_DEALERHOME = "DealerHome";
+    public static final String ATTR_INTRANETHOME = "IntranetHome";
+    public static final String ATTR_DEALERCASES = "DealerCases";
+    public static final String ATTR_CHANGEDEALER = "ChangeDealer";
+    public static final String ATTR_ADMINHOMEURL = "adminHomeUrl";
+    public static final String ATTR_DEXROOT = "DexRoot";
+    public static final String ATTR_ADMINHOME = "AdminHome";
 
 }
 
