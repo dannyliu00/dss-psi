@@ -32,12 +32,12 @@
         </thead>
         <tbody role="alert" aria-live="polite" aria-relevant="all">
         <tr dt-rows ng-repeat="profile in profiles" >
-            <td ng-class="profile.nonCompliant === true ? 'red-light' : 'green-light'" ></td>
-            <td class=""><a ng-click="navigateToNonDealerProfile(profile.dealerid, profile.profileId, profile.type)" >{{profile.dealerid}}</a></td>
-            <td class="">{{profile.dealerName}}</td>
-            <td class="">{{profile.profileName}}</td>
-            <td class="">{{profile.modifiedDate | date : 'mediumDate'}}</td>
-            <td class="">{{profile.status}}</td>
+            <td class=" navLink" ng-class="profile.nonCompliant === true ? 'red-light' : 'green-light'" ></td>
+            <td class=" navLink"><a ng-click="navigateToNonDealerProfile(profile.dealerid, profile.profileId, profile.type)" >{{profile.dealerid}}</a></td>
+            <td class=" navLink">{{profile.dealerName}}</td>
+            <td class=" navLink">{{profile.profileName}}</td>
+            <td class=" navLink">{{profile.modifiedDate | date : 'mediumDate'}}</td>
+            <td class=" navLink">{{profile.status}}</td>
         </tr>
         </tbody>
     </table>
