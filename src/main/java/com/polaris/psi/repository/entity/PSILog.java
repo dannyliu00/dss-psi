@@ -7,7 +7,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -15,6 +17,8 @@ import javax.persistence.TemporalType;
  * @author bericks
  *
  */
+@Entity
+@Table(name = "OT083F")
 public class PSILog implements Serializable {
 
 	private static final long serialVersionUID = 2982531330926708965L;
