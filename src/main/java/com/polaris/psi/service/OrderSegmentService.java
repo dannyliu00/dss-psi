@@ -201,6 +201,7 @@ public class OrderSegmentService {
 			DealerProfileDetail detail = detailDao.select(dto.getId());
 			detailDataMapper.updateDsmEnteredDetails(detail, dto, userName);
 			detailDao.update(detail);
+			logService.writeDsmChangesToLog(header, dto);
 		}
 		
 		profile.setMessage(Constants.SAVE_SUCCESSFUL);

@@ -41,14 +41,12 @@ public class OrderSegmentServiceTest {
 	@Mock private DealerProfileDetail mockDetail, mockReturnedDetail;
 	@Mock private HeaderDataMapper mockHeaderMapper;
 	@Mock private DetailDataMapper mockDetailMapper;
-	private Integer statusId, profileId, profileOrderSegmentId, headerId, detailId, dealerId, adminQty, dsmQty, finalQty, 
-					adminReasonCode, dsmReasonCode, reasonCode;
-	private String dealerEmail, userName, adminComments, dealerComments, dsmComments, orderSegmentName, periodCode;
+	private Integer statusId, headerId, detailId;
+	private String userName;
 	private Date submittedDate, approvedDate;
 	private List<OrderSegmentDto> recordsToSave;
 	@Mock private OrderSegmentDto mockOrderSegment;
 	@Mock private ProfileDetailsDto mockProfileDetailsDto;
-	private int actual;
 	private boolean nonCompliant;
 	
 	@Before
@@ -58,30 +56,10 @@ public class OrderSegmentServiceTest {
 		statusId = 999;
 		headerId = 998;
 		detailId = 997;
-		profileId = 1;
-		dealerId = 2;
-		dealerEmail = "dealer@local";
 		submittedDate = Calendar.getInstance().getTime();
 		approvedDate = Calendar.getInstance().getTime();
 		userName = "UT User";
 		nonCompliant = false;
-		orderSegmentName = "UT OS";
-		periodCode = "UTCODE";
-		
-		profileOrderSegmentId = 88;
-		reasonCode = 3;
-		dealerComments = "UT dealer comments";
-		
-		actual = 3;
-		dsmQty = 5;
-		dsmReasonCode = 10;
-		dsmComments = "UT dsm comments";
-		
-		adminQty = 6;
-		adminReasonCode = 10;
-		adminComments = "UT admin comments";
-		
-		finalQty = 6;
 		
 		recordsToSave = new ArrayList<OrderSegmentDto>();
 		recordsToSave.add(mockOrderSegment);
@@ -260,7 +238,7 @@ public class OrderSegmentServiceTest {
 		verifyNoMoreInteractions(mockStatusService);
 
 		verifyZeroInteractions(mockDetail, mockReturnedDetail, mockStatus, mockOrderSegment, mockHeader, 
-				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao);
+				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao, mockLogService);
 	}
 	
 	@Test
@@ -282,8 +260,9 @@ public class OrderSegmentServiceTest {
 		verify(mockHeaderMapper).updateChangedAttributes(mockHeader, mockStatus, userName, nonCompliant);
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockProfileDetailsDto).setSuccessful(true);
+		verify(mockLogService).writeDsmChangesToLog(mockHeader, mockOrderSegment);
 		
-		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, mockHeaderMapper);
+		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, mockHeaderMapper, mockLogService);
 	}
 	
 	@Test
@@ -300,7 +279,7 @@ public class OrderSegmentServiceTest {
 		verifyNoMoreInteractions(mockStatusService);
 
 		verifyZeroInteractions(mockDetail, mockReturnedDetail, mockStatus, mockOrderSegment, mockHeader, 
-				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao);
+				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao, mockLogService);
 	}
 	
 	@Test
@@ -323,8 +302,9 @@ public class OrderSegmentServiceTest {
 		verify(mockHeaderMapper).updateChangedAttributes(mockHeader, mockStatus, userName, nonCompliant);
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockProfileDetailsDto).setSuccessful(true);
+		verify(mockLogService).writeDsmChangesToLog(mockHeader, mockOrderSegment);
 		
-		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, mockHeaderMapper);
+		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, mockHeaderMapper, mockLogService);
 	}
 	
 	@Test
@@ -341,7 +321,7 @@ public class OrderSegmentServiceTest {
 		verifyNoMoreInteractions(mockStatusService);
 
 		verifyZeroInteractions(mockDetail, mockReturnedDetail, mockStatus, mockOrderSegment, mockHeader, 
-				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao);
+				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao, mockLogService);
 	}
 	
 	@Test
@@ -364,8 +344,9 @@ public class OrderSegmentServiceTest {
 		verify(mockHeaderMapper).updateChangedAttributes(mockHeader, mockStatus, userName, nonCompliant);
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockProfileDetailsDto).setSuccessful(true);
+		verify(mockLogService).writeDsmChangesToLog(mockHeader, mockOrderSegment);
 		
-		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, mockHeaderMapper);
+		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, mockHeaderMapper, mockLogService);
 	}
 	
 	@Test
@@ -382,7 +363,7 @@ public class OrderSegmentServiceTest {
 		verifyNoMoreInteractions(mockStatusService);
 
 		verifyZeroInteractions(mockDetail, mockReturnedDetail, mockStatus, mockOrderSegment, mockHeader, 
-				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao);
+				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao, mockLogService);
 	}
 	
 	@Test
@@ -403,8 +384,9 @@ public class OrderSegmentServiceTest {
 		verify(mockHeaderMapper).updateChangedAttributes(mockHeader, mockStatus, userName, nonCompliant);
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockProfileDetailsDto).setSuccessful(true);
+		verify(mockLogService).writeDsmChangesToLog(mockHeader, mockOrderSegment);
 		
-		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, mockHeaderMapper);
+		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, mockHeaderMapper, mockLogService);
 	}
 	
 	@Test
@@ -421,7 +403,7 @@ public class OrderSegmentServiceTest {
 		verifyNoMoreInteractions(mockStatusService);
 
 		verifyZeroInteractions(mockDetail, mockReturnedDetail, mockStatus, mockOrderSegment, mockHeader, 
-				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao);
+				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao, mockLogService);
 	}
 	
 	@Test
@@ -442,8 +424,9 @@ public class OrderSegmentServiceTest {
 		verify(mockHeaderMapper).updateChangedAttributes(mockHeader, mockStatus, userName, nonCompliant);
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockProfileDetailsDto).setSuccessful(true);
+		verify(mockLogService).writeDsmChangesToLog(mockHeader, mockOrderSegment);
 		
-		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, mockHeaderMapper);
+		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, mockHeaderMapper, mockLogService);
 	}
 	
 }
