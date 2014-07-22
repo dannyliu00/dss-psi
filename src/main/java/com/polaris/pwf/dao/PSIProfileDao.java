@@ -29,7 +29,8 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 	private static Logger LOG = Logger.getLogger(PSIProfileDao.class);
 
 	private static String QRY_BY_DLR_STATUS = ""
-			+ "SELECT pstatus.N2DESC, profile.N1IPID, trim(profile.N1DESC), profile.N1TDAT, profile.N1PDLN, Trim(status.N9DESC), header.N7NFLG "
+			+ "SELECT pstatus.N2DESC, profile.N1IPID, trim(profile.N1DESC), profile.N1TDAT, profile.N1PDLN, "
+			+ "       Trim(status.N9DESC), header.N7NFLG, header.N7CHDT "
 			+ "  FROM cm006f dealer INNER JOIN ot071f profile ON profile.N1PDLN = dealer.PTSFAM "
 			+ "       INNER JOIN ot072f pstatus ON pstatus.N2STID = profile.N1STID "
 			+ "       LEFT OUTER JOIN ot077f header ON header.N7DLR = ptcust AND header.N7IPID = profile.N1IPID "
@@ -39,7 +40,8 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 			+ "   AND pstatus.N2DESC = :status "
 			+ "   AND EXISTS (SELECT * FROM ot075f where N5IPID = N1IPID and N5DLR = PTCUST)";
 	private static String QRY_BY_DLR_AND_TYPE = ""
-			+ "SELECT pstatus.N2DESC, profile.N1IPID, trim(profile.N1DESC), profile.N1TDAT, profile.N1PDLN, Trim(status.N9DESC), header.N7NFLG "
+			+ "SELECT pstatus.N2DESC, profile.N1IPID, trim(profile.N1DESC), profile.N1TDAT, profile.N1PDLN, "
+			+ "       Trim(status.N9DESC), header.N7NFLG, header.N7CHDT "
 			+ "  FROM cm006f dealer INNER JOIN ot071f profile ON profile.N1PDLN = dealer.PTSFAM "
 			+ "       INNER JOIN ot072f pstatus ON pstatus.N2STID = profile.N1STID "
 			+ "       LEFT OUTER JOIN ot077f header ON header.N7DLR = ptcust AND header.N7IPID = profile.N1IPID "
@@ -92,6 +94,7 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 			profile.setType(CommonUtils.trimString((String) result[4]));
 			profile.setStatus(CommonUtils.trimString((String) result[5]));
 			profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInt((BigDecimal) result[6])));
+			profile.setLastModifiedDate(CommonUtils.setDate((Date) result[7]));
 			
 			profiles.add(profile);
 		}
@@ -127,7 +130,8 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 			profile.setType(CommonUtils.trimString((String) result[4]));
 			profile.setStatus(CommonUtils.trimString((String) result[5]));
 			profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInt((BigDecimal) result[6])));
-			
+			profile.setLastModifiedDate(CommonUtils.setDate((Date) result[7]));
+
 			profiles.add(profile);
 		}
 		
@@ -164,6 +168,7 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 			profile.setType(CommonUtils.trimString((String) result[4]));
 			profile.setStatus(CommonUtils.trimString((String) result[5]));
 			profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInt((BigDecimal) result[6])));
+			profile.setLastModifiedDate(CommonUtils.setDate((Date) result[7]));
 			
 			profiles.add(profile);
 		}
@@ -201,6 +206,7 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 			profile.setType(CommonUtils.trimString((String) result[4]));
 			profile.setStatus(CommonUtils.trimString((String) result[5]));
 			profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInt((BigDecimal) result[6])));
+			profile.setLastModifiedDate(CommonUtils.setDate((Date) result[7]));
 			
 			profiles.add(profile);
 		}
