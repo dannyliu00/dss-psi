@@ -28,7 +28,7 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 
 	private static Logger LOG = Logger.getLogger(PSIProfileDao.class);
 
-	private static String QRY_DLR_CURRENT = ""
+	private static String QRY_BY_DLR_STATUS = ""
 			+ "SELECT pstatus.N2DESC, profile.N1IPID, trim(profile.N1DESC), profile.N1TDAT, profile.N1PDLN, Trim(status.N9DESC), header.N7NFLG "
 			+ "  FROM cm006f dealer INNER JOIN ot071f profile ON profile.N1PDLN = dealer.PTSFAM "
 			+ "       INNER JOIN ot072f pstatus ON pstatus.N2STID = profile.N1STID "
@@ -36,8 +36,9 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 			+ "       LEFT OUTER JOIN ot079f status ON status.N9STID = header.N7STID "
 			+ " WHERE dealer.ptcust = :dealerId "
 			+ "   AND dealer.ptcandt = :canceled "
+			+ "   AND pstatus.N2DESC = :status "
 			+ "   AND EXISTS (SELECT * FROM ot075f where N5IPID = N1IPID and N5DLR = PTCUST)";
-	private static String QRY_BY_DLR_CANCELED_TYPE = ""
+	private static String QRY_BY_DLR_AND_TYPE = ""
 			+ "SELECT pstatus.N2DESC, profile.N1IPID, trim(profile.N1DESC), profile.N1TDAT, profile.N1PDLN, Trim(status.N9DESC), header.N7NFLG "
 			+ "  FROM cm006f dealer INNER JOIN ot071f profile ON profile.N1PDLN = dealer.PTSFAM "
 			+ "       INNER JOIN ot072f pstatus ON pstatus.N2STID = profile.N1STID "
@@ -45,6 +46,7 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 			+ "       LEFT OUTER JOIN ot079f status ON status.N9STID = header.N7STID "
 			+ " WHERE dealer.ptcust = :dealerId "
 			+ "   AND dealer.ptcandt = :canceled "
+			+ "   AND pstatus.N2DESC = :status "
 			+ "   AND profile.N1PDLN = :type "
 			+ "   AND EXISTS (SELECT * FROM ot075f where N5IPID = N1IPID and N5DLR = PTCUST)";
 	private static String QUERY_BY_DLR_PROFILE_IDS = ""
@@ -65,13 +67,16 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 	}
 	
 	public List<PSIProfile> retrieveDealerCurrentProfileListByDealerId(Integer dealerId) {
-		Query query = entityManager.createNativeQuery(QRY_DLR_CURRENT);
+		Query query = entityManager.createNativeQuery(QRY_BY_DLR_STATUS);
 		query.setParameter("dealerId", dealerId);
 		query.setParameter("canceled", Constants.DEALER_NOT_CANCELED_CODE);
+		query.setParameter("status", Constants.ACTIVE_PROFILE_STATUS);
 		
 		if(LOG.isTraceEnabled()) {
-			LOG.trace("query to run: " + QRY_DLR_CURRENT);
-			LOG.trace("query paramters: dealerId = " + dealerId + ", canceled = " + Constants.DEALER_NOT_CANCELED_CODE);
+			LOG.trace("query to run: " + QRY_BY_DLR_STATUS);
+			LOG.trace("query paramters: dealerId = " + dealerId 
+					+ ", canceled = " + Constants.DEALER_NOT_CANCELED_CODE 
+					+ ", status = " + Constants.ACTIVE_PROFILE_STATUS);
 		}
 		
 		@SuppressWarnings("unchecked")
@@ -88,8 +93,42 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 			profile.setStatus(CommonUtils.trimString((String) result[5]));
 			profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInt((BigDecimal) result[6])));
 			
-			String status = profile.getProfileStatus();
-			if(status.equals(Constants.ACTIVE)) profiles.add(profile);
+			profiles.add(profile);
+		}
+		
+		entityManager.close();
+		
+        return profiles;
+	}
+	
+	public List<PSIProfile> retrieveDealerHistoryProfileListByDealerId(Integer dealerId) {
+		Query query = entityManager.createNativeQuery(QRY_BY_DLR_STATUS);
+		query.setParameter("dealerId", dealerId);
+		query.setParameter("canceled", Constants.DEALER_NOT_CANCELED_CODE);
+		query.setParameter("status", Constants.HISTORICAL_PROFILE_STATUS);
+		
+		if(LOG.isTraceEnabled()) {
+			LOG.trace("query to run: " + QRY_BY_DLR_STATUS);
+			LOG.trace("query paramters: dealerId = " + dealerId 
+					+ ", canceled = " + Constants.DEALER_NOT_CANCELED_CODE
+					+ ", status = " + Constants.HISTORICAL_PROFILE_STATUS);
+		}
+		
+		@SuppressWarnings("unchecked")
+		List<Object[]> results = query.getResultList();
+		
+		List<PSIProfile> profiles = new ArrayList<PSIProfile>();
+		for (Object[] result : results) {
+			PSIProfile profile = new PSIProfile();
+			profile.setProfileStatus(CommonUtils.trimString((String) result[0]));
+			profile.setId(((BigDecimal) result[1]).intValueExact());
+			profile.setName(CommonUtils.trimString((String) result[2]));
+			profile.setTargetCompleteDate((Date) result[3]);
+			profile.setType(CommonUtils.trimString((String) result[4]));
+			profile.setStatus(CommonUtils.trimString((String) result[5]));
+			profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInt((BigDecimal) result[6])));
+			
+			profiles.add(profile);
 		}
 		
 		entityManager.close();
@@ -98,14 +137,17 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 	}
 	
 	public List<PSIProfile> retrieveDsmCurrentProfileListByDealerId(Integer dealerId, String type) {
-		Query query = entityManager.createNativeQuery(QRY_BY_DLR_CANCELED_TYPE);
+		Query query = entityManager.createNativeQuery(QRY_BY_DLR_AND_TYPE);
 		query.setParameter("dealerId", dealerId);
 		query.setParameter("canceled", Constants.DEALER_NOT_CANCELED_CODE);
+		query.setParameter("status", Constants.ACTIVE_PROFILE_STATUS);
 		query.setParameter("type", type);
 		
 		if(LOG.isTraceEnabled()) {
-			LOG.trace("query to run: " + QRY_DLR_CURRENT);
-			LOG.trace("query paramters: dealerId = " + dealerId + ", canceled = " + Constants.DEALER_NOT_CANCELED_CODE
+			LOG.trace("query to run: " + QRY_BY_DLR_AND_TYPE);
+			LOG.trace("query paramters: dealerId = " + dealerId 
+					+ ", canceled = " + Constants.DEALER_NOT_CANCELED_CODE
+					+ ", status = " + Constants.ACTIVE_PROFILE_STATUS
 					+ ", type = " + type);
 		}
 		
@@ -127,6 +169,43 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 			if(status != null && (status.equals(Constants.PENDING_STATUS) || status.equals(Constants.RETURNED_TO_DSM))) {
 				profiles.add(profile);
 			}
+		}
+		
+		entityManager.close();
+		
+        return profiles;
+	}
+	
+	public List<PSIProfile> retrieveDsmHistoryProfileListByDealerId(Integer dealerId, String type) {
+		Query query = entityManager.createNativeQuery(QRY_BY_DLR_AND_TYPE);
+		query.setParameter("dealerId", dealerId);
+		query.setParameter("canceled", Constants.DEALER_NOT_CANCELED_CODE);
+		query.setParameter("status", Constants.HISTORICAL_PROFILE_STATUS);
+		query.setParameter("type", type);
+		
+		if(LOG.isTraceEnabled()) {
+			LOG.trace("query to run: " + QRY_BY_DLR_AND_TYPE);
+			LOG.trace("query paramters: dealerId = " + dealerId 
+					+ ", canceled = " + Constants.DEALER_NOT_CANCELED_CODE
+					+ ", status = " + Constants.HISTORICAL_PROFILE_STATUS
+					+ ", type = " + type);
+		}
+		
+		@SuppressWarnings("unchecked")
+		List<Object[]> results = query.getResultList();
+		
+		List<PSIProfile> profiles = new ArrayList<PSIProfile>();
+		for (Object[] result : results) {
+			PSIProfile profile = new PSIProfile();
+			profile.setProfileStatus(CommonUtils.trimString((String) result[0]));
+			profile.setId(((BigDecimal) result[1]).intValueExact());
+			profile.setName(CommonUtils.trimString((String) result[2]));
+			profile.setTargetCompleteDate((Date) result[3]);
+			profile.setType(CommonUtils.trimString((String) result[4]));
+			profile.setStatus(CommonUtils.trimString((String) result[5]));
+			profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInt((BigDecimal) result[6])));
+			
+			profiles.add(profile);
 		}
 		
 		entityManager.close();

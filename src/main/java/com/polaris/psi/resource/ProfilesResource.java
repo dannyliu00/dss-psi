@@ -43,7 +43,31 @@ public class ProfilesResource {
 			return new ArrayList<ProfileDto>();
 		}
 		
-		return service.getDealerProfiles(dealerId);
+		return service.getCurrentDealerProfiles(dealerId);
+	}
+	
+	@GET
+    @Path("/{dealerId}/current")
+    @Produces(MediaType.APPLICATION_JSON)
+	public List<ProfileDto> getCurrentDealerProfiles(@PathParam("dealerId") int dealerId) {
+		UserData userData = sessionHelper.getUserData();
+		if(!userData.isDealer() || userData.getDealerId() != dealerId) {
+			return new ArrayList<ProfileDto>();
+		}
+		
+		return service.getCurrentDealerProfiles(dealerId);
+	}
+	
+	@GET
+    @Path("/{dealerId}/history")
+    @Produces(MediaType.APPLICATION_JSON)
+	public List<ProfileDto> getHistoricalDealerProfiles(@PathParam("dealerId") int dealerId) {
+		UserData userData = sessionHelper.getUserData();
+		if(!userData.isDealer() || userData.getDealerId() != dealerId) {
+			return new ArrayList<ProfileDto>();
+		}
+		
+		return service.getHistoricalDealerProfiles(dealerId);
 	}
 	
 }

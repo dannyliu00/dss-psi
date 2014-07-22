@@ -112,12 +112,23 @@ public class ProfileServiceTest {
 	}
 
 	@Test
-	public void testGetDealerProfiles() {
+	public void testGetCurrentDealerProfiles() {
 		when(mockPsiProfileDao.retrieveDealerCurrentProfileListByDealerId(dealerId)).thenReturn(mockProfiles);
 		
-		service.getDealerProfiles(dealerId);
+		service.getCurrentDealerProfiles(dealerId);
 		
 		verify(mockPsiProfileDao).retrieveDealerCurrentProfileListByDealerId(dealerId);
+		verify(mockProfileMapper).mapToDto(mockProfiles);
+		
+	}
+
+	@Test
+	public void testGetHistoricalDealerProfiles() {
+		when(mockPsiProfileDao.retrieveDealerHistoryProfileListByDealerId(dealerId)).thenReturn(mockProfiles);
+		
+		service.getHistoricalDealerProfiles(dealerId);
+		
+		verify(mockPsiProfileDao).retrieveDealerHistoryProfileListByDealerId(dealerId);
 		verify(mockProfileMapper).mapToDto(mockProfiles);
 		
 	}
