@@ -80,4 +80,36 @@ public class DsmService {
 		return dtos;
 	}
 	
+	public List<DsmDealerProfilesDto> getRsmCurrentProfiles(Integer rsmId, String type) {
+		List<DealerAndDsm> dsmDealers = dsmDao.selectByRsmId(rsmId, type);
+		List<DsmDealerProfilesDto> dtos = new ArrayList<DsmDealerProfilesDto>();
+		
+		for (DealerAndDsm dealerAndDsm : dsmDealers) {
+			Integer dealerId = dealerAndDsm.getDealerId();
+
+			List<PSIProfile> psiProfiles = psiProfileDao.retrieveDsmCurrentProfileListByDealerId(dealerId, type);
+			for (PSIProfile profile : psiProfiles) {
+				dtos.add(mapper.mapToDto(dealerAndDsm, profile));
+			}
+		}
+		
+		return dtos;
+	}
+	
+	public List<DsmDealerProfilesDto> getRsmHistoricalProfiles(Integer rsmId, String type) {
+		List<DealerAndDsm> dsmDealers = dsmDao.selectByRsmId(rsmId, type);
+		List<DsmDealerProfilesDto> dtos = new ArrayList<DsmDealerProfilesDto>();
+		
+		for (DealerAndDsm dealerAndDsm : dsmDealers) {
+			Integer dealerId = dealerAndDsm.getDealerId();
+
+			List<PSIProfile> psiProfiles = psiProfileDao.retrieveDsmHistoryProfileListByDealerId(dealerId, type);
+			for (PSIProfile profile : psiProfiles) {
+				dtos.add(mapper.mapToDto(dealerAndDsm, profile));
+			}
+		}
+		
+		return dtos;
+	}
+	
 }

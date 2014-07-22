@@ -117,4 +117,30 @@ public class DsmServiceTest {
 		verify(mockMapper).mapToDto(dsmDealer, mockProfile);
 	}
 
+	@Test
+	public void testGetRsmCurrentProfiles() {
+		when(mockProfileDao.retrieveDsmCurrentProfileListByDealerId(dealerId, productType)).thenReturn(psiProfiles);
+
+		List<DsmDealerProfilesDto> results = service.getRsmCurrentProfiles(rsmId, productType);
+		
+		assertEquals(dtos.size(), results.size());
+		
+		verify(mockDsmDao).selectByRsmId(rsmId, productType);
+		verify(mockProfileDao).retrieveDsmCurrentProfileListByDealerId(dealerId, productType);
+		verify(mockMapper).mapToDto(dsmDealer, mockProfile);
+	}
+
+	@Test
+	public void testGetRsmHistoricalProfiles() {
+		when(mockProfileDao.retrieveDsmHistoryProfileListByDealerId(dealerId, productType)).thenReturn(psiProfiles);
+
+		List<DsmDealerProfilesDto> results = service.getRsmHistoricalProfiles(rsmId, productType);
+		
+		assertEquals(dtos.size(), results.size());
+		
+		verify(mockDsmDao).selectByRsmId(rsmId, productType);
+		verify(mockProfileDao).retrieveDsmHistoryProfileListByDealerId(dealerId, productType);
+		verify(mockMapper).mapToDto(dsmDealer, mockProfile);
+	}
+
 }

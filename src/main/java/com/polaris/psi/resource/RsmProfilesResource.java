@@ -45,4 +45,26 @@ public class RsmProfilesResource {
 		return service.getRsmProfiles(rsmId, type);
 	}
 	
+	@GET
+    @Path("/{rsmId}/{type}/current")
+    @Produces(MediaType.APPLICATION_JSON)
+	public List<DsmDealerProfilesDto> getRsmCurrentProfiles(@PathParam("rsmId") int rsmId, @PathParam("type") String type) {
+		UserData userData = sessionHelper.getUserData();
+		if(!userData.isRsm() || userData.getDealerId() != rsmId) {
+			return new ArrayList<DsmDealerProfilesDto>();
+		}
+		return service.getRsmCurrentProfiles(rsmId, type);
+	}
+	
+	@GET
+    @Path("/{rsmId}/{type}/history")
+    @Produces(MediaType.APPLICATION_JSON)
+	public List<DsmDealerProfilesDto> getRsmHistoricalProfiles(@PathParam("rsmId") int rsmId, @PathParam("type") String type) {
+		UserData userData = sessionHelper.getUserData();
+		if(!userData.isRsm() || userData.getDealerId() != rsmId) {
+			return new ArrayList<DsmDealerProfilesDto>();
+		}
+		return service.getRsmHistoricalProfiles(rsmId, type);
+	}
+	
 }

@@ -306,7 +306,7 @@ public class PSIProfileDaoTest {
 	}
 
 	@Test
-	public void testRetrieveDsmCurrentProfileListByDealerIdPending() {
+	public void testRetrieveDsmCurrentProfileListByDealerId() {
 		Integer id = expectedId.intValue();
 		mockResult = new Object[15];
 		mockResult[0] = Constants.ACTIVE_PROFILE_STATUS;
@@ -314,7 +314,7 @@ public class PSIProfileDaoTest {
 		mockResult[2] = expectedName;
 		mockResult[3] = expectedDate;
 		mockResult[4] = expectedType;
-		mockResult[5] = Constants.PENDING_STATUS;
+		mockResult[5] = expectedStatus;
 		mockResult[6] = expectedNonCompliant;
 		mockResult[7] = expectedLegal;
 		mockResult[8] = expectedHeaderId;
@@ -322,21 +322,21 @@ public class PSIProfileDaoTest {
 		mockResult[10] = expectedEmail;
 		mockResult[11] = expectedSubmittedDate;
 		mockResult[12] = expectedApprovedDate;
-		
+
 		mockResults = new ArrayList<Object[]>();
 		mockResults.add(mockResult);
-		
+
 		when(mockQuery.setParameter("status", Constants.ACTIVE_PROFILE_STATUS)).thenReturn(mockQuery);
 		when(mockQuery.getResultList()).thenReturn(mockResults);
-		
+
 		List<PSIProfile> results = dao.retrieveDsmCurrentProfileListByDealerId(id, expectedType);
-		
+
 		assertEquals(1, results.size());
 		PSIProfile result = results.get(0);
 		assertEquals(expectedId.intValue(), result.getId().intValue());
 		assertEquals(expectedName, result.getName());
 		assertEquals(Constants.ACTIVE_PROFILE_STATUS, result.getProfileStatus());
-		assertEquals(Constants.PENDING_STATUS, result.getStatus());
+		assertEquals(expectedStatus, result.getStatus());
 		assertEquals(expectedDate, result.getTargetCompleteDate());
 		assertEquals(expectedType, result.getType());
 		assertEquals(BooleanUtils.toBoolean(expectedNonCompliant.intValueExact()), result.isNonCompliant());
@@ -353,75 +353,11 @@ public class PSIProfileDaoTest {
 	}
 
 	@Test
-	public void testRetrieveDsmCurrentProfileListByDealerIdReturnedToDSM() {
-		Integer id = expectedId.intValue();
-		mockResult = new Object[15];
-		mockResult[0] = Constants.ACTIVE_PROFILE_STATUS;
-		mockResult[1] = expectedId;
-		mockResult[2] = expectedName;
-		mockResult[3] = expectedDate;
-		mockResult[4] = expectedType;
-		mockResult[5] = Constants.RETURNED_TO_DSM;
-		mockResult[6] = expectedNonCompliant;
-		mockResult[7] = expectedLegal;
-		mockResult[8] = expectedHeaderId;
-		mockResult[9] = expectedDealer;
-		mockResult[10] = expectedEmail;
-		mockResult[11] = expectedSubmittedDate;
-		mockResult[12] = expectedApprovedDate;
-		
-		mockResults = new ArrayList<Object[]>();
-		mockResults.add(mockResult);
-		
+	public void testRetrieveDsmCurrentProfileListByDealerIdNoResults() {		
 		when(mockQuery.setParameter("status", Constants.ACTIVE_PROFILE_STATUS)).thenReturn(mockQuery);
-		when(mockQuery.getResultList()).thenReturn(mockResults);
+		when(mockQuery.getResultList()).thenReturn(new ArrayList<PSIProfile>());
 		
-		List<PSIProfile> results = dao.retrieveDsmCurrentProfileListByDealerId(id, expectedType);
-		
-		assertEquals(1, results.size());
-		PSIProfile result = results.get(0);
-		assertEquals(expectedId.intValue(), result.getId().intValue());
-		assertEquals(expectedName, result.getName());
-		assertEquals(Constants.ACTIVE_PROFILE_STATUS, result.getProfileStatus());
-		assertEquals(Constants.RETURNED_TO_DSM, result.getStatus());
-		assertEquals(expectedDate, result.getTargetCompleteDate());
-		assertEquals(expectedType, result.getType());
-		assertEquals(BooleanUtils.toBoolean(expectedNonCompliant.intValueExact()), result.isNonCompliant());
-		
-		verify(mockEM).createNativeQuery(anyString());
-		verify(mockQuery).setParameter("dealerId", expectedId.intValue());
-		verify(mockQuery).setParameter("canceled", Constants.DEALER_NOT_CANCELED_CODE);
-		verify(mockQuery).setParameter("status", Constants.ACTIVE_PROFILE_STATUS);
-		verify(mockQuery).setParameter("type", expectedType);
-		verify(mockQuery).getResultList();
-		verify(mockEM).close();
-		
-		verifyNoMoreInteractions(mockEM, mockQuery);
-	}
-
-	@Test
-	public void testRetrieveDsmCurrentProfileListByDealerIdNullStatus() {
 		Integer id = expectedId.intValue();
-		mockResult = new Object[15];
-		mockResult[0] = expectedProfileStatus;
-		mockResult[1] = expectedId;
-		mockResult[2] = expectedName;
-		mockResult[3] = expectedDate;
-		mockResult[4] = expectedType;
-		mockResult[5] = null;
-		mockResult[6] = expectedNonCompliant;
-		mockResult[7] = expectedLegal;
-		mockResult[8] = expectedHeaderId;
-		mockResult[9] = expectedDealer;
-		mockResult[10] = expectedEmail;
-		mockResult[11] = expectedSubmittedDate;
-		mockResult[12] = expectedApprovedDate;
-		
-		mockResults = new ArrayList<Object[]>();
-		mockResults.add(mockResult);
-		
-		when(mockQuery.getResultList()).thenReturn(mockResults);
-		
 		List<PSIProfile> results = dao.retrieveDsmCurrentProfileListByDealerId(id, expectedType);
 		
 		assertEquals(0, results.size());

@@ -165,10 +165,7 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 			profile.setStatus(CommonUtils.trimString((String) result[5]));
 			profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInt((BigDecimal) result[6])));
 			
-			String status = profile.getStatus();
-			if(status != null && (status.equals(Constants.PENDING_STATUS) || status.equals(Constants.RETURNED_TO_DSM))) {
-				profiles.add(profile);
-			}
+			profiles.add(profile);
 		}
 		
 		entityManager.close();

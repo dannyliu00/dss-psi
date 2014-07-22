@@ -2,6 +2,7 @@ package com.polaris.psi.resource;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
@@ -41,7 +42,6 @@ public class RsmProfilesResourceTest {
 
 		when(mockSessionHelper.getUserData()).thenReturn(mockUserData);
 		when(mockUserData.isRsm()).thenReturn(true);
-		when(mockService.getRsmProfiles(expectedId, expectedType)).thenReturn(profiles);
 
 		resource = new RsmProfilesResource();
 		resource.sessionHelper = mockSessionHelper;
@@ -51,6 +51,8 @@ public class RsmProfilesResourceTest {
 	@Test
 	public void testGetProfilesRsm() {
 		when(mockUserData.getDealerId()).thenReturn(expectedId);
+		when(mockService.getRsmProfiles(expectedId, expectedType)).thenReturn(profiles);
+		
 		List<DsmDealerProfilesDto> results = resource.getRsmProfiles(expectedId, expectedType);
 		
 		assertEquals(profiles.size(), results.size());
@@ -59,6 +61,8 @@ public class RsmProfilesResourceTest {
 		verify(mockUserData).isRsm();
 		verify(mockUserData).getDealerId();
 		verify(mockService).getRsmProfiles(expectedId, expectedType);
+		
+		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockService);
 	}
 
 	@Test
@@ -71,6 +75,8 @@ public class RsmProfilesResourceTest {
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).isRsm();
 		verify(mockUserData).getDealerId();
+
+		verifyNoMoreInteractions(mockSessionHelper, mockUserData);
 		verifyZeroInteractions(mockService);
 	}
 
@@ -84,6 +90,106 @@ public class RsmProfilesResourceTest {
 		
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).isRsm();
+
+		verifyNoMoreInteractions(mockSessionHelper, mockUserData);
+		verifyZeroInteractions(mockService);
+	}
+
+	@Test
+	public void testGetCurrentProfilesRsm() {
+		when(mockUserData.getDealerId()).thenReturn(expectedId);
+		when(mockService.getRsmCurrentProfiles(expectedId, expectedType)).thenReturn(profiles);
+
+		List<DsmDealerProfilesDto> results = resource.getRsmCurrentProfiles(expectedId, expectedType);
+		
+		assertEquals(profiles.size(), results.size());
+		
+		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).isRsm();
+		verify(mockUserData).getDealerId();
+		verify(mockService).getRsmCurrentProfiles(expectedId, expectedType);
+
+		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockService);
+	}
+
+	@Test
+	public void testGetCurrentProfilesRsmNullResult() {
+		when(mockUserData.getDealerId()).thenReturn(111);
+
+		List<DsmDealerProfilesDto> results = resource.getRsmCurrentProfiles(expectedId, expectedType);
+		
+		assertEquals(0, results.size());
+		
+		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).isRsm();
+		verify(mockUserData).getDealerId();
+
+		verifyNoMoreInteractions(mockSessionHelper, mockUserData);
+		verifyZeroInteractions(mockService);
+	}
+
+	@Test
+	public void testGetCurrentProfilesRsmNullResultTwo() {
+		when(mockUserData.getDealerId()).thenReturn(expectedId);
+		when(mockUserData.isRsm()).thenReturn(false);
+
+		List<DsmDealerProfilesDto> results = resource.getRsmCurrentProfiles(expectedId, expectedType);
+		
+		assertEquals(0, results.size());
+		
+		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).isRsm();
+
+		verifyNoMoreInteractions(mockSessionHelper, mockUserData);
+		verifyZeroInteractions(mockService);
+	}
+
+	@Test
+	public void testGetHistoricalProfilesRsm() {
+		when(mockUserData.getDealerId()).thenReturn(expectedId);
+		when(mockService.getRsmHistoricalProfiles(expectedId, expectedType)).thenReturn(profiles);
+
+		List<DsmDealerProfilesDto> results = resource.getRsmHistoricalProfiles(expectedId, expectedType);
+		
+		assertEquals(profiles.size(), results.size());
+		
+		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).isRsm();
+		verify(mockUserData).getDealerId();
+		verify(mockService).getRsmHistoricalProfiles(expectedId, expectedType);
+
+		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockService);
+	}
+
+	@Test
+	public void testGetHistoricalProfilesRsmNullResult() {
+		when(mockUserData.getDealerId()).thenReturn(111);
+
+		List<DsmDealerProfilesDto> results = resource.getRsmHistoricalProfiles(expectedId, expectedType);
+		
+		assertEquals(0, results.size());
+		
+		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).isRsm();
+		verify(mockUserData).getDealerId();
+
+		verifyNoMoreInteractions(mockSessionHelper, mockUserData);
+		verifyZeroInteractions(mockService);
+	}
+
+	@Test
+	public void testGetHistoricalProfilesRsmNullResultTwo() {
+		when(mockUserData.getDealerId()).thenReturn(expectedId);
+		when(mockUserData.isRsm()).thenReturn(false);
+
+		List<DsmDealerProfilesDto> results = resource.getRsmHistoricalProfiles(expectedId, expectedType);
+		
+		assertEquals(0, results.size());
+		
+		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).isRsm();
+
+		verifyNoMoreInteractions(mockSessionHelper, mockUserData);
 		verifyZeroInteractions(mockService);
 	}
 
