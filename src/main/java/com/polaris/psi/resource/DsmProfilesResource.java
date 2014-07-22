@@ -43,7 +43,31 @@ public class DsmProfilesResource {
 			return new ArrayList<DsmDealerProfilesDto>();
 		}
 		if(type.equals(null)) type = "2";
-		return service.getDsmProfiles(dsmId, type);
+		return service.getDsmCurrentProfiles(dsmId, type);
+	}
+	
+	@GET
+    @Path("/{dsmId}/{type}/current")
+    @Produces(MediaType.APPLICATION_JSON)
+	public List<DsmDealerProfilesDto> getDsmCurrentProfiles(@PathParam("dsmId") int dsmId, @PathParam("type") String type) {
+		UserData userData = sessionHelper.getUserData();
+		if(!userData.isDsm() || userData.getDealerId() != dsmId) {
+			return new ArrayList<DsmDealerProfilesDto>();
+		}
+		if(type.equals(null)) type = "2";
+		return service.getDsmCurrentProfiles(dsmId, type);
+	}
+
+	@GET
+    @Path("/{dsmId}/{type}/history")
+    @Produces(MediaType.APPLICATION_JSON)
+	public List<DsmDealerProfilesDto> getDsmHistoricalProfiles(@PathParam("dsmId") int dsmId, @PathParam("type") String type) {
+		UserData userData = sessionHelper.getUserData();
+		if(!userData.isDsm() || userData.getDealerId() != dsmId) {
+			return new ArrayList<DsmDealerProfilesDto>();
+		}
+		if(type.equals(null)) type = "2";
+		return service.getDsmHistoricalProfiles(dsmId, type);
 	}
 	
 }

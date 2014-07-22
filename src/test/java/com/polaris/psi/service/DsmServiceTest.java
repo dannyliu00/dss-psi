@@ -65,7 +65,6 @@ public class DsmServiceTest {
 		
 		when(mockDsmDao.selectByDsmId(dsmId, productType)).thenReturn(dsmDealers);
 		when(mockDsmDao.selectByRsmId(rsmId, productType)).thenReturn(dsmDealers);
-		when(mockProfileDao.retrieveDsmCurrentProfileListByDealerId(dealerId, productType)).thenReturn(psiProfiles);
 		when(mockMapper.mapToDto(dsmDealer, mockProfile)).thenReturn(mockDto);
 		
 		service = new DsmService();
@@ -80,8 +79,10 @@ public class DsmServiceTest {
 	}
 
 	@Test
-	public void testGetDsmProfiles() {
-		List<DsmDealerProfilesDto> results = service.getDsmProfiles(dsmId, productType);
+	public void testGetDsmCurrentProfiles() {
+		when(mockProfileDao.retrieveDsmCurrentProfileListByDealerId(dealerId, productType)).thenReturn(psiProfiles);
+
+		List<DsmDealerProfilesDto> results = service.getDsmCurrentProfiles(dsmId, productType);
 		
 		assertEquals(dtos.size(), results.size());
 		
@@ -91,7 +92,22 @@ public class DsmServiceTest {
 	}
 
 	@Test
+	public void testGetDsmHistoricalProfiles() {
+		when(mockProfileDao.retrieveDsmHistoryProfileListByDealerId(dealerId, productType)).thenReturn(psiProfiles);
+
+		List<DsmDealerProfilesDto> results = service.getDsmHistoricalProfiles(dsmId, productType);
+		
+		assertEquals(dtos.size(), results.size());
+		
+		verify(mockDsmDao).selectByDsmId(dsmId, productType);
+		verify(mockProfileDao).retrieveDsmHistoryProfileListByDealerId(dealerId, productType);
+		verify(mockMapper).mapToDto(dsmDealer, mockProfile);
+	}
+
+	@Test
 	public void testGetRsmProfiles() {
+		when(mockProfileDao.retrieveDsmCurrentProfileListByDealerId(dealerId, productType)).thenReturn(psiProfiles);
+
 		List<DsmDealerProfilesDto> results = service.getRsmProfiles(rsmId, productType);
 		
 		assertEquals(dtos.size(), results.size());
