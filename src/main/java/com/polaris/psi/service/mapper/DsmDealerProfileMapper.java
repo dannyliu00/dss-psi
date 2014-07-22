@@ -5,6 +5,7 @@ package com.polaris.psi.service.mapper;
 
 import org.springframework.stereotype.Component;
 
+import com.polaris.psi.Constants;
 import com.polaris.psi.repository.entity.DealerAndDsm;
 import com.polaris.psi.repository.entity.PSIProfile;
 import com.polaris.psi.resource.dto.DsmDealerProfilesDto;
@@ -27,8 +28,8 @@ public class DsmDealerProfileMapper {
 		ddProfile.setProfileName(psiProfile.getName());
 		ddProfile.setRsmId(dealerAndDsm.getRsmId());
 		ddProfile.setRsmName(dealerAndDsm.getRsmName().trim());
-		ddProfile.setStatus(psiProfile.getStatus().trim());
 		ddProfile.setType(dealerAndDsm.getProductLine().trim());
+		ddProfile.setStatus(psiProfile.getStatus() != null ? psiProfile.getStatus().trim() : Constants.DEFAULT_PROFILE_STATUS);
 		ddProfile.setNonCompliant(psiProfile.isNonCompliant());
 		
 		return ddProfile;
