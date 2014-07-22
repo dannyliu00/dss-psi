@@ -26,8 +26,8 @@ public class PSIProfileDetailDao extends AbstractPolarisMinneapolisDao<PSIProfil
 
 	private static String QUERY_BY_HEADER = ""
 			+ "SELECT header.N7DHID, detail.N8DDID, detail.N8PSID, detail.N8DQTY, "
-			+ "detail.N8DCOD, detail.N8DCOM, detail.N8SQTY, detail.N8SCOD, detail.N8SCOM, detail.N8AQTY, "
-			+ "detail.N8ACOD, detail.N8ACOM, detail.N8QTY, N8CODE "
+			+ "detail.N8DCOD, trim(detail.N8DCOM), detail.N8SQTY, detail.N8SCOD, trim(detail.N8SCOM), detail.N8AQTY, "
+			+ "detail.N8ACOD, trim(detail.N8ACOM), detail.N8QTY, N8CODE "
 			+ "  FROM OT077F header "
 			+ "  LEFT OUTER JOIN OT078F detail ON detail.N8DHID = header.N7DHID "
 			+ " WHERE header.N7DHID = :headerId";
