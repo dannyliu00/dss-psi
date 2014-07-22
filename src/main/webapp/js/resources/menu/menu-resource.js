@@ -9,8 +9,8 @@
         this.resource = $resource(menuUrl);        
     }
 
-    MenuResource.prototype.get = function(profile) {
-        return this.resource.get(profile).$promise;
+    MenuResource.prototype.get = function() {
+        return this.resource.get().$promise;
     };
 
     menu.MenuResource = MenuResource;
