@@ -3,5 +3,6 @@
 
     angular.module('sellIn.resources.rsmProfiles', ['ngResource'])
         .service('rsmProfilesResource', rsmProfiles.RsmProfilesResource)
-        .constant('rsmProfilesUrl', '/dss-psi/webapi/rsm/profiles/:rsmId/:type');
+        .constant('rsmCurrentProfilesUrl', '/dss-psi/webapi/rsm/profiles/:rsmId/:type/current')
+        .constant('rsmHistoryProfilesUrl', '/dss-psi/webapi/rsm/profiles/:rsmId/:type/history');
 })();

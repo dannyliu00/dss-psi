@@ -43,12 +43,12 @@
 
             if($scope.role.dsm === true) {
                 var dsm = {dsmId: userId, type: type};
-                dsmProfilesResource.query(dsm).then(function(returnedProfiles) {
+                dsmProfilesResource.queryCurrent(dsm).then(function(returnedProfiles) {
                     $scope.profiles = returnedProfiles;
                     });
             } else if($scope.role.rsm === true) {
                 var rsm = {rsmId: userId, type: type};
-                rsmProfilesResource.query(rsm).then(function(returnedProfiles){
+                rsmProfilesResource.queryCurrent(rsm).then(function(returnedProfiles){
                     $scope.profiles = returnedProfiles;
                 });
             }
