@@ -14,17 +14,37 @@ describe('DealerProfilesResource', function() {
         httpBackend.verifyNoOutstandingRequest();
     });
 
-    describe('query', function() {
-        it('returns a promise with a list of profiles of a specified dealer', inject(function(dealerProfilesResource, profilesUrl) {
+    describe('queryCurrent', function() {
+        it('returns a promise with a list of profiles of a specified dealer', inject(function(dealerProfilesResource, currentProfilesUrl) {
             var dealerId = 123456;
             var dealer = {dealerId: dealerId};
-            var expectedRequest = profilesUrl.replace(':dealerId', dealerId);
+            var expectedRequest = currentProfilesUrl.replace(':dealerId', dealerId);
+            expectedRequest += '?ran=' + new Date().getTime();
             var expectedList = [{name: 'U.T. Victory Profile'}];
 
             httpBackend.when('GET', expectedRequest).respond(expectedList);
-            httpBackend.expectGET;
 
-            var promise = dealerProfilesResource.query(dealer);
+            var promise = dealerProfilesResource.queryCurrent(dealer);
+
+            promise.then(function(actualList) {
+                expect(actualList.length).toEqual(expectedList.length);
+            });
+
+            httpBackend.flush();
+        }));
+    });
+
+    describe('queryHistory', function() {
+        it('returns a promise with a list of profiles of a specified dealer', inject(function(dealerProfilesResource, historyProfilesUrl) {
+            var dealerId = 123456;
+            var dealer = {dealerId: dealerId};
+            var expectedRequest = historyProfilesUrl.replace(':dealerId', dealerId);
+            expectedRequest += '?ran=' + new Date().getTime();
+            var expectedList = [{name: 'U.T. Victory Profile'}];
+
+            httpBackend.when('GET', expectedRequest).respond(expectedList);
+
+            var promise = dealerProfilesResource.queryHistory(dealer);
 
             promise.then(function(actualList) {
                 expect(actualList.length).toEqual(expectedList.length);
@@ -34,4 +54,3 @@ describe('DealerProfilesResource', function() {
         }));
     });
 });
-

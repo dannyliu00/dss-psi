@@ -29,7 +29,6 @@
                         <td class="">{{orderSegment.name}}</td>
                         <td class="text-center"><span>{{orderSegment.recommended}}&nbsp;&nbsp;&nbsp;&nbsp;
                              <input tabindex="0"
-                                   ng-class="{noncompliant: orderSegment.actual < orderSegment.recommended}"
                                    class="text-center numberInput"
                                    type="number"
                                    ng-model="orderSegment.actual"
@@ -38,7 +37,6 @@
                                    numbers-only
                                    ng-disabled="orderSegment.actual != null"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>
                                  <input tabindex="0"
-                                   ng-class="{noncompliant: orderSegment.dsmQty < orderSegment.recommended}"
                                    class="text-center numberInput"
                                    type="number"
                                    ng-model="orderSegment.dsmQty"

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import com.polaris.psi.resource.dto.DealerDto;
 import com.polaris.psi.service.DealerService;
 import com.polaris.pwf.session.SessionHelper;
+import com.polaris.pwf.session.UserData;
 
 /**
  * @author bericks
@@ -33,8 +34,13 @@ public class DealerResource {
 	@GET
     @Path("/{dealerId}/{type}")
     @Produces(MediaType.APPLICATION_JSON)
-	public DealerDto getDealer(@PathParam("dealerId") int dealerId, @PathParam("type") String type) {
+	public DealerDto getDealerInfo(@PathParam("dealerId") int dealerId, @PathParam("type") String type) {
+		UserData userData = sessionHelper.getUserData();
 		
+		// if logged in user is a dealer use dealerId in the session rather than what was passed in
+		if(userData.isDealer()) return service.getDealer(userData.getDealerId(), type);
+		
+		// user is non-dealer (DSM or RSM likely) so retrieve the dealer requested
 		return service.getDealer(dealerId, type);
 	}
 	

@@ -1,5 +1,6 @@
 package com.polaris.psi.service.mapper;
 
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -71,7 +72,7 @@ public class DsmDealerProfileMapperTest {
 		verify(mockDealerAndDsm).getRsmName();
 		verify(mockProfile).getId();
 		verify(mockProfile).getLastModifiedDate();
-		verify(mockProfile).getStatus();
+		verify(mockProfile, times(2)).getStatus();
 		verify(mockProfile).isNonCompliant();
 		verify(mockProfile).getName();
 		

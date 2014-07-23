@@ -32,4 +32,14 @@ public class LogService {
 		
 	}
 	
+	public void writeDsmChangesToLog(DealerProfileHeader header, OrderSegmentDto orderSegment) {
+		PSILog log = mapper.mapDsmDataToLog(header, orderSegment);
+		
+		int rows = logDao.getLogEntryCount(header.getId(), orderSegment.getId());
+		log.setRowNumber(rows + 1);
+		
+		logDao.insert(log);
+		
+	}
+	
 }

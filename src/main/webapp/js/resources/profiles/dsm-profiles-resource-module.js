@@ -3,5 +3,6 @@
 
     angular.module('sellIn.resources.dsmProfiles', ['ngResource'])
         .service('dsmProfilesResource', dsmProfiles.DsmProfilesResource)
-        .constant('dsmProfilesUrl', '/dss-psi/webapi/dsm/profiles/:dsmId/:type');
+        .constant('dsmCurrentProfilesUrl', '/dss-psi/webapi/dsm/profiles/:dsmId/:type/current')
+        .constant('dsmHistoryProfilesUrl', '/dss-psi/webapi/dsm/profiles/:dsmId/:type/history');
 })();

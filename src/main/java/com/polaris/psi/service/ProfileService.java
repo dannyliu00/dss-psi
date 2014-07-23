@@ -63,9 +63,17 @@ public class ProfileService {
 	@Autowired
 	OrderSegmentComparator osComparator;
 	
-	public List<ProfileDto> getDealerProfiles(int dealerId) {
+	public List<ProfileDto> getCurrentDealerProfiles(int dealerId) {
 
 		List<PSIProfile> psiProfiles = psiProfileDao.retrieveDealerCurrentProfileListByDealerId(dealerId);
+		List<ProfileDto> psiDtos = profileMapper.mapToDto(psiProfiles);
+		
+		return psiDtos;
+	}
+
+	public List<ProfileDto> getHistoricalDealerProfiles(int dealerId) {
+
+		List<PSIProfile> psiProfiles = psiProfileDao.retrieveDealerHistoryProfileListByDealerId(dealerId);
 		List<ProfileDto> psiDtos = profileMapper.mapToDto(psiProfiles);
 		
 		return psiDtos;

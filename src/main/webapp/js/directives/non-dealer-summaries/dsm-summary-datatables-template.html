@@ -36,7 +36,7 @@
             <td class=" navLink"><a ng-click="navigateToNonDealerProfile(profile.dealerid, profile.profileId, profile.type)" >{{profile.dealerid}}</a></td>
             <td class=" navLink">{{profile.dealerName}}</td>
             <td class=" navLink">{{profile.profileName}}</td>
-            <td class=" navLink">{{profile.modifiedDate | date : 'mediumDate'}}</td>
+            <td class=" navLink">{{profile.modifiedDate | date : 'mediumDate' | stringToDate | defaultDate | date : 'mediumDate' | dash}}</td>
             <td class=" navLink">{{profile.status}}</td>
         </tr>
         </tbody>
