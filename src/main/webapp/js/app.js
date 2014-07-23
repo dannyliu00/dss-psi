@@ -36,6 +36,7 @@ angular.module('sellIn', [
         'sellIn.pages.profile',
         'sellIn.pages.default',
         'sellIn.pages.nondealersummary',
+        'sellIn.services.lasttab',
         'sellIn.routing.paths',
         'sellIn.routing'
     ]);

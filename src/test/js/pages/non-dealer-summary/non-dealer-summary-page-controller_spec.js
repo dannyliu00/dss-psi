@@ -45,13 +45,13 @@
         }));
 
         describe('constructor', function() {
-            it('sets an array of profiles on scope for RSM', inject(function($rootScope, $location, appRoleResource, dsmProfilesResource, rsmProfilesResource, profilePageUrl) {
-                expectedRole = {dsm: true, rsm: false};
+            it('sets an array of profiles on scope for DSM', inject(function($rootScope, $location, appRoleResource, dsmProfilesResource, rsmProfilesResource, profilePageUrl, productTabs) {
+                expectedRole = {dsm: true, rsm: false, sessionDetail: {ATV: 'Y'}};
                 expectedRoleDeferred.resolve(expectedRole);
                 var expectedDsm = {dsmId: expectedId, type: '2'};
                 expectedProfilesDeferred.resolve(expectedDsm);
 
-                ctrl = new nonDealerSummary.NonDealerSummaryController($rootScope, routeParams, $location, dsmProfilesResource, appRoleResource, rsmProfilesResource, profilePageUrl);
+                ctrl = new nonDealerSummary.NonDealerSummaryController($rootScope, routeParams, $location, dsmProfilesResource, appRoleResource, rsmProfilesResource, profilePageUrl, productTabs);
 
                 $rootScope.$digest();
 
@@ -64,13 +64,13 @@
         });
 
         describe('constructor', function() {
-            it('sets an array of profiles on scope for RSM', inject(function($rootScope, $location, appRoleResource, dsmProfilesResource, rsmProfilesResource, profilePageUrl) {
-                expectedRole = {dsm: false, rsm: true};
+            it('sets an array of profiles on scope for RSM', inject(function($rootScope, $location, appRoleResource, dsmProfilesResource, rsmProfilesResource, profilePageUrl, productTabs) {
+                expectedRole = {dsm: false, rsm: true, sessionDetail: {ATV: 'Y'}};
                 expectedRoleDeferred.resolve(expectedRole);
                 var expectedRsm = {rsmId: expectedId, type: '2'};
                 expectedProfilesDeferred.resolve(expectedRsm);
 
-                ctrl = new nonDealerSummary.NonDealerSummaryController($rootScope, routeParams, $location, dsmProfilesResource, appRoleResource, rsmProfilesResource, profilePageUrl);
+                ctrl = new nonDealerSummary.NonDealerSummaryController($rootScope, routeParams, $location, dsmProfilesResource, appRoleResource, rsmProfilesResource, profilePageUrl, productTabs);
 
                 $rootScope.$digest();
 

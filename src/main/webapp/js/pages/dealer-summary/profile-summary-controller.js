@@ -5,7 +5,7 @@
     var dealerProfileSummary = sellInNamespace('sellIn.pages.dealerProfileSummary');
 
     function DealerProfileSummaryCtrl ($scope, $routeParams, $location, dealerResource, dealerProfilesResource,
-                                       profilePageUrl) {
+                                       profilePageUrl, lastTab) {
         this.location = $location;
 
 	    var dealer = {dealerId: $routeParams.dealerId, type: $routeParams.type};
@@ -18,6 +18,7 @@
 	        });
 
         $scope.navigateToProfile = function(dealerId, profileId, type) {
+        	lastTab.changeType('');
             var finalUrl = profilePageUrl.replace(':dealerId', dealerId)
                 .replace(':profileId', profileId)
                 .replace(':type', type);
