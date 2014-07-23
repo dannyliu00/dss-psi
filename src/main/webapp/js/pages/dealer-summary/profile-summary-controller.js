@@ -13,7 +13,7 @@
 	    	$scope.dealer = returnedDealer;
 	        });
 
-	    dealerProfilesResource.query(dealer).then(function(returnedProfiles) {
+	    dealerProfilesResource.queryCurrent(dealer).then(function(returnedProfiles) {
 	        $scope.profiles = returnedProfiles;
 	        });
 
