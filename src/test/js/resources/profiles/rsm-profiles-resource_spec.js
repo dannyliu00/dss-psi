@@ -2,7 +2,7 @@ describe('DsmProfilesResource', function() {
     var httpBackend;
 
     beforeEach(function() {
-        angular.mock.module('sellIn.resources.dsmProfiles');
+        angular.mock.module('sellIn.resources.rsmProfiles');
 
         angular.mock.inject(function($injector) {
             httpBackend = $injector.get('$httpBackend');
@@ -15,17 +15,17 @@ describe('DsmProfilesResource', function() {
     });
 
     describe('queryCurrent', function() {
-        it('returns a promise with a list of dealer profiles of a specified dsm and of a specified type', inject(function(dsmProfilesResource, dsmCurrentProfilesUrl) {
-            var dsmId = 123456;
+        it('returns a promise with a list of dealer profiles of a specified dsm and of a specified type', inject(function(rsmProfilesResource, rsmCurrentProfilesUrl) {
+            var rsmId = 123456;
             var type = 'vehicle';
-            var dsm = {dsmId: dsmId, type: type};
-            var expectedRequest = dsmCurrentProfilesUrl.replace(':dsmId', dsmId).replace(':type', type);
+            var rsm = {rsmId: rsmId, type: type};
+            var expectedRequest = rsmCurrentProfilesUrl.replace(':rsmId', rsmId).replace(':type', type);
             expectedRequest += '?ran=' + new Date().getTime();
             var expectedList = [{name: 'U.T. Victory Profile For A Dealer'}];
 
             httpBackend.when('GET', expectedRequest).respond(expectedList);
 
-            var promise = dsmProfilesResource.queryCurrent(dsm);
+            var promise = rsmProfilesResource.queryCurrent(rsm);
 
             promise.then(function(actualList) {
                 expect(actualList.length).toEqual(expectedList.length);
@@ -36,17 +36,17 @@ describe('DsmProfilesResource', function() {
     });
 
     describe('queryHistory', function() {
-        it('returns a promise with a list of dealer profiles of a specified dsm and of a specified type', inject(function(dsmProfilesResource, dsmHistoryProfilesUrl) {
-            var dsmId = 123456;
+        it('returns a promise with a list of dealer profiles of a specified dsm and of a specified type', inject(function(rsmProfilesResource, rsmHistoryProfilesUrl) {
+            var rsmId = 123456;
             var type = 'vehicle';
-            var dsm = {dsmId: dsmId, type: type};
-            var expectedRequest = dsmHistoryProfilesUrl.replace(':dsmId', dsmId).replace(':type', type);
+            var rsm = {rsmId: rsmId, type: type};
+            var expectedRequest = rsmHistoryProfilesUrl.replace(':rsmId', rsmId).replace(':type', type);
             expectedRequest += '?ran=' + new Date().getTime();
             var expectedList = [{name: 'U.T. Victory Profile For A Dealer'}];
 
             httpBackend.when('GET', expectedRequest).respond(expectedList);
 
-            var promise = dsmProfilesResource.queryHistory(dsm);
+            var promise = rsmProfilesResource.queryHistory(rsm);
 
             promise.then(function(actualList) {
                 expect(actualList.length).toEqual(expectedList.length);
