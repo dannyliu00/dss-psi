@@ -3,7 +3,7 @@
  */
 
 angular.module('sellIn', [
-        'ngRoute',
+        'sellIn.filters.dateFilters',
         'polaris.directives.commonHeader',
         'polaris.directives.commonSearch',
         'polaris.directives.commonFooter',
