@@ -4,6 +4,7 @@
     angular.module('sellIn.pages.dealerProfileSummary', [
             'sellIn.resources.dealer',
             'sellIn.resources.dealerProfiles',
+            'sellIn.services.lasttab',
             'sellIn.routing.paths',
             'datatables'])
         .controller('dealerProfileSummaryCtrl', dealerProfileSummary.DealerProfileSummaryCtrl);

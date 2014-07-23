@@ -1,7 +1,7 @@
 (function() {
     var dsmButton = sellInNamespace('sellIn.directives.dsmbutton');
 
-    function DsmButtonController($scope, $location, $modal, dealerSummaryPageUrl, profilePageUrl, dsmUrl) {
+    function DsmButtonController($scope, $location, $modal, dealerSummaryPageUrl, profilePageUrl, dsmUrl, lastTab) {
     	var caption = '';
     	var changeCaption = 0;
     	var dsmButtonCaption = "";
@@ -9,7 +9,7 @@
         $scope.dsmButtonCaptionFill = function() {
         	if(angular.element('.compliant').hasClass('noncompliant') || angular.element('.compliant').hasClass('noncomplianttotal')) {
         		dsmButtonCaption = "Submit for Exception";
-        	} else if ($scope.dirtyIndicator > 1 && isChanged() || angular.element('input').hasClass('noncompliant')) {
+        	} else if (isChanged() || angular.element('input').hasClass('noncompliant')) {
 				dsmButtonCaption = "Approve with Changes";	
         	} else {
         		dsmButtonCaption = "Approve as Requested";
@@ -20,7 +20,8 @@
         
         $scope.dsmToSummary = function(dealerId) {
             var dsmChanges = $scope.dirtyIndicator;
-
+            lastTab.changeType($scope.profile.typeCode);
+            
             switch(dsmChanges) {
                 case 0:
                 case 1:
