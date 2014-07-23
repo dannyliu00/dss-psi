@@ -5,7 +5,7 @@
     		dealerProfileResource, orderSegmentResourceMapper,appRoleResource) {
 
     	$scope.dirtyIndicator = 0;
-
+    	
     	appRoleResource.get().then(function(role) {
             $scope.role = role;
     		}).then(function(role) {
@@ -46,10 +46,12 @@
                 $scope.orderSegments = returnedProfile.orderSegments;
                 $scope.distinctOS = findDistinctOSes($scope.orderSegments);
 
+
             })
             .then(function() {
                 ($scope.profile.type === 'atv' ? $scope.actualGrandTotal = $scope.getActualGrandTotal() : $scope.actualGrandTotal = $scope.sumActualValues());
                 $scope.recommendedGrandTotal = $scope.getRecTotals();
+
         });
 
         function findDistinctOSes(data) {

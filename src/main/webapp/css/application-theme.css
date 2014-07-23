@@ -377,3 +377,11 @@ table.mediaTable tbody th, table.mediaTable td {
 /*div.ui-dialog {
 	z-index:10000 !important;
 }*/
+
+  .table tbody a.ui-spinner-button { 
+    /*outline: 1px solid blue;*/
+    display: block;
+    padding: 0;
+    margin: 0;
+    width: 16px;
+  }

@@ -18,9 +18,9 @@
                     	} else if(scope.role.dsm === true) {
                     		var templateUrl = basePath + "dsm-" + type + pathSuffix;
                             loadTemplate(templateUrl);
-                    	} else{
-                        var templateUrl = basePath + type + pathSuffix;
-                        loadTemplate(templateUrl);
+                    	} else {
+	                        var templateUrl = basePath + type + pathSuffix;
+	                        loadTemplate(templateUrl);
                     	}
                     }
                 });

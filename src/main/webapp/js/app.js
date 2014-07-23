@@ -15,6 +15,7 @@ angular.module('sellIn', [
         'sellIn.directives.numbersonly',
         'sellIn.directives.emailentry',
         'sellIn.directives.mainbutton',
+        'sellIn.directives.spinnerinput',
         'sellIn.directives.dsmbutton',
         'sellIn.directives.reasonmodal',
         'sellIn.directives.savequantities',
