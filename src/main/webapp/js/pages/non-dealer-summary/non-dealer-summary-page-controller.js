@@ -1,21 +1,43 @@
 (function() {
     var nonDealerSummary = sellInNamespace('sellIn.pages.nondealersummary');
 
-    function NonDealerSummaryController($scope, $routeParams, $location, dsmProfilesResource, appRoleResource, rsmProfilesResource, profilePageUrl) {
+    function NonDealerSummaryController($scope, $routeParams, $location, dsmProfilesResource, appRoleResource, rsmProfilesResource, profilePageUrl, productTabs, lastTab) {
+    	
+    	var currentTabs = [];
     	
     	appRoleResource.get().then(function(role) {
+    		for(var i = 0; i < productTabs.length; i++) {
+        		if(productTabs[i].content === '2' && role.sessionDetail.ATV === 'Y') {
+        			currentTabs.push(productTabs[i]);
+    			} else if(productTabs[i].content === '5' && role.sessionDetail.VIC === 'Y') {
+    				currentTabs.push(productTabs[i]);
+    			} else if(productTabs[i].content === '6' && role.sessionDetail.RGR === 'Y') {
+    				currentTabs.push(productTabs[i]);
+    			} else if(productTabs[i].content === 'Z' && role.sessionDetail.RZR === 'Y') {
+    				currentTabs.push(productTabs[i]);
+    			} else if(productTabs[i].content === 'F' && role.sessionDetail.IND === 'Y') {
+    				currentTabs.push(productTabs[i]);
+    			}
+        		$scope.productTabs = currentTabs;
+    		}
             $scope.role = role;
             $scope.profiles = $scope.tabContent();
    		});
     	
     	$scope.tabContent = function(activeContent) {
-
+    		
+//    		if(lastTab.tab !== '') {
+//    			determineActiveTab();
+//    		}
+    		
             if(activeContent != null){
                 $scope.activeTabFilter = activeContent;
+            } else if(lastTab.tab !== '') {
+            	$scope.activeTabFilter = lastTab.tab;
             } else {
-                $scope.activeTabFilter = "2";
+                $scope.activeTabFilter = $scope.productTabs[0].content;
             }
-
+            
             var userId = $routeParams.id;
             var type = $scope.activeTabFilter;
 
@@ -33,12 +55,23 @@
         };
          
          $scope.navigateToNonDealerProfile = function(dealerId, profileId, type) {
+        	 lastTab.changeType('');
              var finalUrl = profilePageUrl.replace(':dealerId', dealerId)
                  .replace(':profileId', profileId)
                  .replace(':type', type);
              $location.path(finalUrl);
              };
+         
+//        function determineActiveTab() {
+//        	for(var j = 0; j < productTabs.length; j++) {
+//        		if(productTabs[j].content === lastTab.tab){
+//        			$scope.productTabs.isActive = true;
+//        		}
+//        	}
+//        }
     }
 
     nonDealerSummary.NonDealerSummaryController = NonDealerSummaryController;
 })();
+	
+		
