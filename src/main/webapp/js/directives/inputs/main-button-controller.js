@@ -1,7 +1,7 @@
 (function() {
     var mainButton = sellInNamespace('sellIn.directives.mainbutton');
 
-    function MainButtonDirectiveController($scope, $location, $modal, dealerSummaryPageUrl) {
+    function MainButtonDirectiveController($scope, $location, $modal, dealerSummaryPageUrl, lastTab) {
     	
         $scope.buttonCaptionFill = function() {
         	var buttonCaption;
@@ -30,6 +30,7 @@
     
         $scope.toSummary = function(dealerId) {
             var changes = $scope.dirtyIndicator;
+            lastTab.changeType($scope.profile.typeCode);
 
             switch(changes) {
                 case 0:
