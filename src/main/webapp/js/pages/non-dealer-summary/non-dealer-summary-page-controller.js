@@ -25,11 +25,7 @@
    		});
     	
     	$scope.tabContent = function(activeContent) {
-    		
-//    		if(lastTab.tab !== '') {
-//    			determineActiveTab();
-//    		}
-    		
+
             if(activeContent != null){
                 $scope.activeTabFilter = activeContent;
             } else if(lastTab.tab !== '') {
@@ -38,6 +34,13 @@
                 $scope.activeTabFilter = $scope.productTabs[0].content;
             }
             
+            for(var k = 0; k < $scope.productTabs.length; k++) {
+            	if($scope.productTabs[k].content === $scope.activeTabFilter) {
+            		$scope.productTabs[k].isActive === true;
+            	} else {
+            		$scope.productTabs[k].isActive === false;
+            	}
+            }
             var userId = $routeParams.id;
             var type = $scope.activeTabFilter;
 
@@ -61,14 +64,7 @@
                  .replace(':type', type);
              $location.path(finalUrl);
              };
-         
-//        function determineActiveTab() {
-//        	for(var j = 0; j < productTabs.length; j++) {
-//        		if(productTabs[j].content === lastTab.tab){
-//        			$scope.productTabs.isActive = true;
-//        		}
-//        	}
-//        }
+
     }
 
     nonDealerSummary.NonDealerSummaryController = NonDealerSummaryController;
