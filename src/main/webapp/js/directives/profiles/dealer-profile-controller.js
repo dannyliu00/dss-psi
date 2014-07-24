@@ -76,6 +76,7 @@
             .withBootstrap();
 
         $scope.dealerEmail = "";
+        
 
         $scope.getRecTotals = function() {
         	var totalRecQty = 0;
@@ -97,6 +98,10 @@
 	            $scope.profile.periods[j].recommended = recQty;
 	            $scope.profile.periods[j].recMinimum = recMin;
 	            $scope.profile.periods[j].recMaximum = recMax;
+	            
+	            $scope.profile.periods[j].myActual = function(pCode) 
+	            { 
+	            };
 	    	}
 
 	    	return totalRecQty;
@@ -123,6 +128,25 @@
         		}
         	}
         }
+        
+        $scope.getPeriodTotal = function(periodCode) {
+        	var actQty = 0;
+        	var level = $scope.authLevel;
+        	
+            for(var i=0; i < $scope.orderSegments.length; i++) {
+                var orderSegment = $scope.orderSegments[i];
+                if(orderSegment.periodCode === periodCode) {
+                	if((orderSegment[level]*1).toString()===orderSegment[level].toString()) {
+                		
+                		var actual = parseInt(orderSegment[level]);
+                		if(actual>=0) {
+                			actQty = actQty + actual;
+                		}
+                	}
+                }
+            }
+            return actQty;
+        };
 
         $scope.getActualGrandTotal = function() {
         	var totalQty = 0;

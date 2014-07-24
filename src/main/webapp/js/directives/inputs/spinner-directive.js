@@ -8,8 +8,9 @@
 		   require: 'ngModel',
 		   link: function(scope, element, attrs, modelCtrl) {
 			   $(element).spinner({
-				   spin: function (event, ui) {
-					   $(this).change();
+				   stop: function (event, ui) {
+					   scope.os.actual=parseInt($(this).val());
+					   angular.element(this).change();
 				   }
 			   });
 		   }
