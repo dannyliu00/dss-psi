@@ -1,7 +1,7 @@
 (function() {
     var dsmButton = sellInNamespace('sellIn.directives.dsmbutton');
 
-    function DsmButtonController($scope, $location, $modal, dealerSummaryPageUrl, profilePageUrl, dsmUrl, lastTab) {
+    function DsmButtonController($scope, $location, $modal, dsmUrl, lastTab) {
     	var caption = '';
     	var changeCaption = 0;
     	var dsmButtonCaption = "";
