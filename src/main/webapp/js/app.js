@@ -22,6 +22,7 @@ angular.module('sellIn', [
         'sellIn.directives.summarydatatables',
         'sellIn.directives.producttabs',
         'sellIn.directives.nondealersummaries',
+        'sellIn.directives.commentdisplay',
         'sellIn.resources.dealerProfileDetails',
         'sellIn.resources.dealerProfiles',
         'sellIn.resources.dealerProfile',
