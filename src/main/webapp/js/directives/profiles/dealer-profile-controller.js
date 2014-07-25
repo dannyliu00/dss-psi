@@ -67,11 +67,6 @@
                 
                 // Remember the original data.
                 $scope.resetChanges();
-                
-                
-//            	$scope.$watch('orderSegments', function(a,b,c) {
-//            		$scope.isDirty=true;
-//        		},true);
 
             })
             .then(function() {
@@ -150,6 +145,7 @@
         	}
         }
         
+        // Calculate the total actuals for a period
         $scope.getPeriodTotal = function(periodCode) {
         	var actQty = 0;
         	var level = $scope.authLevel;
@@ -157,6 +153,7 @@
             for(var i=0; i < $scope.orderSegments.length; i++) {
                 var orderSegment = $scope.orderSegments[i];
                 if(orderSegment.periodCode === periodCode) {
+                	// Check if numeric
                 	if((orderSegment[level]*1).toString()===orderSegment[level].toString()) {
                 		
                 		var actual = parseInt(orderSegment[level]);
@@ -168,40 +165,6 @@
             }
             return actQty;
         };
-
-        $scope.getActualGrandTotal = function() {
-        	var totalQty = 0;
-        	var level = $scope.authLevel;
-	    	for(var j=0; j < $scope.profile.periods.length; j++) {
-                var periodCode = $scope.profile.periods[j].code;
-	            var actQty = 0;
-	            for(var i=0; i < $scope.orderSegments.length; i++) {
-	                var orderSegment = $scope.orderSegments[i];
-                    if(orderSegment.periodCode === periodCode) {
-                    	var actual = angular.isNumber(orderSegment[level]) && orderSegment[level] > -1 ? parseInt(orderSegment[level]) : 0;
-                		actQty = actQty + actual;
-                    }
-	            }
-	            totalQty = totalQty + actQty;
-	            $scope.profile.periods[j].actual = actQty;
-	    	}
-	    	return totalQty;
-	    };
-
-		$scope.sumActualValues = function() {
-		     var total = 0;
-		     var level = $scope.authLevel;
-		     for(var i = 0; i < $scope.orderSegments.length; i++) {
-		    	 var os = $scope.orderSegments[i];
-		         var osActual = angular.isNumber(os[level]) && os[level] > -1 ? parseInt(os[level]) : 0;
-		         total = total + osActual;
-		         if(($scope.profile.type === 'motorcycle') && (os.subSegment !== null)) {
-		              sumSegmentTotal(os.subSegment);
-		            }
-		         }
-		     $scope.actualGrandTotal = total;
-		     return total;
-		};
 		
 		
 		// Calculate total for a super segment
@@ -238,25 +201,6 @@
 		     return total;
 		};        
 		
-
-        function sumSegmentTotal(sub) {
-            var segment = getSegment(sub);
-            var level = $scope.authLevel;
-        	var total = 0;
-            var count = 0;
-            for(var i=0; i < $scope.orderSegments.length; i++) {
-            	var checkList = segment.subSegments.indexOf($scope.orderSegments[i].subSegment);
-                if(checkList !== -1) {
-                	var actual = angular.isNumber($scope.orderSegments[i][level]) && $scope.orderSegments[i][level] > -1 ? parseInt($scope.orderSegments[i][level]) : 0;
-                	total = total + actual;
-                	if(actual > 0) {
-                		count = count + 1;
-                		}
-                	}
-                segment.actual = total;
-                segment.oSTotal = count;
-            }
-        }
 
         function getSegment(subSegment) {
         	for (var i=0; i<$scope.segments.length; i++) {
