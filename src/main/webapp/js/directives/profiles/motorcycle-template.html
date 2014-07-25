@@ -81,7 +81,7 @@
                 <tr class="even">
                     <td class="text-left">Grand Total</td>
                     <td class="text-center">{{recommendedGrandTotal - 1}} - {{recommendedGrandTotal}} - {{recommendedGrandTotal + 2}}</td>
-                    <td ng-class="{noncomplianttotal: actualGrandTotal < recommendedGrandTotal-1 || actualGrandTotal > recommendedGrandTotal+2}" class="text-center compliant">{{getSuperSegmentGrandTotal()}}</td>
+                    <td ng-class="{noncomplianttotal: getSuperSegmentGrandTotal() < recommendedGrandTotal-1 || getSuperSegmentGrandTotal() > recommendedGrandTotal+2}" class="text-center compliant">{{getSuperSegmentGrandTotal()}}</td>
                     <td></td>
                 </tr>
                 </tbody>

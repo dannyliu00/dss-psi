@@ -39,12 +39,12 @@
 								<input tabindex="0"
                                    ng-class="{noncompliant: orderSegment.dsmQty < orderSegment.recommended}"
                                    class="text-center compliant numberInput"
-                                   type="number"
                                    ng-model="orderSegment.dsmQty"
                                    min="0"
                                    max="999"
                                    numbers-only
-                                   ng-change="sumActualValues()"></span>
+                                   spinner-input
+                                   ></span>
                         </td>
                             
                         </td>
@@ -85,13 +85,13 @@
                 <tr ng-repeat="segment in segments | orderBy: 'name'" class="odd">
                     <td class="">{{segment.name}}</td>
                     <td class="text-center">{{segment.recommended}}</td>
-                    <td class="text-center compliant" ng-class="{noncomplianttotal: segment.actual < segment.recommended}" >{{segment.actual}}</td>
-                    <td class="text-center compliant" ng-class="{noncomplianttotal: segment.oSTotal < segment.recommendedOSCount}" >{{segment.oSTotal}} / {{segment.recommendedOSCount}}</td>
+                    <td class="text-center compliant" ng-class="{noncomplianttotal: getSegmentActualTotal(segment).actualTotal < segment.recommended}" >{{getSegmentActualTotal(segment).actualTotal}}</td>
+                    <td class="text-center compliant" ng-class="{noncomplianttotal: getSegmentActualTotal(segment).orderSegmentCount < segment.recommendedOSCount}" >{{getSegmentActualTotal(segment).orderSegmentCount}} / {{segment.recommendedOSCount}}</td>
                 </tr>
                 <tr class="even">
                     <td class="text-left">Grand Total</td>
                     <td class="text-center">{{recommendedGrandTotal - 1}} - {{recommendedGrandTotal}} - {{recommendedGrandTotal + 2}}</td>
-                    <td ng-class="{noncomplianttotal: actualGrandTotal < recommendedGrandTotal - 1 || actualGrandTotal > recommendedGrandTotal + 2}" class="text-center compliant">{{actualGrandTotal}}</td>
+                    <td ng-class="{noncomplianttotal: getSuperSegmentGrandTotal() < recommendedGrandTotal - 1 || getSuperSegmentGrandTotal() > recommendedGrandTotal + 2}" class="text-center compliant">{{getSuperSegmentGrandTotal()}}</td>
                     <td></td>
                 </tr>
                 </tbody>

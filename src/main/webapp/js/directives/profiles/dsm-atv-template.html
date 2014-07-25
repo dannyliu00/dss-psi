@@ -35,12 +35,11 @@
                                  <input tabindex="0"
                                        ng-class="{noncompliant: os.dsmQty < os.recMinimum || os.dsmQty > os.recMaximum}"
                                        ng-model="os.dsmQty"
-                                       class="text-center compliant numberInput"
-                                       type="number"
+                                       class="ui-spinner-input text-center compliant numberInput"
                                        min="0"
                                        max="999"
                                        numbers-only
-                                       ng-change="getActualGrandTotal()" ></span>
+                                       spinner-input></span>
                         </td>
                     </tr>
                     </tbody>
@@ -71,7 +70,7 @@
                     </thead>
                     <tbody role="alert" aria-live="polite" aria-relevant="all">
 	                    <td ng-repeat="period in profile.periods" class="text-center">
-	                        <span class="col-xs-6">{{period.recMinimum}} - {{period.recommended}} - {{period.recMaximum}}</span><span ng-class="{noncomplianttotal: period.actual < period.recMinimum || period.actual > period.recMaximum}" class="compliant col-xs-6" >{{period.actual}}</span>
+	                        <span class="col-xs-6">{{period.recMinimum}} - {{period.recommended}} - {{period.recMaximum}}</span><span ng-class="{noncomplianttotal: getPeriodTotal(period.code) < period.recMinimum || getPeriodTotal(period.code) > period.recMaximum}" class="compliant col-xs-6" >{{getPeriodTotal(period.code)}}</span>
 	                    </td>
                     </tbody>
                 </table>
