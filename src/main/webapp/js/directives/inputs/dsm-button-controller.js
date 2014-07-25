@@ -24,6 +24,7 @@
             if($scope.isDirty()) {
             	openSaveDialog();
             } else {
+                var finalDsmUrl = dsmUrl.replace(':id', dealerId);
             	$location.path(finalDsmUrl);
             }
         };
