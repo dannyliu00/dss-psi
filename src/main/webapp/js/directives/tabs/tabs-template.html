@@ -1,5 +1,5 @@
-<ul class="nav nav-tabs">
-    <li ng-repeat="tab in tabs" class="{{tab.isActive}}">
+<ul class="nav nav-tabs" role="tablist">
+    <li ng-repeat="tab in tabs" class="{{tab.isActive}}" ng-click="showProfiles(tab.url)" role="tab">
         <a ng-href="{{tab.url}}" data-toggle="tab">
             {{tab.name}}
         </a>

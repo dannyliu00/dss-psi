@@ -1,30 +1,29 @@
-<div class="col-md-12">
-    <div id="activeObjectsTable_processing" class="dataTables_processing" style="visibility: hidden;">Processing...</div>
-    <table datatable="ng" dt-options="dtOptions" id="activeObjectsTable"
+<div class="table-responsive">
+    <table datatable="" dt-options="dtOptions" role="table"
            class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
            aria-describedby="activeObjectsTable_info">
         <thead>
-        <tr role="row">
-            <th class="text-center sorting_asc" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" rowspan="1"
-                colspan="1" aria-sort="ascending" aria-label="Date : activate to sort column descending" style="width: 10%;">
-                Target Completion Date
-            </th>
-            <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" rowspan="1"
-                colspan="1" aria-label="Inventory Profile : activate to sort column ascending" style="width: 50%;">
-                Inventory Profile
-            </th>
-            <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" rowspan="1"
-                colspan="1" aria-label="Status : activate to sort column ascending" style="width: 10%;">
-                Status
-            </th>
-        </tr>
+            <tr role="row">
+                <th class="text-center sorting col-sm-3" tabindex="0" aria-controls="activeObjectsTable"
+                    aria-sort="ascending" aria-label="Date : activate to sort column descending" >
+                    Target Completion Date
+                </th>
+                <th class="sorting col-sm-6" tabindex="0" aria-controls="activeObjectsTable"
+                    aria-label="Inventory Profile : activate to sort column ascending" >
+                    Inventory Profile
+                </th>
+                <th class="sorting col-sm-3" tabindex="0" aria-controls="activeObjectsTable"
+                    aria-label="Status : activate to sort column ascending" >
+                    Status
+                </th>
+            </tr>
         </thead>
-        <tbody role="alert" aria-live="polite" aria-relevant="all">
-        <tr dt-rows ng-repeat="profile in profiles" >
-            <td class="text-center sorting_1 navLink"><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.typeCode)" >{{profile.targetCompletionDate | date : 'mediumDate'}}</a></td>
-            <td class="navLink"><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.typeCode)" >{{profile.name}}</a></td>
-            <td class="navLink"><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.typeCode)" ><span style="color:#3AB050">{{profile.status}}</span></a></td>
-        </tr>
+        <tbody aria-live="polite" aria-relevant="all">
+            <tr ng-repeat="profile in profiles" role="row" >
+                <td class="text-center navLink" ><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.typeCode)" >{{profile.targetCompletionDate | date : 'mediumDate'}}</a></td>
+                <td class="navLink"><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.typeCode)" >{{profile.name}}</a></td>
+                <td class="navLink"><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.typeCode)" >{{profile.status}}</a></td>
+            </tr>
         </tbody>
     </table>
 </div>

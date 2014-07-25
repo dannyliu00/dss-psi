@@ -17,6 +17,18 @@
 	        $scope.profiles = returnedProfiles;
 	        });
 
+        $scope.$on('tabClick', function(event, data) {
+            if(data === 'current') {
+                dealerProfilesResource.queryCurrent(dealer).then(function(profiles) {
+                    $scope.profiles = profiles;
+                });
+            } else {
+                dealerProfilesResource.queryHistory(dealer).then(function(profiles) {
+                    $scope.profiles = profiles;
+                });
+            }
+        });
+
         $scope.navigateToProfile = function(dealerId, profileId, type) {
         	lastTab.changeType('');
             var finalUrl = profilePageUrl.replace(':dealerId', dealerId)
