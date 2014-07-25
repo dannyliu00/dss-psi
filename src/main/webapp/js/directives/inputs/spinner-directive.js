@@ -9,7 +9,7 @@
 		   link: function(scope, element, attrs, modelCtrl) {
 			   $(element).spinner({
 				   stop: function (event, ui) {
-					   scope.os.actual=parseInt($(this).val());
+					   // Trigger a change so angular picks up the value.
 					   angular.element(this).change();
 				   }
 			   });

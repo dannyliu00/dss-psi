@@ -3,8 +3,19 @@
 
     function DealerProfileDirectiveController($scope, DTOptionsBuilder, $routeParams, dealerResource,
     		dealerProfileResource, orderSegmentResourceMapper,appRoleResource) {
+    	
+    	var self=this;
 
-    	$scope.dirtyIndicator = 0;
+    	this.initialOrderSegments=null;
+
+    	// Change control
+    	$scope.isDirty=function() {
+    		return !angular.equals(self.initialOrderSegments, $scope.orderSegments);
+    	};
+    	
+    	$scope.resetChanges = function() {
+    		self.initialOrderSegments = angular.copy($scope.orderSegments);
+    	};
     	
     	appRoleResource.get().then(function(role) {
             $scope.role = role;
@@ -21,17 +32,25 @@
     	this.orderSegmentResourceMapper = orderSegmentResourceMapper;
 
 	    var dealer = {dealerId: $routeParams.dealerId, type: $routeParams.type};
-	        dealerResource.get(dealer).then(function(returnedDealer) {
-	            $scope.dealer = returnedDealer;
-	        });
+	    
+        dealerResource.get(dealer).then(function(returnedDealer) {
+            $scope.dealer = returnedDealer;
+        });
 
         var profile = {profileId: $routeParams.profileId,dealerId: $routeParams.dealerId};
+        
         dealerProfileResource.get(profile)
             .then(function(returnedProfile) {
+            	
                 $scope.profile = returnedProfile;
                 $scope.segments = returnedProfile.segments;
+
+
                 for(var i = 0; i < returnedProfile.orderSegments.length; i++) {
                 	var seg = returnedProfile.orderSegments[i];
+                	
+                	
+                	
                 	if($scope.authLevel === 'adminQty') {
                 		if((seg.adminQty === null || seg.adminQty <= -1) && (seg.dsmQty > -1 && seg.dsmQty !== null)) {
                 			seg.adminQty = seg.dsmQty;
@@ -45,11 +64,17 @@
                 }
                 $scope.orderSegments = returnedProfile.orderSegments;
                 $scope.distinctOS = findDistinctOSes($scope.orderSegments);
-
+                
+                // Remember the original data.
+                $scope.resetChanges();
+                
+                
+//            	$scope.$watch('orderSegments', function(a,b,c) {
+//            		$scope.isDirty=true;
+//        		},true);
 
             })
             .then(function() {
-                ($scope.profile.type === 'atv' ? $scope.actualGrandTotal = $scope.getActualGrandTotal() : $scope.actualGrandTotal = $scope.sumActualValues());
                 $scope.recommendedGrandTotal = $scope.getRecTotals();
 
         });
@@ -98,10 +123,6 @@
 	            $scope.profile.periods[j].recommended = recQty;
 	            $scope.profile.periods[j].recMinimum = recMin;
 	            $scope.profile.periods[j].recMaximum = recMax;
-	            
-	            $scope.profile.periods[j].myActual = function(pCode) 
-	            { 
-	            };
 	    	}
 
 	    	return totalRecQty;
@@ -164,7 +185,6 @@
 	            totalQty = totalQty + actQty;
 	            $scope.profile.periods[j].actual = actQty;
 	    	}
-	    	$scope.dirtyIndicator = $scope.dirtyIndicator + 1;
 	    	return totalQty;
 	    };
 
@@ -180,9 +200,44 @@
 		            }
 		         }
 		     $scope.actualGrandTotal = total;
-		     $scope.dirtyIndicator = $scope.dirtyIndicator + 1;
 		     return total;
 		};
+		
+		
+		// Calculate total for a super segment
+        $scope.getSegmentActualTotal = function(segment) {
+            var level = $scope.authLevel;
+        	var total = 0;
+            var count = 0;
+            
+            for(var i=0; i < $scope.orderSegments.length; i++) {
+            	
+            	var checkList = segment.subSegments.indexOf($scope.orderSegments[i].subSegment);
+                if(checkList !== -1) {
+                	var orderSegmentVal = $scope.orderSegments[i][level];
+                	
+            		if((orderSegmentVal*1).toString()===orderSegmentVal.toString()) {
+                		
+                		var actual = parseInt(orderSegmentVal);
+            			total += actual;
+                		if(actual>0) {
+                			count++;
+                		}
+                	}
+            	}
+            }
+            return {actualTotal: total, orderSegmentCount:count};
+        };
+        
+        // Get GrandTotal for all super segments
+		$scope.getSuperSegmentGrandTotal = function() {
+		     var total = 0;
+		     for (var i=0; i<$scope.segments.length; i++) {
+		    	 total+=$scope.getSegmentActualTotal($scope.segments[i]).actualTotal;
+		     }
+		     return total;
+		};        
+		
 
         function sumSegmentTotal(sub) {
             var segment = getSegment(sub);

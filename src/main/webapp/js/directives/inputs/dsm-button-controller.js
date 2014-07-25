@@ -19,18 +19,12 @@
         
         
         $scope.dsmToSummary = function(dealerId) {
-            var dsmChanges = $scope.dirtyIndicator;
             lastTab.changeType($scope.profile.typeCode);
-            
-            switch(dsmChanges) {
-                case 0:
-                case 1:
-                	var finalDsmUrl = dsmUrl.replace(':id', dealerId);
-                    $location.path(finalDsmUrl);
-                    break;
-                default:
-                    openSaveDialog();
-                    break;
+
+            if($scope.isDirty()) {
+            	openSaveDialog();
+            } else {
+            	$location.path(finalDsmUrl);
             }
         };
 

@@ -18,32 +18,23 @@
             for(var i=0; i < $scope.orderSegments.length; i++) {
            	    $scope.orderSegments[i].actual = $scope.orderSegments[i].recommended;
             }
-            $scope.sumActualValues();
         }
        
         function autoFillATV() {
                for(var i=0; i < $scope.orderSegments.length; i++) {
                    $scope.orderSegments[i].actual= $scope.orderSegments[i].recommended;
                }
-           $scope.getActualGrandTotal();
        }
     
         $scope.toSummary = function(dealerId) {
-            var changes = $scope.dirtyIndicator;
+        	
             lastTab.changeType($scope.profile.typeCode);
-
-            switch(changes) {
-                case 0:
-                    var finalUrl = dealerSummaryPageUrl.replace(':dealerId', dealerId).replace(':type', $scope.profile.typeCode);
-                    $location.path(finalUrl);
-                    break;
-                case 1:
-                    var finalUrl = dealerSummaryPageUrl.replace(':dealerId', dealerId).replace(':type', $scope.profile.typeCode);
-                    $location.path(finalUrl);
-                    break;
-                default:
-                    openSaveDialog();
-                    break;
+            
+            if(!$scope.isDirty()) {
+                var finalUrl = dealerSummaryPageUrl.replace(':dealerId', dealerId).replace(':type', $scope.profile.typeCode);
+                $location.path(finalUrl);
+            } else {
+                openSaveDialog();
             }
         };
 
@@ -75,7 +66,7 @@
         }
         
         $scope.saveQuantities = function() {
-        	if($scope.dirtyIndicator > 1) {
+        	if($scope.isDirty()) {
         		openSaveQuantitiesDialog();
         	}
         };
@@ -92,12 +83,14 @@
                     },
             		profile: function() {
             			return $scope.profile;
+            		},
+            		resetChanges: function() {
+            			return $scope.resetChanges;
             		}
                 }
             });
 
             modalInstance.result.then(function () {
-                $scope.dirtyIndicator = 1;
             }, function () {
                 console.log('Modal dismissed at: ' + new Date());
             });

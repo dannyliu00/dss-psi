@@ -1,7 +1,7 @@
 (function() {
     var saveQuantities = sellInNamespace('sellIn.directives.savequantities');
 
-    function SaveQuantitiesController($scope, $modalInstance, dealerProfileResource, orderSegments, profile) {
+    function SaveQuantitiesController($scope, $modalInstance, dealerProfileResource, orderSegments, profile, resetChanges) {
     	
         $scope.saveChanges = function () {
         	
@@ -16,7 +16,10 @@
         	dealerProfileResource.save(os)
                 .then(function(returnedos) {
                     orderSegments = returnedos.orderSegments;
-                    profile.nonCompliant = returnedos.nonCompliant
+                    profile.nonCompliant = returnedos.nonCompliant;
+                    
+                    resetChanges();
+                    
                     $modalInstance.close();
                 });
         };
