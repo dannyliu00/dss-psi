@@ -60,13 +60,34 @@
                     }
                 };
                 var expectedAttr = {};
-                var expectedMenuData = {};
+                var expectedMenuData = {data: [{
+                    category: [{
+                        colName: 'mktg',
+                        displayName: 'Marketing',
+                        displayOrder: 1,
+                        mainCategory: 1,
+                        menuLinks:  [{
+                            colName: 'Mktg',
+                            displayName: 'Display Name',
+                            linkTarget: 'http://ut.local/polaris',
+                            linkType: 'Local',
+                            linkWindow: '',
+                            mainCategory: true,
+                            parentName: 'Marketing',
+                            subCatHpId: 0,
+                            subMenuLinks: []
+                        }]
+                    }]
+                    }]
+                };
 
                 expectedRoleDeferred.resolve(expectedRole);
                 expectedAttributeDeferred.resolve(expectedAttr);
                 expectedMenuDeferred.resolve(expectedMenuData);
 
                 ctrl = new commonHeader.CommonHeaderController(scope, expectedTitle, menuResource, appRoleResource, appAttributeResource);
+
+                $rootScope.$digest();
 
                 expect(scope.appTitle).toEqual(expectedTitle);
                 expect(scope.isSalesman).toEqual(isSalesman);

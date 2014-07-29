@@ -26,7 +26,6 @@
     	
     	
     	function buildMenu(data) {
-        	console.log("topNameMenu data", data);
             var results = '<nav class="navbar navbar-default" role="navigation">\n';
             
             results += '<div class="navbar-header">\n';
