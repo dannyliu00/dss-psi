@@ -2,8 +2,10 @@
     var dealerProfiles = sellInNamespace('sellIn.directives.profiles');
 
     describe('DealerProfileController', function() {
-        var scope, DTOptionsBuilder, DTOptions, routeParams, dealerResource, dealerProfileResource, expectedDealerId, expectedProfileId, appRoleResource;
-        var expectedDealerDeferred, expectedDealer, expectedProfileDeferred, expectedProfile, expectedRoleDeferred, expectedRole, expectedType;
+        var scope, DTOptionsBuilder, DTOptions, routeParams, dealerResource, dealerProfileResource;
+        var expectedDealerId, expectedProfileId, appRoleResource;
+        var expectedDealerDeferred, expectedDealer, expectedProfileDeferred, expectedProfile;
+        var expectedRoleDeferred, expectedRole, expectedType, lastTab;
         var ctrl;
 
         beforeEach(function() {
@@ -21,6 +23,10 @@
                 dealerProfileResource = jasmine.createSpyObj('dealerProfileResource', ['get']);
                 $provide.decorator('dealerProfileResource', [function() {
                     return dealerProfileResource;
+                }]);
+                lastTab = jasmine.createSpyObj('lastTab', ['changeProductTab', 'changeProfilesTab']);
+                $provide.decorator('lastTab', [function() {
+                    return lastTab;
                 }]);
             });
 
@@ -68,7 +74,9 @@
 
         describe('constructor', function() {
             it('initializes dealer on scope',
-                inject(function($rootScope, dealerResource, dealerProfileResource, orderSegmentResourceMapper, appRoleResource) {
+                inject(function($rootScope, dealerResource, dealerProfileResource,
+                                orderSegmentResourceMapper, appRoleResource, lastTab) {
+
                 ctrl = new dealerProfiles.DealerProfileDirectiveController(
                     scope,
                     DTOptionsBuilder,
@@ -76,7 +84,8 @@
                     dealerResource,
                     dealerProfileResource,
                     orderSegmentResourceMapper,
-                    appRoleResource);
+                    appRoleResource,
+                    lastTab);
 
                 var expectedDealer = {dealerId: expectedDealerId, type: expectedType};
                 var expectedProfile = {profileId: expectedProfileId,dealerId: expectedDealerId};
