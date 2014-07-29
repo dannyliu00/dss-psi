@@ -24,30 +24,40 @@
                     <tr ng-repeat="key in distinctOS" class="odd">
                         <td class="">{{key}}</td>
                         <td ng-repeat="os in orderSegments | filter:{name: key}:true" class="text-center"><span>{{os.recMinimum}} - {{os.recommended}} - {{os.recMaximum}}<br/>
-                                <input tabindex="0"
-                                       ng-model="os.actual"
-                                       class="text-center numberInput"
-                                       type="number"
-                                       min="0"
-                                       max="999"
-                                       numbers-only
-                                       ng-disabled="os.actual != null" ></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>
-                                 <input tabindex="0"
-                                       ng-model="os.dsmQty"
-                                       class="text-center numberInput"
-                                       type="number"
-                                       min="0"
-                                       max="999"
-                                       numbers-only
-                                       ng-disabled="os.dsmQty != null" ></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>
-                                 <input tabindex="0"
-                                       ng-class="{noncompliant: os.adminQty < os.recMinimum || os.adminQty > os.recMaximum}"
-                                       ng-model="os.adminQty"
-                                       class="ui-spinner-input text-center compliant numberInput"
-                                       min="0"
-                                       max="999"
-                                       numbers-only
-                                       spinner-input ></span>
+                        	<input tabindex="0"
+                            	ng-model="os.actual"
+                                class="text-center numberInput"
+                                min="0"
+                                max="999"
+                                numbers-only
+                                ng-disabled="os.actual != null" ></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>
+                         	<input tabindex="0"
+                              	ng-model="os.dsmQty"
+                                class="text-center numberInput"
+                                min="0"
+                                max="999"
+                                numbers-only
+                                ng-disabled="os.dsmQty != null" ></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                         	<span ng-switch on="isEditable()">
+	                           	<input ng-switch-when="false"
+	                          		tabindex="0"		
+	                            	ng-class="{noncompliant: os.adminQty < os.recMinimum || os.adminQty > os.recMaximum}"
+                                    ng-model="os.adminQty"
+	                                class="compliant numberInput text-center"
+	                                min="0"
+	                                max="999"
+	                                numbers-only
+	                                readonly>
+                                <input ng-switch-when="true"
+	                            	tabindex="0"		
+	                            	ng-class="{noncompliant: os.adminQty < os.recMinimum || os.adminQty > os.recMaximum}"
+                                    ng-model="os.adminQty"
+	                                class="ui-spinner-input compliant numberInput text-center"
+	                                min="0"
+	                                max="999"
+	                                numbers-only
+	                                spinner-input>
+                        	</span>
                         </td>
                     </tr>
                     </tbody>

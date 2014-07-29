@@ -19,12 +19,12 @@
         
         
         $scope.dsmToSummary = function(dealerId) {
-            lastTab.changeType($scope.profile.typeCode);
+            lastTab.changeProductTab($scope.profile.typeCode);
 
             if($scope.isDirty()) {
             	openSaveDialog();
             } else {
-                var finalDsmUrl = dsmUrl.replace(':id', dealerId);
+                var finalDsmUrl = dsmUrl.replace(':id', dealerId).replace(':type', $scope.profile.typeCode).replace(':status', lastTab.profilesTab);
             	$location.path(finalDsmUrl);
             }
         };

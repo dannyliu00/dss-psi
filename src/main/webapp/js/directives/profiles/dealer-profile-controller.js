@@ -2,7 +2,7 @@
     var dealerProfiles = sellInNamespace('sellIn.directives.profiles');
 
     function DealerProfileDirectiveController($scope, DTOptionsBuilder, $routeParams, dealerResource,
-    		dealerProfileResource, orderSegmentResourceMapper,appRoleResource) {
+    		dealerProfileResource, orderSegmentResourceMapper,appRoleResource, lastTab) {
     	
     	var self=this;
 
@@ -43,13 +43,10 @@
             .then(function(returnedProfile) {
             	
                 $scope.profile = returnedProfile;
-                $scope.segments = returnedProfile.segments;
-
+                $scope.segments = returnedProfile.segments; 
 
                 for(var i = 0; i < returnedProfile.orderSegments.length; i++) {
                 	var seg = returnedProfile.orderSegments[i];
-                	
-                	
                 	
                 	if($scope.authLevel === 'adminQty') {
                 		if((seg.adminQty === null || seg.adminQty <= -1) && (seg.dsmQty > -1 && seg.dsmQty !== null)) {
@@ -89,6 +86,20 @@
 
             return keys;
         }
+        
+        $scope.isEditable = function() {
+        	var status = $scope.profile.status;
+        	if(lastTab.profilesTab === 'current') {
+	        	if($scope.authLevel === 'adminQty' && status === 'EXCEPTION REQUESTED') {
+	        		return true;
+	        	} else if($scope.authLevel === 'dsmQty' && (status === 'PENDING' || status === 'RETURNED TO DSM')) {
+	        		return true;
+	        	} else if ($scope.authLevel === 'actual' && (status === 'NOT STARTED' || status === 'RETURNED TO DEALER' || status === 'IN PROGRESS')) {
+	        		return true;
+	        	}
+        	}
+        	return false;
+        };
 
         $scope.dtOptions = DTOptionsBuilder.newOptions()
             .withPaginationType('full_numbers')

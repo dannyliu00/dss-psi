@@ -28,15 +28,25 @@
                         <td ng-class="">{{segName(orderSegment.subSegment)}}</td>
                         <td class="">{{orderSegment.name}}</td>
                         <td class="text-center"><span>{{orderSegment.recommended}}&nbsp;&nbsp;&nbsp;&nbsp;
-                            <input tabindex="0"
-                                   ng-class="{noncompliant: orderSegment.actual < orderSegment.recommended}"
-                                   class="text-center compliant numberInput"
-                                   ng-model="orderSegment.actual"
-                                   min="0"
-                                   max="999"
-                                   numbers-only
-                                   spinner-input
-                                   ></span>
+                            <span ng-switch on="isEditable()">
+	                            <input ng-switch-when="false"
+	                            	tabindex="0"		
+	                            	ng-class="{noncompliant: orderSegment.actual < orderSegment.recommended}"
+                                    class="text-center compliant numberInput"
+                                    ng-model="orderSegment.actual"
+	                                min="0"
+	                                max="999"
+	                                numbers-only
+	                                readonly>
+                                <input ng-switch-when="true"
+	                            	ng-class="{noncompliant: orderSegment.actual < orderSegment.recommended}"
+                                   	class="text-center compliant numberInput"
+                                   	ng-model="orderSegment.actual"
+	                                min="0"
+	                                max="999"
+	                                numbers-only
+	                                spinner-input>
+                            </span>
                         </td>
                     </tr>
 					</tbody>

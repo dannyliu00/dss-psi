@@ -105,6 +105,8 @@
          };
 
         $scope.$on('tabClick', function(event, data) {
+        	
+        	lastTab.changeProfilesTab(data);
             var finalUrl = dsmUrl
                 .replace(':id', $routeParams.id)
                 .replace(':type', lastTab.productTab)

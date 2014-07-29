@@ -12,7 +12,7 @@
         .constant('profilePageControllerName', 'profileController')
         .constant('profilePageTemplateUrl', 'js/pages/profile-detail/profile-detail-template.html')
 
-        .constant('dsmUrl','/nonDealerSummary/:id')
+        .constant('dsmUrl','/nonDealerSummary/:id/:type/:status')
         .constant('dsmControllerName','nonDealerSummaryController')
         .constant('dsmTemplateUrl','js/pages/non-dealer-summary/non-dealer-summary-page-template.html')
 

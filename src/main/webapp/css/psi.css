@@ -112,3 +112,9 @@
 .numberInput {
     width: 50px;
 }
+
+.table thead tr th[class*="sorting"],
+/* .table-default tfoot tr th, */
+.table caption {
+    padding-right: 5px;
+}   

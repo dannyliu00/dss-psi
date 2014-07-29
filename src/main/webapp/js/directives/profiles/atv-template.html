@@ -9,7 +9,7 @@
                 <div id="activeObjectsTable_processing" class="dataTables_processing" style="visibility: hidden;">Processing...</div>
                 <table datatable dt-options="dtOptions" id="activeObjectsTable"
                        class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
-                       aria-describedby="activeObjectsTable_info">
+                       aria-describedby="activeObjectsTable_info" >
                     <thead>
                     <tr role="row">
                         <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
@@ -23,15 +23,27 @@
                     <tbody role="alert" aria-live="polite" aria-relevant="all">
                     <tr ng-repeat="key in distinctOS" class="odd" >
                         <td class="">{{key}}</td>
-                        <td ng-repeat="os in orderSegments | filter:{name: key}:true" class="text-center" ><span>{{os.recMinimum}} - {{os.recommended}} - {{os.recMaximum}}<br/>
-                                <input tabindex="0"
-                                       ng-class="{noncompliant: os.actual < os.recMinimum || os.actual > os.recMaximum}"
-                                       ng-model="os.actual"
-                                       class="ui-spinner-input compliant numberInput text-center"
-                                       min="0"
-                                       max="999"
-                                       numbers-only
-                                       spinner-input ></span>
+                        <td ng-repeat="os in orderSegments | filter:{name: key}:true" class="text-center" >{{os.recMinimum}} - {{os.recommended}} - {{os.recMaximum}}<br/>
+                            <span ng-switch on="isEditable()">
+	                            <input ng-switch-when="false"
+	                            	tabindex="0"		
+	                            	ng-class="{noncompliant: os.actual < os.recMinimum || os.actual > os.recMaximum}"
+	                                ng-model="os.actual"
+	                                class="compliant numberInput text-center"
+	                                min="0"
+	                                max="999"
+	                                numbers-only
+	                                readonly>
+                                <input ng-switch-when="true"
+	                            	tabindex="0"		
+	                            	ng-class="{noncompliant: os.actual < os.recMinimum || os.actual > os.recMaximum}"
+	                                ng-model="os.actual"
+	                                class="ui-spinner-input compliant numberInput text-center"
+	                                min="0"
+	                                max="999"
+	                                numbers-only
+	                                spinner-input>
+                            </span>    
                         </td>
                     </tr>
                     </tbody>
