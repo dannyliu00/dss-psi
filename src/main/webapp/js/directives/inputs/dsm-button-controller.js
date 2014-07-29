@@ -1,7 +1,7 @@
 (function() {
     var dsmButton = sellInNamespace('sellIn.directives.dsmbutton');
 
-    function DsmButtonController($scope, $location, $modal, dealerSummaryPageUrl, profilePageUrl, dsmUrl, lastTab) {
+    function DsmButtonController($scope, $location, $modal, dsmUrl, lastTab) {
     	var caption = '';
     	var changeCaption = 0;
     	var dsmButtonCaption = "";
@@ -24,6 +24,7 @@
             if($scope.isDirty()) {
             	openSaveDialog();
             } else {
+                var finalDsmUrl = dsmUrl.replace(':id', dealerId);
             	$location.path(finalDsmUrl);
             }
         };
@@ -132,11 +133,11 @@
         
         function isChanged() {
         	for(var i = 0; i < $scope.orderSegments.length; i++) {
-        		if($scope.orderSegments[i].actual !== $scope.orderSegments[i].dsmQty) {
+        		if($scope.orderSegments[i].actual !== parseInt($scope.orderSegments[i].dsmQty)) {
         			return true;
         		}
         	}
-        	return false;
+    		return false;
         } 
     }
 

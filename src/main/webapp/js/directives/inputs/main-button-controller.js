@@ -28,7 +28,7 @@
     
         $scope.toSummary = function(dealerId) {
         	
-            lastTab.changeType($scope.profile.typeCode);
+            lastTab.changeProductTab($scope.profile.typeCode);
             
             if(!$scope.isDirty()) {
                 var finalUrl = dealerSummaryPageUrl.replace(':dealerId', dealerId).replace(':type', $scope.profile.typeCode);

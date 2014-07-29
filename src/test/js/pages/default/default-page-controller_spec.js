@@ -19,7 +19,7 @@ describe('DefaultPageController', function() {
             });
         });
 
-	    dealerUrl = '/dealers/:dealerId/:type';
+	    dealerUrl = '/dealers/:dealerId/:type/:status';
 	    dsmUrl = '/dsm/:id';
 	    expectedRole = {
 		    dealerId: 'UTID',
@@ -60,7 +60,10 @@ describe('DefaultPageController', function() {
 
             $rootScope.$digest();
 
-            var expectedDealerUrl = dealerUrl.replace(':dealerId', expectedRole.dealerId).replace(':type', expectedType);
+            var expectedDealerUrl = dealerUrl
+                .replace(':dealerId', expectedRole.dealerId)
+                .replace(':type', expectedType)
+                .replace(':status', 'current');
             expect($location.path).toHaveBeenCalledWith(expectedDealerUrl);
         }));
 
@@ -68,7 +71,8 @@ describe('DefaultPageController', function() {
             expectedRole = {
                 dealerId: 'UTID',
                 userName: 'utUser',
-                customerClass: 'UTDSM'
+                customerClass: 'UTDSM',
+                sessionDetail: {ATV: 'Y', RGR: 'Y', RZR: 'Y'}
             };
             dsmRoleId = expectedRole.customerClass;
 

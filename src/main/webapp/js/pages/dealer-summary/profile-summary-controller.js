@@ -5,20 +5,13 @@
     var dealerProfileSummary = sellInNamespace('sellIn.pages.dealerProfileSummary');
 
     function DealerProfileSummaryCtrl ($scope, $routeParams, $location, dealerResource, dealerProfilesResource,
-                                       profilePageUrl, lastTab) {
+                                       profilePageUrl, dealerSummaryPageUrl, lastTab) {
         this.location = $location;
 
-	    var dealer = {dealerId: $routeParams.dealerId, type: $routeParams.type};
-	    dealerResource.get(dealer).then(function(returnedDealer) {
-	    	$scope.dealer = returnedDealer;
-	        });
+        var loadProfiles = function(status) {
+            lastTab.changeProfilesTab(status);
 
-	    dealerProfilesResource.queryCurrent(dealer).then(function(returnedProfiles) {
-	        $scope.profiles = returnedProfiles;
-	        });
-
-        $scope.$on('tabClick', function(event, data) {
-            if(data === 'current') {
+            if(status === 'current') {
                 dealerProfilesResource.queryCurrent(dealer).then(function(profiles) {
                     $scope.profiles = profiles;
                 });
@@ -27,15 +20,35 @@
                     $scope.profiles = profiles;
                 });
             }
-        });
+        };
+
+        var dealer = {dealerId: $routeParams.dealerId, type: $routeParams.type};
+	    dealerResource.get(dealer).then(function(returnedDealer) {
+	    	$scope.dealer = returnedDealer;
+	        });
+
+        loadProfiles($routeParams.status);
 
         $scope.navigateToProfile = function(dealerId, profileId, type) {
-        	lastTab.changeType('');
+        	lastTab.changeProductTab('');
             var finalUrl = profilePageUrl.replace(':dealerId', dealerId)
                 .replace(':profileId', profileId)
                 .replace(':type', type);
             $location.path(finalUrl);
-            };
+        };
+
+        $scope.$on('tabClick', function(event, data) {
+            lastTab.changeProfilesTab(data);
+            var dealerId = $routeParams.dealerId;
+            var type = $routeParams.type;
+            var status = data;
+            var finalUrl = dealerSummaryPageUrl
+                .replace(':dealerId', dealerId)
+                .replace(':type', type)
+                .replace(':status', status);
+            $location.path(finalUrl);
+        });
+
     }
 
     dealerProfileSummary.DealerProfileSummaryCtrl = DealerProfileSummaryCtrl;
