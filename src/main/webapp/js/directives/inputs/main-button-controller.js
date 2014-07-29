@@ -2,7 +2,18 @@
     var mainButton = sellInNamespace('sellIn.directives.mainbutton');
 
     function MainButtonDirectiveController($scope, $location, $modal, dealerSummaryPageUrl, lastTab) {
-    	
+
+        var buildUrl = function() {
+            return dealerSummaryPageUrl
+                .replace(':dealerId', $scope.dealerId)
+                .replace(':type', $scope.profile.typeCode)
+                .replace(':status', lastTab.profilesTab);
+        };
+
+        var navigateTo = function(url) {
+            $location.path(url);
+        }
+
         $scope.buttonCaptionFill = function() {
         	var buttonCaption;
         	($scope.profile.type === "motorcycle"? buttonCaption = "Auto-fill with Recommendations" : buttonCaption = "Auto-fill with Targets");
@@ -26,13 +37,13 @@
                }
        }
     
-        $scope.toSummary = function(dealerId) {
+        $scope.toSummary = function() {
         	
             lastTab.changeProductTab($scope.profile.typeCode);
             
             if(!$scope.isDirty()) {
-                var finalUrl = dealerSummaryPageUrl.replace(':dealerId', dealerId).replace(':type', $scope.profile.typeCode);
-                $location.path(finalUrl);
+                var url = buildUrl();
+                navigateTo(url);
             } else {
                 openSaveDialog();
             }
@@ -57,9 +68,9 @@
                 }
             });
 
-            modalInstance.result.then(function (dealerId) {
-                var finalUrl = dealerSummaryPageUrl.replace(':dealerId', $scope.dealer.dealerId).replace(':type', $scope.profile.typeCode);
-                $location.path(finalUrl);
+            modalInstance.result.then(function () {
+                var url = buildUrl();
+                navigateTo(url);
             }, function () {
                 console.log('Modal dismissed at: ' + new Date());
             });
@@ -118,8 +129,8 @@
             });
 
             modalInstance.result.then(function () {
-                var finalUrl = dealerSummaryPageUrl.replace(':dealerId', $scope.dealer.dealerId).replace(':type', $scope.profile.typeCode);
-                $location.path(finalUrl);
+                var url = buildUrl();
+                navigateTo(url);
             }, function () {
                 console.log('Modal dismissed at: ' + new Date());
             });
@@ -154,8 +165,8 @@
 			});
 
         	modalInstance.result.then(function () {
-                var finalUrl = dealerSummaryPageUrl.replace(':dealerId', $scope.dealer.dealerId).replace(':type', $scope.profile.typeCode);
-                $location.path(finalUrl);
+                var url = buildUrl();
+                navigateTo(url);
             }, function () {
                 console.log('Modal dismissed at: ' + new Date());
             });
