@@ -20,7 +20,7 @@
         	
         	return buttonCaption;
         };
-             
+        
         $scope.autoFill = function(){
         	($scope.profile.type === "motorcycle" ? autoFillVic() : autoFillATV());
         };
