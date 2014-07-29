@@ -8,8 +8,8 @@
             link: function (scope, element, attrs) {
             	
     			scope.$watch(attrs.role, function(role) {
-                	if(role != null) {		
-        				templateUrl = 'js/directives/tabs/product-tabs-template.html';
+                	if(role != null) {
+        				var templateUrl = 'js/directives/tabs/product-tabs-template.html';
         				loadTemplate(templateUrl);
                 	}
     			});
@@ -20,7 +20,7 @@
                         	element.replaceWith($compile(templateContent)(scope));
                         });
                 }
-            }   
+            }
         };
     }
 

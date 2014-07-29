@@ -11,11 +11,18 @@
             switch ($scope.role.customerClass) {
                 case dsmRoleId:
 	            case rsmRoleId:
-                    finalUrl = dsmUrl.replace(':id', $scope.role.dealerId);
+                    var type = getProductType($scope.role);
+                    finalUrl = dsmUrl
+                        .replace(':id', $scope.role.dealerId)
+                        .replace(':type', type)
+                        .replace(':status', 'current');
                     break;
                 default:
 	                var type = getProductType($scope.role);
-                    finalUrl = dealerSummaryPageUrl.replace(':dealerId', $scope.role.dealerId).replace(':type', type);
+                    finalUrl = dealerSummaryPageUrl
+                        .replace(':dealerId', $scope.role.dealerId)
+                        .replace(':type', type)
+                        .replace(':status', 'current');
             }
         }).then(function() {
             $location.path(finalUrl);

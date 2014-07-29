@@ -2,8 +2,7 @@
     var commonHeader = sellInNamespace('polaris.directives.commonHeader');
 
     function CommonHeaderController ($scope, appTitle, menuResource, appRoleResource, appAttributeResource) {
-        this.scope = $scope;
-        this.scope.appTitle = appTitle;
+        $scope.appTitle = appTitle;
         
         appRoleResource.get().then(function(roleData) {
         	$scope.isSalesman = roleData.salesman;
