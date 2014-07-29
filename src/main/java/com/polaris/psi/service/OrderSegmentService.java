@@ -21,6 +21,8 @@ import com.polaris.psi.resource.dto.OrderSegmentDto;
 import com.polaris.psi.resource.dto.ProfileDetailsDto;
 import com.polaris.psi.service.mapper.DetailDataMapper;
 import com.polaris.psi.service.mapper.HeaderDataMapper;
+import com.polaris.psi.util.PolarisIdentity;
+import com.polaris.psi.util.SplunkLogger;
 import com.polaris.pwf.repository.CommonRepositoryConstants;
 
 /**
@@ -47,21 +49,26 @@ public class OrderSegmentService {
 	
 	@Autowired
 	DetailDataMapper detailDataMapper;
+	
+	@Autowired
+	EmailService emailService;
 
-	private static Logger LOG = Logger.getLogger(OrderSegmentService.class);
+	private static final SplunkLogger LOG = new SplunkLogger(OrderSegmentService.class);
 
 	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public ProfileDetailsDto saveOrderSegmentQuantities(ProfileDetailsDto profileDetailsDto) {
+		
+		LOG.methodStart(PolarisIdentity.get(), "saveOrderSegmentQuantities");
+		
 		List<OrderSegmentDto> records = profileDetailsDto.getOrderSegments();
 		List<OrderSegmentDto> saved = new ArrayList<OrderSegmentDto>();
 		DealerProfileHeaderStatus status = statusService.getInProgressStatus();
 		
 		OrderSegmentDto testRecord = records.get(0);
 		if(testRecord.getHeaderId() != null) {
-			if(LOG.isTraceEnabled()) {
-				LOG.trace("Header record does exist for the detail records passed in. System will update existing "
-						+ "header and detail records for saving the profile.");
-			}
+			
+			LOG.debug(PolarisIdentity.get(), "saveOrderSegmentQuantities", "Header record does exist for the detail records passed in. System will update existing "
+					+ "header and detail records for saving the profile.");
 
 			updateOrderSegmentQty(records);
 			DealerProfileHeader header = headerDao.select(testRecord.getHeaderId());
@@ -75,10 +82,8 @@ public class OrderSegmentService {
 			return profileDetailsDto;
 		}
 		
-		if(LOG.isTraceEnabled()) {
-			LOG.trace("Header record does not exist for the detail records passed in. System will create new "
-					+ "header and detail records for saving the profile.");
-		}
+		LOG.debug(PolarisIdentity.get(), "saveOrderSegmentQuantities", "Header record does not exist for the detail records passed in. System will create new "
+				+ "header and detail records for saving the profile.");
 		
 		DealerProfileHeader header = headerDataMapper.createNewNonSubmittedNonApprovedHeader(testRecord, status, profileDetailsDto.isNonCompliant());
 		DealerProfileHeader returnedHeader = headerDao.insert(header);
@@ -90,21 +95,26 @@ public class OrderSegmentService {
 		profileDetailsDto.setOrderSegments(saved);
 		profileDetailsDto.setMessage(Constants.SAVE_SUCCESSFUL);
 		profileDetailsDto.setSuccessful(true);
+		
+		LOG.methodEnd(PolarisIdentity.get(), "saveOrderSegmentQuantities");
+		
 		return profileDetailsDto;
 	}
 	
 	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public ProfileDetailsDto submitOrderSegmentQuantities(ProfileDetailsDto profileDetailsDto) {
+		
+		LOG.methodStart(PolarisIdentity.get(), "submitOrderSegmentQuantities");
+		
 		List<OrderSegmentDto> records = profileDetailsDto.getOrderSegments();
 		List<OrderSegmentDto> submitted = new ArrayList<OrderSegmentDto>();
 		DealerProfileHeaderStatus status = statusService.getPendingStatus();
 
 		OrderSegmentDto testRecord = records.get(0);
 		if(testRecord.getHeaderId() != null) {
-			if(LOG.isTraceEnabled()) {
-				LOG.trace("Header record does exist for the detail records passed in. System will update existing "
-						+ "header and detail records for submitting the profile.");
-			}
+			LOG.debug(PolarisIdentity.get(), "submitOrderSegmentQuantities", "Header record does exist for the detail records passed in. System will update existing "
+					+ "header and detail records for saving the profile.");
+
 
 			updateOrderSegmentQty(records);
 			DealerProfileHeader header = headerDao.select(testRecord.getHeaderId());
@@ -119,13 +129,20 @@ public class OrderSegmentService {
 			profileDetailsDto.setOrderSegments(records);
 			profileDetailsDto.setMessage(Constants.SAVE_SUCCESSFUL);
 			profileDetailsDto.setSuccessful(true);
+			
+			// Send email.
+			try {
+				emailService.sendProfileSubmissionEmail(profileDetailsDto);
+			} catch (Exception e) {
+				LOG.error(PolarisIdentity.get(), "submitOrderSegmentQuantities", e);
+			}
+				 
+			
 			return profileDetailsDto;
 		}
 		
-		if(LOG.isTraceEnabled()) {
-			LOG.trace("Header record does not exist for the detail records passed in. System will create new "
-					+ "header and detail records for submitting the profile.");
-		}
+		LOG.debug(PolarisIdentity.get(), "submitOrderSegmentQuantities", "Header record does not exist for the detail records passed in. System will create new "
+				+ "header and detail records for saving the profile.");
 		
 		DealerProfileHeader header = headerDataMapper.createNewSubmittedHeader(testRecord, status, profileDetailsDto.isNonCompliant());
 		DealerProfileHeader returnedHeader = headerDao.insert(header);
@@ -138,6 +155,8 @@ public class OrderSegmentService {
 		profileDetailsDto.setOrderSegments(submitted);
 		profileDetailsDto.setMessage(Constants.SAVE_SUCCESSFUL);
 		profileDetailsDto.setSuccessful(true);
+		
+		LOG.methodEnd(PolarisIdentity.get(), "submitOrderSegmentQuantities");
 
 		return profileDetailsDto;
 	}
@@ -176,7 +195,8 @@ public class OrderSegmentService {
 	protected ProfileDetailsDto updateDataFromDsm(ProfileDetailsDto profile, DealerProfileHeaderStatus status, String userName) {
 		List<OrderSegmentDto> orderSegments = profile.getOrderSegments();
 		if(orderSegments.size() == 0) {
-			LOG.error("No records passed in to do any work.  System will not make any changes.");
+			LOG.warn(PolarisIdentity.get(),"updateDataFromDsm", "No records passed in to do any work.  System will not make any changes. ");
+
 			profile.setMessage(Constants.NO_RECORDS);
 			profile.setSuccessful(false);
 			return profile;
@@ -185,7 +205,7 @@ public class OrderSegmentService {
 		OrderSegmentDto testRecord = orderSegments.get(0);
 		Integer headerId = testRecord.getHeaderId();
 		if(headerId == null) {
-			LOG.error("Profile detail records passed in did not contain an associated header record.  System will not "
+			LOG.warn(PolarisIdentity.get(),"updateDataFromDsm", "Profile detail records passed in did not contain an associated header record.  System will not "
 					+ "make any changes.");
 			
 			profile.setMessage(Constants.NO_RECORDS);

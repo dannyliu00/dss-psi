@@ -59,6 +59,12 @@ public class SplunkLogger {
 
 	public void error(PolarisIdentity identity,final String method, final Throwable exception ) {
 		log.error(addAttributes(identity,method,null,null),exception);
+		
+	}
+
+	public void error(PolarisIdentity identity,final String method, String message ) {
+		log.error(addAttributes(identity,method,message,null));
+		
 	}
 
 

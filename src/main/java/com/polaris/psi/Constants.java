@@ -61,6 +61,9 @@ public class Constants {
     public static final String ATTR_ADMINHOMEURL = "adminHomeUrl";
     public static final String ATTR_DEXROOT = "DexRoot";
     public static final String ATTR_ADMINHOME = "AdminHome";
+    public static final String ATTR_EMAILSERVICEURL = "PolarisEmailServiceUrl";
+    public static final String ATTR_EMAILBOUNCEADDR = "EmailBounceAddress";
+    public static final String ATTR_EMAILFROMNAME = "EmailFromName";
 
 }
 

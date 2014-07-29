@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+<entry key="email.smtp.host">smtp.polarisdmz.com</entry>
+<entry key="email.smtp.from">salesoperations@polaris.com</entry>
+
+<entry key="email.profileSubmittedDealer.subject">PG&amp;A Order Submitted for your Approval</entry>
+<entry key="email.orderApproved.subject">%s Order Confirmation</entry>
+
+
+
+<entry key="email.profileSubmittedDealer.message">
+<![CDATA[
+<div style='font-size: .8em; line-height: 1.5em; font-family: Verdana,Tahoma, Arial,sans-serif;'><b>Dealer ID:</b> $dealerId</div>
+<div style='font-size: .8em; line-height: 1.5em; font-family: Verdana,Tahoma, Arial,sans-serif;'><b>Dealer Name:</b> $dealerName</div>
+<p style='font-size: .8em; line-height: 1.5em; font-family: Verdana,Tahoma, Arial,sans-serif;'>Profile has been submitted.</p>
+]]>
+</entry>
+
+</properties>

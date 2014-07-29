@@ -140,6 +140,19 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
+		<dependency>
+	      <groupId>com.polaris</groupId>
+	      <artifactId>EmailServiceProxy</artifactId>
+	      <version>1.0.1</version>
+    	</dependency>		
+    	
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.7</version>
+		</dependency>
+    	 
 	</dependencies>
 
 	<build>
