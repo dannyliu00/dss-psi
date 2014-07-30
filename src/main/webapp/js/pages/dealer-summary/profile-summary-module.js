@@ -6,6 +6,7 @@
             'sellIn.resources.dealerProfiles',
             'sellIn.services.lasttab',
             'sellIn.routing.paths',
-            'datatables'])
+            'datatables',
+            'blockUI'])
         .controller('dealerProfileSummaryCtrl', dealerProfileSummary.DealerProfileSummaryCtrl);
 })();

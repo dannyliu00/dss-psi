@@ -3,7 +3,7 @@
 
     describe('NonDealerSummaryController', function () {
         var scope, routeParams, location, appRoleResource, dsmProfilesResource;
-        var rsmProfilesResource, expectedId, expectedType, expectedStatus, lastTab;
+        var rsmProfilesResource, expectedId, expectedType, expectedStatus, lastTab, blockUI;
         var expectedProfilesDeferred, expectedProfiles, expectedRoleDeferred, expectedRole;
         var ctrl;
 
@@ -29,6 +29,11 @@
                 location = jasmine.createSpyObj('$location', ['path']);
                 $provide.decorator('$location', [function () {
                     return location;
+                }]);
+
+                blockUI = jasmine.createSpyObj('blockUI', ['start', 'stop']);
+                $provide.decorator('blockUI', [function() {
+                    return blockUI;
                 }]);
             });
 
@@ -60,7 +65,8 @@
                                                                              profilePageUrl,
                                                                              dsmUrl,
                                                                              productTabs,
-                                                                             lastTab) {
+                                                                             lastTab,
+                                                                             blockUI) {
 
                 lastTab.productTab = '';
                 lastTab.profilesTab = '';
@@ -73,7 +79,7 @@
 
                 ctrl = new nonDealerSummary.NonDealerSummaryController($rootScope, routeParams, $location,
                     dsmProfilesResource, appRoleResource, rsmProfilesResource, profilePageUrl, dsmUrl,
-                    productTabs, lastTab);
+                    productTabs, lastTab, blockUI);
 
                 $rootScope.$digest();
 
@@ -85,6 +91,9 @@
 
                 expect($rootScope.productTabs).toBeDefined();
                 expect($rootScope.productTabs.length).toEqual(1);
+
+                expect(blockUI.start).toHaveBeenCalled();
+                expect(blockUI.stop).toHaveBeenCalled();
             }));
         });
 

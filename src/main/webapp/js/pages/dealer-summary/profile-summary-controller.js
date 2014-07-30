@@ -5,10 +5,14 @@
     var dealerProfileSummary = sellInNamespace('sellIn.pages.dealerProfileSummary');
 
     function DealerProfileSummaryCtrl ($scope, $routeParams, $location, dealerResource, dealerProfilesResource,
-                                       profilePageUrl, dealerSummaryPageUrl, lastTab) {
+                                       profilePageUrl, dealerSummaryPageUrl, lastTab, blockUI) {
+
         this.location = $location;
 
         var loadProfiles = function(status) {
+            // Block the user interface
+            blockUI.start();
+
             lastTab.changeProfilesTab(status);
 
             if(status === 'current') {
@@ -20,12 +24,14 @@
                     $scope.profiles = profiles;
                 });
             }
+            // Unblock the user interface
+            blockUI.stop();
         };
 
         var dealer = {dealerId: $routeParams.dealerId, type: $routeParams.type};
 	    dealerResource.get(dealer).then(function(returnedDealer) {
 	    	$scope.dealer = returnedDealer;
-	        });
+        });
 
         loadProfiles($routeParams.status);
 

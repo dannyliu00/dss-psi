@@ -7,7 +7,7 @@
     describe('DealerProfileSummaryCtrl', function() {
         var scope, routeParams, location, dealerResource;
         var dealerProfilesResource, expectedDealerId, expectedProfileUrl, expectedSummaryUrl, expectedType;
-        var expectedDealerDeferred, expectedProfilesDeferred, lastTab, expectedStatus;
+        var expectedDealerDeferred, expectedProfilesDeferred, lastTab, expectedStatus, blockUI;
         var ctrl;
 
         beforeEach(function () {
@@ -25,6 +25,10 @@
                 lastTab = jasmine.createSpyObj('lastTab', ['changeProductTab', 'changeProfilesTab']);
                 $provide.decorator('lastTab', [function () {
                     return lastTab;
+                }]);
+                blockUI = jasmine.createSpyObj('blockUI', ['start', 'stop']);
+                $provide.decorator('blockUI', [function() {
+                    return blockUI;
                 }]);
             });
 
@@ -50,7 +54,7 @@
         }));
 
         describe('constructor', function () {
-            it('initializes dealer on scope', inject(function ($rootScope, dealerResource, dealerProfilesResource, lastTab) {
+            it('initializes dealer on scope', inject(function ($rootScope, dealerResource, dealerProfilesResource, lastTab, blockUI) {
                 lastTab.productTab = '';
                 lastTab.profilesTab = '';
 
@@ -62,13 +66,17 @@
                     dealerProfilesResource,
                     expectedProfileUrl,
                     expectedSummaryUrl,
-                    lastTab);
+                    lastTab,
+                    blockUI);
 
 	            var expectedDealerAndType = {dealerId: expectedDealerId, type: expectedType};
 	            var expectedDealer = {dealerId: expectedDealerId, type: expectedType};
                 expect(dealerResource.get).toHaveBeenCalledWith(expectedDealerAndType);
                 expect(lastTab.changeProfilesTab).toHaveBeenCalled();
                 expect(dealerProfilesResource.queryCurrent).toHaveBeenCalledWith(expectedDealer);
+                expect(blockUI.start).toHaveBeenCalled();
+                expect(blockUI.stop).toHaveBeenCalled();
+
             }));
         });
 
