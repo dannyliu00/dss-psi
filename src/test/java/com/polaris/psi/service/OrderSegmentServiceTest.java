@@ -47,6 +47,7 @@ public class OrderSegmentServiceTest {
 	private List<OrderSegmentDto> recordsToSave;
 	@Mock private OrderSegmentDto mockOrderSegment;
 	@Mock private ProfileDetailsDto mockProfileDetailsDto;
+	@Mock private EmailService emailService;
 	private boolean nonCompliant;
 	
 	@Before
@@ -104,6 +105,7 @@ public class OrderSegmentServiceTest {
 		service.detailDao = mockDetailDao;
 		service.headerDataMapper = mockHeaderMapper;
 		service.detailDataMapper = mockDetailMapper;
+		service.emailService = emailService;
 	}
 	
 	@Test(expected=IndexOutOfBoundsException.class)

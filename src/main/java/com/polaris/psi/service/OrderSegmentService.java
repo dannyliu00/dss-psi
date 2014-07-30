@@ -175,7 +175,13 @@ public class OrderSegmentService {
 	public ProfileDetailsDto dsmApproveAsRequested(ProfileDetailsDto profile, String userName) {
 		DealerProfileHeaderStatus status = statusService.getApprovedAsRequestedStatus();
 		
-		return updateDataFromDsm(profile, status, userName);
+		ProfileDetailsDto result = updateDataFromDsm(profile, status, userName);
+		
+		// Notify dealers
+		emailService.sendApproveAsRequestedEmail(profile);
+		
+		return result;
+		
 	}
 	
 	public ProfileDetailsDto dsmSubmitForException(ProfileDetailsDto profile, String userName) {

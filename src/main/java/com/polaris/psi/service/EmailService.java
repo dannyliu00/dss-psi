@@ -62,7 +62,7 @@ public class EmailService {
         }
     }
     
-    private void sendEmail(String subject, String messageBody, String to) throws Exception {
+    private void sendEmail(String subject, String messageBody, String to) {
     	LOG.methodStart(PolarisIdentity.get(), "sendEmail");
 
     	try {
@@ -108,7 +108,6 @@ public class EmailService {
         	
     	} catch (Exception e) {
     		LOG.error(PolarisIdentity.get(), "sendEmail", e);
-    		throw e;
     	}
     	
     	LOG.info(PolarisIdentity.get(), "sendEmail", "Email sent to: " + to);
@@ -124,8 +123,8 @@ public class EmailService {
      * @param dealerOrder
      * @throws MessagingException
      */
-    public void sendProfileSubmissionEmail(ProfileDetailsDto profileDetailsDto) throws Exception  {
-    	
+    public void sendProfileSubmissionEmail(ProfileDetailsDto profileDetailsDto)  {
+    	LOG.methodStart(PolarisIdentity.get(), "sendProfileSubmissionEmail");
     	
     	// Ticket: PS-178: Email to dealer confirming submission.
     	String subject = "Sell-In Submitted";
@@ -150,7 +149,86 @@ public class EmailService {
     	toAddress = getDSMEmail(profileDetailsDto);
     	sendEmail(subject, renderedTemplate, toAddress);
     	
+    	LOG.methodEnd(PolarisIdentity.get(), "sendProfileSubmissionEmail");
+    	
     }
+    
+
+    /*
+     * Sends an email to the dealer indicating that approved as requested.
+     * Story: PS-180: Approve as requested email notification to dealer.
+     * @author pceder
+     */
+	public void sendApproveAsRequestedEmail(ProfileDetailsDto profileDetailsDto) {
+		
+		LOG.methodStart(PolarisIdentity.get(), "sendApproveAsRequestedEmail");
+		
+    	String subject = "Sell-In Approved As Requested";
+    	
+    	Template template = Velocity.getTemplate("/templates/email_sellIn_approved_as_requested.vm");
+    	
+    	VelocityContext context = new VelocityContext();
+    	
+    	StringWriter writer = new StringWriter();
+    	template.merge(context, writer);
+    	String renderedTemplate = writer.toString();
+    	
+    	// Send email to Dealer
+    	String toAddress = getDealerEmail(profileDetailsDto);
+    	sendEmail(subject, renderedTemplate, toAddress);
+    	
+    	LOG.methodEnd(PolarisIdentity.get(), "sendApproveAsRequestedEmail");
+	}     
+    /*
+     * Sends an email to the dealer indicating that approved as requested.
+     * Story: PS-180: Approve as requested email notification to dealer.
+     * @author pceder
+     */
+	public void sendApproveWithChangesEmail(ProfileDetailsDto profileDetailsDto) {
+		
+		LOG.methodStart(PolarisIdentity.get(), "sendApproveAsRequestedEmail");
+		
+    	String subject = "Sell-In Approved With Changes";
+    	
+    	Template template = Velocity.getTemplate("/templates/email_sellIn_approved_w_changes.vm");
+    	
+    	VelocityContext context = new VelocityContext();
+    	
+    	StringWriter writer = new StringWriter();
+    	template.merge(context, writer);
+    	String renderedTemplate = writer.toString();
+    	
+    	// Send email to Dealer
+    	String toAddress = getDealerEmail(profileDetailsDto);
+    	sendEmail(subject, renderedTemplate, toAddress);
+    	
+    	LOG.methodEnd(PolarisIdentity.get(), "sendApproveAsRequestedEmail");
+	}  
+	
+    /*
+     * Sends an email to the RSM indicating that submitted with exception.
+     * @author pceder
+     */
+	public void sendSubmitForExceptionEmail(ProfileDetailsDto profileDetailsDto) {
+		
+		LOG.methodStart(PolarisIdentity.get(), "sendApproveAsRequestedEmail");
+		
+    	String subject = "Sell-In Submitted for Exception";
+    	
+    	Template template = Velocity.getTemplate("/templates/email_sellIn_approved_w_changes.vm");
+    	
+    	VelocityContext context = new VelocityContext();
+    	
+    	StringWriter writer = new StringWriter();
+    	template.merge(context, writer);
+    	String renderedTemplate = writer.toString();
+    	
+    	// Send email to Dealer
+    	String toAddress = getDealerEmail(profileDetailsDto);
+    	sendEmail(subject, renderedTemplate, toAddress);
+    	
+    	LOG.methodEnd(PolarisIdentity.get(), "sendApproveAsRequestedEmail");
+	} 	
     
     private DealerDto getDealerInfo(ProfileDetailsDto profileDetailsDto) {
     	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
@@ -191,5 +269,8 @@ public class EmailService {
     	
     	return dealerInfo.getDsmEmailAddress();
 
-    }  
+    }
+
+
+
 }
