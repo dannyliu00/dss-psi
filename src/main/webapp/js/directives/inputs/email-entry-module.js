@@ -6,5 +6,4 @@
 	
 	angular.module('sellIn.directives.emailentry', [])
 		.directive('emailEntry', emailEntry.EmailEntryDirective);
-	
 })();
