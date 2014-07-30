@@ -1,7 +1,7 @@
 (function() {
     var reasonModal = sellInNamespace('sellIn.directives.reasonmodal');
     
-    function ReasonModalController($scope, $modalInstance, reasonCodeResource, appRoleResource, dealerProfileResource, orderSegments, profile, caption) {
+    function ReasonModalController($scope, $modalInstance, reasonCodeResource, appRoleResource, dealerProfileResource, orderSegments, profile, caption, confirm) {
     	
     	var comments = "";
     	var authorizationRoleId = 0;
@@ -35,6 +35,7 @@
                 var item = orderSegments[i];
                 item[comments] = this.reasonComments;
                 item.reasonCode = id;
+                item.dealerEmail = confirm;
             }
             
 	    	var os = {nonCompliant: profile.nonCompliant,orderSegments: orderSegments};

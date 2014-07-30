@@ -17,6 +17,10 @@
     		self.initialOrderSegments = angular.copy($scope.orderSegments);
     	};
     	
+        $scope.addEmail = function(email) {
+        	$scope.dealerEmail = email;
+        };
+    	
     	appRoleResource.get().then(function(role) {
             $scope.role = role;
     		}).then(function(role) {
@@ -103,9 +107,6 @@
             .withPaginationType('full_numbers')
             .withDisplayLength(25)
             .withBootstrap();
-
-        $scope.dealerEmail = "";
-        
 
         $scope.getRecTotals = function() {
         	var totalRecQty = 0;
