@@ -128,13 +128,6 @@ public class OrderSegmentService {
 			profileDetailsDto.setOrderSegments(records);
 			profileDetailsDto.setMessage(Constants.SAVE_SUCCESSFUL);
 			profileDetailsDto.setSuccessful(true);
-			
-			// Send email.
-			try {
-				emailService.sendProfileSubmissionEmail(profileDetailsDto);
-			} catch (Exception e) {
-				LOG.error(PolarisIdentity.get(), "submitOrderSegmentQuantities", e);
-			}
 				 
 			LOG.methodEnd(PolarisIdentity.get(), "submitOrderSegmentQuantities");
 
@@ -177,7 +170,9 @@ public class OrderSegmentService {
 	public ProfileDetailsDto dsmSendToDealer(ProfileDetailsDto profile, String userName) {
 		DealerProfileHeaderStatus status = statusService.getSendToDealerStatus();
 		
-		return updateDataFromDsm(profile, status, userName);
+		ProfileDetailsDto result = updateDataFromDsm(profile, status, userName);
+		emailService.sendReturnToDealerEmail(profile);
+		return result;
 	}
 	
 	public ProfileDetailsDto dsmApproveAsRequested(ProfileDetailsDto profile, String userName) {

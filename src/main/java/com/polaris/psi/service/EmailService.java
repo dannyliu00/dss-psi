@@ -223,7 +223,7 @@ public class EmailService {
 		
     	String subject = "Sell-In Submitted for Exception";
     	
-    	Template template = Velocity.getTemplate("/templates/email_sellIn_approved_w_changes.vm");
+    	Template template = Velocity.getTemplate("/templates/email_sellIn_submit_for_exception.vm");
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
 
     	VelocityContext context = new VelocityContext();
@@ -240,6 +240,35 @@ public class EmailService {
     	sendEmail(subject, renderedTemplate, toAddress);
     	
     	LOG.methodEnd(PolarisIdentity.get(), "sendSubmitForExceptionEmail");
+	} 	
+	
+    /*
+     * Sends an email to the RSM indicating that submitted with exception.
+     * @author pceder
+     */
+	public void sendReturnToDealerEmail(ProfileDetailsDto profileDetailsDto) {
+		
+		LOG.methodStart(PolarisIdentity.get(), "sendReturnToDealerEmail");
+		
+    	String subject = "Sell-In Profile has been returned.";
+    	
+    	Template template = Velocity.getTemplate("/templates/email_sellIn_return_to_dealer.vm");
+    	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
+
+    	VelocityContext context = new VelocityContext();
+    	context.put("dealerId", dealerInfo.getDealerId());
+    	context.put("dealerName", dealerInfo.getName());
+    	
+    	
+    	StringWriter writer = new StringWriter();
+    	template.merge(context, writer);
+    	String renderedTemplate = writer.toString();
+    	
+    	// Send email to Dealer
+    	String toAddress = getDealerEmail(profileDetailsDto);
+    	sendEmail(subject, renderedTemplate, toAddress);
+    	
+    	LOG.methodEnd(PolarisIdentity.get(), "sendReturnToDealerEmail");
 	} 	
     
     private DealerDto getDealerInfo(ProfileDetailsDto profileDetailsDto) {
@@ -275,14 +304,9 @@ public class EmailService {
     	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
     	if(profileDetailsDto.getOrderSegments().size()==0) { throw new IllegalArgumentException("profileDetailsDto.getOrderSegments is empty"); }
     	
-    	OrderSegmentDto segment = profileDetailsDto.getOrderSegments().get(0);
-    	
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
     	
     	return dealerInfo.getDsmEmailAddress();
 
     }
-
-
-
 }

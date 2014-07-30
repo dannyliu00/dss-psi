@@ -42,5 +42,14 @@ angular.module('sellIn', [
     'sellIn.pages.nondealersummary',
     'sellIn.services.lasttab',
     'sellIn.routing.paths',
-    'sellIn.routing'
-]);
+    'sellIn.routing',
+    'blockUI'
+]).config(function(blockUIConfigProvider) {
+
+    // Change the default overlay message
+    blockUIConfigProvider.message('Please wait...');
+
+    // Change the default delay to 100ms before the blocking is visible
+    blockUIConfigProvider.delay(100);
+
+});
