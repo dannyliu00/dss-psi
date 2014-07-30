@@ -20,6 +20,7 @@ angular.module('sellIn', [
     'sellIn.directives.dsmbutton',
     'sellIn.directives.reasonmodal',
     'sellIn.directives.savequantities',
+    'sellIn.directives.emailrequired',
     'sellIn.directives.submitValues',
     'sellIn.directives.summarydatatables',
     'sellIn.directives.producttabs',

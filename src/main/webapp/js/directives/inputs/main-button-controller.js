@@ -140,7 +140,10 @@
         }
 
         $scope.submitRequests = function() {
-            if(angular.element('.compliant').hasClass('noncompliant') || angular.element('.compliant').hasClass('noncomplianttotal')) {
+        	if($scope.dealerEmail == null || $scope.dealerEmail === '') {
+        		openEmailRequiredDialog();
+        	}
+            else if(angular.element('.compliant').hasClass('noncompliant') || angular.element('.compliant').hasClass('noncomplianttotal')) {
                 openReasonDialog();
             } else {
                 openSubmitDialog();
@@ -174,6 +177,19 @@
                 var url = buildUrl();
                 navigateTo(url);
             }, function () {
+                console.log('Modal dismissed at: ' + new Date());
+            });
+		}
+        
+        function openEmailRequiredDialog() {
+        	
+        	var modalInstance = $modal.open({
+				templateUrl: 'js/directives/modal/email-required-modal-template.html',
+				controller: 'emailRequiredController',
+				size: 'sm'
+			});
+
+        	modalInstance.result.then(function () {
                 console.log('Modal dismissed at: ' + new Date());
             });
 		}
