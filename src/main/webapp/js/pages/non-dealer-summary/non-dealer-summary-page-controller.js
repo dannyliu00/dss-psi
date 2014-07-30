@@ -3,7 +3,7 @@
 
     function NonDealerSummaryController($scope, $routeParams, $location, dsmProfilesResource,
                                         appRoleResource, rsmProfilesResource, profilePageUrl,
-                                        dsmUrl, productTabs, lastTab) {
+                                        dsmUrl, productTabs, lastTab, blockUI) {
     	
         var setActiveProductTab = function(activeContent) {
             if(activeContent != null){
@@ -54,6 +54,9 @@
         };
 
         var loadProfiles = function() {
+            // Block the user interface
+            blockUI.start();
+
             lastTab.changeProfilesTab($routeParams.status);
 
             var user = {};
@@ -64,6 +67,9 @@
                 user = {rsmId: $routeParams.id, type: $scope.activeTabFilter};
                 loadRsmProfiles(user);
             }
+
+            // Unblock the user interface
+            blockUI.stop();
         };
 
         $scope.tabContent = function(activeContent) {

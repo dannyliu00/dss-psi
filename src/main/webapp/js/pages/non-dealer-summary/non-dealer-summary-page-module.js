@@ -8,7 +8,8 @@
         'sellIn.resources.rsmProfiles',
         'sellIn.resources.dsmProfiles',
         'sellIn.services.lasttab',
-        'sellIn.resources.role'])
+        'sellIn.resources.role',
+        'blockUI'])
         .controller('nonDealerSummaryController', nonDealerSummary.NonDealerSummaryController)
         .constant('productTabs',[{name: 'ATV', content: '2', isActive: ''},
                                  {name: 'Ranger', content: '6', isActive: ''},
