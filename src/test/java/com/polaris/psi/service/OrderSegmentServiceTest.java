@@ -42,7 +42,7 @@ public class OrderSegmentServiceTest {
 	@Mock private HeaderDataMapper mockHeaderMapper;
 	@Mock private DetailDataMapper mockDetailMapper;
 	private Integer statusId, headerId, detailId;
-	private String userName;
+	private String userName, email;
 	private Date submittedDate, approvedDate;
 	private List<OrderSegmentDto> recordsToSave;
 	@Mock private OrderSegmentDto mockOrderSegment;
@@ -60,6 +60,7 @@ public class OrderSegmentServiceTest {
 		approvedDate = Calendar.getInstance().getTime();
 		userName = "UT User";
 		nonCompliant = false;
+		email = "UT@local";
 		
 		recordsToSave = new ArrayList<OrderSegmentDto>();
 		recordsToSave.add(mockOrderSegment);
@@ -81,6 +82,7 @@ public class OrderSegmentServiceTest {
 		when(mockOrderSegment.getSubmittedDate()).thenReturn(submittedDate);
 		when(mockOrderSegment.getModifiedUserName()).thenReturn(userName);
 		when(mockOrderSegment.getHeaderId()).thenReturn(headerId);
+		when(mockOrderSegment.getDealerEmail()).thenReturn(email);
 		
 		when(mockOrderSegment.getId()).thenReturn(detailId);
 		
@@ -208,11 +210,12 @@ public class OrderSegmentServiceTest {
 		verify(mockProfileDetailsDto).getOrderSegments();
 		verify(mockStatusService).getPendingStatus();
 		verify(mockOrderSegment, times(2)).getHeaderId();
+		verify(mockOrderSegment).getDealerEmail();
 		verify(mockDetailDao).select(detailId);
 		verify(mockDetailMapper).updateDealerEnteredDetails(mockDetail, mockOrderSegment);
 		verify(mockDetailDao).update(mockDetail);
 		verify(mockHeaderDao).select(headerId);
-		verify(mockHeaderMapper).updateExistingSubmittedHeader(mockHeader, mockStatus, nonCompliant);
+		verify(mockHeaderMapper).updateExistingSubmittedHeader(mockHeader, mockStatus, email, nonCompliant);
 		verify(mockHeaderDao).update(mockHeader);
 		verify(mockHeader).getSubmittedDate();
 		verify(mockOrderSegment).setSubmittedDate(submittedDate);
@@ -224,7 +227,7 @@ public class OrderSegmentServiceTest {
 		verify(mockProfileDetailsDto).setSuccessful(true);
 
 		verifyNoMoreInteractions(mockOrderSegment, mockStatusService, mockHeaderDao, mockDetailDao, 
-				mockHeader, mockDetail, mockProfileDetailsDto, mockLogService);
+				mockHeader, mockDetail, mockProfileDetailsDto, mockLogService, mockHeaderMapper);
 	}
 	
 	@Test

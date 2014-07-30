@@ -26,6 +26,7 @@ public class ProfileDto implements IBaseDto, Serializable {
 	private int recommended;
 	private int recMaximum;
 	private int actual;
+	private String dealerEmail;
 	private List<ProfilePeriodDto> periods;
 	private List<SegmentDto> segments;
 	private List<OrderSegmentDto> orderSegments;
@@ -190,6 +191,20 @@ public class ProfileDto implements IBaseDto, Serializable {
 	@Override
 	public void setRecMaximum(int recMaximum) {
 		this.recMaximum = recMaximum;
+	}
+
+	/**
+	 * @return the dealerEmail
+	 */
+	public String getDealerEmail() {
+		return dealerEmail;
+	}
+
+	/**
+	 * @param dealerEmail the dealerEmail to set
+	 */
+	public void setDealerEmail(String dealerEmail) {
+		this.dealerEmail = dealerEmail;
 	}
 
 	/**

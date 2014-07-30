@@ -6,7 +6,6 @@ package com.polaris.psi.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -116,10 +115,9 @@ public class OrderSegmentService {
 			LOG.debug(PolarisIdentity.get(), "submitOrderSegmentQuantities", "Header record does exist for the detail records passed in. System will update existing "
 					+ "header and detail records for saving the profile.");
 
-
 			updateOrderSegmentQty(records);
 			DealerProfileHeader header = headerDao.select(testRecord.getHeaderId());
-			headerDataMapper.updateExistingSubmittedHeader(header, status, profileDetailsDto.isNonCompliant());
+			headerDataMapper.updateExistingSubmittedHeader(header, status, testRecord.getDealerEmail(), profileDetailsDto.isNonCompliant());
 			headerDao.update(header);
 			
 			for (OrderSegmentDto dto : records) {
