@@ -200,7 +200,7 @@ public class OrderSegmentServiceTest {
 		verify(mockProfileDetailsDto).setOrderSegments(recordsToSave);
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockProfileDetailsDto).setSuccessful(true);
-		verify(mockEmailService).sendProfileSubmissionEmail(mockProfileDetailsDto);
+		//verify(mockEmailService).sendProfileSubmissionEmail(mockProfileDetailsDto);
 
 		verifyNoMoreInteractions(mockOrderSegment, mockStatusService, mockHeaderDao, mockDetailDao, 
 				mockHeader, mockDetail, mockProfileDetailsDto, mockLogService, mockEmailService);
@@ -230,7 +230,7 @@ public class OrderSegmentServiceTest {
 		verify(mockProfileDetailsDto).setOrderSegments(recordsToSave);
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockProfileDetailsDto).setSuccessful(true);
-		verify(mockEmailService).sendProfileSubmissionEmail(mockProfileDetailsDto);
+		//verify(mockEmailService).sendProfileSubmissionEmail(mockProfileDetailsDto);
 
 		verifyNoMoreInteractions(mockOrderSegment, mockStatusService, mockHeaderDao, mockDetailDao, 
 				mockHeader, mockDetail, mockProfileDetailsDto, mockLogService, mockHeaderMapper, mockEmailService);
