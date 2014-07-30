@@ -1,7 +1,7 @@
 (function() {
     var submitValues = sellInNamespace('sellIn.directives.submitValues');
 
-    function SubmitController($scope, $modalInstance, dealerProfileResource, orderSegments, profile, level) {
+    function SubmitController($scope, $modalInstance, dealerProfileResource, orderSegments, profile, level, confirm) {
     	
         $scope.submit = function (os) {
         	
@@ -14,6 +14,12 @@
 	    	var os = {nonCompliant: profile.nonCompliant, orderSegments: orderSegments};
 	    	
 	    	if(level === "dealer") {
+	    		for(var i = 0; i < orderSegments.length; i++) {
+	    			orderSegments[i].dealerEmail = confirm;
+	    		}
+	    		
+	    		os = {nonCompliant: profile.nonCompliant, orderSegments: orderSegments};
+	    		
 	            dealerProfileResource.submit(os)
 	                .then(function(returnedOs) {
 	                	profile.nonCompliant = returnedOs.nonCompliant;

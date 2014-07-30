@@ -21,6 +21,9 @@ public class DealerDto implements Serializable {
 	private String state;
 	private String zip;
 	private String dsmName;
+	private String emailAddress;
+	private String dsmEmailAddress;
+	private String rsmEmailAddress;
 	
 	private List<ProfileDto> profiles;
 
@@ -134,6 +137,48 @@ public class DealerDto implements Serializable {
 	 */
 	public void setProfiles(List<ProfileDto> profiles) {
 		this.profiles = profiles;
+	}
+
+	/**
+	 * @return the emailAddress
+	 */
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	/**
+	 * @param emailAddress the emailAddress to set
+	 */
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+
+	/**
+	 * @return the dsmEmailAddress
+	 */
+	public String getDsmEmailAddress() {
+		return dsmEmailAddress;
+	}
+
+	/**
+	 * @param dsmEmailAddress the dsmEmailAddress to set
+	 */
+	public void setDsmEmailAddress(String dsmEmailAddress) {
+		this.dsmEmailAddress = dsmEmailAddress;
+	}
+
+	/**
+	 * @return the rsmEmailAddress
+	 */
+	public String getRsmEmailAddress() {
+		return rsmEmailAddress;
+	}
+
+	/**
+	 * @param rsmEmailAddress the rsmEmailAddress to set
+	 */
+	public void setRsmEmailAddress(String rsmEmailAddress) {
+		this.rsmEmailAddress = rsmEmailAddress;
 	}
 
 }

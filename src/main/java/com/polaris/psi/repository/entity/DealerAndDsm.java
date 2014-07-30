@@ -38,6 +38,15 @@ public class DealerAndDsm implements Serializable {
 	
 	@Column(name="RsmName")
 	private String rsmName;
+	
+	@Column(name="DealerEmail")
+	private String dealerEmail;
+
+	@Column(name="DsmEmailAddress")
+	private String dsmEmailAddress;
+
+	@Column(name="RsmEmailAddress")
+	private String rsmEmailAddress;
 
 	/**
 	 * @return the id
@@ -236,6 +245,48 @@ public class DealerAndDsm implements Serializable {
 				+ ", productLine=" + productLine + ", dealerName=" + dealerName
 				+ ", dsmId=" + dsmId + ", dsmName=" + dsmName + ", rsmId="
 				+ rsmId + ", rsmName=" + rsmName + "]";
+	}
+
+	/**
+	 * @return the dealerEmail
+	 */
+	public String getDealerEmail() {
+		return dealerEmail;
+	}
+
+	/**
+	 * @param dealerEmail the dealerEmail to set
+	 */
+	public void setDealerEmail(String dealerEmail) {
+		this.dealerEmail = dealerEmail;
+	}
+
+	/**
+	 * @return the dsmEmailAddress
+	 */
+	public String getDsmEmailAddress() {
+		return dsmEmailAddress;
+	}
+
+	/**
+	 * @param dsmEmailAddress the dsmEmailAddress to set
+	 */
+	public void setDsmEmailAddress(String dsmEmailAddress) {
+		this.dsmEmailAddress = dsmEmailAddress;
+	}
+
+	/**
+	 * @return the rsmEmailAddress
+	 */
+	public String getRsmEmailAddress() {
+		return rsmEmailAddress;
+	}
+
+	/**
+	 * @param rsmEmailAddress the rsmEmailAddress to set
+	 */
+	public void setRsmEmailAddress(String rsmEmailAddress) {
+		this.rsmEmailAddress = rsmEmailAddress;
 	}
 
 }

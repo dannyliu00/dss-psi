@@ -2,7 +2,7 @@
     var mainButton = sellInNamespace('sellIn.directives.mainbutton');
 
     function MainButtonDirectiveController($scope, $location, $modal, dealerSummaryPageUrl, lastTab) {
-
+    	
         var buildUrl = function() {
             return dealerSummaryPageUrl
                 .replace(':dealerId', $scope.dealerId)
@@ -12,8 +12,8 @@
 
         var navigateTo = function(url) {
             $location.path(url);
-        }
-
+        };
+        
         $scope.buttonCaptionFill = function() {
         	var buttonCaption;
         	($scope.profile.type === "motorcycle"? buttonCaption = "Auto-fill with Recommendations" : buttonCaption = "Auto-fill with Targets");
@@ -124,6 +124,9 @@
             		},
             		level: function() {
             			return dealer;
+            		},
+            		confirm: function() {
+            			return $scope.dealerEmail;
             		}
                 }
             });
@@ -160,6 +163,9 @@
             		},
             		caption: function() {
             			return dealerReason;
+            		},
+            		confirm: function() {
+            			return $scope.dealerEmail;
             		}
                 }
 			});
