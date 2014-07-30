@@ -223,7 +223,7 @@ public class EmailService {
 		
     	String subject = "Sell-In Submitted for Exception";
     	
-    	Template template = Velocity.getTemplate("/templates/email_sellIn_approved_w_changes.vm");
+    	Template template = Velocity.getTemplate("/templates/email_sellIn_submit_for_exception.vm");
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
 
     	VelocityContext context = new VelocityContext();
