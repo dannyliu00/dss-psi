@@ -136,7 +136,8 @@ public class OrderSegmentService {
 				LOG.error(PolarisIdentity.get(), "submitOrderSegmentQuantities", e);
 			}
 				 
-			
+			LOG.methodEnd(PolarisIdentity.get(), "submitOrderSegmentQuantities");
+
 			return profileDetailsDto;
 		}
 		
@@ -155,6 +156,13 @@ public class OrderSegmentService {
 		profileDetailsDto.setMessage(Constants.SAVE_SUCCESSFUL);
 		profileDetailsDto.setSuccessful(true);
 		
+		// Send email.
+		try {
+			emailService.sendProfileSubmissionEmail(profileDetailsDto);
+		} catch (Exception e) {
+			LOG.error(PolarisIdentity.get(), "submitOrderSegmentQuantities", e);
+		}
+			 
 		LOG.methodEnd(PolarisIdentity.get(), "submitOrderSegmentQuantities");
 
 		return profileDetailsDto;
