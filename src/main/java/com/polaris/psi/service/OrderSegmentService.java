@@ -21,6 +21,7 @@ import com.polaris.psi.resource.dto.OrderSegmentDto;
 import com.polaris.psi.resource.dto.ProfileDetailsDto;
 import com.polaris.psi.service.mapper.DetailDataMapper;
 import com.polaris.psi.service.mapper.HeaderDataMapper;
+import com.polaris.psi.util.CommonUtils;
 import com.polaris.psi.util.PolarisIdentity;
 import com.polaris.psi.util.SplunkLogger;
 import com.polaris.pwf.repository.CommonRepositoryConstants;
@@ -220,6 +221,9 @@ public class OrderSegmentService {
 		for (OrderSegmentDto dto : orderSegments) {
 			DealerProfileDetail detail = detailDao.select(dto.getId());
 			detailDataMapper.updateDsmEnteredDetails(detail, dto, userName);
+			if(status.getDescription().equals(Constants.RETURNED_TO_DEALER)) {
+				detail.setDsmRecommendedQty(CommonUtils.setIntegerValue(null));
+			}
 			detailDao.update(detail);
 			logService.writeDsmChangesToLog(header, dto);
 		}
