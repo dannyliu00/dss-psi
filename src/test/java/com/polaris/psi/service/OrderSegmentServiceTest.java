@@ -243,6 +243,7 @@ public class OrderSegmentServiceTest {
 	
 	@Test
 	public void testDsmApproveWithChanges() throws Exception {
+		when(mockStatus.getDescription()).thenReturn(Constants.APPROVED_W_CHANGES);
 		
 		service.dsmApproveWithChanges(mockProfileDetailsDto, userName);
 
@@ -250,6 +251,7 @@ public class OrderSegmentServiceTest {
 		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment, userName);
 		verify(mockDetailDao).update(mockDetail);
 		verify(mockStatusService).getApprovedWithChangesStatus();
+		verify(mockStatus).getDescription();
 		verify(mockProfileDetailsDto, times(2)).getOrderSegments();
 		verify(mockProfileDetailsDto).isNonCompliant();
 		verify(mockOrderSegment).getHeaderId();
@@ -262,7 +264,8 @@ public class OrderSegmentServiceTest {
 		verify(mockProfileDetailsDto).setSuccessful(true);
 		verify(mockLogService).writeDsmChangesToLog(mockHeader, mockOrderSegment);
 		
-		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, mockHeaderMapper, mockLogService);
+		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, 
+				mockHeaderMapper, mockLogService, mockStatus);
 	}
 	
 	@Test
@@ -285,13 +288,16 @@ public class OrderSegmentServiceTest {
 	@Test
 	public void testDsmSendToDealer() {
 		when(mockStatusService.getSendToDealerStatus()).thenReturn(mockStatus);
+		when(mockStatus.getDescription()).thenReturn(Constants.RETURNED_TO_DEALER);
 		
 		service.dsmSendToDealer(mockProfileDetailsDto, userName);
 		
 		verify(mockDetailDao).select(detailId);
 		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment, userName);
+		verify(mockDetail).setDsmRecommendedQty(-1);
 		verify(mockDetailDao).update(mockDetail);
 		verify(mockStatusService).getSendToDealerStatus();
+		verify(mockStatus).getDescription();
 		verify(mockProfileDetailsDto, times(2)).getOrderSegments();
 		verify(mockProfileDetailsDto).isNonCompliant();
 		verify(mockOrderSegment).getHeaderId();
@@ -304,7 +310,8 @@ public class OrderSegmentServiceTest {
 		verify(mockProfileDetailsDto).setSuccessful(true);
 		verify(mockLogService).writeDsmChangesToLog(mockHeader, mockOrderSegment);
 		
-		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, mockHeaderMapper, mockLogService);
+		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, 
+				mockHeaderMapper, mockLogService, mockStatus);
 	}
 	
 	@Test
@@ -327,6 +334,7 @@ public class OrderSegmentServiceTest {
 	@Test
 	public void testDsmApproveAsRequested() {
 		when(mockStatusService.getSendToDealerStatus()).thenReturn(mockStatus);
+		when(mockStatus.getDescription()).thenReturn(Constants.APPROVED_AS_REQUESTED);
 		
 		service.dsmApproveAsRequested(mockProfileDetailsDto, userName);
 		
@@ -334,6 +342,7 @@ public class OrderSegmentServiceTest {
 		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment, userName);
 		verify(mockDetailDao).update(mockDetail);
 		verify(mockStatusService).getApprovedAsRequestedStatus();
+		verify(mockStatus).getDescription();
 		verify(mockProfileDetailsDto, times(2)).getOrderSegments();
 		verify(mockProfileDetailsDto).isNonCompliant();
 		verify(mockOrderSegment).getHeaderId();
@@ -346,7 +355,8 @@ public class OrderSegmentServiceTest {
 		verify(mockProfileDetailsDto).setSuccessful(true);
 		verify(mockLogService).writeDsmChangesToLog(mockHeader, mockOrderSegment);
 		
-		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, mockHeaderMapper, mockLogService);
+		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, 
+				mockHeaderMapper, mockLogService, mockStatus);
 	}
 	
 	@Test
@@ -368,12 +378,15 @@ public class OrderSegmentServiceTest {
 	
 	@Test
 	public void testDsmSubmitForException() {
+		when(mockStatus.getDescription()).thenReturn(Constants.EXCEPTION_REQUESTED);
+		
 		service.dsmSubmitForException(mockProfileDetailsDto, userName);
 		
 		verify(mockDetailDao).select(detailId);
 		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment, userName);
 		verify(mockDetailDao).update(mockDetail);
 		verify(mockStatusService).getExceptionRequestedStatus();
+		verify(mockStatus).getDescription();
 		verify(mockProfileDetailsDto, times(2)).getOrderSegments();
 		verify(mockProfileDetailsDto).isNonCompliant();
 		verify(mockOrderSegment).getHeaderId();
@@ -386,7 +399,8 @@ public class OrderSegmentServiceTest {
 		verify(mockProfileDetailsDto).setSuccessful(true);
 		verify(mockLogService).writeDsmChangesToLog(mockHeader, mockOrderSegment);
 		
-		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, mockHeaderMapper, mockLogService);
+		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, 
+				mockHeaderDao, mockHeaderMapper, mockLogService, mockStatus);
 	}
 	
 	@Test
@@ -408,12 +422,15 @@ public class OrderSegmentServiceTest {
 	
 	@Test
 	public void testDsmSaveChanges() {
+		when(mockStatus.getDescription()).thenReturn(Constants.PENDING_STATUS);
+		
 		service.dsmSaveChanges(mockProfileDetailsDto, userName);
 		
 		verify(mockDetailDao).select(detailId);
 		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment, userName);
 		verify(mockDetailDao).update(mockDetail);
 		verify(mockStatusService).getPendingStatus();
+		verify(mockStatus).getDescription();
 		verify(mockProfileDetailsDto, times(2)).getOrderSegments();
 		verify(mockProfileDetailsDto).isNonCompliant();
 		verify(mockOrderSegment).getHeaderId();
@@ -426,7 +443,8 @@ public class OrderSegmentServiceTest {
 		verify(mockProfileDetailsDto).setSuccessful(true);
 		verify(mockLogService).writeDsmChangesToLog(mockHeader, mockOrderSegment);
 		
-		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, mockHeaderMapper, mockLogService);
+		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, 
+				mockHeaderMapper, mockLogService, mockStatus);
 	}
 	
 }
