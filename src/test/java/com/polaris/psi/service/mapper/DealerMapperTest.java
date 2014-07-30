@@ -22,7 +22,7 @@ public class DealerMapperTest {
 	@Mock private Dealer mockDealer;
 	@Mock private DealerAndDsm mockDsm;
 	private Integer expectedCompany, expectedId;
-	private String expectedName, expectedCity, expectedState, expectedZip, expectedDsmName;
+	private String expectedName, expectedCity, expectedState, expectedZip, expectedDsmName, expectedEmail;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -35,6 +35,7 @@ public class DealerMapperTest {
 		expectedState = "U.T. State";
 		expectedZip = "12345-9099";
 		expectedDsmName = "U.T. DSM Name";
+		expectedEmail = "UT@local";
 		
 		when(mockDealer.getCity()).thenReturn(expectedCity);
 		when(mockDealer.getCompany()).thenReturn(expectedCompany);
@@ -44,6 +45,9 @@ public class DealerMapperTest {
 		when(mockDealer.getZip()).thenReturn(expectedZip);
 		
 		when(mockDsm.getDsmName()).thenReturn(expectedDsmName);
+		when(mockDsm.getDealerEmail()).thenReturn(expectedEmail);
+		when(mockDsm.getDsmEmailAddress()).thenReturn(expectedEmail);
+		when(mockDsm.getRsmEmailAddress()).thenReturn(expectedEmail);
 		
 		expectedDto = new DealerDto();
 		expectedDto.setCity(expectedCity);
@@ -53,6 +57,9 @@ public class DealerMapperTest {
 		expectedDto.setState(expectedState);
 		expectedDto.setZip(expectedZip);
 		expectedDto.setDsmName(expectedDsmName);
+		expectedDto.setEmailAddress(expectedEmail);
+		expectedDto.setDsmEmailAddress(expectedEmail);
+		expectedDto.setRsmEmailAddress(expectedEmail);
 		
 		mapper = new DealerMapper();
 	}
@@ -73,9 +80,11 @@ public class DealerMapperTest {
 		assertEquals(result.getState(), expectedDto.getState());
 		assertEquals(result.getZip(), expectedDto.getZip());
 		assertEquals(result.getDsmName(), expectedDto.getDsmName());
+		assertEquals(result.getEmailAddress(), expectedDto.getEmailAddress());
+		assertEquals(result.getDsmEmailAddress(), expectedDto.getDsmEmailAddress());
+		assertEquals(result.getRsmEmailAddress(), expectedDto.getRsmEmailAddress());
 		
 		verify(mockDealer).getCity();
-//		verify(mockDealer).getClassification();
 		verify(mockDealer).getCompany();
 		verify(mockDealer).getId();
 		verify(mockDealer).getName();
@@ -83,6 +92,9 @@ public class DealerMapperTest {
 		verify(mockDealer).getZip();
 		
 		verify(mockDsm).getDsmName();
+		verify(mockDsm).getDealerEmail();
+		verify(mockDsm).getDsmEmailAddress();
+		verify(mockDsm).getRsmEmailAddress();
 	}
 
 }
