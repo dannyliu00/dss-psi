@@ -166,8 +166,12 @@ public class EmailService {
     	String subject = "Sell-In Approved As Requested";
     	
     	Template template = Velocity.getTemplate("/templates/email_sellIn_approved_as_requested.vm");
+    	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
     	
     	VelocityContext context = new VelocityContext();
+    	context.put("dealerId", dealerInfo.getDealerId());
+    	context.put("dealerName", dealerInfo.getName());
+
     	
     	StringWriter writer = new StringWriter();
     	template.merge(context, writer);
@@ -186,13 +190,17 @@ public class EmailService {
      */
 	public void sendApproveWithChangesEmail(ProfileDetailsDto profileDetailsDto) {
 		
-		LOG.methodStart(PolarisIdentity.get(), "sendApproveAsRequestedEmail");
+		LOG.methodStart(PolarisIdentity.get(), "sendApproveWithChangesEmail");
 		
     	String subject = "Sell-In Approved With Changes";
     	
     	Template template = Velocity.getTemplate("/templates/email_sellIn_approved_w_changes.vm");
+    	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
     	
     	VelocityContext context = new VelocityContext();
+    	context.put("dealerId", dealerInfo.getDealerId());
+    	context.put("dealerName", dealerInfo.getName());
+
     	
     	StringWriter writer = new StringWriter();
     	template.merge(context, writer);
@@ -202,7 +210,7 @@ public class EmailService {
     	String toAddress = getDealerEmail(profileDetailsDto);
     	sendEmail(subject, renderedTemplate, toAddress);
     	
-    	LOG.methodEnd(PolarisIdentity.get(), "sendApproveAsRequestedEmail");
+    	LOG.methodEnd(PolarisIdentity.get(), "sendApproveWithChangesEmail");
 	}  
 	
     /*
@@ -211,13 +219,17 @@ public class EmailService {
      */
 	public void sendSubmitForExceptionEmail(ProfileDetailsDto profileDetailsDto) {
 		
-		LOG.methodStart(PolarisIdentity.get(), "sendApproveAsRequestedEmail");
+		LOG.methodStart(PolarisIdentity.get(), "sendSubmitForExceptionEmail");
 		
     	String subject = "Sell-In Submitted for Exception";
     	
     	Template template = Velocity.getTemplate("/templates/email_sellIn_approved_w_changes.vm");
-    	
+    	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
+
     	VelocityContext context = new VelocityContext();
+    	context.put("dealerId", dealerInfo.getDealerId());
+    	context.put("dealerName", dealerInfo.getName());
+    	
     	
     	StringWriter writer = new StringWriter();
     	template.merge(context, writer);
@@ -227,7 +239,7 @@ public class EmailService {
     	String toAddress = getDealerEmail(profileDetailsDto);
     	sendEmail(subject, renderedTemplate, toAddress);
     	
-    	LOG.methodEnd(PolarisIdentity.get(), "sendApproveAsRequestedEmail");
+    	LOG.methodEnd(PolarisIdentity.get(), "sendSubmitForExceptionEmail");
 	} 	
     
     private DealerDto getDealerInfo(ProfileDetailsDto profileDetailsDto) {

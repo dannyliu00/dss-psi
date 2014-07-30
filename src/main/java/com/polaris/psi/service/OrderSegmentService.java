@@ -195,7 +195,13 @@ public class OrderSegmentService {
 	public ProfileDetailsDto dsmSubmitForException(ProfileDetailsDto profile, String userName) {
 		DealerProfileHeaderStatus status = statusService.getExceptionRequestedStatus();
 		
-		return updateDataFromDsm(profile, status, userName);
+		ProfileDetailsDto result = updateDataFromDsm(profile, status, userName);
+		
+		// Notify RSM
+		emailService.sendSubmitForExceptionEmail(profile);
+
+		return result;
+		
 	}
 	
 	public ProfileDetailsDto dsmSaveChanges(ProfileDetailsDto profile, String userName) {
