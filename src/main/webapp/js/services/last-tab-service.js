@@ -5,14 +5,12 @@
 		var lastTab = {};
 
         lastTab.productTab = '';
-        lastTab.profilesTab = '';
-
         lastTab.changeProductTab = function(type) {
             lastTab.productTab = type;
         };
 
+        lastTab.profilesTab = '';
         lastTab.changeProfilesTab = function(status) {
-            
             lastTab.profilesTab = status;
         };
 
