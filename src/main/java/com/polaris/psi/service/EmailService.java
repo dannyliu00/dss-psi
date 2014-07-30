@@ -3,31 +3,24 @@ package com.polaris.psi.service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.Properties;
 
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
+import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.polaris.psi.Constants;
-import com.polaris.psi.resource.ApplicationAttributeResource;
+import com.polaris.psi.resource.dto.DealerDto;
+import com.polaris.psi.resource.dto.OrderSegmentDto;
 import com.polaris.psi.resource.dto.ProfileDetailsDto;
+import com.polaris.psi.resource.dto.ProfileDto;
 import com.polaris.psi.util.AttributeHelper;
 import com.polaris.psi.util.PolarisIdentity;
 import com.polaris.psi.util.SplunkLogger;
-import com.polarisind.proxy.emailservice.DefaultEmailService;
 import com.polarisind.proxy.emailservice.EmailClient;
 import com.polarisind.proxy.emailservice.EmailResponseType;
 import com.polarisind.proxy.emailservice.EmailType;
@@ -40,6 +33,15 @@ public class EmailService {
 	
 	@Autowired
 	AttributeHelper attributeHelper;
+	
+	@Autowired
+	DealerService dealerService;
+	
+	@Autowired
+	DsmService dsmService;
+
+	@Autowired
+	ProfileService profileService;
 
 	private static final SplunkLogger LOG = new SplunkLogger(EmailService.class);
 	
@@ -47,14 +49,16 @@ public class EmailService {
 
     static {
         try {
-            InputStream rs = EmailService.class.getClassLoader().getResourceAsStream("emailProperties.xml");
-            EMAIL_PROPS.loadFromXML(rs);
-            
             // Initialize Velocity
-            Velocity.init();
+            Properties p = new Properties();
+            p.setProperty("resource.loader", "class");
+            p.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+            
+            
+            Velocity.init(p);
         }
-        catch(IOException ioe) {
-            LOG.error(PolarisIdentity.get(),"static initializer", ioe);
+        catch(Exception e) {
+            LOG.error(PolarisIdentity.get(),"static initializer", e);
         }
     }
     
@@ -62,6 +66,11 @@ public class EmailService {
     	LOG.methodStart(PolarisIdentity.get(), "sendEmail");
 
     	try {
+    		
+    		if(to==null || to.trim().isEmpty()) {
+    			LOG.warn(PolarisIdentity.get(), "sendEmail", "'to' address is blank or null. Email could not be sent");
+    			return;
+			}
    		
         	EmailClient client = EmailClient.getInstance();
         	
@@ -119,22 +128,68 @@ public class EmailService {
     	
     	
     	// Ticket: PS-178: Email to dealer confirming submission.
-    	String template = EMAIL_PROPS.getProperty("email.profileSubmittedDealer.message");
-    	String subject = EMAIL_PROPS.getProperty("email.profileSubmittedDealer.subject");
+    	String subject = "Sell-In Submitted";
     	
-    	VelocityContext context = new VelocityContext();
+    	Template template = Velocity.getTemplate("/templates/email_sellIn_submitted.vm");
     	
-    	context.put("dealerId", "123456");
-    	context.put("dealerName", "I am a dealer");
-    	
-    	StringWriter swOut = new StringWriter();
-    	
-    	Velocity.evaluate( context, swOut, "what is this", template);
+    	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
 
-    	String renderedTemplate = swOut.toString();
+    	VelocityContext context = new VelocityContext();
+    	context.put("dealerId", dealerInfo.getDealerId());
+    	context.put("dealerName", dealerInfo.getName());
     	
-    	sendEmail(subject, renderedTemplate, "per.cedersund@polaris.com");
+    	StringWriter writer = new StringWriter();
+    	template.merge(context, writer);
+    	String renderedTemplate = writer.toString();
     	
+    	// Send email to Dealer
+    	String toAddress = getDealerEmail(profileDetailsDto);
+    	sendEmail(subject, renderedTemplate, toAddress);
+    	
+    	// Send email to DSM
+    	toAddress = getDSMEmail(profileDetailsDto);
+    	sendEmail(subject, renderedTemplate, toAddress);
+    	
+    }
+    
+    private DealerDto getDealerInfo(ProfileDetailsDto profileDetailsDto) {
+    	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
+    	if(profileDetailsDto.getOrderSegments().size()==0) { throw new IllegalArgumentException("profileDetailsDto.getOrderSegments is empty"); }
+
+    	OrderSegmentDto segment = profileDetailsDto.getOrderSegments().get(0);
+    	
+    	ProfileDto profile = profileService.getDealerProfile(segment.getProfileId(), segment.getDealerId());
+
+    	return dealerService.getDealer(segment.getDealerId(), profile.getTypeCode());
 
     }
+    
+    private String getDealerEmail(ProfileDetailsDto profileDetailsDto) {
+    	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
+    	if(profileDetailsDto.getOrderSegments().size()==0) { throw new IllegalArgumentException("profileDetailsDto.getOrderSegments is empty"); }
+    	
+    	OrderSegmentDto segment = profileDetailsDto.getOrderSegments().get(0);
+    	
+    	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
+
+    	String toAddress = segment.getDealerEmail();
+    	if(toAddress==null || toAddress.trim().isEmpty()) {
+    		toAddress = dealerInfo.getEmailAddress();
+    	}
+    	
+    	return toAddress;
+
+    }   
+    
+    private String getDSMEmail(ProfileDetailsDto profileDetailsDto) {
+    	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
+    	if(profileDetailsDto.getOrderSegments().size()==0) { throw new IllegalArgumentException("profileDetailsDto.getOrderSegments is empty"); }
+    	
+    	OrderSegmentDto segment = profileDetailsDto.getOrderSegments().get(0);
+    	
+    	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
+    	
+    	return dealerInfo.getDsmEmailAddress();
+
+    }  
 }

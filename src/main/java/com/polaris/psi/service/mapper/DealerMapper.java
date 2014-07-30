@@ -24,6 +24,9 @@ public class DealerMapper {
 		dto.setName(dealer.getName().trim());
 		dto.setState(dealer.getState().trim());
 		dto.setZip(dealer.getZip().trim());
+		dto.setEmailAddress(dsm.getDealerEmail());
+		dto.setDsmEmailAddress(dsm.getDsmEmailAddress());
+		dto.setRsmEmailAddress(dsm.getRsmEmailAddress());
 		
 		dto.setDsmName(dsm.getDsmName().trim());
 		
