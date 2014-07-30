@@ -24,7 +24,7 @@ public class Constants {
 
     // Active profile status
     public static final String ACTIVE_PROFILE_STATUS = "ACTIVE PROFILE SESSION";
-    public static final String HISTORICAL_PROFILE_STATUS = "OFFLINE";
+    public static final String HISTORICAL_PROFILE_STATUS = "OFF-LINE";
 
     // Current Dealer Profile statuses
     public static final String DEFAULT_PROFILE_STATUS = "NOT STARTED";

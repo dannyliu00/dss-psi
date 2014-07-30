@@ -17,6 +17,10 @@
     		self.initialOrderSegments = angular.copy($scope.orderSegments);
     	};
     	
+        $scope.addEmail = function(email) {
+        	$scope.dealerEmail = email;
+        };
+    	
     	appRoleResource.get().then(function(role) {
             $scope.role = role;
     		}).then(function(role) {
@@ -32,13 +36,11 @@
     	this.orderSegmentResourceMapper = orderSegmentResourceMapper;
 
 	    var dealer = {dealerId: $routeParams.dealerId, type: $routeParams.type};
-	    
         dealerResource.get(dealer).then(function(returnedDealer) {
             $scope.dealer = returnedDealer;
         });
 
         var profile = {profileId: $routeParams.profileId,dealerId: $routeParams.dealerId};
-        
         dealerProfileResource.get(profile)
             .then(function(returnedProfile) {
             	
@@ -105,9 +107,6 @@
             .withPaginationType('full_numbers')
             .withDisplayLength(25)
             .withBootstrap();
-
-        $scope.dealerEmail = "";
-        
 
         $scope.getRecTotals = function() {
         	var totalRecQty = 0;

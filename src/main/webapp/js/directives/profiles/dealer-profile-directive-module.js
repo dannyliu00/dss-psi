@@ -8,7 +8,8 @@
             'sellIn.resources.dealerProfile',
             'sellIn.resources.dealer',
             'sellIn.routing.paths',
-            'sellIn.resources.role'])
+            'sellIn.resources.role',
+            'sellIn.services.lasttab'])
         .controller('dealerProfileDirectiveController', dealerProfiles.DealerProfileDirectiveController)
         .directive('profileDetails', dealerProfiles.ProfileDetailsDirective);
 })();

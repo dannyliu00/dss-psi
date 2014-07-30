@@ -16,12 +16,12 @@
                     return appRoleResource;
                 }]);
 
-                dsmProfilesResource = jasmine.createSpyObj('dsmProfilesResource', ['queryCurrent, queryHistory']);
+                dsmProfilesResource = jasmine.createSpyObj('dsmProfilesResource', ['queryCurrent', 'queryHistory']);
                 $provide.decorator('dsmProfilesResource', [function () {
                     return dsmProfilesResource;
                 }]);
 
-                rsmProfilesResource = jasmine.createSpyObj('rsmProfilesResource', ['queryCurrent, queryHistory']);
+                rsmProfilesResource = jasmine.createSpyObj('rsmProfilesResource', ['queryCurrent', 'queryHistory']);
                 $provide.decorator('rsmProfilesResource', [function () {
                     return rsmProfilesResource;
                 }]);
@@ -61,6 +61,10 @@
                                                                              dsmUrl,
                                                                              productTabs,
                                                                              lastTab) {
+
+                lastTab.productTab = '';
+                lastTab.profilesTab = '';
+
                 expectedRole = {dsm: true, rsm: false, sessionDetail: {ATV: 'Y'}};
                 expectedRoleDeferred.resolve(expectedRole);
                 var expectedDsm = {dsmId: expectedId, type: expectedType};
@@ -76,11 +80,11 @@
                 expect(appRoleResource.get).toHaveBeenCalled();
                 expect($rootScope.role).toBeDefined();
 
-//                expect(dsmProfilesResource.queryCurrent).toHaveBeenCalledWith(expectedDsm);
-//                expect($rootScope.profiles).toBeDefined();
-//
-//                expect($rootScope.productTabs).toBeDefined();
-//                expect($rootScope.productTabs.length).toEqual(1);
+                expect(dsmProfilesResource.queryCurrent).toHaveBeenCalledWith(expectedDsm);
+                expect($rootScope.profiles).toBeDefined();
+
+                expect($rootScope.productTabs).toBeDefined();
+                expect($rootScope.productTabs.length).toEqual(1);
             }));
         });
 

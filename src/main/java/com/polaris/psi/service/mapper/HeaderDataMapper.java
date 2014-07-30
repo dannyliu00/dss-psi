@@ -55,8 +55,9 @@ public class HeaderDataMapper {
 		return header;
 	}
 	
-	public void updateExistingSubmittedHeader(DealerProfileHeader header, DealerProfileHeaderStatus status, boolean nonCompliant) {
+	public void updateExistingSubmittedHeader(DealerProfileHeader header, DealerProfileHeaderStatus status, String email, boolean nonCompliant) {
 		Date date = Calendar.getInstance().getTime();
+		header.setEmailAddress(email);
 		header.setSubmittedDate(date);
 		header.setSubmittedTime(date);
 		header.setStatus(status);

@@ -6,7 +6,6 @@ package com.polaris.psi.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +20,7 @@ import com.polaris.psi.resource.dto.OrderSegmentDto;
 import com.polaris.psi.resource.dto.ProfileDetailsDto;
 import com.polaris.psi.service.mapper.DetailDataMapper;
 import com.polaris.psi.service.mapper.HeaderDataMapper;
+import com.polaris.psi.util.CommonUtils;
 import com.polaris.psi.util.PolarisIdentity;
 import com.polaris.psi.util.SplunkLogger;
 import com.polaris.pwf.repository.CommonRepositoryConstants;
@@ -115,10 +115,9 @@ public class OrderSegmentService {
 			LOG.debug(PolarisIdentity.get(), "submitOrderSegmentQuantities", "Header record does exist for the detail records passed in. System will update existing "
 					+ "header and detail records for saving the profile.");
 
-
 			updateOrderSegmentQty(records);
 			DealerProfileHeader header = headerDao.select(testRecord.getHeaderId());
-			headerDataMapper.updateExistingSubmittedHeader(header, status, profileDetailsDto.isNonCompliant());
+			headerDataMapper.updateExistingSubmittedHeader(header, status, testRecord.getDealerEmail(), profileDetailsDto.isNonCompliant());
 			headerDao.update(header);
 			
 			for (OrderSegmentDto dto : records) {
@@ -220,6 +219,9 @@ public class OrderSegmentService {
 		for (OrderSegmentDto dto : orderSegments) {
 			DealerProfileDetail detail = detailDao.select(dto.getId());
 			detailDataMapper.updateDsmEnteredDetails(detail, dto, userName);
+			if(status.getDescription().equals(Constants.RETURNED_TO_DEALER)) {
+				detail.setDsmRecommendedQty(CommonUtils.setIntegerValue(null));
+			}
 			detailDao.update(detail);
 			logService.writeDsmChangesToLog(header, dto);
 		}

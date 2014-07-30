@@ -1,4 +1,4 @@
-<main-button></main-button>
+<main-button profile="profile"></main-button>
 <div class="container-full">
     <div class="panel panel-primary">
         <div class="panel-heading">
@@ -62,9 +62,10 @@
             <h3 class="panel-title">Profile Totals</h3>
         </div>
         <div class="panel-body">
-            <table id="activeObjectsSummaryTable"
+            <div id="summaryTable_processing" class="dataTables_processing" style="visibility: hidden;">Processing...</div>
+            <table id="summaryTable"
                    class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
-                   aria-describedby="activeObjectsSummaryTable">
+                   aria-describedby="summaryTable">
                 <thead>
                 <tr role="row">
                     <th class="text-left" role="columnheader" aria-controls="activeObjectsSummaryTable" >
@@ -100,6 +101,6 @@
     </div>
 </div>
 <comment-display role="role" profile="profile"></comment-display>
-<email-entry></email-entry>
-<main-button></main-button>
+<email-entry profile="profile" addEmail="addEmail()"></email-entry>
+<main-button profile="profile"></main-button>
 

@@ -23,7 +23,7 @@ public class PSIProfileMapperTest {
 	@Mock private ProfileTypeMapper mockTypeMapper;
 	@Mock private PSIProfile mockProfile;
 	@Mock private ProfileDto mockDto;
-	private String expectedName, expectedStatus, expectedType;
+	private String expectedName, expectedStatus, expectedType, expectedEmail;
 	private Integer expectedProfileId;
 	private Date expectedTargetCompletion, expectedModified;
 
@@ -34,6 +34,7 @@ public class PSIProfileMapperTest {
 		expectedName = "UT Name";
 		expectedStatus = "UT Status";
 		expectedType = "UT Type";
+		expectedEmail = "UT@local";
 		expectedTargetCompletion = Calendar.getInstance().getTime();
 		expectedModified = Calendar.getInstance().getTime();
 		expectedProfileId = 999;
@@ -44,6 +45,7 @@ public class PSIProfileMapperTest {
 		when(mockProfile.getStatus()).thenReturn(expectedStatus);
 		when(mockProfile.getTargetCompleteDate()).thenReturn(expectedTargetCompletion);
 		when(mockProfile.getType()).thenReturn(expectedType);
+		when(mockProfile.getEmail()).thenReturn(expectedEmail);
 		
 		mapper = new PSIProfileMapper();
 		mapper.typeMapper = mockTypeMapper;
@@ -59,6 +61,7 @@ public class PSIProfileMapperTest {
 		assertEquals(expectedProfileId.intValue(), result.getProfileId());
 		assertEquals(expectedStatus, result.getStatus());
 		assertEquals(expectedTargetCompletion, result.getTargetCompletionDate());
+		assertEquals(expectedEmail, result.getDealerEmail());
 		
 		verify(mockProfile).getId();
 		verify(mockProfile).getLastModifiedDate();
@@ -66,6 +69,7 @@ public class PSIProfileMapperTest {
 		verify(mockProfile).getStatus();
 		verify(mockProfile).getTargetCompleteDate();
 		verify(mockProfile, times(2)).getType();
+		verify(mockProfile).getEmail();
 		
 		verify(mockTypeMapper).mapTypeToProfile(expectedType, result);
 		verifyNoMoreInteractions(mockProfile, mockTypeMapper, mockDto);

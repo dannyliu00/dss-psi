@@ -5,8 +5,9 @@
     var dealerProfileSummary = sellInNamespace('sellIn.pages.dealerProfileSummary');
 
     describe('DealerProfileSummaryCtrl', function() {
-        var scope, DTOptionsBuilder, DTOptions, routeParams, location, dealerResource, dealerProfilesResource, expectedDealerId, expectedUrl, expectedType;
-        var expectedDealerDeferred, expectedProfilesDeferred;
+        var scope, routeParams, location, dealerResource;
+        var dealerProfilesResource, expectedDealerId, expectedProfileUrl, expectedSummaryUrl, expectedType;
+        var expectedDealerDeferred, expectedProfilesDeferred, lastTab, expectedStatus;
         var ctrl;
 
         beforeEach(function () {
@@ -17,9 +18,13 @@
                 $provide.decorator('dealerResource', [function () {
                     return dealerResource;
                 }]);
-                dealerProfilesResource = jasmine.createSpyObj('dealerProfilesResource', ['query']);
+                dealerProfilesResource = jasmine.createSpyObj('dealerProfilesResource', ['queryCurrent', 'queryHistory']);
                 $provide.decorator('dealerProfilesResource', [function () {
                     return dealerProfilesResource;
+                }]);
+                lastTab = jasmine.createSpyObj('lastTab', ['changeProductTab', 'changeProfilesTab']);
+                $provide.decorator('lastTab', [function () {
+                    return lastTab;
                 }]);
             });
 
@@ -27,15 +32,10 @@
 
             expectedDealerId = 111;
 	        expectedType = 'T';
-            routeParams = {dealerId: expectedDealerId, type: expectedType};
-            expectedUrl = '/segment1/:dealerId/segment2/:profileId/segment3/:type';
-
-            DTOptionsBuilder = jasmine.createSpyObj('DTOptionsBuilder', ['newOptions']);
-
-            DTOptions = jasmine.createSpyObj('DTOptions', ['withPaginationType', 'withDisplayLength', 'withBootstrap']);
-            DTOptionsBuilder.newOptions.andReturn(DTOptions);
-            DTOptions.withPaginationType.andReturn(DTOptions);
-            DTOptions.withDisplayLength.andReturn(DTOptions);
+            expectedStatus = 'current';
+            routeParams = {dealerId: expectedDealerId, type: expectedType, status: expectedStatus};
+            expectedProfileUrl = '/segment1/:dealerId/segment2/:profileId/segment3/:type';
+            expectedSummaryUrl = '/segment1/:dealerId/segment2/:type/segment3/:status';
         });
 
         beforeEach(inject(function ($q, $rootScope, dealerResource, dealerProfilesResource) {
@@ -43,31 +43,32 @@
             dealerResource.get.andReturn(expectedDealerDeferred.promise);
 
             expectedProfilesDeferred = $q.defer();
-            dealerProfilesResource.query.andReturn(expectedProfilesDeferred.promise);
+            dealerProfilesResource.queryCurrent.andReturn(expectedProfilesDeferred.promise);
+            dealerProfilesResource.queryHistory.andReturn(expectedProfilesDeferred.promise);
 
             scope = $rootScope.$new();
         }));
 
         describe('constructor', function () {
-            it('initializes dealer on scope', inject(function ($rootScope, dealerResource, dealerProfilesResource) {
+            it('initializes dealer on scope', inject(function ($rootScope, dealerResource, dealerProfilesResource, lastTab) {
+                lastTab.productTab = '';
+                lastTab.profilesTab = '';
+
                 ctrl = new dealerProfileSummary.DealerProfileSummaryCtrl(
                     scope,
                     routeParams,
                     location,
                     dealerResource,
                     dealerProfilesResource,
-                    expectedUrl,
-                    DTOptionsBuilder);
+                    expectedProfileUrl,
+                    expectedSummaryUrl,
+                    lastTab);
 
 	            var expectedDealerAndType = {dealerId: expectedDealerId, type: expectedType};
 	            var expectedDealer = {dealerId: expectedDealerId, type: expectedType};
                 expect(dealerResource.get).toHaveBeenCalledWith(expectedDealerAndType);
-                expect(dealerProfilesResource.query).toHaveBeenCalledWith(expectedDealer);
-
-//                expect(DTOptionsBuilder.newOptions).toHaveBeenCalled();
-//                expect(DTOptions.withPaginationType).toHaveBeenCalled();
-//                expect(DTOptions.withDisplayLength).toHaveBeenCalled();
-//                expect(DTOptions.withBootstrap).toHaveBeenCalled();
+                expect(lastTab.changeProfilesTab).toHaveBeenCalled();
+                expect(dealerProfilesResource.queryCurrent).toHaveBeenCalledWith(expectedDealer);
             }));
         });
 
