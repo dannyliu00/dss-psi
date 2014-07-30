@@ -9,7 +9,8 @@
             'sellIn.resources.dealer',
             'sellIn.routing.paths',
             'sellIn.resources.role',
-            'sellIn.services.lasttab'])
+            'sellIn.services.lasttab',
+            'blockUI'])
         .controller('dealerProfileDirectiveController', dealerProfiles.DealerProfileDirectiveController)
         .directive('profileDetails', dealerProfiles.ProfileDetailsDirective);
 })();

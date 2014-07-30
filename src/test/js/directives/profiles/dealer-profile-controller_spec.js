@@ -5,7 +5,7 @@
         var scope, DTOptionsBuilder, DTOptions, routeParams, dealerResource, dealerProfileResource;
         var expectedDealerId, expectedProfileId, appRoleResource;
         var expectedDealerDeferred, expectedDealer, expectedProfileDeferred, expectedProfile;
-        var expectedRoleDeferred, expectedRole, expectedType, lastTab;
+        var expectedRoleDeferred, expectedRole, expectedType, lastTab, blockUI;
         var ctrl;
 
         beforeEach(function() {
@@ -27,6 +27,10 @@
                 lastTab = jasmine.createSpyObj('lastTab', ['changeProductTab', 'changeProfilesTab']);
                 $provide.decorator('lastTab', [function() {
                     return lastTab;
+                }]);
+                blockUI = jasmine.createSpyObj('blockUI', ['start', 'stop']);
+                $provide.decorator('blockUI', [function() {
+                    return blockUI;
                 }]);
             });
 
@@ -75,7 +79,7 @@
         describe('constructor', function() {
             it('initializes dealer on scope',
                 inject(function($rootScope, dealerResource, dealerProfileResource,
-                                orderSegmentResourceMapper, appRoleResource, lastTab) {
+                                orderSegmentResourceMapper, appRoleResource, lastTab, blockUI) {
 
                 ctrl = new dealerProfiles.DealerProfileDirectiveController(
                     scope,
@@ -85,13 +89,15 @@
                     dealerProfileResource,
                     orderSegmentResourceMapper,
                     appRoleResource,
-                    lastTab);
+                    lastTab,
+                    blockUI);
 
                 var expectedDealer = {dealerId: expectedDealerId, type: expectedType};
                 var expectedProfile = {profileId: expectedProfileId,dealerId: expectedDealerId};
                 expect(dealerResource.get).toHaveBeenCalledWith(expectedDealer);
                 expect(dealerProfileResource.get).toHaveBeenCalledWith(expectedProfile);
-
+                expect(blockUI.start).toHaveBeenCalled();
+                expect(blockUI.stop).toHaveBeenCalled();
                 expect(DTOptionsBuilder.newOptions).toHaveBeenCalled();
                 expect(DTOptions.withPaginationType).toHaveBeenCalled();
                 expect(DTOptions.withDisplayLength).toHaveBeenCalled();
