@@ -90,7 +90,10 @@
 		    				caption = dsmButtonCaption;
 		    			}
 		    			return caption;
-		    		}
+		    		},
+                    confirm: function() {
+                        return '';
+                    }
                 }
 			});
 
@@ -119,7 +122,11 @@
             		},
             		level: function() {
             			return dsm;
-            		}
+            		},
+                    confirm: function() {
+                        return '';
+                    }
+
                 }
             });
 
