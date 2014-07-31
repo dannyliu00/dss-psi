@@ -19,10 +19,6 @@
     		self.initialOrderSegments = angular.copy($scope.orderSegments);
     	};
     	
-        $scope.addEmail = function(email) {
-        	$scope.dealerEmail = email;
-        };
-
         var getRole = function() {
             appRoleResource.get().then(function(role) {
                 $scope.role = role;

@@ -126,7 +126,7 @@
             			return dealer;
             		},
             		confirm: function() {
-            			return $scope.dealerEmail;
+            			return $scope.profile.dealerEmail;
             		}
                 }
             });
@@ -140,7 +140,7 @@
         }
 
         $scope.submitRequests = function() {
-        	if($scope.dealerEmail == null || $scope.dealerEmail === '') {
+        	if($scope.profile.dealerEmail == null || $scope.profile.dealerEmail === '') {
         		openEmailRequiredDialog();
         	}
             else if(angular.element('.compliant').hasClass('noncompliant') || angular.element('.compliant').hasClass('noncomplianttotal')) {
@@ -168,7 +168,7 @@
             			return dealerReason;
             		},
             		confirm: function() {
-            			return $scope.dealerEmail;
+            			return $scope.profile.dealerEmail;
             		}
                 }
 			});
