@@ -35,18 +35,6 @@ public class DsmProfilesResource {
 	DsmService service;
 	
 	@GET
-    @Path("/{dsmId}/{type}")
-    @Produces(MediaType.APPLICATION_JSON)
-	public List<DsmDealerProfilesDto> getDsmProfiles(@PathParam("dsmId") int dsmId, @PathParam("type") String type) {
-		UserData userData = sessionHelper.getUserData();
-		if(!userData.isDsm() || userData.getDealerId() != dsmId) {
-			return new ArrayList<DsmDealerProfilesDto>();
-		}
-		if(type.equals(null)) type = "2";
-		return service.getDsmCurrentProfiles(dsmId, type);
-	}
-	
-	@GET
     @Path("/{dsmId}/{type}/current")
     @Produces(MediaType.APPLICATION_JSON)
 	public List<DsmDealerProfilesDto> getDsmCurrentProfiles(@PathParam("dsmId") int dsmId, @PathParam("type") String type) {
@@ -54,7 +42,7 @@ public class DsmProfilesResource {
 		if(!userData.isDsm() || userData.getDealerId() != dsmId) {
 			return new ArrayList<DsmDealerProfilesDto>();
 		}
-		if(type.equals(null)) type = "2";
+		if(type == null) type = "2";
 		return service.getDsmCurrentProfiles(dsmId, type);
 	}
 
@@ -66,7 +54,7 @@ public class DsmProfilesResource {
 		if(!userData.isDsm() || userData.getDealerId() != dsmId) {
 			return new ArrayList<DsmDealerProfilesDto>();
 		}
-		if(type.equals(null)) type = "2";
+		if(type == null) type = "2";
 		return service.getDsmHistoricalProfiles(dsmId, type);
 	}
 	
