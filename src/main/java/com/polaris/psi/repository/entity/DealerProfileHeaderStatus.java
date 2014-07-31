@@ -51,7 +51,7 @@ public class DealerProfileHeaderStatus implements Serializable {
 	 * @return the description
 	 */
 	public String getDescription() {
-		return description;
+		return description.trim();
 	}
 
 	/**
