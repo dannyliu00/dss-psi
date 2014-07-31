@@ -113,6 +113,10 @@
     width: 50px;
 }
 
+.comment-margin {
+	margin-left: -15px;
+}
+
 .table thead tr th[class*="sorting"],
 /* .table-default tfoot tr th, */
 .table caption {
