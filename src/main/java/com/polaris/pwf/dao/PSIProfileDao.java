@@ -11,12 +11,13 @@ import java.util.List;
 import javax.persistence.Query;
 
 import org.apache.commons.lang.BooleanUtils;
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.polaris.psi.Constants;
 import com.polaris.psi.repository.entity.PSIProfile;
 import com.polaris.psi.util.CommonUtils;
+import com.polaris.psi.util.PolarisIdentity;
+import com.polaris.psi.util.SplunkLogger;
 
 /**
  * Data access object for retrieving Dealer Profiles.
@@ -26,8 +27,8 @@ import com.polaris.psi.util.CommonUtils;
 @Repository
 public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 
-	private static Logger LOG = Logger.getLogger(PSIProfileDao.class);
-
+	private static final SplunkLogger LOG = new SplunkLogger(PSIProfileDao.class);
+	
 	private static String QRY_BY_DLR_STATUS = ""
 			+ "SELECT pstatus.N2DESC, profile.N1IPID, trim(profile.N1DESC), profile.N1TDAT, profile.N1PDLN, "
 			+ "       Trim(status.N9DESC), header.N7NFLG, header.N7CHDT "
@@ -69,17 +70,17 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 	}
 	
 	public List<PSIProfile> retrieveDealerCurrentProfileListByDealerId(Integer dealerId) {
+		
+		LOG.methodStart(PolarisIdentity.get(), "retrieveDealerCurrentProfileListByDealerId");
+		
 		Query query = entityManager.createNativeQuery(QRY_BY_DLR_STATUS);
 		query.setParameter("dealerId", dealerId);
 		query.setParameter("canceled", Constants.DEALER_NOT_CANCELED_CODE);
 		query.setParameter("status", Constants.ACTIVE_PROFILE_STATUS);
 		
-		if(LOG.isTraceEnabled()) {
-			LOG.trace("query to run: " + QRY_BY_DLR_STATUS);
-			LOG.trace("query paramters: dealerId = " + dealerId 
-					+ ", canceled = " + Constants.DEALER_NOT_CANCELED_CODE 
-					+ ", status = " + Constants.ACTIVE_PROFILE_STATUS);
-		}
+		LOG.trace(PolarisIdentity.get(), "retrieveDealerCurrentProfileListByDealerId", "query to run: " 
+				+ QRY_BY_DLR_STATUS + "query paramters: dealerId = " + dealerId  + ", canceled = " 
+				+ Constants.DEALER_NOT_CANCELED_CODE + ", status = " + Constants.ACTIVE_PROFILE_STATUS);
 		
 		@SuppressWarnings("unchecked")
 		List<Object[]> results = query.getResultList();
@@ -101,21 +102,24 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 		
 		entityManager.close();
 		
+		LOG.methodEnd(PolarisIdentity.get(), "retrieveDealerCurrentProfileListByDealerId");
+		
         return profiles;
 	}
 	
 	public List<PSIProfile> retrieveDealerHistoryProfileListByDealerId(Integer dealerId) {
+		
+		LOG.methodStart(PolarisIdentity.get(), "retrieveDealerHistoryProfileListByDealerId");
+		
 		Query query = entityManager.createNativeQuery(QRY_BY_DLR_STATUS);
 		query.setParameter("dealerId", dealerId);
 		query.setParameter("canceled", Constants.DEALER_NOT_CANCELED_CODE);
 		query.setParameter("status", Constants.HISTORICAL_PROFILE_STATUS);
 		
-		if(LOG.isTraceEnabled()) {
-			LOG.trace("query to run: " + QRY_BY_DLR_STATUS);
-			LOG.trace("query paramters: dealerId = " + dealerId 
-					+ ", canceled = " + Constants.DEALER_NOT_CANCELED_CODE
-					+ ", status = " + Constants.HISTORICAL_PROFILE_STATUS);
-		}
+		LOG.trace(PolarisIdentity.get(), "retrieveDealerHistoryProfileListByDealerId", "query to run: " 
+				+ QRY_BY_DLR_STATUS + "query paramters: dealerId = " 
+				+ dealerId + ", canceled = " + Constants.DEALER_NOT_CANCELED_CODE 
+				+ ", status = " + Constants.HISTORICAL_PROFILE_STATUS);
 		
 		@SuppressWarnings("unchecked")
 		List<Object[]> results = query.getResultList();
@@ -137,23 +141,24 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 		
 		entityManager.close();
 		
+		LOG.methodEnd(PolarisIdentity.get(), "retrieveDealerHistoryProfileListByDealerId");
+		
         return profiles;
 	}
 	
 	public List<PSIProfile> retrieveDsmCurrentProfileListByDealerId(Integer dealerId, String type) {
+		
+		LOG.methodStart(PolarisIdentity.get(), "retrieveDsmCurrentProfileListByDealerId");
+		
 		Query query = entityManager.createNativeQuery(QRY_BY_DLR_AND_TYPE);
 		query.setParameter("dealerId", dealerId);
 		query.setParameter("canceled", Constants.DEALER_NOT_CANCELED_CODE);
 		query.setParameter("status", Constants.ACTIVE_PROFILE_STATUS);
 		query.setParameter("type", type);
 		
-		if(LOG.isTraceEnabled()) {
-			LOG.trace("query to run: " + QRY_BY_DLR_AND_TYPE);
-			LOG.trace("query paramters: dealerId = " + dealerId 
-					+ ", canceled = " + Constants.DEALER_NOT_CANCELED_CODE
-					+ ", status = " + Constants.ACTIVE_PROFILE_STATUS
-					+ ", type = " + type);
-		}
+		LOG.trace(PolarisIdentity.get(), "retrieveDsmCurrentProfileListByDealerId", "query to run: " + QRY_BY_DLR_AND_TYPE 
+				+ "query paramters: dealerId = " + dealerId + ", canceled = " + Constants.DEALER_NOT_CANCELED_CODE
+				+ ", status = " + Constants.ACTIVE_PROFILE_STATUS + ", type = " + type);
 		
 		@SuppressWarnings("unchecked")
 		List<Object[]> results = query.getResultList();
@@ -175,23 +180,24 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 		
 		entityManager.close();
 		
+		LOG.methodEnd(PolarisIdentity.get(), "retrieveDsmCurrentProfileListByDealerId");
+		
         return profiles;
 	}
 	
 	public List<PSIProfile> retrieveDsmHistoryProfileListByDealerId(Integer dealerId, String type) {
+		
+		LOG.methodStart(PolarisIdentity.get(), "retrieveDsmHistoryProfileListByDealerId");
+		
 		Query query = entityManager.createNativeQuery(QRY_BY_DLR_AND_TYPE);
 		query.setParameter("dealerId", dealerId);
 		query.setParameter("canceled", Constants.DEALER_NOT_CANCELED_CODE);
 		query.setParameter("status", Constants.HISTORICAL_PROFILE_STATUS);
 		query.setParameter("type", type);
 		
-		if(LOG.isTraceEnabled()) {
-			LOG.trace("query to run: " + QRY_BY_DLR_AND_TYPE);
-			LOG.trace("query paramters: dealerId = " + dealerId 
-					+ ", canceled = " + Constants.DEALER_NOT_CANCELED_CODE
-					+ ", status = " + Constants.HISTORICAL_PROFILE_STATUS
-					+ ", type = " + type);
-		}
+		LOG.trace(PolarisIdentity.get(), "retrieveDsmHistoryProfileListByDealerId", "query to run: " + QRY_BY_DLR_AND_TYPE 
+				+ "query paramters: dealerId = " + dealerId + ", canceled = " + Constants.DEALER_NOT_CANCELED_CODE
+				+ ", status = " + Constants.HISTORICAL_PROFILE_STATUS + ", type = " + type);
 		
 		@SuppressWarnings("unchecked")
 		List<Object[]> results = query.getResultList();
@@ -213,25 +219,31 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 		
 		entityManager.close();
 		
+		LOG.methodEnd(PolarisIdentity.get(), "retrieveDsmHistoryProfileListByDealerId");
+		
         return profiles;
 	}
 	
 	public PSIProfile retrieveProfileById(Integer profileId, Integer dealerId) {
+		
+		LOG.methodStart(PolarisIdentity.get(), "retrieveProfileById");
+		
 		Query query = entityManager.createNativeQuery(QUERY_BY_DLR_PROFILE_IDS);
 		query.setParameter("profileId", profileId);
 		query.setParameter("dealerId", dealerId);
 		query.setParameter("canceled", Constants.DEALER_NOT_CANCELED_CODE);
 		
-		if(LOG.isTraceEnabled()) {
-			LOG.trace("query to run: " + QUERY_BY_DLR_PROFILE_IDS);
-			LOG.trace("query paramters: profileId = " + profileId + ", dealerId = " + dealerId 
-					+ ", canceled = " + Constants.DEALER_NOT_CANCELED_CODE);
-		}
+		LOG.trace(PolarisIdentity.get(), "retrieveProfileById", "query to run: " + QUERY_BY_DLR_PROFILE_IDS 
+				+ "query paramters: profileId = " + profileId + ", dealerId = " + dealerId 
+				+ ", canceled = " + Constants.DEALER_NOT_CANCELED_CODE);
 		
 		@SuppressWarnings("unchecked")
 		List<Object[]> results = query.getResultList();
 		
-		if(results.size() < 1) return null;
+		if(results.size() < 1) {
+			entityManager.close();
+			return null;
+		}
 		
 		Object[] result = results.get(0);
 
@@ -252,6 +264,8 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 		profile.setLastModifiedDate(result[14] != null ? (Date) result[14] : (Date) result[13]);
 		
 		entityManager.close();
+		
+		LOG.methodEnd(PolarisIdentity.get(), "retrieveProfileById");
 		
 		return profile;
 	}

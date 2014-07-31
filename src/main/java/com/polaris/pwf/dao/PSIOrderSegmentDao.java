@@ -9,11 +9,12 @@ import java.util.List;
 
 import javax.persistence.Query;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.polaris.psi.repository.entity.PSIOrderSegment;
 import com.polaris.psi.util.CommonUtils;
+import com.polaris.psi.util.PolarisIdentity;
+import com.polaris.psi.util.SplunkLogger;
 
 /**
  * @author bericks
@@ -22,7 +23,7 @@ import com.polaris.psi.util.CommonUtils;
 @Repository
 public class PSIOrderSegmentDao extends AbstractPolarisMinneapolisDao<PSIOrderSegment> {
 
-	private static Logger LOG = Logger.getLogger(PSIOrderSegmentDao.class);
+	private static final SplunkLogger LOG = new SplunkLogger(PSIOrderSegmentDao.class);
 	
 	private static String QUERY_BY_PROFILE_AND_DEALER = ""
 			+ "SELECT distinct pandos.N4PSID, pandos.N4OSEG, pandos.N4SORT, os.C7SBSG, oscomp.N5ID, "
@@ -41,14 +42,15 @@ public class PSIOrderSegmentDao extends AbstractPolarisMinneapolisDao<PSIOrderSe
 	}
 	
 	public List<PSIOrderSegment> retrieveByProfileAndDealer(Integer profileId, Integer dealerId) {
+		
+		LOG.methodStart(PolarisIdentity.get(), "retrieveByProfileAndDealer");
+		
 		Query query = entityManager.createNativeQuery(QUERY_BY_PROFILE_AND_DEALER);
 		query.setParameter("profileId", profileId);
 		query.setParameter("dealerId", dealerId);
 		
-		if(LOG.isTraceEnabled()) {
-			LOG.trace("query to run: " + QUERY_BY_PROFILE_AND_DEALER);
-			LOG.trace("query paramters: profileId = " + profileId + ", dealerId = " + dealerId);
-		}
+		LOG.trace(PolarisIdentity.get(), "retrieveByProfileAndDealer", "query to run: " + QUERY_BY_PROFILE_AND_DEALER 
+				+ "query paramters: profileId = " + profileId + ", dealerId = " + dealerId);
 		
 		@SuppressWarnings("unchecked")
 		List<Object[]> results = query.getResultList();
@@ -73,15 +75,21 @@ public class PSIOrderSegmentDao extends AbstractPolarisMinneapolisDao<PSIOrderSe
 		
 		entityManager.close();
 		
+		LOG.methodEnd(PolarisIdentity.get(), "retrieveByProfileAndDealer");
+		
 		return orderSegments;
 	}
 	
 	protected boolean doesListContain(List<PSIOrderSegment> oses, PSIOrderSegment os) {
 		
+		LOG.methodStart(PolarisIdentity.get(), "doesListContain");
+		
 		for (PSIOrderSegment orderSegment : oses) {
 			if(orderSegment.getName().equals(os.getName()) && orderSegment.getPeriodCode().equals(os.getPeriodCode()))
 				return true;
 		}
+		
+		LOG.methodEnd(PolarisIdentity.get(), "doesListContain");
 		
 		return false;
 	}

@@ -9,11 +9,12 @@ import java.util.List;
 
 import javax.persistence.Query;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.polaris.psi.repository.entity.PSISegment;
 import com.polaris.psi.util.CommonUtils;
+import com.polaris.psi.util.PolarisIdentity;
+import com.polaris.psi.util.SplunkLogger;
 
 /**
  * @author bericks
@@ -22,8 +23,8 @@ import com.polaris.psi.util.CommonUtils;
 @Repository
 public class PSISegmentDao extends AbstractPolarisMinneapolisDao<PSISegment> {
 
-	private static Logger LOG = Logger.getLogger(PSISegmentDao.class);
-
+	private static final SplunkLogger LOG = new SplunkLogger(PSIOrderSegmentDao.class);
+	
 	private static String QUERY_BY_PROFILE_DEALER_AND_TYPE = ""
 			+ "SELECT distinct segComp.N6ID, segComp.N6SSID, segComp.N6SMIN, segComp.N6SMAX, segComp.N6OREQ, segments.MISBSG "
 			+ "  FROM OT076F segComp inner join FG004F segments "
@@ -35,15 +36,16 @@ public class PSISegmentDao extends AbstractPolarisMinneapolisDao<PSISegment> {
 	}
 	
 	public List<PSISegment> retrieveByProfileDealerAndType(Integer profileId, Integer dealerId, String type) {
+		
+		LOG.methodStart(PolarisIdentity.get(), "retrieveByProfileDealerAndType");
+		
 		Query query = entityManager.createNativeQuery(QUERY_BY_PROFILE_DEALER_AND_TYPE);
 		query.setParameter("profileId", profileId);
 		query.setParameter("dealerId", dealerId);
 		query.setParameter("type", type);
 		
-		if(LOG.isTraceEnabled()) {
-			LOG.trace("query to run: " + QUERY_BY_PROFILE_DEALER_AND_TYPE);
-			LOG.trace("query paramters: profileId = " + profileId + ", dealerId = " + dealerId + ", type = " + type);
-		}
+		LOG.trace(PolarisIdentity.get(), "retrieveByProfileDealerAndType", "query to run: " + QUERY_BY_PROFILE_DEALER_AND_TYPE 
+				+ "query paramters: profileId = " + profileId + ", dealerId = " + dealerId + ", type = " + type);
 		
 		@SuppressWarnings("unchecked")
 		List<Object[]> results = query.getResultList();
@@ -62,6 +64,8 @@ public class PSISegmentDao extends AbstractPolarisMinneapolisDao<PSISegment> {
 		}
 		
 		entityManager.close();
+		
+		LOG.methodEnd(PolarisIdentity.get(), "retrieveByProfileDealerAndType");
 		
 		return segments;
 	}

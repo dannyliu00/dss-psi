@@ -9,11 +9,12 @@ import java.util.List;
 
 import javax.persistence.Query;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.polaris.psi.repository.entity.PSIProfileDetail;
 import com.polaris.psi.util.CommonUtils;
+import com.polaris.psi.util.PolarisIdentity;
+import com.polaris.psi.util.SplunkLogger;
 
 /**
  * @author bericks
@@ -22,8 +23,8 @@ import com.polaris.psi.util.CommonUtils;
 @Repository
 public class PSIProfileDetailDao extends AbstractPolarisMinneapolisDao<PSIProfileDetail> {
 
-	private static Logger LOG = Logger.getLogger(PSIProfileDetailDao.class);
-
+	private static final SplunkLogger LOG = new SplunkLogger(PSIProfileDetailDao.class);
+	
 	private static String QUERY_BY_HEADER = ""
 			+ "SELECT header.N7DHID, detail.N8DDID, detail.N8PSID, detail.N8DQTY, "
 			+ "detail.N8DCOD, trim(detail.N8DCOM), detail.N8SQTY, detail.N8SCOD, trim(detail.N8SCOM), detail.N8AQTY, "
@@ -37,13 +38,14 @@ public class PSIProfileDetailDao extends AbstractPolarisMinneapolisDao<PSIProfil
 	}
 	
 	public List<PSIProfileDetail> retrieveByHeaderId(Integer headerId) {
+		
+		LOG.methodStart(PolarisIdentity.get(), "retrieveByHeaderId");
+		
 		Query query = entityManager.createNativeQuery(QUERY_BY_HEADER);
 		query.setParameter("headerId", headerId);
 		
-		if(LOG.isTraceEnabled()) {
-			LOG.trace("query to run: " + QUERY_BY_HEADER);
-			LOG.trace("query paramters: headerId = " + headerId);
-		}
+		LOG.trace(PolarisIdentity.get(), "retrieveByHeaderId", "query to run: " + QUERY_BY_HEADER 
+				+ " query paramters: headerId = " + headerId);
 		
 		@SuppressWarnings("unchecked")
 		List<Object[]> results = query.getResultList();
@@ -70,6 +72,8 @@ public class PSIProfileDetailDao extends AbstractPolarisMinneapolisDao<PSIProfil
 		}
 		
 		entityManager.close();
+		
+		LOG.methodEnd(PolarisIdentity.get(), "retrieveByHeaderId");
 		
 		return details;
 	}

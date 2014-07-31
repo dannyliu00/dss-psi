@@ -10,11 +10,12 @@ import java.util.List;
 
 import javax.persistence.Query;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.polaris.psi.repository.entity.PSIProfilePeriod;
 import com.polaris.psi.util.CommonUtils;
+import com.polaris.psi.util.PolarisIdentity;
+import com.polaris.psi.util.SplunkLogger;
 
 /**
  * @author bericks
@@ -23,8 +24,8 @@ import com.polaris.psi.util.CommonUtils;
 @Repository
 public class PSIProfilePeriodDao extends AbstractPolarisMinneapolisDao<PSIProfilePeriod> {
 
-	private static Logger LOG = Logger.getLogger(PSIProfilePeriodDao.class);
-
+	private static final SplunkLogger LOG = new SplunkLogger(PSIProfilePeriodDao.class);
+	
 	private static String QUERY_BY_PROFILE_ID = ""
 			+ "SELECT N0PPID, N0CODE, N0DESC, N0SDAT, N0EDAT, N3SORT "
 			+ "  FROM OT070F period INNER JOIN OT073F pp ON pp.N3PPID = period.N0PPID "
@@ -36,13 +37,14 @@ public class PSIProfilePeriodDao extends AbstractPolarisMinneapolisDao<PSIProfil
 	}
 	
 	public List<PSIProfilePeriod> retrieveByProfileId(Integer profileId) {
+		
+		LOG.methodStart(PolarisIdentity.get(), "retrieveByProfileId");
+		
 		Query query = entityManager.createNativeQuery(QUERY_BY_PROFILE_ID);
 		query.setParameter("profileId", profileId);
 		
-		if(LOG.isTraceEnabled()) {
-			LOG.trace("query to run: " + QUERY_BY_PROFILE_ID);
-			LOG.trace("query paramters: profileId = " + profileId);
-		}
+		LOG.trace(PolarisIdentity.get(), "retrieveByProfileId", "query to run: " + QUERY_BY_PROFILE_ID 
+				+ "query paramters: profileId = " + profileId);
 		
 		@SuppressWarnings("unchecked")
 		List<Object[]> results = query.getResultList();
@@ -60,6 +62,8 @@ public class PSIProfilePeriodDao extends AbstractPolarisMinneapolisDao<PSIProfil
 		}
 		
 		entityManager.close();
+		
+		LOG.methodEnd(PolarisIdentity.get(), "retrieveByProfileId");
 		
 		return periods;
 	}
