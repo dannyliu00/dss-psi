@@ -6,6 +6,13 @@
     	var changeCaption = 0;
     	var dsmButtonCaption = "";
     	
+    	var buildUrl = function() {
+            return dsmUrl
+                .replace(':id', $scope.role.dealerId)
+                .replace(':type', $scope.profile.typeCode)
+                .replace(':status', lastTab.profilesTab);
+        };
+    	
         $scope.dsmButtonCaptionFill = function() {
         	if(angular.element('.compliant').hasClass('noncompliant') || angular.element('.compliant').hasClass('noncomplianttotal')) {
         		dsmButtonCaption = "Submit for Exception";
@@ -24,7 +31,7 @@
             if($scope.isDirty()) {
             	openSaveDialog();
             } else {
-                var finalDsmUrl = dsmUrl.replace(':id', dealerId).replace(':type', $scope.profile.typeCode).replace(':status', lastTab.profilesTab);
+                var finalDsmUrl = buildUrl();
             	$location.path(finalDsmUrl);
             }
         };
@@ -49,7 +56,7 @@
             });
 
             modalInstance.result.then(function () {
-            	var finalDsmUrl = dsmUrl.replace(':id', $scope.role.dealerId);
+            	var finalDsmUrl = buildUrl();
                 $location.path(finalDsmUrl);
             }, function () {
                 console.log('Modal dismissed at: ' + new Date());
@@ -98,7 +105,7 @@
 			});
 
         	modalInstance.result.then(function () {
-        		var finalDsmUrl = dsmUrl.replace(':id', $scope.role.dealerId)
+        		var finalDsmUrl = buildUrl();
                 $location.path(finalDsmUrl);
             }, function () {
                 console.log('Modal dismissed at: ' + new Date());
@@ -131,7 +138,7 @@
             });
 
             modalInstance.result.then(function () {
-            	var finalDsmUrl = dsmUrl.replace(':id', $scope.role.dealerId)
+            	var finalDsmUrl = buildUrl();
                 $location.path(finalDsmUrl);
             }, function () {
                 console.log('Modal dismissed at: ' + new Date());
