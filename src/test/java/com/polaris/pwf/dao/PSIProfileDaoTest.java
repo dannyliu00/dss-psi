@@ -203,6 +203,29 @@ public class PSIProfileDaoTest {
 		verifyNoMoreInteractions(mockEM, mockQuery);
 	}
 
+	@Test
+	public void testRetrieveProfileByIdNoResults() {
+		mockResults = new ArrayList<Object[]>();
+
+		when(mockQuery.getResultList()).thenReturn(mockResults);
+
+		Integer id = expectedId.intValue();
+		Integer dealerId = expectedDealer.intValue();
+		PSIProfile result = dao.retrieveProfileById(id, dealerId);
+		
+		assertEquals(null, result);
+		
+		verify(mockEM).createNativeQuery(anyString());
+		verify(mockQuery).setParameter("profileId", id);
+		verify(mockQuery).setParameter("dealerId", dealerId);
+		verify(mockQuery).setParameter("canceled", Constants.DEALER_NOT_CANCELED_CODE);
+		verify(mockQuery).getResultList();
+		verify(mockEM).close();
+		
+		verifyNoMoreInteractions(mockEM, mockQuery);
+	}
+
+	@Test
 	public void testRetrieveProfileByIdWithCreatedDate() {
 		expectedCreatedDate = Calendar.getInstance().getTime();
 		mockResult = new Object[15];
@@ -243,7 +266,7 @@ public class PSIProfileDaoTest {
 		assertEquals(expectedStatus, result.getStatus());
 		assertEquals(expectedDate, result.getTargetCompleteDate());
 		assertEquals(expectedType, result.getType());
-		assertEquals(expectedProfileStatus, result.getProfileStatus());
+		assertEquals(Constants.HISTORICAL_PROFILE_STATUS, result.getProfileStatus());
 		assertEquals(expectedLegal.toString(), result.getLegalText());
 		assertEquals(expectedHeaderId.intValueExact(), result.getHeaderId().intValue());
 		assertEquals(expectedDealer.intValueExact(), result.getDealer().intValue());

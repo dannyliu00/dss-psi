@@ -1,6 +1,7 @@
 package com.polaris.psi.resource;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -228,6 +229,20 @@ public class ProfileResourceTest {
 		verify(mockDetailDto, times(2)).getOrderSegments();
 		verify(mockOSService).submitOrderSegmentQuantities(mockDetailDto);
 		verify(mockOSDto).setModifiedUserName(userName);
+	}
+	
+	@Test
+	public void testIsCorrectDealer() {
+		when(mockUserData.isDealer()).thenReturn(false);
+		
+		boolean result = resource.isCorrectDealer(mockUserData, mockDetailDto);
+		
+		assertFalse(result);
+		
+		verify(mockUserData).isDealer();
+		
+		verifyNoMoreInteractions(mockUserData);
+		verifyZeroInteractions(mockDetailDto, mockOSDto);
 	}
 
 }
