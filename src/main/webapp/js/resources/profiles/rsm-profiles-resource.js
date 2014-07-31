@@ -2,11 +2,7 @@
     var rsmProfiles = sellInNamespace('sellIn.resources.rsmProfiles');
 
     function RsmProfilesResource($resource, rsmCurrentProfilesUrl, rsmHistoryProfilesUrl) {
-        this.resource = $resource(rsmCurrentProfilesUrl, {
-                ran: function() {
-                    // parameter added to URL to work around IE caching mechanism
-                    return new Date().getTime();
-                }}, {
+        this.resource = $resource(rsmCurrentProfilesUrl, {}, {
                 current: {method: 'GET', url: rsmCurrentProfilesUrl, isArray: true},
                 history: {method: 'GET', url: rsmHistoryProfilesUrl, isArray: true}
             }

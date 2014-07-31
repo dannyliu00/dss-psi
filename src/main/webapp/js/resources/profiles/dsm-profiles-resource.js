@@ -2,11 +2,7 @@
     var dsmProfiles = sellInNamespace('sellIn.resources.dsmProfiles');
 
     function DsmProfilesResource($resource, dsmCurrentProfilesUrl, dsmHistoryProfilesUrl) {
-        this.resource = $resource(dsmCurrentProfilesUrl, {
-                ran: function() {
-                    // parameter added to URL to work around IE caching mechanism
-                    return new Date().getTime();
-                }}, {
+        this.resource = $resource(dsmCurrentProfilesUrl, {}, {
                 current: {method: 'GET', url: dsmCurrentProfilesUrl, isArray: true},
                 history: {method: 'GET', url: dsmHistoryProfilesUrl, isArray: true}
             }

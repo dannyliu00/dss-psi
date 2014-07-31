@@ -17,9 +17,10 @@ describe('DealerProfilesResource', function() {
     describe('queryCurrent', function() {
         it('returns a promise with a list of profiles of a specified dealer', inject(function(dealerProfilesResource, currentProfilesUrl) {
             var dealerId = 123456;
-            var dealer = {dealerId: dealerId};
+            var r = 12345;
+            var dealer = {dealerId: dealerId, r: r};
             var expectedRequest = currentProfilesUrl.replace(':dealerId', dealerId);
-            expectedRequest += '?ran=' + new Date().getTime();
+            expectedRequest += '?r=' + r;
             var expectedList = [{name: 'U.T. Victory Profile'}];
 
             httpBackend.when('GET', expectedRequest).respond(expectedList);
@@ -37,9 +38,10 @@ describe('DealerProfilesResource', function() {
     describe('queryHistory', function() {
         it('returns a promise with a list of profiles of a specified dealer', inject(function(dealerProfilesResource, historyProfilesUrl) {
             var dealerId = 123456;
-            var dealer = {dealerId: dealerId};
+            var r = 12345;
+            var dealer = {dealerId: dealerId, r: r};
             var expectedRequest = historyProfilesUrl.replace(':dealerId', dealerId);
-            expectedRequest += '?ran=' + new Date().getTime();
+            expectedRequest += '?r=' + r;
             var expectedList = [{name: 'U.T. Victory Profile'}];
 
             httpBackend.when('GET', expectedRequest).respond(expectedList);

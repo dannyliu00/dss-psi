@@ -35,11 +35,12 @@
             location = jasmine.createSpyObj('location', ['path']);
 
             expectedDealerId = 111;
-	        expectedType = 'T';
+            expectedR = 12345;
+//	        expectedType = 'T';
             expectedStatus = 'current';
-            routeParams = {dealerId: expectedDealerId, type: expectedType, status: expectedStatus};
+            routeParams = {dealerId: expectedDealerId, status: expectedStatus, r: expectedR};
             expectedProfileUrl = '/segment1/:dealerId/segment2/:profileId/segment3/:type';
-            expectedSummaryUrl = '/segment1/:dealerId/segment2/:type/segment3/:status';
+            expectedSummaryUrl = '/segment1/:dealerId/segment2/:status';
         });
 
         beforeEach(inject(function ($q, $rootScope, dealerResource, dealerProfilesResource) {
@@ -70,10 +71,10 @@
                     blockUI);
 
 	            var expectedDealerAndType = {dealerId: expectedDealerId, type: expectedType};
-	            var expectedDealer = {dealerId: expectedDealerId, type: expectedType};
+	            var expectedDealer = {dealerId: expectedDealerId, r: expectedR};
                 expect(dealerResource.get).toHaveBeenCalledWith(expectedDealerAndType);
                 expect(lastTab.changeProfilesTab).toHaveBeenCalled();
-                expect(dealerProfilesResource.queryCurrent).toHaveBeenCalledWith(expectedDealer);
+                expect(dealerProfilesResource.queryCurrent).toHaveBeenCalled();
                 expect(blockUI.start).toHaveBeenCalled();
                 expect(blockUI.stop).toHaveBeenCalled();
 

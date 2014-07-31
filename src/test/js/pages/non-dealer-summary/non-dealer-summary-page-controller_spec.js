@@ -39,6 +39,7 @@
 
             expectedId = 111;
             expectedType = '2';
+            expectedR = 12345;
             expectedStatus = 'current';
             routeParams = {id: expectedId, status: expectedStatus};
             lastTab = 'current';
@@ -73,7 +74,7 @@
 
                 expectedRole = {dsm: true, rsm: false, sessionDetail: {ATV: 'Y'}};
                 expectedRoleDeferred.resolve(expectedRole);
-                var expectedDsm = {dsmId: expectedId, type: expectedType};
+                var expectedDsm = {dsmId: expectedId, type: expectedType, r: expectedR};
 
                 expectedProfilesDeferred.resolve(expectedProfiles);
 
@@ -86,7 +87,7 @@
                 expect(appRoleResource.get).toHaveBeenCalled();
                 expect($rootScope.role).toBeDefined();
 
-                expect(dsmProfilesResource.queryCurrent).toHaveBeenCalledWith(expectedDsm);
+                expect(dsmProfilesResource.queryCurrent).toHaveBeenCalled();
                 expect($rootScope.profiles).toBeDefined();
 
                 expect($rootScope.productTabs).toBeDefined();
@@ -97,36 +98,42 @@
             }));
         });
 
-//        describe('constructor', function() {
-//            it('sets an array of profiles on scope for RSM', inject(function($rootScope,
-//                                                                             $location,
-//                                                                             appRoleResource,
-//                                                                             dsmProfilesResource,
-//                                                                             rsmProfilesResource,
-//                                                                             profilePageUrl,
-//                                                                             dsmUrl,
-//                                                                             productTabs,
-//                                                                             lastTab) {
-//                expectedRole = {dsm: false, rsm: true, sessionDetail: {ATV: 'Y'}};
-//                expectedRoleDeferred.resolve(expectedRole);
-//                var expectedRsm = {rsmId: expectedId, type: '2'};
-//                expectedProfilesDeferred.resolve(expectedProfiles);
-//
-//                ctrl = new nonDealerSummary.NonDealerSummaryController($rootScope, routeParams, $location,
-//                    dsmProfilesResource, appRoleResource, rsmProfilesResource,
-//                    profilePageUrl, dsmUrl, productTabs, lastTab);
-//
-//                $rootScope.$digest();
-//
-//                expect(appRoleResource.get).toHaveBeenCalled();
-//                expect($rootScope.role).toBeDefined();
-//
-//                expect(rsmProfilesResource.queryCurrent).toHaveBeenCalledWith(expectedRsm);
-//                expect($rootScope.profiles).toBeDefined();
-//
-//                expect($rootScope.productTabs).toBeDefined();
-//                expect($rootScope.productTabs.length).toEqual(1);
-//            }));
-//        });
+        describe('constructor', function() {
+            it('sets an array of profiles on scope for RSM', inject(function($rootScope,
+                                                                             $location,
+                                                                             appRoleResource,
+                                                                             dsmProfilesResource,
+                                                                             rsmProfilesResource,
+                                                                             profilePageUrl,
+                                                                             dsmUrl,
+                                                                             productTabs,
+                                                                             lastTab, blockUI) {
+            	lastTab.productTab = '';
+                lastTab.profilesTab = '';
+            	
+                expectedRole = {dsm: false, rsm: true, sessionDetail: {ATV: 'Y'}};
+                expectedRoleDeferred.resolve(expectedRole);
+                var expectedRsm = {rsmId: expectedId, type: expectedType, r: expectedR};
+                expectedProfilesDeferred.resolve(expectedProfiles);
+
+                ctrl = new nonDealerSummary.NonDealerSummaryController($rootScope, routeParams, $location,
+                    dsmProfilesResource, appRoleResource, rsmProfilesResource,
+                    profilePageUrl, dsmUrl, productTabs, lastTab, blockUI);
+
+                $rootScope.$digest();
+
+                expect(appRoleResource.get).toHaveBeenCalled();
+                expect($rootScope.role).toBeDefined();
+
+                expect(rsmProfilesResource.queryCurrent).toHaveBeenCalled();
+                expect($rootScope.profiles).toBeDefined();
+
+                expect($rootScope.productTabs).toBeDefined();
+                expect($rootScope.productTabs.length).toEqual(1);
+                
+                expect(blockUI.start).toHaveBeenCalled();
+                expect(blockUI.stop).toHaveBeenCalled();
+            }));
+        });
     });
 })();

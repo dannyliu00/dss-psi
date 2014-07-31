@@ -14,13 +14,17 @@
             blockUI.start();
 
             lastTab.changeProfilesTab(status);
+            
+            var rVal = new Date().getTime();
+            
+            var profile = {dealerId: $routeParams.dealerId, r: rVal};
 
             if(status === 'current') {
-                dealerProfilesResource.queryCurrent(dealer).then(function(profiles) {
+                dealerProfilesResource.queryCurrent(profile).then(function(profiles) {
                     $scope.profiles = profiles;
                 });
             } else {
-                dealerProfilesResource.queryHistory(dealer).then(function(profiles) {
+                dealerProfilesResource.queryHistory(profile).then(function(profiles) {
                     $scope.profiles = profiles;
                 });
             }

@@ -60,11 +60,14 @@
             lastTab.changeProfilesTab($routeParams.status);
 
             var user = {};
+            
+            var rVal = new Date().getTime();
+            
             if($scope.role.dsm === true) {
-                user = {dsmId: $routeParams.id, type: $scope.activeTabFilter};
+                user = {dsmId: $routeParams.id, type: $scope.activeTabFilter, r: rVal};
                 loadDsmProfiles(user);
             } else {
-                user = {rsmId: $routeParams.id, type: $scope.activeTabFilter};
+                user = {rsmId: $routeParams.id, type: $scope.activeTabFilter, r: rVal};
                 loadRsmProfiles(user);
             }
 
