@@ -15,10 +15,7 @@
                 
 		                scope.$watch(attrs.role, function(role) {
 		                	if(role != null) {
-		                		if(role.admin === true) {
-		                			templateUrl = basePath + "admin" + pathSuffix;
-		                    		loadTemplate(templateUrl);
-		                		} else if (role.rsm === true) {
+		                		if (role.rsm === true || role.admin === true) {
 		                    		templateUrl = basePath + "rsm" + pathSuffix;
 		                    		loadTemplate(templateUrl);
 		                		} else if(role.dsm === true) {

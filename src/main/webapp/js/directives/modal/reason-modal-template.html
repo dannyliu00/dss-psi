@@ -3,9 +3,9 @@
 </div>
 <div class="modal-body">
 	<div class = "text-left">Reason</div>
-		<select ng-model='selectedReasonCode' ng-options='reasonCode.description for reasonCode in reasonCodes' >{{selectedReasonCode}}</select>
+		<select class="reason-options" ng-model='selectedReasonCode' ng-options='reasonCode.description for reasonCode in reasonCodes' >{{selectedReasonCode}}</select>
 	<div class = "text-left">Comments</div>
-	<textarea class = "input" style="width: 530px; height: 75px" type="text" ng-model="reasonComments" ></textarea>
+	<textarea class = "input modal-box" type="text" ng-model="reasonComments" ></textarea>
 </div>
 <div class="modal-footer">
 	<button class="btn btn-group btn-default btn-sm" ng-click="cancel()">Cancel</button>
