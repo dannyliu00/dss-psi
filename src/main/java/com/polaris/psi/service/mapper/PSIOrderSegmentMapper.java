@@ -19,14 +19,14 @@ import com.polaris.psi.resource.dto.OrderSegmentDto;
 @Component
 public class PSIOrderSegmentMapper {
 
-	public List<OrderSegmentDto> mapToDto(List<PSIOrderSegment> oses, List<PSIProfileDetail> details) {
+	public List<OrderSegmentDto> mapToDto(List<PSIOrderSegment> oses, List<PSIProfileDetail> details, String email) {
 		List<OrderSegmentDto> dtos = new ArrayList<OrderSegmentDto>();
 		
 		if(oses.size() == 0) return dtos;
 		
 		if(details.size() == 0) {
 			for (PSIOrderSegment entity : oses) {
-				dtos.add(mapToDto(entity, null));
+				dtos.add(mapToDto(entity, null, null));
 			}
 			return dtos;
 		}
@@ -35,15 +35,17 @@ public class PSIOrderSegmentMapper {
 			Integer profileOrderSegmentId = orderSegment.getId();
 			String periodCode = orderSegment.getPeriodCode();
 			PSIProfileDetail detail = getDetailObject(details, profileOrderSegmentId, periodCode);
-			dtos.add(mapToDto(orderSegment, detail));
+			dtos.add(mapToDto(orderSegment, detail, email));
 		}
 		
 		return dtos;
 	}
 	
-	public OrderSegmentDto mapToDto(PSIOrderSegment os, PSIProfileDetail detail) {
+	public OrderSegmentDto mapToDto(PSIOrderSegment os, PSIProfileDetail detail, String email) {
 		OrderSegmentDto dto = new OrderSegmentDto();
 		
+		dto.setDealerEmail(email);
+
 		dto.setProfileId(os.getProfileId());
 		dto.setComplianceId(os.getComplianceId());
 		dto.setDealerId(os.getDealerId());

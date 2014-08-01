@@ -62,7 +62,7 @@ public class ProfileServiceTest {
 	private List<ProfilePeriodDto> mockProfilePeriodDtos;
 
 	private int dealerId, profileId, headerId;
-	private String expectedSubSegment, expectedType, typeCode;
+	private String expectedSubSegment, expectedType, typeCode, expectedEmail;
 
 	@Before
 	public void setUp() throws Exception {
@@ -137,24 +137,26 @@ public class ProfileServiceTest {
 	public void testGetDealerProfile() {
 		when(mockProfile.getHeaderId()).thenReturn(headerId);
 		when(mockProfile.getType()).thenReturn(typeCode);
+		when(mockProfile.getEmail()).thenReturn(expectedEmail);
 		when(mockPsiProfileDao.retrieveProfileById(profileId, dealerId)).thenReturn(mockProfile);
 		when(mockPsiDetailDao.retrieveByHeaderId(headerId)).thenReturn(mockDetails);
 		when(mockPsiOsDao.retrieveByProfileAndDealer(profileId, dealerId)).thenReturn(mockOSes);
 		when(mockPsiSegmentDao.retrieveByProfileDealerAndType(profileId, dealerId, typeCode)).thenReturn(mockSegments);
 		when(mockProfileMapper.mapToDto(mockProfile)).thenReturn(mockDto);
 		when(mockProfilePeriodMapper.mapToDto(mockProfilePeriods)).thenReturn(mockProfilePeriodDtos);
-		when(mockOrderSegmentMapper.mapToDto(mockOSes, mockDetails)).thenReturn(mockOrderSegmentDtos);
+		when(mockOrderSegmentMapper.mapToDto(mockOSes, mockDetails, null)).thenReturn(mockOrderSegmentDtos);
 		
 		service.getDealerProfile(profileId, dealerId);
 		
 		verify(mockProfile, times(2)).getHeaderId();
 		verify(mockProfile).getType();
+		verify(mockProfile).getEmail();
 		verify(mockPsiProfileDao).retrieveProfileById(profileId, dealerId);
 		verify(mockPsiDetailDao).retrieveByHeaderId(headerId);
 		verify(mockPsiOsDao).retrieveByProfileAndDealer(profileId, dealerId);
 		verify(mockPsiSegmentDao).retrieveByProfileDealerAndType(profileId, dealerId, typeCode);
 		verify(mockProfilePeriodMapper).mapToDto(mockProfilePeriods);
-		verify(mockOrderSegmentMapper).mapToDto(mockOSes, mockDetails);
+		verify(mockOrderSegmentMapper).mapToDto(mockOSes, mockDetails, null);
 		
 		verify(mockProfileMapper).mapToDto(mockProfile);
 		verify(mockSegmentMapper).mapToDto(mockSegments);

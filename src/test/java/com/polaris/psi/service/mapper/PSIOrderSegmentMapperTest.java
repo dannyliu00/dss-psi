@@ -28,7 +28,7 @@ public class PSIOrderSegmentMapperTest {
 	private Integer expectedHeaderId, expectedProfileOrderSegmentId, expectedRequestedQty, expectedReasonCode, 
 		expectedDsmQty, expectedDsmReasonCode, expectedAdminQty, expectedAdminReasonCode, expectedFinalQty;
 	private String expectedDealerComments, expectedDsmComments, expectedAdminComments, expectedName, 
-		expectedSubSegment, expectedPeriodCode;	
+		expectedSubSegment, expectedPeriodCode, expectedDealerEmail;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -45,6 +45,7 @@ public class PSIOrderSegmentMapperTest {
 		expectedName = "UT Name";
 		expectedSubSegment = "UT SubSegment";
 		expectedPeriodCode = "UT CODE";
+		expectedDealerEmail = "UT@local";
 		
 		expectedHeaderId = 222;
 		expectedProfileOrderSegmentId = 999;
@@ -92,7 +93,9 @@ public class PSIOrderSegmentMapperTest {
 
 	@Test
 	public void testMapToDtoPSIOrderSegmentPSIProfileDetail() {
-		mapper.mapToDto(mockOS, mockDetail);
+		OrderSegmentDto result = mapper.mapToDto(mockOS, mockDetail, expectedDealerEmail);
+		
+		assertEquals(expectedDealerEmail, result.getDealerEmail());
 		
 		verify(mockOS).getComplianceId();
 		verify(mockOS).getDealerId();
@@ -123,7 +126,9 @@ public class PSIOrderSegmentMapperTest {
 
 	@Test
 	public void testMapToDtoPSIOrderSegment() {
-		mapper.mapToDto(mockOS, null);
+		OrderSegmentDto result = mapper.mapToDto(mockOS, null, expectedDealerEmail);
+		
+		assertEquals(expectedDealerEmail, result.getDealerEmail());
 		
 		verify(mockOS).getProfileId();
 		verify(mockOS).getComplianceId();
@@ -146,7 +151,7 @@ public class PSIOrderSegmentMapperTest {
 		List<PSIProfileDetail> details = new ArrayList<PSIProfileDetail>();
 		details.add(mockDetail);
 		
-		List<OrderSegmentDto> results = mapper.mapToDto(oses, details);
+		List<OrderSegmentDto> results = mapper.mapToDto(oses, details, expectedDealerEmail);
 		
 		assertEquals(1, results.size());
 		
@@ -183,7 +188,7 @@ public class PSIOrderSegmentMapperTest {
 		List<PSIProfileDetail> details = new ArrayList<PSIProfileDetail>();
 		details.add(mockDetail);
 		
-		List<OrderSegmentDto> results = mapper.mapToDto(oses, details);
+		List<OrderSegmentDto> results = mapper.mapToDto(oses, details, null);
 		
 		assertEquals(0, results.size());
 		
@@ -196,7 +201,7 @@ public class PSIOrderSegmentMapperTest {
 		List<PSIProfileDetail> details = new ArrayList<PSIProfileDetail>();
 		details.add(mockDetail);
 		
-		List<OrderSegmentDto> results = mapper.mapToDto(oses, details);
+		List<OrderSegmentDto> results = mapper.mapToDto(oses, details, null);
 		
 		assertEquals(0, results.size());
 		
@@ -208,7 +213,7 @@ public class PSIOrderSegmentMapperTest {
 		List<PSIOrderSegment> oses = new ArrayList<PSIOrderSegment>();
 		oses.add(mockOS);
 		
-		List<OrderSegmentDto> results = mapper.mapToDto(oses, new ArrayList<PSIProfileDetail>());
+		List<OrderSegmentDto> results = mapper.mapToDto(oses, new ArrayList<PSIProfileDetail>(), null);
 		
 		assertEquals(1, results.size());
 		

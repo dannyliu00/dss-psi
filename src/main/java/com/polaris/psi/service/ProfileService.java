@@ -91,7 +91,7 @@ public class ProfileService {
 		
     	ProfileDto dto = profileMapper.mapToDto(psiProfile);
     	dto.setSegments(segmentMapper.mapToDto(psiSegments));
-    	dto.setOrderSegments(osMapper.mapToDto(psiOSes, details));
+    	dto.setOrderSegments(osMapper.mapToDto(psiOSes, details, psiProfile.getEmail()));
     	
     	List<PSIProfilePeriod> periods = profilePeriodDao.retrieveByProfileId(psiProfile.getId());
     	dto.setPeriods(periodMapper.mapToDto(periods));
