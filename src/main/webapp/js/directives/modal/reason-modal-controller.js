@@ -35,7 +35,9 @@
                 var item = orderSegments[i];
                 item[comments] = this.reasonComments;
                 item.reasonCode = id;
-                item.dealerEmail = confirm;
+                if($scope.role.dealer === true) {
+                    item.dealerEmail = confirm;
+                }
             }
             
 	    	var os = {nonCompliant: profile.nonCompliant,orderSegments: orderSegments};
