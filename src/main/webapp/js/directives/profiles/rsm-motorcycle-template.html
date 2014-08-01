@@ -52,7 +52,7 @@
 	                                max="999"
 	                                numbers-only
 	                                readonly
-	                                ng-disabled="orderSegment.adminQty > orderSegment.recommended">
+	                                ng-disabled="orderSegment.adminQty >= orderSegment.recommended">
                                 <input ng-switch-when="true"
 	                            	ng-class="{noncompliant: orderSegment.adminQty < orderSegment.recommended}"
                                     class="text-center compliant numberInput"

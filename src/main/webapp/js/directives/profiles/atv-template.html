@@ -34,7 +34,7 @@
 	                                max="999"
 	                                numbers-only
 	                                readonly
-	                                ng-disabled="os.actual > os.recMinimum || os.actual < os.recMaximum">
+	                                ng-disabled="os.actual >= os.recMinimum || os.actual <= os.recMaximum">
                                 <input ng-switch-when="true"
 	                            	tabindex="0"		
 	                            	ng-class="{noncompliant: os.actual < os.recMinimum || os.actual > os.recMaximum}"

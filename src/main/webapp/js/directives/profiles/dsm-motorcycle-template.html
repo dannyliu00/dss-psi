@@ -45,7 +45,7 @@
 	                                max="999"
 	                                numbers-only
 	                                readonly
-	                                ng-disabled="orderSegment.dsmQty > orderSegment.recommended">
+	                                ng-disabled="orderSegment.dsmQty >= orderSegment.recommended">
                                 <input ng-switch-when="true"
 	                            	ng-class="{noncompliant: orderSegment.dsmQty < orderSegment.recommended, spinnerInput: !isEditable()}"
                                     class="text-center compliant numberInput"

@@ -38,7 +38,7 @@
 	                                max="999"
 	                                numbers-only
 	                                readonly
-	                                ng-disabled="orderSegment.actual > orderSegment.recommended">
+	                                ng-disabled="orderSegment.actual >= orderSegment.recommended">
                                 <input ng-switch-when="true"
 	                            	ng-class="{noncompliant: orderSegment.actual < orderSegment.recommended}"
                                    	class="text-center compliant numberInput"
