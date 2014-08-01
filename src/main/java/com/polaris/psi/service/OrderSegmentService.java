@@ -125,6 +125,13 @@ public class OrderSegmentService {
 				logService.writeDealerChangesToLog(header, dto);
 			}
 			
+			// Send email.
+			try {
+				emailService.sendProfileSubmissionEmail(profileDetailsDto);
+			} catch (Exception e) {
+				LOG.error(PolarisIdentity.get(), "submitOrderSegmentQuantities", e);
+			}
+				 
 			profileDetailsDto.setOrderSegments(records);
 			profileDetailsDto.setMessage(Constants.SAVE_SUCCESSFUL);
 			profileDetailsDto.setSuccessful(true);
@@ -155,48 +162,42 @@ public class OrderSegmentService {
 		} catch (Exception e) {
 			LOG.error(PolarisIdentity.get(), "submitOrderSegmentQuantities", e);
 		}
-			 
+ 			 
 		LOG.methodEnd(PolarisIdentity.get(), "submitOrderSegmentQuantities");
 
 		return profileDetailsDto;
 	}
 	
-	public ProfileDetailsDto dsmApproveWithChanges(ProfileDetailsDto profileDetailsDto, String userName) {
+	public ProfileDetailsDto dsmApproveWithChanges(ProfileDetailsDto profile, String userName) {
 		DealerProfileHeaderStatus status = statusService.getApprovedWithChangesStatus();
 		
-		return updateDataFromDsm(profileDetailsDto, status, userName);
+		updateDataFromDsm(profile, status, userName);
+		if(profile.isSuccessful()) emailService.sendApproveWithChangesEmail(profile);
+		return profile;
 	}
 	
 	public ProfileDetailsDto dsmSendToDealer(ProfileDetailsDto profile, String userName) {
 		DealerProfileHeaderStatus status = statusService.getSendToDealerStatus();
 		
-		ProfileDetailsDto result = updateDataFromDsm(profile, status, userName);
-		emailService.sendReturnToDealerEmail(profile);
-		return result;
+		updateDataFromDsm(profile, status, userName);
+		if(profile.isSuccessful()) emailService.sendReturnToDealerEmail(profile);
+		return profile;
 	}
 	
 	public ProfileDetailsDto dsmApproveAsRequested(ProfileDetailsDto profile, String userName) {
 		DealerProfileHeaderStatus status = statusService.getApprovedAsRequestedStatus();
 		
-		ProfileDetailsDto result = updateDataFromDsm(profile, status, userName);
-		
-		// Notify dealers
-		emailService.sendApproveAsRequestedEmail(profile);
-		
-		return result;
-		
+		updateDataFromDsm(profile, status, userName);
+		if(profile.isSuccessful()) emailService.sendApproveAsRequestedEmail(profile);
+		return profile;
 	}
 	
 	public ProfileDetailsDto dsmSubmitForException(ProfileDetailsDto profile, String userName) {
 		DealerProfileHeaderStatus status = statusService.getExceptionRequestedStatus();
 		
-		ProfileDetailsDto result = updateDataFromDsm(profile, status, userName);
-		
-		// Notify RSM
-		emailService.sendSubmitForExceptionEmail(profile);
-
-		return result;
-		
+		updateDataFromDsm(profile, status, userName);
+		if(profile.isSuccessful()) emailService.sendSubmitForExceptionEmail(profile);
+		return profile;
 	}
 	
 	public ProfileDetailsDto dsmSaveChanges(ProfileDetailsDto profile, String userName) {
