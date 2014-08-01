@@ -4,7 +4,7 @@
     function DealerInfoDirective() {
         return {
             restrict: 'E',
-            scope: {dealer: '=dealer'},
+            controller: 'dealerInfoController',
             templateUrl: 'js/directives/dealer/dealer-info-template.html'
         };
     }

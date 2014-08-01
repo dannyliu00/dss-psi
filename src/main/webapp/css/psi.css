@@ -117,6 +117,19 @@
 	margin-left: -15px;
 }
 
+.modal-box {
+	width: 530px;
+	height: 75px;
+}
+
+.reason-options {
+	width: 250px;
+}
+
+.email-entry {
+	width: 300px;
+}
+
 .table thead tr th[class*="sorting"],
 /* .table-default tfoot tr th, */
 .table caption {
