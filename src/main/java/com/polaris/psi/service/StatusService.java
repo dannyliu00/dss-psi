@@ -48,6 +48,18 @@ public class StatusService {
 		return statusDao.getStatus(Constants.RETURNED_TO_DEALER);
 	}
 	
+	public DealerProfileHeaderStatus getSendToDsmStatus() {
+		return statusDao.getStatus(Constants.RETURNED_TO_DSM);
+	}
+	
+	public DealerProfileHeaderStatus getApproveAsCompliantStatus() {
+		return statusDao.getStatus(Constants.APPROVED_COMPLIANT);
+	}
+	
+	public DealerProfileHeaderStatus getApproveAsNonCompliantStatus() {
+		return statusDao.getStatus(Constants.APPROVED_NONCOMPLIANT);
+	}
+	
 	public List<DealerProfileHeaderStatus> getAllStatus() {
 		return statusDao.selectAll();
 	}

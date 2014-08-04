@@ -86,6 +86,30 @@ public class StatusServiceTest {
 		verify(mockDao).getStatus(Constants.RETURNED_TO_DEALER);
 		verifyNoMoreInteractions(mockDao);
 	}
+	
+	@Test
+	public void testGetSendToDsmStatus() {
+		service.getSendToDsmStatus();
+		
+		verify(mockDao).getStatus(Constants.RETURNED_TO_DSM);
+		verifyNoMoreInteractions(mockDao);
+	}
+	
+	@Test
+	public void testApproveAsCompliantStatus() {
+		service.getApproveAsCompliantStatus();
+		
+		verify(mockDao).getStatus(Constants.APPROVED_COMPLIANT);
+		verifyNoMoreInteractions(mockDao);
+	}
+	
+	@Test
+	public void testApproveAsNonCompliantStatus() {
+		service.getApproveAsNonCompliantStatus();
+		
+		verify(mockDao).getStatus(Constants.APPROVED_NONCOMPLIANT);
+		verifyNoMoreInteractions(mockDao);
+	}
 
 	@Test
 	public void testGetAllStatus() {
