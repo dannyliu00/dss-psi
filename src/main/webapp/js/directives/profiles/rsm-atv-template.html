@@ -5,14 +5,13 @@
             <h3 class="panel-title">Profile Details</h3>
         </div>
         <div class="panel-body">
-            <div class="col-md-12">
-                <div id="activeObjectsTable_processing" class="dataTables_processing" style="visibility: hidden;">Processing...</div>
-                <table datatable dt-options="dtOptions" id="activeObjectsTable"
+            <div class="col-sm-12">
+                <table datatable dt-options="{bPaginate: false, bInfo: false}" id="activeObjectsTable"
                        class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
                        aria-describedby="activeObjectsTable_info">
                     <thead>
                     <tr role="row">
-                        <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
+                        <th class="col-sm-2" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
                             Order Segment
                         </th>
                         <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
@@ -22,7 +21,7 @@
                     </thead>
                     <tbody role="alert" aria-live="polite" aria-relevant="all">
                     <tr ng-repeat="key in distinctOS" class="odd">
-                        <td class="">{{key}}</td>
+                        <td class="col-sm-2">{{key}}</td>
                         <td ng-repeat="os in orderSegments | filter:{name: key}:true" class="text-center"><span>{{os.recMinimum}} - {{os.recommended}} - {{os.recMaximum}}<br/>
                         	<input tabindex="0"
                             	ng-model="os.actual"
@@ -64,38 +63,30 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-    </div>
-</div>
-<!-- Data table summary and Page Controls -->
-<div class="container-full">
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title">Profile Totals</h3>
-        </div>
-        <div class="panel-body">
-        	<div class="col-md-12">
-                <div id="summaryTable_processing" class="dataTables_processing" style="visibility: hidden;">Processing...</div>
+            <div class="col-sm-12">
                 <table datatable dt-options="{bPaginate: false,bInfo: false,bSort: false,bFilter: false}" id="summaryTable"
                        class="table table-condensed table-bordered table-default table-available-items dataTable"
                        aria-describedby="activeObjectsTable_info">
                     <thead>
 	                    <tr role="row" >
-	                       <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
-			                        <span class="col-xs-6">{{period.name}}</span><span class="col-xs-6">{{period.name}}</span><br/>
-			                        <span class="col-xs-6">Min - Target - Max</span><span class="col-xs-6" >Qty</span>
-			                </th>
+	                    	<th class="table-hidden-col"></th>
+	                       <th ng-repeat="period in profile.periods" class="table-hidden-col"> </th>
 	                    </tr>
                     </thead>
                     <tbody role="alert" aria-live="polite" aria-relevant="all">
-	                    <td ng-repeat="period in profile.periods" class="text-center">
-	                        <span class="col-xs-6">{{period.recMinimum}} - {{period.recommended}} - {{period.recMaximum}}</span><span ng-class="{noncomplianttotal: getPeriodTotal(period.code) < period.recMinimum || getPeriodTotal(period.code) > period.recMaximum}" class="compliant col-xs-6" >{{getPeriodTotal(period.code)}}</span>
-	                    </td>
+                    	<tr>
+	                    	<td class="col-sm-2 match-header">Profile Totals
+	                        </td>
+		                    <td ng-repeat="period in profile.periods" class="text-center totals-color">
+		                    	<span class="text-center"><strong>{{period.recMinimum}} - {{period.recommended}} - {{period.recMaximum}}</strong></span><br/>
+		                        <span ng-class="{noncomplianttotal: getPeriodTotal(period.code) < period.recMinimum || getPeriodTotal(period.code) > period.recMaximum}" class="compliant text-center" ><strong>{{getPeriodTotal(period.code)}}</strong></span>
+		                    </td>
+	                    </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-   	</div>
+    </div>
 </div>
 <comment-display role = "role" profile = "profile"></comment-display>
 <dsm-button profile="profile"></dsm-button>
