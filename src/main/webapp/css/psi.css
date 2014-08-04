@@ -30,6 +30,10 @@
     padding: 5px;
 }
 
+.table-hidden-col {
+    display: none;
+}
+
 .noncompliant{
 	background-color: pink;
     color: red;
