@@ -12,6 +12,7 @@
                        aria-describedby="activeObjectsTable_info">
                     <thead>
                     <tr role="row">
+                    	<th class="table-hidden-col">{{os.sort}}</th>
                         <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
                             Segment
                         </th>
@@ -24,46 +25,47 @@
                     </tr>
                     </thead>
                     <tbody role="alert" aria-live="polite" aria-relevant="all">
-                    <tr ng-repeat="orderSegment in orderSegments" class="odd">
-                        <td ng-class="">{{segName(orderSegment.subSegment)}}</td>
-                        <td class="">{{orderSegment.name}}</td>
-                        <td class="text-center"><span>{{orderSegment.recommended}}&nbsp;&nbsp;&nbsp;&nbsp;
-                        	<input tabindex="0"
-                                   class="text-center numberInput"
-                                   ng-model="orderSegment.actual"
-                                   min="0"
-                                   max="999"
-                                   numbers-only
-                                   ng-disabled="orderSegment.actual != null"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>
-                         	<input tabindex="0"
-                                   class="text-center numberInput"
-                                   ng-model="orderSegment.dsmQty"
-                                   min="0"
-                                   max="999"
-                                   numbers-only
-                                   ng-disabled="orderSegment.dsmQty != null"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-							<span ng-switch on="isEditable()">
-	                            <input ng-switch-when="false"
-	                            	tabindex="0"		
-	                            	ng-class="{noncompliant: orderSegment.adminQty < orderSegment.recommended}"
-                                    class="text-center compliant numberInput"
-                                    ng-model="orderSegment.adminQty"
-	                                min="0"
-	                                max="999"
-	                                numbers-only
-	                                readonly
-	                                ng-disabled="orderSegment.adminQty >= orderSegment.recommended">
-                                <input ng-switch-when="true"
-	                            	ng-class="{noncompliant: orderSegment.adminQty < orderSegment.recommended}"
-                                    class="text-center compliant numberInput"
-                                    ng-model="orderSegment.adminQty"
-	                                min="0"
-	                                max="999"
-	                                numbers-only
-	                                spinner-input>
-                            </span>
-                        </td>
-                    </tr>
+	                    <tr ng-repeat="orderSegment in orderSegments" class="odd">
+	                    	<td class="table-hidden-col">{{os.sort}}</td>
+	                        <td ng-class="">{{segName(orderSegment.subSegment)}}</td>
+	                        <td class="">{{orderSegment.name}}</td>
+	                        <td class="text-center"><span>{{orderSegment.recommended}}&nbsp;&nbsp;&nbsp;&nbsp;
+	                        	<input tabindex="0"
+	                                   class="text-center numberInput"
+	                                   ng-model="orderSegment.actual"
+	                                   min="0"
+	                                   max="999"
+	                                   numbers-only
+	                                   ng-disabled="orderSegment.actual != null"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>
+	                         	<input tabindex="0"
+	                                   class="text-center numberInput"
+	                                   ng-model="orderSegment.dsmQty"
+	                                   min="0"
+	                                   max="999"
+	                                   numbers-only
+	                                   ng-disabled="orderSegment.dsmQty != null"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+								<span ng-switch on="isEditable()">
+		                            <input ng-switch-when="false"
+		                            	tabindex="0"		
+		                            	ng-class="{noncompliant: orderSegment.adminQty < orderSegment.recommended}"
+	                                    class="text-center compliant numberInput"
+	                                    ng-model="orderSegment.adminQty"
+		                                min="0"
+		                                max="999"
+		                                numbers-only
+		                                readonly
+		                                ng-disabled="orderSegment.adminQty >= orderSegment.recommended">
+	                                <input ng-switch-when="true"
+		                            	ng-class="{noncompliant: orderSegment.adminQty < orderSegment.recommended}"
+	                                    class="text-center compliant numberInput"
+	                                    ng-model="orderSegment.adminQty"
+		                                min="0"
+		                                max="999"
+		                                numbers-only
+		                                spinner-input>
+	                            </span>
+	                        </td>
+	                    </tr>
 					</tbody>
                 </table>
             </div>
