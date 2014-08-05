@@ -616,7 +616,7 @@ public class OrderSegmentServiceTest {
 		verify(mockOrderSegment).getId();
 		verify(mockHeaderDao).select(headerId);
 		verify(mockHeaderDao).update(mockHeader);
-		verify(mockHeaderMapper).updateChangedAttributes(mockHeader, mockStatus, userName, nonCompliant);
+		verify(mockHeaderMapper).updateApprovedHeader(mockHeader, mockStatus, userName, nonCompliant);
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockProfileDetailsDto).setSuccessful(true);
 		verify(mockLogService).writeRsmChangesToLog(mockHeader, mockOrderSegment);
@@ -666,7 +666,7 @@ public class OrderSegmentServiceTest {
 		verify(mockOrderSegment).getId();
 		verify(mockHeaderDao).select(headerId);
 		verify(mockHeaderDao).update(mockHeader);
-		verify(mockHeaderMapper).updateChangedAttributes(mockHeader, mockStatus, userName, nonCompliant);
+		verify(mockHeaderMapper).updateApprovedHeader(mockHeader, mockStatus, userName, nonCompliant);
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockProfileDetailsDto).setSuccessful(true);
 		verify(mockLogService).writeRsmChangesToLog(mockHeader, mockOrderSegment);

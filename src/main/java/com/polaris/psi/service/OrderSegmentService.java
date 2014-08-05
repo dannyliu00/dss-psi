@@ -304,18 +304,33 @@ public class OrderSegmentService {
 		OrderSegmentDto testRecord = profile.getOrderSegments().get(0);
 		Integer headerId = testRecord.getHeaderId();
 		DealerProfileHeader header = headerDao.select(headerId);
-		headerDataMapper.updateChangedAttributes(header, status, userName, isNonCompliant(profile));
+		String statusDescription = status.getDescription();
+		
+		// if RSM is approving the dealer profile then we need to set the approved values on the header
+		if(statusDescription.equals(Constants.APPROVED_COMPLIANT) || statusDescription.equals(Constants.APPROVED_NONCOMPLIANT)) {
+			headerDataMapper.updateApprovedHeader(header, status, userName, isNonCompliant(profile));
+		} else {
+			headerDataMapper.updateChangedAttributes(header, status, userName, isNonCompliant(profile));
+		}
 		headerDao.update(header);
 		
-		String description = status.getDescription();
 		for (OrderSegmentDto dto : profile.getOrderSegments()) {
 			DealerProfileDetail detail = detailDao.select(dto.getId());
 			detailDataMapper.updateRsmEnteredDetails(detail, dto, userName);
-			if(description.equals(Constants.RETURNED_TO_DSM)) {
+			
+			// reset RSM quantities to defaults when sending back to DSM
+			if(statusDescription.equals(Constants.RETURNED_TO_DSM)) {
 				detail.setAdminApprovedQty(CommonUtils.setIntegerValue(null));
 			}
+			
+			// if RSM is approving the record then we need to set final quantity value
+			if(statusDescription.equals(Constants.APPROVED_COMPLIANT) || statusDescription.equals(Constants.APPROVED_NONCOMPLIANT)) {
+				detailDataMapper.updateApprovedDetails(detail, dto, statusDescription);
+			}
 			detailDao.update(detail);
-			if(!description.equals(Constants.EXCEPTION_REQUESTED)) {
+
+			// log the approval step for audit purposes
+			if(!statusDescription.equals(Constants.EXCEPTION_REQUESTED)) {
 				logService.writeRsmChangesToLog(header, dto);
 			}
 		}
