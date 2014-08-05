@@ -570,8 +570,8 @@ public class OrderSegmentServiceTest {
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockProfileDetailsDto).setSuccessful(true);
 		verify(mockLogService).writeRsmChangesToLog(mockHeader, mockOrderSegment);
-//		verify(mockProfileDetailsDto).isSuccessful();
-//		verify(mockEmailService).sendReturnToDsmEmail(mockProfileDetailsDto);
+		verify(mockProfileDetailsDto).isSuccessful();
+		verify(mockEmailService).sendReturnToDsmEmail(mockProfileDetailsDto);
 		
 		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, 
 				mockHeaderMapper, mockLogService, mockStatus, mockEmailService);
@@ -620,8 +620,8 @@ public class OrderSegmentServiceTest {
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockProfileDetailsDto).setSuccessful(true);
 		verify(mockLogService).writeRsmChangesToLog(mockHeader, mockOrderSegment);
-//		verify(mockProfileDetailsDto).isSuccessful();
-//		verify(mockEmailService).sendApproveAsCompliantEmail(mockProfileDetailsDto);
+		verify(mockProfileDetailsDto).isSuccessful();
+		verify(mockEmailService).sendApproveAsCompliantEmail(mockProfileDetailsDto);
 		
 		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, 
 				mockHeaderMapper, mockLogService, mockStatus, mockEmailService);
@@ -670,8 +670,8 @@ public class OrderSegmentServiceTest {
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockProfileDetailsDto).setSuccessful(true);
 		verify(mockLogService).writeRsmChangesToLog(mockHeader, mockOrderSegment);
-//		verify(mockProfileDetailsDto).isSuccessful();
-//		verify(mockEmailService).sendApproveAsNonCompliantEmail(mockProfileDetailsDto);
+		verify(mockProfileDetailsDto).isSuccessful();
+		verify(mockEmailService).sendApproveAsNonCompliantEmail(mockProfileDetailsDto);
 		
 		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, 
 				mockHeaderMapper, mockLogService, mockStatus, mockEmailService);
