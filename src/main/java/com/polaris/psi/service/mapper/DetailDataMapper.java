@@ -89,7 +89,30 @@ public class DetailDataMapper {
 		detail.setChangedTime(date);
 		detail.setChangedUser(userName);
 	}
-
+	
+	public void updateApprovedDetails(DealerProfileDetail detail, OrderSegmentDto dto, String status) {
+		int finalValue = -1;
+		
+		switch (status) {
+		case Constants.APPROVED_AS_REQUESTED:
+			finalValue = dto.getActual();
+			break;
+		case Constants.APPROVED_W_CHANGES:
+			finalValue = dto.getDsmQty();
+			break;
+		case Constants.APPROVED_COMPLIANT:
+			finalValue = dto.getAdminQty();
+			break;
+		case Constants.APPROVED_NONCOMPLIANT:
+			finalValue = dto.getAdminQty();
+			break;
+		default:
+			break;
+		}
+		
+		detail.setFinalQty(finalValue);
+	}
+	
 	protected Date setDate(Date date) {
 		return date != null ? date : Constants.DEFAULT_DATE.getTime();
 	}

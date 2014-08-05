@@ -252,17 +252,33 @@ public class OrderSegmentService {
 		OrderSegmentDto testRecord = profile.getOrderSegments().get(0);
 		Integer headerId = testRecord.getHeaderId();
 		DealerProfileHeader header = headerDao.select(headerId);
-		headerDataMapper.updateChangedAttributes(header, status, userName, isNonCompliant(profile));
+		String statusDescription = status.getDescription();
+		
+		// if DSM is approving the dealer profile then we need to set the approved values on the header
+		if(statusDescription.equals(Constants.APPROVED_AS_REQUESTED) || statusDescription.equals(Constants.APPROVED_W_CHANGES)) {
+			headerDataMapper.updateApprovedHeader(header, status, userName, isNonCompliant(profile));
+		} else {
+			headerDataMapper.updateChangedAttributes(header, status, userName, isNonCompliant(profile));
+		}
 		headerDao.update(header);
 		
 		for (OrderSegmentDto dto : profile.getOrderSegments()) {
 			DealerProfileDetail detail = detailDao.select(dto.getId());
 			detailDataMapper.updateDsmEnteredDetails(detail, dto, userName);
-			if(status.getDescription().equals(Constants.RETURNED_TO_DEALER)) {
+			
+			// reset DSM quantities to defaults when sending back to dealer
+			if(statusDescription.equals(Constants.RETURNED_TO_DEALER)) {
 				detail.setDsmRecommendedQty(CommonUtils.setIntegerValue(null));
 			}
+			
+			// if DSM is approving the record then we need to set final quantity value
+			if(statusDescription.equals(Constants.APPROVED_AS_REQUESTED) || statusDescription.equals(Constants.APPROVED_W_CHANGES)) {
+				detailDataMapper.updateApprovedDetails(detail, dto, statusDescription);
+			}
 			detailDao.update(detail);
-			if(!status.getDescription().equals(Constants.PENDING_STATUS)) {
+			
+			// log the approval step for audit purposes
+			if(!statusDescription.equals(Constants.PENDING_STATUS)) {
 				logService.writeDsmChangesToLog(header, dto);
 			}
 		}
