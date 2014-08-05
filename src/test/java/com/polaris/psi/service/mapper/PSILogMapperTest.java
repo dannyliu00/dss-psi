@@ -115,4 +115,31 @@ public class PSILogMapperTest {
 		verifyNoMoreInteractions(mockHeader, mockOS);
 	}
 
+	@Test
+	public void testMapRsmDataToLog() {
+
+		mapper.mapDsmDataToLog(mockHeader, mockOS);
+
+		verify(mockHeader).getApprovedDate();
+		verify(mockHeader).getApprovedTime();
+		verify(mockHeader).getId();
+		verify(mockHeader).getSubmittedDate();
+		verify(mockHeader).getSubmittedTime();
+		verify(mockHeader, times(3)).getChangeUser();
+		verify(mockOS).getActual();
+		verify(mockOS).getAdminComments();
+		verify(mockOS).getAdminQty();
+		verify(mockOS).getAdminReasonCode();
+		verify(mockOS).getDealerComments();
+		verify(mockOS).getDsmComments();
+		verify(mockOS).getDsmQty();
+		verify(mockOS).getDsmReasonCode();
+		verify(mockOS).getFinalQty();
+		verify(mockOS).getId();
+		verify(mockOS).getName();
+		verify(mockOS).getReasonCode();
+		
+		verifyNoMoreInteractions(mockHeader, mockOS);
+	}
+
 }

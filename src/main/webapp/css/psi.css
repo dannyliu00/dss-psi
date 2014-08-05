@@ -134,6 +134,15 @@
 	width: 300px;
 }
 
+.match-header {
+	color: #E7E7E7;
+	background-color: #004990;
+}
+
+.totals-color {
+	background-color: #B0C4DE;
+}
+
 .table thead tr th[class*="sorting"],
 /* .table-default tfoot tr th, */
 .table caption {
