@@ -28,25 +28,14 @@ public class PolarisOrder implements Serializable {
 	@Column(name = "A3DTKN")
 	private String detailToken;
 	
-	@Column(name = "A3ETKN")
-	private String extensionToken;
+	@Column(name = "A3PPID")
+	private String profilePeriod;
 	
 	@Column(name = "A3RQST")
 	private boolean requiredToStock;
 	
-	@Column(name = "A3RQQY")
-	private int requiredToStockQty;
-	
 	@Column(name = "A3RCMQ")
 	private int recommendedMinQty;
-	
-	@Column(name = "A3EFDT")
-    @Temporal(TemporalType.DATE)
-	private Date effectiveFromDate;
-	
-	@Column(name = "A3ETDT")
-    @Temporal(TemporalType.DATE)
-	private Date effectiveToDate;
 	
 	@Column(name = "A3CRDT")
     @Temporal(TemporalType.DATE)
@@ -135,17 +124,17 @@ public class PolarisOrder implements Serializable {
 	}
 
 	/**
-	 * @return the extensionToken
+	 * @return the profilePeriod
 	 */
-	public String getExtensionToken() {
-		return extensionToken;
+	public String getProfilePeriod() {
+		return profilePeriod;
 	}
 
 	/**
-	 * @param extensionToken the extensionToken to set
+	 * @param profilePeriod the profilePeriod to set
 	 */
-	public void setExtensionToken(String extensionToken) {
-		this.extensionToken = extensionToken;
+	public void setProfilePeriod(String profilePeriod) {
+		this.profilePeriod = profilePeriod;
 	}
 
 	/**
@@ -163,20 +152,6 @@ public class PolarisOrder implements Serializable {
 	}
 
 	/**
-	 * @return the requiredToStockQty
-	 */
-	public int getRequiredToStockQty() {
-		return requiredToStockQty;
-	}
-
-	/**
-	 * @param requiredToStockQty the requiredToStockQty to set
-	 */
-	public void setRequiredToStockQty(int requiredToStockQty) {
-		this.requiredToStockQty = requiredToStockQty;
-	}
-
-	/**
 	 * @return the recommendedMinQty
 	 */
 	public int getRecommendedMinQty() {
@@ -188,34 +163,6 @@ public class PolarisOrder implements Serializable {
 	 */
 	public void setRecommendedMinQty(int recommendedMinQty) {
 		this.recommendedMinQty = recommendedMinQty;
-	}
-
-	/**
-	 * @return the effectiveFromDate
-	 */
-	public Date getEffectiveFromDate() {
-		return effectiveFromDate;
-	}
-
-	/**
-	 * @param effectiveFromDate the effectiveFromDate to set
-	 */
-	public void setEffectiveFromDate(Date effectiveFromDate) {
-		this.effectiveFromDate = effectiveFromDate;
-	}
-
-	/**
-	 * @return the effectiveToDate
-	 */
-	public Date getEffectiveToDate() {
-		return effectiveToDate;
-	}
-
-	/**
-	 * @param effectiveToDate the effectiveToDate to set
-	 */
-	public void setEffectiveToDate(Date effectiveToDate) {
-		this.effectiveToDate = effectiveToDate;
 	}
 
 	/**
@@ -469,5 +416,6 @@ public class PolarisOrder implements Serializable {
 	public void setUserDef10(String userDef10) {
 		this.userDef10 = userDef10;
 	}
-	
+
+
 }
