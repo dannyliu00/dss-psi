@@ -1,10 +1,10 @@
 (function() {
-    var dsmButton = sellInNamespace('sellIn.directives.dsmbutton');
+    var rsmButton = sellInNamespace('sellIn.directives.rsmbutton');
 
-    function DsmButtonController($scope, $location, $modal, dsmUrl, lastTab) {
+    function RsmButtonController($scope, $location, $modal, dsmUrl, lastTab) {
     	var caption = '';
-    	var changeCaption = 0;
-    	var dsmButtonCaption = "";
+    	var status = 0;
+    	var rsmButtonCaption = "";
     	
     	var buildUrl = function() {
             return dsmUrl
@@ -13,19 +13,17 @@
                 .replace(':status', lastTab.profilesTab);
         };
     	
-        $scope.dsmButtonCaptionFill = function() {
-        	if(angular.element('.compliant').hasClass('noncompliant') || angular.element('.compliant').hasClass('noncomplianttotal')) {
-        		dsmButtonCaption = "Submit for Exception";
-        	} else if (isChanged() || angular.element('input').hasClass('noncompliant')) {
-				dsmButtonCaption = "Approve with Changes";	
-        	} else {
-        		dsmButtonCaption = "Approve as Requested";
+        $scope.rsmButtonCaptionFill = function() {
+        	if($scope.profile.typeCode === '5' || $scope.profile.typeCode === 'F') {
+        		rsmButtonCaption = "Return to DRM";
+        	}  else {
+        		rsmButtonCaption = "Return to DSM";
         	}
-        	return  dsmButtonCaption;
+        	return  rsmButtonCaption;
         };
         
         
-        $scope.dsmToSummary = function(dealerId) {
+        $scope.rsmToSummary = function() {
             lastTab.changeProductTab($scope.profile.typeCode);
 
             if(isChanged()) {
@@ -63,17 +61,18 @@
             });
         }
 
-        $scope.approveSubmit = function() {
-    		changeCaption = 0;
-        	if(dsmButtonCaption === "Approve as Requested") {
-        		openSubmitDialog();
-        	}else{	
-                openReasonDialog();
-        	}
+        $scope.approveCompliant = function() {
+        	status = 1;
+        	openReasonDialog();
         };
         
-        $scope.sendBack = function() {
-        	changeCaption = 1;
+        $scope.approveNonCompliant = function() {
+        	status = 2;
+        	openReasonDialog();
+        };
+        
+        $scope.returnDSM = function() {
+        	status = 3;
         	openReasonDialog();
         };
         
@@ -91,10 +90,12 @@
 		    			return $scope.profile;
 		    		},
 		    		caption: function() {
-		    			if(changeCaption === 1) {
-		    				caption = 'sendBack';
-		    			} else {
-		    				caption = dsmButtonCaption;
+		    			if(status === 1) {
+		    				caption = 'Approve as Compliant';
+		    			} else if(status === 2) {
+		    				caption = 'Approve as Non-Compliant';
+		    			} else if(status === 3){
+		    				caption = 'Return to DSM';
 		    			}
 		    			return caption;
 		    		},
@@ -112,48 +113,15 @@
             });
 		}
         
-        function openSubmitDialog() {
-        	
-        	var dsm = "dsm";
-        	
-            var modalInstance = $modal.open({
-                templateUrl: 'js/directives/modal/submit-modal-template.html',
-                controller: 'submitController',
-                size: 'sm',
-                resolve: {
-                    orderSegments: function () {
-                        return $scope.orderSegments;
-                    },
-            		profile: function() {
-            			return $scope.profile;
-            		},
-            		level: function() {
-            			return dsm;
-            		},
-                    confirm: function() {
-                        return '';
-                    }
-
-                }
-            });
-
-            modalInstance.result.then(function () {
-            	var finalDsmUrl = buildUrl();
-                $location.path(finalDsmUrl);
-            }, function () {
-                console.log('Modal dismissed at: ' + new Date());
-            });
-        }
-        
         function isChanged() {
         	for(var i = 0; i < $scope.orderSegments.length; i++) {
-        		if($scope.orderSegments[i].actual !== parseInt($scope.orderSegments[i].dsmQty)) {
+        		if($scope.orderSegments[i].dsmQty !== parseInt($scope.orderSegments[i].adminQty)) {
         			return true;
         		}
         	}
     		return false;
-        } 
+        }
     }
 
-    dsmButton.DsmButtonController = DsmButtonController;
+    rsmButton.RsmButtonController = RsmButtonController;
 })();
