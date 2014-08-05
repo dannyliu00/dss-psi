@@ -25,8 +25,8 @@ public class DetailDataMapperTest {
 	@Mock private OrderSegmentDto mockDto;
 	@Mock private DealerProfileHeader mockHeader;
 	@Mock private DealerProfileDetail mockDetail;
-	private Integer expectedActual, expectedReasonCode, expectedOSId, expectedDsmQty, expectedDsmReason;
-	private String expectedUserName, expectedComments, expectedDsmComments, expectedPeriodCode;
+	private Integer expectedActual, expectedReasonCode, expectedOSId, expectedDsmQty, expectedDsmReason, expectedRsmQty, expectedRsmReason;
+	private String expectedUserName, expectedComments, expectedDsmComments, expectedRsmComments, expectedPeriodCode;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -112,6 +112,25 @@ public class DetailDataMapperTest {
 		verify(mockDetail).setDsmComments(expectedDsmComments);
 		verify(mockDetail).setDsmReasonCode(expectedDsmReason);
 		verify(mockDetail).setDsmRecommendedQty(expectedDsmQty);
+	}
+
+	@Test
+	public void testUpdateRsmEnteredDetails() {
+		expectedRsmQty = 1;
+		expectedRsmReason = 111;
+		expectedRsmComments = "UT RSM comments";
+		
+		when(mockDto.getAdminComments()).thenReturn(expectedRsmComments);
+		when(mockDto.getAdminQty()).thenReturn(expectedRsmQty);
+		when(mockDto.getAdminReasonCode()).thenReturn(expectedRsmReason);
+		
+		mapper.updateRsmEnteredDetails(mockDetail, mockDto, expectedUserName);
+		
+		verify(mockDetail).setChangedProgram(Constants.PROGRAM_CODE);
+		verify(mockDetail).setChangedUser(expectedUserName);
+		verify(mockDetail).setAdminComments(expectedRsmComments);
+		verify(mockDetail).setAdminReasonCode(expectedRsmReason);
+		verify(mockDetail).setAdminApprovedQty(expectedRsmQty);
 	}
 
 	@Test

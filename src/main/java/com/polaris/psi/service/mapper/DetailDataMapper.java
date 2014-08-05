@@ -79,6 +79,17 @@ public class DetailDataMapper {
 		detail.setChangedUser(userName);
 	}
 
+	public void updateRsmEnteredDetails(DealerProfileDetail detail, OrderSegmentDto dto, String userName) {
+		Date date = Calendar.getInstance().getTime();
+		detail.setAdminApprovedQty(setIntegerValue(dto.getAdminQty()));
+		detail.setAdminReasonCode(setIntegerValue(dto.getAdminReasonCode()));
+		detail.setAdminComments(setStringValue(dto.getAdminComments()));
+		detail.setChangedDate(date);
+		detail.setChangedProgram(Constants.PROGRAM_CODE);
+		detail.setChangedTime(date);
+		detail.setChangedUser(userName);
+	}
+
 	protected Date setDate(Date date) {
 		return date != null ? date : Constants.DEFAULT_DATE.getTime();
 	}

@@ -206,40 +206,102 @@ public class OrderSegmentService {
 		return updateDataFromDsm(profile, status, userName);
 	}
 	
+	public ProfileDetailsDto rsmSaveChanges(ProfileDetailsDto profile, String userName) {
+		DealerProfileHeaderStatus status = statusService.getExceptionRequestedStatus();
+		
+		return updateDataFromRsm(profile, status, userName);
+	}
+	
+	public ProfileDetailsDto rsmSendToDsm(ProfileDetailsDto profile, String userName) {
+		DealerProfileHeaderStatus status = statusService.getSendToDsmStatus();
+		
+		updateDataFromRsm(profile, status, userName);
+//		if(profile.isSuccessful()) emailService.sendReturnToDsmEmail(profile);
+		return profile;
+	}
+	
+	public ProfileDetailsDto rsmApproveAsCompliant(ProfileDetailsDto profile, String userName) {
+		DealerProfileHeaderStatus status = statusService.getApproveAsCompliantStatus();
+		
+		updateDataFromRsm(profile, status, userName);
+//		if(profile.isSuccessful()) emailService.sendApproveAsCompliantEmail(profile);
+		return profile;
+	}
+	
+	public ProfileDetailsDto rsmApproveAsNonCompliant(ProfileDetailsDto profile, String userName) {
+		DealerProfileHeaderStatus status = statusService.getApproveAsNonCompliantStatus();
+		
+		updateDataFromRsm(profile, status, userName);
+//		if(profile.isSuccessful()) emailService.sendApproveAsNonCompliantEmail(profile);
+		return profile;
+	}
+	
 	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	protected ProfileDetailsDto updateDataFromDsm(ProfileDetailsDto profile, DealerProfileHeaderStatus status, String userName) {
-		List<OrderSegmentDto> orderSegments = profile.getOrderSegments();
-		if(orderSegments.size() == 0) {
-			LOG.warn(PolarisIdentity.get(),"updateDataFromDsm", "No records passed in to do any work.  System will not make any changes. ");
-
-			profile.setMessage(Constants.NO_RECORDS);
-			profile.setSuccessful(false);
+		if(areRecordsEmpty(profile)) {
+			LOG.warn(PolarisIdentity.get(),"updateDataFromDsm", "No records passed in to do any work.  System will not make any changes.");
 			return profile;
 		}
 		
-		OrderSegmentDto testRecord = orderSegments.get(0);
+		if(isHeaderEmpty(profile)) {
+			LOG.warn(PolarisIdentity.get(),"updateDataFromDsm", "Profile detail records passed in did not contain an "
+					+ "associated header record.  System will not make any changes.");
+			return profile;
+		}
+		
+		OrderSegmentDto testRecord = profile.getOrderSegments().get(0);
 		Integer headerId = testRecord.getHeaderId();
-		if(headerId == null) {
-			LOG.warn(PolarisIdentity.get(),"updateDataFromDsm", "Profile detail records passed in did not contain an associated header record.  System will not "
-					+ "make any changes.");
-			
-			profile.setMessage(Constants.NO_RECORDS);
-			profile.setSuccessful(false);
-			return profile;
-		}
-		
 		DealerProfileHeader header = headerDao.select(headerId);
 		headerDataMapper.updateChangedAttributes(header, status, userName, isNonCompliant(profile));
 		headerDao.update(header);
 		
-		for (OrderSegmentDto dto : orderSegments) {
+		for (OrderSegmentDto dto : profile.getOrderSegments()) {
 			DealerProfileDetail detail = detailDao.select(dto.getId());
 			detailDataMapper.updateDsmEnteredDetails(detail, dto, userName);
 			if(status.getDescription().equals(Constants.RETURNED_TO_DEALER)) {
 				detail.setDsmRecommendedQty(CommonUtils.setIntegerValue(null));
 			}
 			detailDao.update(detail);
-			logService.writeDsmChangesToLog(header, dto);
+			if(!status.getDescription().equals(Constants.PENDING_STATUS)) {
+				logService.writeDsmChangesToLog(header, dto);
+			}
+		}
+		
+		profile.setMessage(Constants.SAVE_SUCCESSFUL);
+		profile.setSuccessful(true);
+		return profile;
+	}
+
+	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
+	protected ProfileDetailsDto updateDataFromRsm(ProfileDetailsDto profile, DealerProfileHeaderStatus status, String userName) {
+		if(areRecordsEmpty(profile)) {
+			LOG.warn(PolarisIdentity.get(),"updateDataFromRsm", "No records passed in to do any work.  System will not make any changes.");
+			return profile;
+		}
+		
+		if(isHeaderEmpty(profile)) {
+			LOG.warn(PolarisIdentity.get(),"updateDataFromRsm", "Profile detail records passed in did not contain an "
+					+ "associated header record.  System will not make any changes.");
+			return profile;
+		}
+		
+		OrderSegmentDto testRecord = profile.getOrderSegments().get(0);
+		Integer headerId = testRecord.getHeaderId();
+		DealerProfileHeader header = headerDao.select(headerId);
+		headerDataMapper.updateChangedAttributes(header, status, userName, isNonCompliant(profile));
+		headerDao.update(header);
+		
+		String description = status.getDescription();
+		for (OrderSegmentDto dto : profile.getOrderSegments()) {
+			DealerProfileDetail detail = detailDao.select(dto.getId());
+			detailDataMapper.updateRsmEnteredDetails(detail, dto, userName);
+			if(description.equals(Constants.RETURNED_TO_DSM)) {
+				detail.setAdminApprovedQty(CommonUtils.setIntegerValue(null));
+			}
+			detailDao.update(detail);
+			if(!description.equals(Constants.EXCEPTION_REQUESTED)) {
+				logService.writeRsmChangesToLog(header, dto);
+			}
 		}
 		
 		profile.setMessage(Constants.SAVE_SUCCESSFUL);
@@ -292,5 +354,26 @@ public class OrderSegmentService {
 		}
 		
 		return null;
+	}
+	
+	protected boolean areRecordsEmpty(ProfileDetailsDto profile) {
+		if(profile.getOrderSegments().size() == 0) {
+			profile.setMessage(Constants.NO_RECORDS);
+			profile.setSuccessful(false);
+			return true;
+		}
+		
+		return false;
+	}
+	
+	protected boolean isHeaderEmpty(ProfileDetailsDto profile) {
+		OrderSegmentDto testRecord = profile.getOrderSegments().get(0);
+		if(testRecord.getHeaderId() == null) {
+			profile.setMessage(Constants.NO_RECORDS);
+			profile.setSuccessful(false);
+			return true;
+		}
+		
+		return false;
 	}
 }
