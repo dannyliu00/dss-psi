@@ -1,0 +1,6 @@
+<div style='font-size: .8em; line-height: 1.5em; font-family: Verdana,Tahoma, Arial,sans-serif;'>
+<p>This is a notification that the ATV RFM inventory profile for dealer [$dealerId, $dealerName] has been returned by your RSM. Please contact them if you have any questions.   
+</p>
+ #parse("/templates/profileTable.vm") 
+</div>
+

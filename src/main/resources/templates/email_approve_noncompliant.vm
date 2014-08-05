@@ -1,0 +1,9 @@
+<div style='font-size: .8em; line-height: 1.5em; font-family: Verdana,Tahoma, Arial,sans-serif;'>
+<p>This is a confirmation that the following ATV RFM inventory profile has been finalized for dealer  [$dealerId, $dealerName]. 
+One or more items remain outside of the required ranges resulting in loss of program benefits.  
+</p>
+ #parse("/templates/profileTable.vm") 
+<p>Please review your inventory profile for accuracy and if you have any questions, contact Polaris Dealer Support at 1-800-330-9407.</p> 
+<p>Thank you for your business.</p>
+</div>
+
