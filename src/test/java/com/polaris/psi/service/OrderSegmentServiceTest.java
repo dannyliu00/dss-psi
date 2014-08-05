@@ -259,9 +259,10 @@ public class OrderSegmentServiceTest {
 
 		verify(mockDetailDao).select(detailId);
 		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment, userName);
+		verify(mockDetailMapper).updateApprovedDetails(mockDetail, mockOrderSegment, Constants.APPROVED_W_CHANGES);
 		verify(mockDetailDao).update(mockDetail);
 		verify(mockStatusService).getApprovedWithChangesStatus();
-		verify(mockStatus, times(2)).getDescription();
+		verify(mockStatus).getDescription();
 		verify(mockProfileDetailsDto, times(5)).getOrderSegments();
 		verify(mockProfileDetailsDto).isNonCompliant();
 		verify(mockOrderSegment, times(2)).getHeaderId();
@@ -269,7 +270,7 @@ public class OrderSegmentServiceTest {
 		verify(mockOrderSegment).getId();
 		verify(mockHeaderDao).select(headerId);
 		verify(mockHeaderDao).update(mockHeader);
-		verify(mockHeaderMapper).updateChangedAttributes(mockHeader, mockStatus, userName, nonCompliant);
+		verify(mockHeaderMapper).updateApprovedHeader(mockHeader, mockStatus, userName, nonCompliant);
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockProfileDetailsDto).isSuccessful();
 		verify(mockProfileDetailsDto).setSuccessful(true);
@@ -312,7 +313,7 @@ public class OrderSegmentServiceTest {
 		verify(mockDetail).setDsmRecommendedQty(-1);
 		verify(mockDetailDao).update(mockDetail);
 		verify(mockStatusService).getSendToDealerStatus();
-		verify(mockStatus, times(2)).getDescription();
+		verify(mockStatus).getDescription();
 		verify(mockProfileDetailsDto, times(5)).getOrderSegments();
 		verify(mockProfileDetailsDto).isNonCompliant();
 		verify(mockOrderSegment, times(2)).getHeaderId();
@@ -360,9 +361,10 @@ public class OrderSegmentServiceTest {
 		
 		verify(mockDetailDao).select(detailId);
 		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment, userName);
+		verify(mockDetailMapper).updateApprovedDetails(mockDetail, mockOrderSegment, Constants.APPROVED_AS_REQUESTED);
 		verify(mockDetailDao).update(mockDetail);
 		verify(mockStatusService).getApprovedAsRequestedStatus();
-		verify(mockStatus, times(2)).getDescription();
+		verify(mockStatus).getDescription();
 		verify(mockProfileDetailsDto, times(5)).getOrderSegments();
 		verify(mockProfileDetailsDto).isNonCompliant();
 		verify(mockOrderSegment, times(2)).getHeaderId();
@@ -370,7 +372,7 @@ public class OrderSegmentServiceTest {
 		verify(mockOrderSegment).getId();
 		verify(mockHeaderDao).select(headerId);
 		verify(mockHeaderDao).update(mockHeader);
-		verify(mockHeaderMapper).updateChangedAttributes(mockHeader, mockStatus, userName, nonCompliant);
+		verify(mockHeaderMapper).updateApprovedHeader(mockHeader, mockStatus, userName, nonCompliant);
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockProfileDetailsDto).isSuccessful();
 		verify(mockProfileDetailsDto).setSuccessful(true);
@@ -412,7 +414,7 @@ public class OrderSegmentServiceTest {
 		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment, userName);
 		verify(mockDetailDao).update(mockDetail);
 		verify(mockStatusService).getExceptionRequestedStatus();
-		verify(mockStatus, times(2)).getDescription();
+		verify(mockStatus).getDescription();
 		verify(mockProfileDetailsDto, times(5)).getOrderSegments();
 		verify(mockProfileDetailsDto).isNonCompliant();
 		verify(mockOrderSegment, times(2)).getHeaderId();
@@ -460,7 +462,7 @@ public class OrderSegmentServiceTest {
 		verify(mockDetailMapper).updateDsmEnteredDetails(mockDetail, mockOrderSegment, userName);
 		verify(mockDetailDao).update(mockDetail);
 		verify(mockStatusService).getPendingStatus();
-		verify(mockStatus, times(2)).getDescription();
+		verify(mockStatus).getDescription();
 		verify(mockProfileDetailsDto, times(5)).getOrderSegments();
 		verify(mockProfileDetailsDto).isNonCompliant();
 		verify(mockOrderSegment, times(2)).getHeaderId();
@@ -614,7 +616,7 @@ public class OrderSegmentServiceTest {
 		verify(mockOrderSegment).getId();
 		verify(mockHeaderDao).select(headerId);
 		verify(mockHeaderDao).update(mockHeader);
-		verify(mockHeaderMapper).updateChangedAttributes(mockHeader, mockStatus, userName, nonCompliant);
+		verify(mockHeaderMapper).updateApprovedHeader(mockHeader, mockStatus, userName, nonCompliant);
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockProfileDetailsDto).setSuccessful(true);
 		verify(mockLogService).writeRsmChangesToLog(mockHeader, mockOrderSegment);
@@ -664,7 +666,7 @@ public class OrderSegmentServiceTest {
 		verify(mockOrderSegment).getId();
 		verify(mockHeaderDao).select(headerId);
 		verify(mockHeaderDao).update(mockHeader);
-		verify(mockHeaderMapper).updateChangedAttributes(mockHeader, mockStatus, userName, nonCompliant);
+		verify(mockHeaderMapper).updateApprovedHeader(mockHeader, mockStatus, userName, nonCompliant);
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockProfileDetailsDto).setSuccessful(true);
 		verify(mockLogService).writeRsmChangesToLog(mockHeader, mockOrderSegment);

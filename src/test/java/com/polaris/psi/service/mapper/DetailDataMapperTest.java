@@ -132,6 +132,61 @@ public class DetailDataMapperTest {
 		verify(mockDetail).setAdminReasonCode(expectedRsmReason);
 		verify(mockDetail).setAdminApprovedQty(expectedRsmQty);
 	}
+	
+	@Test
+	public void testUpdateApprovedDetailsDefault() {
+		String status = Constants.RETURNED_TO_DEALER;
+		
+		mapper.updateApprovedDetails(mockDetail, mockDto, status);
+		
+		verify(mockDetail).setFinalQty(-1);
+	}
+
+	@Test
+	public void testUpdateApprovedDetailsDealerValue() {
+		String status = Constants.APPROVED_AS_REQUESTED;
+		
+		mapper.updateApprovedDetails(mockDetail, mockDto, status);
+		
+		verify(mockDto).getActual();
+		verify(mockDetail).setFinalQty(expectedActual);
+	}
+
+	@Test
+	public void testUpdateApprovedDetailsDsmValue() {
+		expectedDsmQty = 5;
+		when(mockDto.getDsmQty()).thenReturn(expectedDsmQty);
+		String status = Constants.APPROVED_W_CHANGES;
+		
+		mapper.updateApprovedDetails(mockDetail, mockDto, status);
+		
+		verify(mockDto).getDsmQty();
+		verify(mockDetail).setFinalQty(expectedDsmQty);
+	}
+
+	@Test
+	public void testUpdateApprovedDetailsRsmValueCompliant() {
+		expectedRsmQty = 6;
+		when(mockDto.getAdminQty()).thenReturn(expectedRsmQty);
+		String status = Constants.APPROVED_COMPLIANT;
+		
+		mapper.updateApprovedDetails(mockDetail, mockDto, status);
+		
+		verify(mockDto).getAdminQty();
+		verify(mockDetail).setFinalQty(expectedRsmQty);
+	}
+
+	@Test
+	public void testUpdateApprovedDetailsRsmValueNonCompliant() {
+		expectedRsmQty = 7;
+		when(mockDto.getAdminQty()).thenReturn(expectedRsmQty);
+		String status = Constants.APPROVED_NONCOMPLIANT;
+		
+		mapper.updateApprovedDetails(mockDetail, mockDto, status);
+		
+		verify(mockDto).getAdminQty();
+		verify(mockDetail).setFinalQty(expectedRsmQty);
+	}
 
 	@Test
 	public void testSetDateNull() {
