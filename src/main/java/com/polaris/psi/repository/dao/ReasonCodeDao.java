@@ -38,7 +38,7 @@ public class ReasonCodeDao extends AbstractPolarisMinneapolisDao<ReasonCode> {
 		String admin = Constants.ADMIN_REASON_ROLE_DESC;
 		
 		switch (role) {
-		case 1:
+		case 6:
 			roleDescription = admin;
 			break;
 
