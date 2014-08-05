@@ -23,7 +23,7 @@
 	            profile.nonCompliant = false;
 	        }
         	
-        	if($scope.role.admin === true) {
+        	if($scope.role.rsm === true) {
         		comments = 'adminComments';
         	} else if ($scope.role.dsm === true) {
         		comments = 'dsmComments';
@@ -59,6 +59,21 @@
     				});
 	    	} else if(caption === "sendBack") {
 	    		dealerProfileResource.sendBack(os)
+	    			.then(function(returnedos) {
+	    				$modalInstance.close();
+	    			});
+	    	} else if(caption ==="Return to DSM") {
+	    		dealerProfileResource.returnDsm(os)
+	    			.then(function(returnedos) {
+	    				$modalInstance.close();
+	    			});
+	    	} else if(caption === "Approve as Compliant") {
+	    		dealerProfileResource.compliant(os)
+	    			.then(function(returnedos) {
+	    				$modalInstance.close();
+	    			});
+	    	} else if(caption === "Approve as Non-Compliant") {
+	    		dealerProfileResource.nonCompliant(os)
 	    			.then(function(returnedos) {
 	    				$modalInstance.close();
 	    			});
