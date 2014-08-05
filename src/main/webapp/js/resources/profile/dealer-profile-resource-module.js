@@ -11,5 +11,9 @@
         .constant('profileSendBackUrl','/dss-psi/webapi/dsm/profile/toDealer')
         .constant('profileApproveWChangesUrl', '/dss-psi/webapi/dsm/profile/approveWChanges')
         .constant('profileApproveRequestedUrl', '/dss-psi/webapi/dsm/profile/approveRequested')
-        .constant('profileSubmitExceptionUrl', '/dss-psi/webapi/dsm/profile/approveException');
+        .constant('profileSubmitExceptionUrl', '/dss-psi/webapi/dsm/profile/approveException')
+        .constant('profileRsmSaveUrl','/dss-psi/webapi/rsm/profile/save')
+        .constant('profileApproveCompliantUrl', '/dss-psi/webapi/rsm/profile/approveAsCompliant')
+        .constant('profileApproveNonCompliantUrl', '/dss-psi/webapi/rsm/profile/approveAsNonCompliant')
+        .constant('profileReturnToDsmUrl', '/dss-psi/webapi/rsm/profile/toDsm');
 }());

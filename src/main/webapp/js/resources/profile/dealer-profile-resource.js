@@ -2,7 +2,8 @@
     var dealerProfile = sellInNamespace('sellIn.resources.dealerProfile');
 
     function DealerProfileResource($resource, profileUrl, profileSaveUrl, profileSubmitUrl,
-                                   profileApproveWChangesUrl, profileApproveRequestedUrl, profileSubmitExceptionUrl, profileDsmSaveUrl, profileSendBackUrl) {
+                                   profileApproveWChangesUrl, profileApproveRequestedUrl, profileSubmitExceptionUrl, profileDsmSaveUrl, profileSendBackUrl,
+                                   profileRsmSaveUrl, profileApproveCompliantUrl, profileApproveNonCompliantUrl, profileReturnToDsmUrl) {
         this.resource = $resource(profileUrl, {}, {
             save: {method: 'POST', url: profileSaveUrl},
             submit: {method: 'POST', url: profileSubmitUrl},
@@ -10,7 +11,11 @@
             sendBack: {method: 'POST', url: profileSendBackUrl},
             changed: {method: 'POST', url: profileApproveWChangesUrl},
             requested: {method: 'POST', url: profileApproveRequestedUrl},
-            exception: {method: 'POST', url: profileSubmitExceptionUrl}
+            exception: {method: 'POST', url: profileSubmitExceptionUrl},
+            rsmSave: {method: 'POST', url: profileRsmSaveUrl},
+            returnDsm: {method: 'POST', url: profileReturnToDsmUrl},
+            compliant: {method: 'POST', url: profileApproveCompliantUrl},
+            nonCompliant: {method: 'POST', url: profileApproveNonCompliantUrl}
         });
 
     }
@@ -45,6 +50,22 @@
 
     DealerProfileResource.prototype.submitException = function(profile) {
         return this.resource.exception(profile).$promise;
+    };
+    
+    DealerProfileResource.prototype.rsmSave = function(profile) {
+        return this.resource.rsmSave(profile).$promise;
+    };
+    
+    DealerProfileResource.prototype.returnDsm = function(profile) {
+        return this.resource.returnDsm(profile).$promise;
+    };
+    
+    DealerProfileResource.prototype.compliant = function(profile) {
+        return this.resource.compliant(profile).$promise;
+    };
+    
+    DealerProfileResource.prototype.nonCompliant = function(profile) {
+        return this.resource.nonCompliant(profile).$promise;
     };
 
     dealerProfile.DealerProfileResource = DealerProfileResource;

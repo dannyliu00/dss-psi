@@ -1,0 +1,36 @@
+<style>
+table {
+	border-collapse: collapse;
+	font-size: .8em; line-height: 1.5em; font-family: Verdana,Tahoma, Arial,sans-serif;
+	text-align:center;
+}
+th {
+	border:1px solid #aaaaaa;
+	background-color:#dedede;
+	padding:8px;
+}
+td {
+	border:1px solid #aaaaaa;
+	padding:8px;
+}
+
+</style>
+
+<table>
+	<thead>
+		<tr>
+			#foreach( $column in $grid.getColumns())
+	    	<th>$column</th>
+			#end
+		</tr>
+	<thead>
+	
+	#foreach( $row in $grid.getRows())
+	<tr>
+		#foreach( $cell in $row)
+			<td>$cell</td>
+		#end
+	</tr>
+	#end
+	
+</table>

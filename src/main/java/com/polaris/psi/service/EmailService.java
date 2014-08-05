@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.polaris.psi.Constants;
 import com.polaris.psi.resource.dto.DealerDto;
 import com.polaris.psi.resource.dto.OrderSegmentDto;
+import com.polaris.psi.resource.dto.OrderSegmentGrid;
 import com.polaris.psi.resource.dto.ProfileDetailsDto;
 import com.polaris.psi.resource.dto.ProfileDto;
 import com.polaris.psi.util.AttributeHelper;
@@ -85,7 +86,7 @@ public class EmailService {
         	message.setBounceAddress(fromAddr);
         	message.setSourceAddress(fromAddr);
         	message.setHtmlBody(messageBody);
-        	message.setTextBody(messageBody);
+        	message.setTextBody(subject);
         	message.setTargetType(TargetType.BUSINESS);
         	
         	// Get the URL for the Email service
@@ -134,6 +135,7 @@ public class EmailService {
     	VelocityContext context = new VelocityContext();
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
+    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto)));
     	
     	StringWriter writer = new StringWriter();
     	template.merge(context, writer);
@@ -169,6 +171,8 @@ public class EmailService {
     	VelocityContext context = new VelocityContext();
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
+    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto)));
+    	
 
     	
     	StringWriter writer = new StringWriter();
@@ -198,6 +202,7 @@ public class EmailService {
     	VelocityContext context = new VelocityContext();
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
+    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto)));
 
     	
     	StringWriter writer = new StringWriter();
@@ -227,14 +232,15 @@ public class EmailService {
     	VelocityContext context = new VelocityContext();
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
+    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto)));
     	
     	
     	StringWriter writer = new StringWriter();
     	template.merge(context, writer);
     	String renderedTemplate = writer.toString();
     	
-    	// Send email to Dealer
-    	String toAddress = getDealerEmail(profileDetailsDto);
+    	// Send email to Dealer 
+    	String toAddress = getRSMEmail(profileDetailsDto);
     	sendEmail(subject, renderedTemplate, toAddress);
     	
     	LOG.methodEnd(PolarisIdentity.get(), "sendSubmitForExceptionEmail");
@@ -256,6 +262,7 @@ public class EmailService {
     	VelocityContext context = new VelocityContext();
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
+    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto)));
     	
     	
     	StringWriter writer = new StringWriter();
@@ -268,6 +275,14 @@ public class EmailService {
     	
     	LOG.methodEnd(PolarisIdentity.get(), "sendReturnToDealerEmail");
 	} 	
+	
+	private ProfileDto getProfile(ProfileDetailsDto profileDetailsDto) {
+    	OrderSegmentDto segment = profileDetailsDto.getOrderSegments().get(0);
+    	
+    	ProfileDto profile = profileService.getDealerProfile(segment.getProfileId(), segment.getDealerId());
+
+    	return profile;
+	}
     
     private DealerDto getDealerInfo(ProfileDetailsDto profileDetailsDto) {
     	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
@@ -275,7 +290,7 @@ public class EmailService {
 
     	OrderSegmentDto segment = profileDetailsDto.getOrderSegments().get(0);
     	
-    	ProfileDto profile = profileService.getDealerProfile(segment.getProfileId(), segment.getDealerId());
+    	ProfileDto profile = getProfile(profileDetailsDto);
 
     	return dealerService.getDealer(segment.getDealerId(), profile.getTypeCode());
 
@@ -307,4 +322,13 @@ public class EmailService {
     	return dealerInfo.getDsmEmailAddress();
 
     }
+    private String getRSMEmail(ProfileDetailsDto profileDetailsDto) {
+    	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
+    	if(profileDetailsDto.getOrderSegments().size()==0) { throw new IllegalArgumentException("profileDetailsDto.getOrderSegments is empty"); }
+    	
+    	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
+    	
+    	return dealerInfo.getRsmEmailAddress();
+
+    }    
 }
