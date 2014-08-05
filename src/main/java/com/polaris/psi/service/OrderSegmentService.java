@@ -216,7 +216,7 @@ public class OrderSegmentService {
 		DealerProfileHeaderStatus status = statusService.getSendToDsmStatus();
 		
 		updateDataFromRsm(profile, status, userName);
-//		if(profile.isSuccessful()) emailService.sendReturnToDsmEmail(profile);
+		if(profile.isSuccessful()) emailService.sendReturnToDsmEmail(profile);
 		return profile;
 	}
 	
@@ -224,7 +224,7 @@ public class OrderSegmentService {
 		DealerProfileHeaderStatus status = statusService.getApproveAsCompliantStatus();
 		
 		updateDataFromRsm(profile, status, userName);
-//		if(profile.isSuccessful()) emailService.sendApproveAsCompliantEmail(profile);
+		if(profile.isSuccessful()) emailService.sendApproveAsCompliantEmail(profile);
 		return profile;
 	}
 	
@@ -232,7 +232,7 @@ public class OrderSegmentService {
 		DealerProfileHeaderStatus status = statusService.getApproveAsNonCompliantStatus();
 		
 		updateDataFromRsm(profile, status, userName);
-//		if(profile.isSuccessful()) emailService.sendApproveAsNonCompliantEmail(profile);
+		if(profile.isSuccessful()) emailService.sendApproveAsNonCompliantEmail(profile);
 		return profile;
 	}
 	

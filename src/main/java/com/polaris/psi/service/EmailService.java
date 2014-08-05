@@ -44,8 +44,6 @@ public class EmailService {
 
 	private static final SplunkLogger LOG = new SplunkLogger(EmailService.class);
 	
-    private static Properties EMAIL_PROPS = new Properties();
-
     static {
         try {
             // Initialize Velocity
@@ -275,6 +273,91 @@ public class EmailService {
     	
     	LOG.methodEnd(PolarisIdentity.get(), "sendReturnToDealerEmail");
 	} 	
+	
+	public void sendApproveAsCompliantEmail(ProfileDetailsDto profileDetailsDto) {
+		
+		LOG.methodStart(PolarisIdentity.get(), "sendApproveAsCompliantEmail");
+		
+    	String subject = "Sell-In Profile has been approved.";
+    	
+    	Template template = Velocity.getTemplate("/templates/email_approve_compliant.vm");
+    	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
+
+    	VelocityContext context = new VelocityContext();
+    	context.put("dealerId", dealerInfo.getDealerId());
+    	context.put("dealerName", dealerInfo.getName());
+    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto)));
+    	
+    	
+    	StringWriter writer = new StringWriter();
+    	template.merge(context, writer);
+    	String renderedTemplate = writer.toString();
+    	
+    	// Send email to Dealer
+    	String toAddress = getDealerEmail(profileDetailsDto);
+    	sendEmail(subject, renderedTemplate, toAddress);
+    	
+    	// Send email to DSM
+    	toAddress = getDSMEmail(profileDetailsDto);
+    	sendEmail(subject, renderedTemplate, toAddress);
+    	
+    	LOG.methodEnd(PolarisIdentity.get(), "sendApproveAsCompliantEmail");
+	} 
+	public void sendApproveAsNonCompliantEmail(ProfileDetailsDto profileDetailsDto) {
+		
+		LOG.methodStart(PolarisIdentity.get(), "sendApproveAsNonCompliantEmail");
+		
+    	String subject = "Sell-In Profile has been approved as non-compliant.";
+    	
+    	Template template = Velocity.getTemplate("/templates/email_approve_noncompliant.vm");
+    	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
+
+    	VelocityContext context = new VelocityContext();
+    	context.put("dealerId", dealerInfo.getDealerId());
+    	context.put("dealerName", dealerInfo.getName());
+    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto)));
+    	
+    	
+    	StringWriter writer = new StringWriter();
+    	template.merge(context, writer);
+    	String renderedTemplate = writer.toString();
+    	
+    	// Send email to Dealer
+    	String toAddress = getDealerEmail(profileDetailsDto);
+    	sendEmail(subject, renderedTemplate, toAddress);
+    	
+    	// Send email to DSM
+    	toAddress = getDSMEmail(profileDetailsDto);
+    	sendEmail(subject, renderedTemplate, toAddress);
+    	
+    	LOG.methodEnd(PolarisIdentity.get(), "sendApproveAsNonCompliantEmail");
+	} 	
+	
+	public void sendReturnToDsmEmail(ProfileDetailsDto profileDetailsDto) {
+		
+		LOG.methodStart(PolarisIdentity.get(), "sendReturnToDsmEmail");
+		
+    	String subject = "Sell-In Profile has been returned.";
+    	
+    	Template template = Velocity.getTemplate("/templates/email_return_to_dsm.vm");
+    	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
+
+    	VelocityContext context = new VelocityContext();
+    	context.put("dealerId", dealerInfo.getDealerId());
+    	context.put("dealerName", dealerInfo.getName());
+    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto)));
+    	
+    	
+    	StringWriter writer = new StringWriter();
+    	template.merge(context, writer);
+    	String renderedTemplate = writer.toString();
+    	
+    	// Send email to DSM
+    	String toAddress = getDSMEmail(profileDetailsDto);
+    	sendEmail(subject, renderedTemplate, toAddress);
+    	
+    	LOG.methodEnd(PolarisIdentity.get(), "sendReturnToDsmEmail");
+	} 		
 	
 	private ProfileDto getProfile(ProfileDetailsDto profileDetailsDto) {
     	OrderSegmentDto segment = profileDetailsDto.getOrderSegments().get(0);
