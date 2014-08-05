@@ -13,7 +13,14 @@
         	
         	var os = {nonCompliant: profile.nonCompliant, orderSegments: orderSegments};
         	
-        	if(role.dsm === true) {
+        	if(role.rsm === true) {
+        		dealerProfileResource.rsmSave(os)
+	                .then(function(returnedos) {
+	                    orderSegments = returnedos.orderSegments;
+	                    profile.nonCompliant = returnedos.nonCompliant;
+	                    $modalInstance.close();
+                	});
+        	} else if(role.dsm === true) {
         		dealerProfileResource.dsmSave(os)
                     .then(function(returnedos) {
                         orderSegments = returnedos.orderSegments;
