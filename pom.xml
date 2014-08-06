@@ -188,10 +188,12 @@
                     <configuration>
 						<instrumentation>
 							<ignores>
-								<ignore>com.polaris.psi.repository.entity.*</ignore>
+                                <ignore>com.polaris.psi.config.spring.*</ignore>
+                                <ignore>com.polaris.psi.repository.entity.*</ignore>
 								<ignore>com.polaris.psi.resource.dto.*</ignore>
 							</ignores>
 							<excludes>
+                                <exclude>com/polaris/psi/config/spring/*.class</exclude>
 							    <exclude>com/polaris/psi/repository/entity/*.class</exclude>
                                 <exclude>com/polaris/psi/resource/dto/*.class</exclude>
 							</excludes>
