@@ -27,7 +27,7 @@
         $scope.dsmToSummary = function(dealerId) {
             lastTab.changeProductTab($scope.profile.typeCode);
 
-            if(isChanged()) {
+            if(isChanged() && $scope.isDirty()) {
             	openSaveDialog();
             } else {
                 var finalDsmUrl = buildUrl();
