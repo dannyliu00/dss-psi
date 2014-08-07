@@ -3,9 +3,9 @@
 
     describe('DealerProfileController', function() {
         var scope, DTOptionsBuilder, DTOptions, routeParams, dealerResource, dealerProfileResource;
-        var expectedDealerId, expectedProfileId, appRoleResource;
+        var expectedDealerId, expectedProfileId, appRoleResource, expectedNonDealerProfileDeferred;
         var expectedDealerDeferred, expectedDealer, expectedProfileDeferred, expectedProfile;
-        var expectedRoleDeferred, expectedRole, expectedType, lastTab, blockUI;
+        var expectedRoleDeferred, expectedRole, expectedType, lastTab, blockUI, currentDealer;
         var ctrl;
 
         beforeEach(function() {
@@ -32,12 +32,17 @@
                 $provide.decorator('blockUI', [function() {
                     return blockUI;
                 }]);
+                currentDealer = jasmine.createSpyObj('currentDealer', ['changeDealerId']);
+                currentDealer.dealerId = 9999;
+                $provide.decorator('currentDealer', [function() {
+                	return currentDealer;
+                }]);
             });
 
             expectedProfileId = 1234;
-            expectedDealerId = 111;
 	        expectedType = 'T';
-            routeParams = {dealerId: expectedDealerId, profileId: expectedProfileId, type: expectedType};
+	        expectedDealerId = 12345;
+            routeParams = {profileId: expectedProfileId, type: expectedType};
 
             DTOptionsBuilder = jasmine.createSpyObj('DTOptionsBuilder', ['newOptions']);
 
@@ -79,8 +84,11 @@
         describe('constructor', function() {
             it('initializes dealer on scope',
                 inject(function($rootScope, dealerResource, dealerProfileResource,
-                                orderSegmentResourceMapper, appRoleResource, lastTab, blockUI) {
-
+                                orderSegmentResourceMapper, appRoleResource, lastTab, blockUI, currentDealer) {
+                
+            	expectedRoleDeferred.resolve(expectedRole);
+            	expectedDealerDeferred.resolve(expectedDealer);
+            	
                 ctrl = new dealerProfiles.DealerProfileDirectiveController(
                     scope,
                     DTOptionsBuilder,
@@ -90,10 +98,13 @@
                     orderSegmentResourceMapper,
                     appRoleResource,
                     lastTab,
+                    currentDealer,
                     blockUI);
-
-                var expectedDealer = {dealerId: expectedDealerId, type: expectedType};
-                var expectedProfile = {profileId: expectedProfileId,dealerId: expectedDealerId};
+                
+                $rootScope.$digest();
+                
+                var expectedDealer = {type: expectedType};
+                var expectedProfile = {profileId: expectedProfileId};
                 expect(dealerResource.get).toHaveBeenCalledWith(expectedDealer);
                 expect(dealerProfileResource.get).toHaveBeenCalledWith(expectedProfile);
                 expect(blockUI.start).toHaveBeenCalled();
@@ -102,6 +113,7 @@
                 expect(DTOptions.withPaginationType).toHaveBeenCalled();
                 expect(DTOptions.withDisplayLength).toHaveBeenCalled();
                 expect(DTOptions.withBootstrap).toHaveBeenCalled();
+                expect(currentDealer.dealerId).toBeDefined();
             }));
         });
     });

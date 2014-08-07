@@ -20,9 +20,9 @@
         </thead>
         <tbody aria-live="polite" aria-relevant="all">
             <tr ng-repeat="profile in profiles" role="row" >
-                <td class="text-center navLink" ><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.typeCode)" >{{profile.targetCompletionDate | date : 'mediumDate'}}</a></td>
-                <td class="navLink"><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.typeCode)" >{{profile.name}}</a></td>
-                <td class="navLink"><a ng-click="navigateToProfile(dealer.dealerId, profile.profileId, profile.typeCode)" >{{profile.status}}</a></td>
+                <td class="text-center navLink" ><a ng-click="navigateToProfile(profile.profileId, profile.typeCode)" >{{profile.targetCompletionDate | date : 'mediumDate'}}</a></td>
+                <td class="navLink"><a ng-click="navigateToProfile(profile.profileId, profile.typeCode)" >{{profile.name}}</a></td>
+                <td class="navLink"><a ng-click="navigateToProfile(profile.profileId, profile.typeCode)" >{{profile.status}}</a></td>
             </tr>
         </tbody>
     </table>

@@ -58,4 +58,33 @@ public class DsmProfilesResource {
 		return service.getDsmHistoricalProfiles(dsmId, type);
 	}
 	
+	@GET
+    @Path("/{type}/current")
+    @Produces(MediaType.APPLICATION_JSON)
+	public List<DsmDealerProfilesDto> getDsmCurrentProfiles(@PathParam("type") String type) {
+		UserData userData = sessionHelper.getUserData();
+		if(type == null) type = "2";
+		
+		if(userData.isDsm()) {
+			int dsmId = userData.getDealerId();
+			return service.getDsmCurrentProfiles(dsmId, type);
+		}
+		return new ArrayList<DsmDealerProfilesDto>();
+	}
+
+	@GET
+    @Path("/{type}/history")
+    @Produces(MediaType.APPLICATION_JSON)
+	public List<DsmDealerProfilesDto> getDsmHistoricalProfiles(@PathParam("type") String type) {
+		UserData userData = sessionHelper.getUserData();
+		if(type == null) type = "2";
+		
+		if(userData.isDsm()) {
+			int dsmId = userData.getDealerId();
+			return service.getDsmHistoricalProfiles(dsmId, type);
+		}
+		return new ArrayList<DsmDealerProfilesDto>();
+		
+	}
+	
 }

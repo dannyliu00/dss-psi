@@ -5,19 +5,15 @@
     var dealerProfileSummary = sellInNamespace('sellIn.pages.dealerProfileSummary');
 
     describe('DealerProfileSummaryCtrl', function() {
-        var scope, routeParams, location, dealerResource;
-        var dealerProfilesResource, expectedDealerId, expectedProfileUrl, expectedSummaryUrl, expectedType;
-        var expectedDealerDeferred, expectedProfilesDeferred, lastTab, expectedStatus, blockUI;
-        var ctrl;
+        var scope, routeParams, location;
+        var dealerProfilesResource, expectedProfileUrl, expectedSummaryUrl; 
+        var expectedProfilesDeferred, lastTab, expectedStatus, blockUI;
 
         beforeEach(function () {
             angular.mock.module('sellIn.pages.dealerProfileSummary');
 
             angular.mock.module(function ($provide) {
-                dealerResource = jasmine.createSpyObj('dealerResource', ['get']);
-                $provide.decorator('dealerResource', [function () {
-                    return dealerResource;
-                }]);
+                
                 dealerProfilesResource = jasmine.createSpyObj('dealerProfilesResource', ['queryCurrent', 'queryHistory']);
                 $provide.decorator('dealerProfilesResource', [function () {
                     return dealerProfilesResource;
@@ -33,19 +29,14 @@
             });
 
             location = jasmine.createSpyObj('location', ['path']);
-
-            expectedDealerId = 111;
             expectedR = 12345;
-//	        expectedType = 'T';
             expectedStatus = 'current';
-            routeParams = {dealerId: expectedDealerId, status: expectedStatus, r: expectedR};
-            expectedProfileUrl = '/segment1/:dealerId/segment2/:profileId/segment3/:type';
-            expectedSummaryUrl = '/segment1/:dealerId/segment2/:status';
+            routeParams = {status: expectedStatus, r: expectedR};
+            expectedProfileUrl = '/segment1/:profileId/segment2/:type';
+            expectedSummaryUrl = '/segment1/:status';
         });
 
-        beforeEach(inject(function ($q, $rootScope, dealerResource, dealerProfilesResource) {
-            expectedDealerDeferred = $q.defer();
-            dealerResource.get.andReturn(expectedDealerDeferred.promise);
+        beforeEach(inject(function ($q, $rootScope, dealerProfilesResource) {
 
             expectedProfilesDeferred = $q.defer();
             dealerProfilesResource.queryCurrent.andReturn(expectedProfilesDeferred.promise);
@@ -55,7 +46,7 @@
         }));
 
         describe('constructor', function () {
-            it('initializes dealer on scope', inject(function ($rootScope, dealerResource, dealerProfilesResource, lastTab, blockUI) {
+            it('initializes dealer on scope', inject(function ($rootScope, dealerProfilesResource, lastTab, blockUI) {
                 lastTab.productTab = '';
                 lastTab.profilesTab = '';
 
@@ -63,16 +54,11 @@
                     scope,
                     routeParams,
                     location,
-                    dealerResource,
                     dealerProfilesResource,
                     expectedProfileUrl,
                     expectedSummaryUrl,
-                    lastTab,
-                    blockUI);
-
-	            var expectedDealerAndType = {dealerId: expectedDealerId, type: expectedType};
-	            var expectedDealer = {dealerId: expectedDealerId, r: expectedR};
-                expect(dealerResource.get).toHaveBeenCalledWith(expectedDealerAndType);
+                    lastTab, blockUI);
+                
                 expect(lastTab.changeProfilesTab).toHaveBeenCalled();
                 expect(dealerProfilesResource.queryCurrent).toHaveBeenCalled();
                 expect(blockUI.start).toHaveBeenCalled();

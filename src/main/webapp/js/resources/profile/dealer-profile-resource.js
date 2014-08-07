@@ -3,8 +3,9 @@
 
     function DealerProfileResource($resource, profileUrl, profileSaveUrl, profileSubmitUrl,
                                    profileApproveWChangesUrl, profileApproveRequestedUrl, profileSubmitExceptionUrl, profileDsmSaveUrl, profileSendBackUrl,
-                                   profileRsmSaveUrl, profileApproveCompliantUrl, profileApproveNonCompliantUrl, profileReturnToDsmUrl) {
+                                   profileRsmSaveUrl, profileApproveCompliantUrl, profileApproveNonCompliantUrl, profileReturnToDsmUrl, profileNonDealerUrl) {
         this.resource = $resource(profileUrl, {}, {
+        	nonDealer: {method: 'GET', url: profileNonDealerUrl},
             save: {method: 'POST', url: profileSaveUrl},
             submit: {method: 'POST', url: profileSubmitUrl},
             dsmSave: {method: 'POST', url: profileDsmSaveUrl},
@@ -22,6 +23,10 @@
 
     DealerProfileResource.prototype.get = function(profile) {
         return this.resource.get(profile).$promise;
+    };
+    
+    DealerProfileResource.prototype.nonDealer = function(profile) {
+    	return this.resource.nonDealer(profile).$promise;
     };
 
     DealerProfileResource.prototype.save = function(profile) {

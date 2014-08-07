@@ -42,6 +42,7 @@ angular.module('sellIn', [
     'sellIn.pages.default',
     'sellIn.pages.nondealersummary',
     'sellIn.services.lasttab',
+    'sellIn.services.currentdealer',
     'sellIn.routing.paths',
     'sellIn.routing',
     'blockUI'

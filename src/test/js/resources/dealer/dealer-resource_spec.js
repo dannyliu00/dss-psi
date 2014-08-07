@@ -11,11 +11,10 @@ describe('DealerResource', function() {
 
     describe('get', function() {
         it('returns a promise of a single dealer resource', inject(function(dealerResource, dealerUrl) {
-            var dealerId = 111;
 	        var type = 'type';
 
-            var dealer = {dealerId: dealerId, type: type};
-            var expectedRequest = dealerUrl.replace(':dealerId', dealerId).replace(':type', type);
+            var dealer = {type: type};
+            var expectedRequest = dealerUrl.replace(':type', type);
             var expectedDealer = {name: 'U.T. Motorsports'};
 
             httpBackend.when('GET', expectedRequest).respond(expectedDealer);

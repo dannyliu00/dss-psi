@@ -17,11 +17,9 @@ describe('DealerProfileResource', function() {
     describe('get', function() {
         it('returns a promise with a single profile of a specified dealer', inject(function(dealerProfileResource, profileUrl) {
             var profileId = 999;
-            var dealerId = 888;
-            var profile = {profileId: profileId, dealerId: dealerId};
+            var profile = {profileId: profileId};
             var expectedRequest = profileUrl
-                .replace(':profileId', profileId)
-                .replace(':dealerId', dealerId);
+                .replace(':profileId', profileId);
             var expectedProfile = { name: 'U.T. Victory Profile'};
 
             httpBackend.when('GET', expectedRequest).respond(expectedProfile);

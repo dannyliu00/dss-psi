@@ -5,7 +5,6 @@
     	
         var buildUrl = function() {
             return dealerSummaryPageUrl
-                .replace(':dealerId', $scope.dealerId)
                 .replace(':type', $scope.profile.typeCode)
                 .replace(':status', lastTab.profilesTab);
         };

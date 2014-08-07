@@ -100,12 +100,11 @@ public class ProfilesResourceTest {
 		when(mockUserData.getDealerId()).thenReturn(expectedId);
 		when(mockService.getCurrentDealerProfiles(expectedId)).thenReturn(profiles);
 		
-		List<ProfileDto> results = resource.getCurrentDealerProfiles(expectedId);
+		List<ProfileDto> results = resource.getCurrentDealerProfiles();
 		
 		assertEquals(profiles.size(), results.size());
 		
 		verify(mockSessionHelper).getUserData();
-		verify(mockUserData).isDealer();
 		verify(mockUserData).getDealerId();
 		verify(mockService).getCurrentDealerProfiles(expectedId);
 		
@@ -113,84 +112,20 @@ public class ProfilesResourceTest {
 	}
 
 	@Test
-	public void testGetCurrentProfilesDealerNullResult() {
-		when(mockUserData.getDealerId()).thenReturn(111);
-
-		List<ProfileDto> results = resource.getCurrentDealerProfiles(expectedId);
-		
-		assertEquals(0, results.size());
-		
-		verify(mockSessionHelper).getUserData();
-		verify(mockUserData).isDealer();
-		verify(mockUserData).getDealerId();
-
-		verifyNoMoreInteractions(mockUserData, mockSessionHelper);
-		verifyZeroInteractions(mockService);
-	}
-
-	@Test
-	public void testGetCurrentProfilesDealerNullResultTwo() {
-		when(mockUserData.getDealerId()).thenReturn(expectedId);
-		when(mockUserData.isDealer()).thenReturn(false);
-
-		List<ProfileDto> results = resource.getCurrentDealerProfiles(expectedId);
-		
-		assertEquals(0, results.size());
-		
-		verify(mockSessionHelper).getUserData();
-		verify(mockUserData).isDealer();
-
-		verifyNoMoreInteractions(mockUserData, mockSessionHelper);
-		verifyZeroInteractions(mockService);
-	}
-
-	@Test
 	public void testGetHistoricalProfilesDealer() {
 		when(mockUserData.getDealerId()).thenReturn(expectedId);
 		when(mockService.getHistoricalDealerProfiles(expectedId)).thenReturn(profiles);
 		
-		List<ProfileDto> results = resource.getHistoricalDealerProfiles(expectedId);
+		List<ProfileDto> results = resource.getHistoricalDealerProfiles();
 		
 		assertEquals(profiles.size(), results.size());
 		
 		verify(mockSessionHelper).getUserData();
-		verify(mockUserData).isDealer();
 		verify(mockUserData).getDealerId();
 		verify(mockService).getHistoricalDealerProfiles(expectedId);
 		
 		verifyNoMoreInteractions(mockService, mockUserData, mockSessionHelper);
 	}
 
-	@Test
-	public void testGetHistoricalProfilesDealerNullResult() {
-		when(mockUserData.getDealerId()).thenReturn(111);
-
-		List<ProfileDto> results = resource.getHistoricalDealerProfiles(expectedId);
-		
-		assertEquals(0, results.size());
-		
-		verify(mockSessionHelper).getUserData();
-		verify(mockUserData).isDealer();
-		verify(mockUserData).getDealerId();
-
-		verifyNoMoreInteractions(mockUserData, mockSessionHelper);
-		verifyZeroInteractions(mockService);
-	}
-
-	@Test
-	public void testGetHistoricalProfilesDealerNullResultTwo() {
-		when(mockUserData.getDealerId()).thenReturn(expectedId);
-		when(mockUserData.isDealer()).thenReturn(false);
-
-		List<ProfileDto> results = resource.getHistoricalDealerProfiles(expectedId);
-		
-		assertEquals(0, results.size());
-		
-		verify(mockSessionHelper).getUserData();
-		verify(mockUserData).isDealer();
-
-		verifyNoMoreInteractions(mockUserData, mockSessionHelper);
-		verifyZeroInteractions(mockService);
-	}
 
 }

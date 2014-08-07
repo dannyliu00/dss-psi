@@ -70,4 +70,22 @@ public class ProfilesResource {
 		return service.getHistoricalDealerProfiles(dealerId);
 	}
 	
+	@GET
+    @Path("/current")
+    @Produces(MediaType.APPLICATION_JSON)
+	public List<ProfileDto> getCurrentDealerProfiles() {
+		UserData userData = sessionHelper.getUserData();
+		
+		return service.getCurrentDealerProfiles(userData.getDealerId());
+	}
+	
+	@GET
+    @Path("/history")
+    @Produces(MediaType.APPLICATION_JSON)
+	public List<ProfileDto> getHistoricalDealerProfiles() {
+		UserData userData = sessionHelper.getUserData();
+		
+		return service.getHistoricalDealerProfiles(userData.getDealerId());
+	}
+	
 }
