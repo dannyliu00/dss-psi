@@ -8,7 +8,6 @@
     	
     	var buildUrl = function() {
             return dsmUrl
-                .replace(':id', $scope.role.dealerId)
                 .replace(':type', $scope.profile.typeCode)
                 .replace(':status', lastTab.profilesTab);
         };

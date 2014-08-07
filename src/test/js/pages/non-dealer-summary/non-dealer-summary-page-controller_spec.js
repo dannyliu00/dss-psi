@@ -74,7 +74,7 @@
 
                 expectedRole = {dsm: true, rsm: false, sessionDetail: {ATV: 'Y'}};
                 expectedRoleDeferred.resolve(expectedRole);
-                var expectedDsm = {dsmId: expectedId, type: expectedType, r: expectedR};
+                var expectedDsm = {type: expectedType, r: expectedR};
 
                 expectedProfilesDeferred.resolve(expectedProfiles);
 
@@ -107,13 +107,14 @@
                                                                              profilePageUrl,
                                                                              dsmUrl,
                                                                              productTabs,
-                                                                             lastTab, blockUI) {
+                                                                             lastTab,
+                                                                             blockUI) {
             	lastTab.productTab = '';
                 lastTab.profilesTab = '';
             	
                 expectedRole = {dsm: false, rsm: true, sessionDetail: {ATV: 'Y'}};
                 expectedRoleDeferred.resolve(expectedRole);
-                var expectedRsm = {rsmId: expectedId, type: expectedType, r: expectedR};
+                var expectedRsm = {type: expectedType, r: expectedR};
                 expectedProfilesDeferred.resolve(expectedProfiles);
 
                 ctrl = new nonDealerSummary.NonDealerSummaryController($rootScope, routeParams, $location,

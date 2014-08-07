@@ -2,7 +2,7 @@
     var dealerProfiles = sellInNamespace('sellIn.directives.profiles');
 
     function DealerProfileDirectiveController($scope, DTOptionsBuilder, $routeParams, dealerResource,
-    		dealerProfileResource, orderSegmentResourceMapper,appRoleResource, lastTab, blockUI) {
+    		dealerProfileResource, orderSegmentResourceMapper,appRoleResource, lastTab, currentDealer, blockUI) {
 
         this.orderSegmentResourceMapper = orderSegmentResourceMapper;
 
@@ -30,59 +30,46 @@
                 } else {
                     $scope.authLevel = 'actual';
                 }
+            getDealer();
             });
         };
 
         var getDealer = function() {
-            var dealer = {dealerId: $routeParams.dealerId, type: $routeParams.type};
+            var dealer = {type: $routeParams.type};
             dealerResource.get(dealer).then(function(returnedDealer) {
                 $scope.dealer = returnedDealer;
+                getProfile();
             });
         };
 
         var getProfile = function() {
             // Block the user interface
             blockUI.start();
-
-            var profile = {profileId: $routeParams.profileId,dealerId: $routeParams.dealerId};
-            dealerProfileResource.get(profile)
-                .then(function(returnedProfile) {
-
-                    $scope.profile = returnedProfile;
-                    $scope.segments = returnedProfile.segments;
-
-                    for(var i = 0; i < returnedProfile.orderSegments.length; i++) {
-                        var seg = returnedProfile.orderSegments[i];
-
-                        if($scope.authLevel === 'adminQty') {
-                            if((seg.adminQty === null || seg.adminQty <= -1) && (seg.dsmQty > -1 && seg.dsmQty !== null)) {
-                                seg.adminQty = seg.dsmQty;
-                            } else if((seg.adminQty === null || seg.adminQty <= -1) && (seg.dsmQty <= -1 || seg.dsmQty === null)) {
-                                seg.adminQty = seg.actual;
-                                seg.dsmQty = seg.actual;
-                            }
-                        } else if($scope.authLevel === 'dsmQty' && (seg.dsmQty <= -1 || seg.dsmQty === null)) {
-                            seg.dsmQty = seg.actual;
-                        }
-                    }
-                    $scope.orderSegments = returnedProfile.orderSegments;
-                    $scope.distinctOS = findDistinctOSes($scope.orderSegments);
-
-                    // Remember the original data.
-                    $scope.resetChanges();
-
-                }).then(function() {
-                    $scope.recommendedGrandTotal = $scope.getRecTotals();
-                });
-
+            var profile = {};
+            
+            if($scope.authLevel === 'actual') {
+            	profile = {profileId: $routeParams.profileId};
+            	dealerProfileResource.get(profile)
+	                .then(function(returnedProfile) {
+	                	finishProfile(returnedProfile);
+	                }).then(function() {
+	            		$scope.recommendedGrandTotal = $scope.getRecTotals();
+	                });
+            } else {
+            	profile = {profileId: $routeParams.profileId, dealerId: currentDealer.dealerId};
+            	dealerProfileResource.nonDealer(profile)
+	                .then(function(returnedProfile) {
+	                	finishProfile(returnedProfile);
+	                }).then(function() {
+	            		$scope.recommendedGrandTotal = $scope.getRecTotals();
+	                });
+            }
             // Unblock the user interface
             blockUI.stop();
         };
 
         getRole();
-        getDealer();
-        getProfile();
-
+        
         function findDistinctOSes(data) {
             var keys = [];
 
@@ -242,6 +229,33 @@
         	}
         	return segmentName;
         };
+        
+        
+        function finishProfile(returnedProfile) {
+
+            $scope.profile = returnedProfile;
+            $scope.segments = returnedProfile.segments;
+
+            for(var i = 0; i < returnedProfile.orderSegments.length; i++) {
+                var seg = returnedProfile.orderSegments[i];
+
+                if($scope.authLevel === 'adminQty') {
+                    if((seg.adminQty === null || seg.adminQty <= -1) && (seg.dsmQty > -1 && seg.dsmQty !== null)) {
+                        seg.adminQty = seg.dsmQty;
+                    } else if((seg.adminQty === null || seg.adminQty <= -1) && (seg.dsmQty <= -1 || seg.dsmQty === null)) {
+                        seg.adminQty = seg.actual;
+                        seg.dsmQty = seg.actual;
+                    }
+                } else if($scope.authLevel === 'dsmQty' && (seg.dsmQty <= -1 || seg.dsmQty === null)) {
+                    seg.dsmQty = seg.actual;
+                }
+            }
+            $scope.orderSegments = returnedProfile.orderSegments;
+            $scope.distinctOS = findDistinctOSes($scope.orderSegments);
+
+            // Remember the original data.
+            $scope.resetChanges()
+      }
 
     }
     dealerProfiles.DealerProfileDirectiveController = DealerProfileDirectiveController;

@@ -3,7 +3,7 @@
 
     function NonDealerSummaryController($scope, $routeParams, $location, dsmProfilesResource,
                                         appRoleResource, rsmProfilesResource, profilePageUrl,
-                                        dsmUrl, productTabs, lastTab, blockUI) {
+                                        dsmUrl, productTabs, lastTab, blockUI, currentDealer) {
     	
         var setActiveProductTab = function(activeContent) {
             if(activeContent != null){
@@ -64,10 +64,10 @@
             var rVal = new Date().getTime();
             
             if($scope.role.dsm === true) {
-                user = {dsmId: $routeParams.id, type: $scope.activeTabFilter, r: rVal};
+                user = {type: $scope.activeTabFilter, r: rVal};
                 loadDsmProfiles(user);
             } else {
-                user = {rsmId: $routeParams.id, type: $scope.activeTabFilter, r: rVal};
+                user = {type: $scope.activeTabFilter, r: rVal};
                 loadRsmProfiles(user);
             }
 
@@ -106,8 +106,9 @@
         });
     	
          $scope.navigateToNonDealerProfile = function(dealerId, profileId, type) {
+        	 currentDealer.changeDealerId(dealerId);
         	 lastTab.changeProductTab('');
-             var finalUrl = profilePageUrl.replace(':dealerId', dealerId)
+             var finalUrl = profilePageUrl
                  .replace(':profileId', profileId)
                  .replace(':type', type);
              $location.path(finalUrl);
@@ -117,7 +118,6 @@
         	
         	lastTab.changeProfilesTab(data);
             var finalUrl = dsmUrl
-                .replace(':id', $routeParams.id)
                 .replace(':type', lastTab.productTab)
                 .replace(':status', data);
             $location.path(finalUrl);
@@ -127,7 +127,6 @@
 
             lastTab.changeProductTab(data);
             var finalUrl = dsmUrl
-                .replace(':id', $routeParams.id)
                 .replace(':type', data)
                 .replace(':status', lastTab.profilesTab);
             $location.path(finalUrl);

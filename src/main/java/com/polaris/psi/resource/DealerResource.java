@@ -44,4 +44,13 @@ public class DealerResource {
 		return service.getDealer(dealerId, type);
 	}
 	
+	@GET
+    @Path("/{type}")
+    @Produces(MediaType.APPLICATION_JSON)
+	public DealerDto getDealerInfo(@PathParam("type") String type) {
+		UserData userData = sessionHelper.getUserData();
+		
+		// if logged in user is a dealer use dealerId in the session rather than what was passed in
+		return service.getDealer(userData.getDealerId(), type);
+	}
 }

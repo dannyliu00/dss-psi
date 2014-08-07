@@ -19,8 +19,8 @@ describe('DefaultPageController', function() {
             });
         });
 
-	    dealerUrl = '/dealers/:dealerId/:type/:status';
-	    dsmUrl = '/dsm/:id';
+	    dealerUrl = '/dealer/:type/:status';
+	    dsmUrl = '/dsm/:type/:status';
 	    expectedRole = {
 		    dealerId: 'UTID',
 		    userName: 'utUser',
@@ -61,13 +61,13 @@ describe('DefaultPageController', function() {
             $rootScope.$digest();
 
             var expectedDealerUrl = dealerUrl
-                .replace(':dealerId', expectedRole.dealerId)
                 .replace(':type', expectedType)
                 .replace(':status', 'current');
             expect($location.path).toHaveBeenCalledWith(expectedDealerUrl);
         }));
 
         it('calls location service based on dsm user role', inject(function($rootScope, $location, appRoleResource) {
+        	var expectedType = '2';
             expectedRole = {
                 dealerId: 'UTID',
                 userName: 'utUser',
@@ -82,7 +82,7 @@ describe('DefaultPageController', function() {
 
             $rootScope.$digest();
 
-            var expectedDsmUrl = dsmUrl.replace(':id', expectedRole.dealerId);
+            var expectedDsmUrl = dsmUrl.replace(':type', expectedType).replace(':status', 'current');
             expect($location.path).toHaveBeenCalledWith(expectedDsmUrl);
         }));
     });

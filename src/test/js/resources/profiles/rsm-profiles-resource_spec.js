@@ -1,4 +1,4 @@
-describe('DsmProfilesResource', function() {
+describe('RsmProfilesResource', function() {
     var httpBackend;
 
     beforeEach(function() {
@@ -15,12 +15,11 @@ describe('DsmProfilesResource', function() {
     });
 
     describe('queryCurrent', function() {
-        it('returns a promise with a list of dealer profiles of a specified dsm and of a specified type', inject(function(rsmProfilesResource, rsmCurrentProfilesUrl) {
-            var rsmId = 123456;
+        it('returns a promise with a list of dealer profiles of a specified rsm and of a specified type', inject(function(rsmProfilesResource, rsmCurrentProfilesUrl) {
             var type = 'vehicle';
             var r = 12345;
-            var rsm = {rsmId: rsmId, type: type, r: r};
-            var expectedRequest = rsmCurrentProfilesUrl.replace(':rsmId', rsmId).replace(':type', type);
+            var rsm = {type: type, r: r};
+            var expectedRequest = rsmCurrentProfilesUrl.replace(':type', type);
             expectedRequest += '?r=' + r;
             var expectedList = [{name: 'U.T. Victory Profile For A Dealer'}];
 
@@ -37,12 +36,11 @@ describe('DsmProfilesResource', function() {
     });
 
     describe('queryHistory', function() {
-        it('returns a promise with a list of dealer profiles of a specified dsm and of a specified type', inject(function(rsmProfilesResource, rsmHistoryProfilesUrl) {
-            var rsmId = 123456;
+        it('returns a promise with a list of dealer profiles of a specified rsm and of a specified type', inject(function(rsmProfilesResource, rsmHistoryProfilesUrl) {
             var type = 'vehicle';
             var r = 12345;
-            var rsm = {rsmId: rsmId, type: type, r: r};
-            var expectedRequest = rsmHistoryProfilesUrl.replace(':rsmId', rsmId).replace(':type', type);
+            var rsm = {type: type, r: r};
+            var expectedRequest = rsmHistoryProfilesUrl.replace(':type', type);
             expectedRequest += '?r=' + r;
             var expectedList = [{name: 'U.T. Victory Profile For A Dealer'}];
 

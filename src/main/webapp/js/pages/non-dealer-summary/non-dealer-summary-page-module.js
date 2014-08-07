@@ -8,6 +8,7 @@
         'sellIn.resources.rsmProfiles',
         'sellIn.resources.dsmProfiles',
         'sellIn.services.lasttab',
+        'sellIn.services.currentdealer',
         'sellIn.resources.role',
         'blockUI'])
         .controller('nonDealerSummaryController', nonDealerSummary.NonDealerSummaryController)

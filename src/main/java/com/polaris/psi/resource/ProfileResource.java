@@ -43,7 +43,7 @@ public class ProfileResource {
 	OrderSegmentService osService;
 	
 	@GET
-    @Path("/{profileId}/{dealerId}")
+    @Path("/nonDealer/{profileId}/{dealerId}")
     @Produces(MediaType.APPLICATION_JSON)
 	public ProfileDto getProfile(@PathParam("profileId") int profileId, @PathParam("dealerId") int dealerId) {
 
@@ -52,6 +52,14 @@ public class ProfileResource {
 		} else {
 			return service.getDealerProfile(profileId, dealerId);
 		}
+	}
+	
+	@GET
+    @Path("/{profileId}")
+    @Produces(MediaType.APPLICATION_JSON)
+	public ProfileDto getProfile(@PathParam("profileId") int profileId) {
+
+		return service.getDealerProfile(profileId, sessionHelper.getUserData().getDealerId());
 	}
 
 	@Path("/save")
