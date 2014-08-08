@@ -47,6 +47,7 @@ public class Constants {
     public static final String SAVE_SUCCESSFUL = "Successful";
     public static final String NOT_AUTHORIZED = "Not Authorized";
     public static final String NO_RECORDS = "No Records";
+    public static final String COULD_NOT_UPDATE_DSM_VALUES = "Could not update the values submitted by the DSM";
     
     public static final String PRODUCT_LINE_REGEX = "2|5|6|9|D|F|Z";
     
