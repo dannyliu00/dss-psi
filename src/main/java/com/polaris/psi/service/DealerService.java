@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.polaris.psi.repository.dao.DealerAndDsmDao;
-import com.polaris.psi.repository.dao.DealerDao;
 import com.polaris.psi.repository.dao.DealerInfoDao;
 import com.polaris.psi.repository.entity.Dealer;
 import com.polaris.psi.repository.entity.DealerAndDsm;
@@ -20,9 +19,6 @@ import com.polaris.psi.service.mapper.DealerMapper;
  */
 @Service
 public class DealerService {
-	
-	@Autowired
-	DealerDao dealerDao;
 	
 	@Autowired
 	DealerInfoDao dealerInfoDao;
