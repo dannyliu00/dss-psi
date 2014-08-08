@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var commonPagination = sellInNamespace('polaris.directives.pagination');
 
     function PageControls() {
@@ -6,7 +6,7 @@
             restrict: 'E',
             templateUrl: 'js/directives/pagination/page-controls.html'
         };
-    };
+    }
 
     commonPagination.PageControls = PageControls;
 })();
