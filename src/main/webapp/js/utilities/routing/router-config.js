@@ -1,11 +1,7 @@
-(function() {
+(function () {
     var routing = sellInNamespace('sellIn.routing');
 
-    function routerConfig($routeProvider,
-                          defaultPageUrl, defaultPageControllerName, defaultPageTemplateUrl,
-                          dealerSummaryPageUrl, dealerSummaryPageControllerName, dealerSummaryPageTemplateUrl,
-                          profilePageUrl, profilePageControllerName, profilePageTemplateUrl,
-                          defaultRedirection, dsmUrl, dsmTemplateUrl, dsmControllerName) {
+    function routerConfig($routeProvider, defaultPageUrl, defaultPageControllerName, defaultPageTemplateUrl, dealerSummaryPageUrl, dealerSummaryPageControllerName, dealerSummaryPageTemplateUrl, profilePageUrl, profilePageControllerName, profilePageTemplateUrl, defaultRedirection, dsmUrl, dsmTemplateUrl, dsmControllerName) {
 
         $routeProvider
             .when(defaultPageUrl, {

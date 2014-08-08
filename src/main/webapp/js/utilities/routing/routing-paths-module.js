@@ -1,4 +1,4 @@
-(function() {
+(function () {
     angular.module('sellIn.routing.paths', [])
         .constant('defaultPageUrl', '/default')
         .constant('defaultPageControllerName', 'defaultPageController')
@@ -12,9 +12,9 @@
         .constant('profilePageControllerName', 'profileController')
         .constant('profilePageTemplateUrl', 'js/pages/profile-detail/profile-detail-template.html')
 
-        .constant('dsmUrl','/nonDealerSummary/:type/:status')
-        .constant('dsmControllerName','nonDealerSummaryController')
-        .constant('dsmTemplateUrl','js/pages/non-dealer-summary/non-dealer-summary-page-template.html')
+        .constant('dsmUrl', '/nonDealerSummary/:type/:status')
+        .constant('dsmControllerName', 'nonDealerSummaryController')
+        .constant('dsmTemplateUrl', 'js/pages/non-dealer-summary/non-dealer-summary-page-template.html')
 
         .constant('defaultRedirection', '/default');
 }());
