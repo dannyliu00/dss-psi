@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var mainMenu = sellInNamespace('polaris.directives.menu');
 
     angular.module('polaris.directives.menu', [
