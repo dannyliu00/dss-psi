@@ -21,21 +21,11 @@
         };
         
         $scope.autoFill = function(){
-        	($scope.profile.type === "motorcycle" ? autoFillVic() : autoFillATV());
-        };
-        
-        function autoFillVic(){
-            for(var i=0; i < $scope.orderSegments.length; i++) {
+        	for(var i=0, j = $scope.orderSegments.length; i < j; i++) {
            	    $scope.orderSegments[i].actual = $scope.orderSegments[i].recommended;
             }
-        }
-       
-        function autoFillATV() {
-               for(var i=0; i < $scope.orderSegments.length; i++) {
-                   $scope.orderSegments[i].actual= $scope.orderSegments[i].recommended;
-               }
-       }
-    
+        };
+
         $scope.toSummary = function() {
         	
             lastTab.changeProductTab($scope.profile.typeCode);

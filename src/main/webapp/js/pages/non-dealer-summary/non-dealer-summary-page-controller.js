@@ -20,7 +20,7 @@
         };
 
         var setProductTabStates = function() {
-            for(var k = 0; k < $scope.productTabs.length; k++) {
+            for(var k = 0, l = $scope.productTabs.length; k < l ; k++) {
                 if($scope.productTabs[k].content === $scope.activeTabFilter) {
                     $scope.productTabs[k].isActive === true;
                 } else {
@@ -87,7 +87,7 @@
         appRoleResource.get().then(function(role) {
             var currentTabs = [];
             // loop that builds the available product line tabs for the provided user role
-    		for(var i = 0; i < productTabs.length; i++) {
+    		for(var i = 0, j = productTabs.length; i < j ; i++) {
         		if(productTabs[i].content === '2' && role.sessionDetail.ATV === 'Y') {
         			currentTabs.push(productTabs[i]);
     			} else if(productTabs[i].content === '5' && role.sessionDetail.VIC === 'Y') {

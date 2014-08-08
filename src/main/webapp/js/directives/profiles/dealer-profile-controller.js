@@ -107,10 +107,10 @@
 
         $scope.getRecTotals = function() {
         	var totalRecQty = 0;
-	    	for(var j=0; j < $scope.profile.periods.length; j++) {
+	    	for(var j=0, k = $scope.profile.periods.length; j < k; j++) {
                 var periodCode = $scope.profile.periods[j].code;
 	            var recQty = 0, recMin = 0, recMax = 0;
-	            for(var i=0; i < $scope.orderSegments.length; i++) {
+	            for(var i=0, h = $scope.orderSegments.length; i < h; i++) {
 	            	var orderSegment = $scope.orderSegments[i];
 	            	if(($scope.profile.type === "motorcycle") && (orderSegment.subSegment !== null)) {
 	            		recSegmentTotal(orderSegment.subSegment);
@@ -133,7 +133,7 @@
 	    function recSegmentTotal(sub) {
             var segment = getSegment(sub);
             var total = 0;
-            for(var i=0; i < $scope.orderSegments.length; i++) {
+            for(var i=0, j = $scope.orderSegments.length; i < j ; i++) {
             	var checkList = segment.subSegments.indexOf($scope.orderSegments[i].subSegment);
                 if(checkList !== -1) {
                 total = total + parseInt($scope.orderSegments[i].recommended);
@@ -143,7 +143,7 @@
         }
 
         function getSegment(subSegment) {
-        	for (var i=0; i<$scope.segments.length; i++) {
+        	for (var i=0, j = $scope.segments.length; i < j ; i++) {
         		var listCheck = $scope.segments[i].subSegments.indexOf(subSegment);
         		if(listCheck !== -1) {
         			return $scope.segments[i];
@@ -157,7 +157,7 @@
         	var actQty = 0;
         	var level = $scope.authLevel;
         	
-            for(var i=0; i < $scope.orderSegments.length; i++) {
+            for(var i=0, j = $scope.orderSegments.length; i < j ; i++) {
                 var orderSegment = $scope.orderSegments[i];
                 if(orderSegment.periodCode === periodCode) {
                 	// Check if numeric
@@ -179,7 +179,7 @@
         	var total = 0;
             var count = 0;
             
-            for(var i=0; i < $scope.orderSegments.length; i++) {
+            for(var i=0, j = $scope.orderSegments.length; i < j ; i++) {
             	
             	var checkList = segment.subSegments.indexOf($scope.orderSegments[i].subSegment);
                 if(checkList !== -1) {
@@ -201,14 +201,14 @@
         // Get GrandTotal for all super segments
 		$scope.getSuperSegmentGrandTotal = function() {
 		     var total = 0;
-		     for (var i=0; i<$scope.segments.length; i++) {
+		     for (var i=0, j = $scope.segments.length; i < j ; i++) {
 		    	 total+=$scope.getSegmentActualTotal($scope.segments[i]).actualTotal;
 		     }
 		     return total;
 		};        
 
         function getSegment(subSegment) {
-        	for (var i=0; i<$scope.segments.length; i++) {
+        	for (var i=0, j = $scope.segments.length; i < j ; i++) {
         		var listCheck = $scope.segments[i].subSegments.indexOf(subSegment);
         		if(listCheck !== -1) {
         			return $scope.segments[i];
@@ -220,7 +220,7 @@
         $scope.segName = function(sub) {
         	var nameCheck = 0;
         	var segmentName = "";
-        	for (var i=0; i<$scope.segments.length; i++) {
+        	for (var i=0, j = $scope.segments.length; i < j ; i++) {
         		nameCheck = $scope.segments[i].subSegments;
         		if(nameCheck.indexOf(sub) !== -1) {
         			segmentName = $scope.segments[i].name;
@@ -236,7 +236,7 @@
             $scope.profile = returnedProfile;
             $scope.segments = returnedProfile.segments;
 
-            for(var i = 0; i < returnedProfile.orderSegments.length; i++) {
+            for(var i = 0, j = returnedProfile.orderSegments.length; i < j ; i++) {
                 var seg = returnedProfile.orderSegments[i];
 
                 if($scope.authLevel === 'adminQty') {

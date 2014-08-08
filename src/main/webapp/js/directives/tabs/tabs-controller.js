@@ -8,7 +8,7 @@
             var status = lastTab.profilesTab;
             if(status === '') status = 'current';
 
-            for(var i=0; i < $scope.tabs.length; i++) {
+            for(var i=0, j = $scope.tabs.length; i < j ; i++) {
                 if(status === $scope.tabs[i].url) {
                     $scope.tabs[i].isActive = 'active';
                 } else {

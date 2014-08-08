@@ -31,7 +31,7 @@
         		comments = 'dealerComments';
         	}
         	
-            for(var i=0; i<orderSegments.length; i++) {
+            for(var i=0, j = orderSegments.length; i < j ; i++) {
                 var item = orderSegments[i];
                 item[comments] = this.reasonComments;
                 item.reasonCode = id;

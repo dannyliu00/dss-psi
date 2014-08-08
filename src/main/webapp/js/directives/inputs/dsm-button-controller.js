@@ -145,7 +145,7 @@
         }
         
         function isChanged() {
-        	for(var i = 0; i < $scope.orderSegments.length; i++) {
+        	for(var i = 0, j = $scope.orderSegments.length; i < j; i++) {
         		if($scope.orderSegments[i].actual !== parseInt($scope.orderSegments[i].dsmQty)) {
         			return true;
         		}
