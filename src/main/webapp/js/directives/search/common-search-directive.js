@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var commonSearch = sellInNamespace('polaris.directives.commonSearch');
 
     function CommonSearchDirective() {
