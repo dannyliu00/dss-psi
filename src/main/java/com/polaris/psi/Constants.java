@@ -43,6 +43,7 @@ public class Constants {
     public static final String APPROVED_W_CHANGES = "APPROVED WITH CHANGES";
     public static final String APPROVED_COMPLIANT = "APPROVED AS COMPLIANT";
     public static final String APPROVED_NONCOMPLIANT = "APPROVED AS NON-COMPLIANT";
+    public static final String APPROVED = "APPROVED";
     
     public static final String SAVE_SUCCESSFUL = "Successful";
     public static final String NOT_AUTHORIZED = "Not Authorized";
