@@ -42,6 +42,7 @@ public class OrderSegmentServiceTest {
 	@Mock private DealerProfileDetail mockDetail, mockReturnedDetail;
 	@Mock private HeaderDataMapper mockHeaderMapper;
 	@Mock private DetailDataMapper mockDetailMapper;
+	@Mock private SegmentStockingProfileOrderService mockStockingService;
 	private Integer statusId, headerId, detailId;
 	private String userName, email;
 	private Date submittedDate, approvedDate;
@@ -92,6 +93,8 @@ public class OrderSegmentServiceTest {
 		when(mockHeaderMapper.createNewSubmittedHeader(mockOrderSegment, mockStatus, nonCompliant)).thenReturn(mockHeader);
 		when(mockDetailMapper.createInitialDetail(mockOrderSegment, mockHeader)).thenReturn(mockDetail);
 		
+		when(mockStockingService.saveStockingProfiles(mockProfileDetailsDto, userName)).thenReturn(mockProfileDetailsDto);
+		
 		service = new OrderSegmentService();
 		service.logService = mockLogService;
 		service.statusService = mockStatusService;
@@ -100,6 +103,7 @@ public class OrderSegmentServiceTest {
 		service.detailDao = mockDetailDao;
 		service.headerDataMapper = mockHeaderMapper;
 		service.detailDataMapper = mockDetailMapper;
+		service.stockingProfileService = mockStockingService;
 	}
 	
 	@Test(expected=IndexOutOfBoundsException.class)
@@ -374,7 +378,7 @@ public class OrderSegmentServiceTest {
 		verify(mockHeaderDao).update(mockHeader);
 		verify(mockHeaderMapper).updateApprovedHeader(mockHeader, mockStatus, userName, nonCompliant);
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
-		verify(mockProfileDetailsDto).isSuccessful();
+		verify(mockProfileDetailsDto, times(2)).isSuccessful();
 		verify(mockProfileDetailsDto).setSuccessful(true);
 		verify(mockLogService).writeDsmChangesToLog(mockHeader, mockOrderSegment);
 		verify(mockEmailService).sendApproveAsRequestedEmail(mockProfileDetailsDto);

@@ -52,6 +52,9 @@ public class OrderSegmentService {
 	
 	@Autowired
 	EmailService emailService;
+	
+	@Autowired
+	SegmentStockingProfileOrderService stockingProfileService;
 
 	private static final SplunkLogger LOG = new SplunkLogger(OrderSegmentService.class);
 
@@ -168,6 +171,7 @@ public class OrderSegmentService {
 		return profileDetailsDto;
 	}
 	
+	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public ProfileDetailsDto dsmApproveWithChanges(ProfileDetailsDto profile, String userName) {
 		DealerProfileHeaderStatus status = statusService.getApprovedWithChangesStatus();
 		
@@ -176,6 +180,7 @@ public class OrderSegmentService {
 		return profile;
 	}
 	
+	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public ProfileDetailsDto dsmSendToDealer(ProfileDetailsDto profile, String userName) {
 		DealerProfileHeaderStatus status = statusService.getSendToDealerStatus();
 		
@@ -184,14 +189,31 @@ public class OrderSegmentService {
 		return profile;
 	}
 	
+	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public ProfileDetailsDto dsmApproveAsRequested(ProfileDetailsDto profile, String userName) {
 		DealerProfileHeaderStatus status = statusService.getApprovedAsRequestedStatus();
 		
-		updateDataFromDsm(profile, status, userName);
-		if(profile.isSuccessful()) emailService.sendApproveAsRequestedEmail(profile);
+		try {
+			updateDataFromDsm(profile, status, userName);
+			if(profile.isSuccessful()) {
+				stockingProfileService.saveStockingProfiles(profile, userName);
+				emailService.sendApproveAsRequestedEmail(profile);
+			}
+
+			if(!profile.isSuccessful()) {
+				LOG.error(PolarisIdentity.get(), "dsmApprovedAsRequested", Constants.COULD_NOT_UPDATE_DSM_VALUES);
+				profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
+			}
+		} catch (Exception e) {
+			LOG.error(PolarisIdentity.get(), "dsmApproveAsRequested", e.getMessage());
+			profile.setSuccessful(false);
+			profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
+		}
+		
 		return profile;
 	}
 	
+	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public ProfileDetailsDto dsmSubmitForException(ProfileDetailsDto profile, String userName) {
 		DealerProfileHeaderStatus status = statusService.getExceptionRequestedStatus();
 		
@@ -200,18 +222,21 @@ public class OrderSegmentService {
 		return profile;
 	}
 	
+	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public ProfileDetailsDto dsmSaveChanges(ProfileDetailsDto profile, String userName) {
 		DealerProfileHeaderStatus status = statusService.getPendingStatus();
 		
 		return updateDataFromDsm(profile, status, userName);
 	}
 	
+	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public ProfileDetailsDto rsmSaveChanges(ProfileDetailsDto profile, String userName) {
 		DealerProfileHeaderStatus status = statusService.getExceptionRequestedStatus();
 		
 		return updateDataFromRsm(profile, status, userName);
 	}
 	
+	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public ProfileDetailsDto rsmSendToDsm(ProfileDetailsDto profile, String userName) {
 		DealerProfileHeaderStatus status = statusService.getSendToDsmStatus();
 		
@@ -220,6 +245,7 @@ public class OrderSegmentService {
 		return profile;
 	}
 	
+	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public ProfileDetailsDto rsmApproveAsCompliant(ProfileDetailsDto profile, String userName) {
 		DealerProfileHeaderStatus status = statusService.getApproveAsCompliantStatus();
 		
@@ -228,6 +254,7 @@ public class OrderSegmentService {
 		return profile;
 	}
 	
+	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public ProfileDetailsDto rsmApproveAsNonCompliant(ProfileDetailsDto profile, String userName) {
 		DealerProfileHeaderStatus status = statusService.getApproveAsNonCompliantStatus();
 		
@@ -236,7 +263,6 @@ public class OrderSegmentService {
 		return profile;
 	}
 	
-	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	protected ProfileDetailsDto updateDataFromDsm(ProfileDetailsDto profile, DealerProfileHeaderStatus status, String userName) {
 		if(areRecordsEmpty(profile)) {
 			LOG.warn(PolarisIdentity.get(),"updateDataFromDsm", "No records passed in to do any work.  System will not make any changes.");
@@ -249,8 +275,8 @@ public class OrderSegmentService {
 			return profile;
 		}
 		
-		OrderSegmentDto testRecord = profile.getOrderSegments().get(0);
-		Integer headerId = testRecord.getHeaderId();
+		OrderSegmentDto representative = profile.getOrderSegments().get(0);
+		Integer headerId = representative.getHeaderId();
 		DealerProfileHeader header = headerDao.select(headerId);
 		String statusDescription = status.getDescription();
 		
@@ -288,7 +314,6 @@ public class OrderSegmentService {
 		return profile;
 	}
 
-	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	protected ProfileDetailsDto updateDataFromRsm(ProfileDetailsDto profile, DealerProfileHeaderStatus status, String userName) {
 		if(areRecordsEmpty(profile)) {
 			LOG.warn(PolarisIdentity.get(),"updateDataFromRsm", "No records passed in to do any work.  System will not make any changes.");
