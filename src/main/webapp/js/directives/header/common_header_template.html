@@ -10,14 +10,18 @@
             <div class="col-xs-6 col-sm-6 col-md-4 col-md-push-4">
                 <div class="ctr-app-header-addtl-nav clearfix">
                     <ul class="nav nav-pills navbar-right">
-                        <li><a href="{{attributes.AskPolaris}}?DealerID={{dealerId}}&DealerName={{dealerName}}" target="_blank"><span class="glyphicon glyphicon-question-sign"></span> Ask Polaris</a></li>
+                        <li><a href="{{attributes.AskPolaris}}?DealerID={{dealerId}}&DealerName={{dealerName}}"
+                               target="_blank"><span class="glyphicon glyphicon-question-sign"></span> Ask Polaris</a>
+                        </li>
 
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <span class="glyphicon glyphicon glyphicon-user"></span> System  Administrator<span class="caret"></span>
+                                <span class="glyphicon glyphicon glyphicon-user"></span> System Administrator<span
+                                    class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{attributes.DexRoot}}support/logoff.asp"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                                <li><a href="{{attributes.DexRoot}}support/logoff.asp"><span
+                                        class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -31,45 +35,50 @@
             </div>
         </div>
         <div class="row">
-	        <div ng-if="isSalesman || isRSM" id="extraHeaderBar" class="col-md-12 ctr-navbar">
- 				<nav class="navbar navbar-default " role="navigation">
-   	            	<div class="navbar-header">
-   	            		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#pga-navbar-collapse-id">
-   	            		<span class="sr-only">Toggle navigation</span>
-   	            		<span class="icon-bar"></span><span class="icon-bar"></span>
-   	            		<span class="icon-bar"></span></button>
-   	           		</div>
-   	            	<div class="collapse navbar-collapse" id="pga-navbar-collapse-id">
-   		            	<ul class="nav navbar-nav">
-   		           			<li><a href="{{attributes.DsmHome}}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-   					        <li><a href="{{attributes.DealerHome}}">Main Dealer Site</a></li>
-   					        <li><a href="{{attributes.IntranetHome}}">Intranet</a></li>
-   					    </ul>
-   				    </div>
-   		 		</nav>	        
-	        </div>
-	        
-	        <div ng-if="isDIS" id="extraHeaderBar" class="col-md-12 ctr-navbar">
-				<nav class="navbar navbar-default" role="navigation">
-   	            	<div class="navbar-header">
-   	            		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#pga-navbar-collapse-id">
-   	            		<span class="sr-only">Toggle navigation</span>
-   	            		<span class="icon-bar"></span><span class="icon-bar"></span>
-   	            		<span class="icon-bar"></span></button>
-   	           		</div>
-   	            	<div class="collapse navbar-collapse" id="pga-navbar-collapse-id">
-   		            	<ul class="nav navbar-nav">
-   		           			<li><a href="{{attributes.DealerCases}}DealerID={{dealerId}}&DealerName={{dealerName}}">Dealer Cases</a></li>
-   					        <li><a href="{{attributes.IntranetHome}}">Intranet</a></li>
-   					        <li><a href="{{attributes.ChangeDealer}}">Change Dealer</a></li>
-   					    </ul>
-   				    </div>
-   		 		</nav>	        
-	        </div>
-        
-	        <div ng-if="isDealer" id="topNavBarDiv" class="col-md-12 ctr-navbar">
-	        
-	        </div>
-	    </div>        
-    </header><!--/.ctr-app-header -->
+            <div ng-if="isSalesman || isRSM" id="extraHeaderBar" class="col-md-12 ctr-navbar">
+                <nav class="navbar navbar-default " role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target="#pga-navbar-collapse-id">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span><span class="icon-bar"></span>
+                            <span class="icon-bar"></span></button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="pga-navbar-collapse-id">
+                        <ul class="nav navbar-nav">
+                            <li><a href="{{attributes.DsmHome}}"><span class="glyphicon glyphicon-home"></span> Home</a>
+                            </li>
+                            <li><a href="{{attributes.DealerHome}}">Main Dealer Site</a></li>
+                            <li><a href="{{attributes.IntranetHome}}">Intranet</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+
+            <div ng-if="isDIS" id="extraHeaderBar" class="col-md-12 ctr-navbar">
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target="#pga-navbar-collapse-id">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span><span class="icon-bar"></span>
+                            <span class="icon-bar"></span></button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="pga-navbar-collapse-id">
+                        <ul class="nav navbar-nav">
+                            <li><a href="{{attributes.DealerCases}}DealerID={{dealerId}}&DealerName={{dealerName}}">Dealer
+                                Cases</a></li>
+                            <li><a href="{{attributes.IntranetHome}}">Intranet</a></li>
+                            <li><a href="{{attributes.ChangeDealer}}">Change Dealer</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+
+            <div ng-if="isDealer" id="topNavBarDiv" class="col-md-12 ctr-navbar">
+
+            </div>
+        </div>
+    </header>
+    <!--/.ctr-app-header -->
 </div>

@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var commonHeader = sellInNamespace('polaris.directives.commonHeader');
 
     function CommonHeaderDirective() {
