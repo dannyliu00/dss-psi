@@ -16,29 +16,24 @@
         	if(role.rsm === true) {
         		dealerProfileResource.rsmSave(os)
 	                .then(function(returnedos) {
-	                    orderSegments = returnedos.orderSegments;
-	                    profile.nonCompliant = returnedos.nonCompliant;
-	                    $modalInstance.close();
+	                    $modalInstance.close(returnedos.successful);
                 	});
         	} else if(role.dsm === true) {
         		dealerProfileResource.dsmSave(os)
                     .then(function(returnedos) {
-                        orderSegments = returnedos.orderSegments;
-                        profile.nonCompliant = returnedos.nonCompliant;
-                        $modalInstance.close();
+                        $modalInstance.close(returnedos.successful);
                 });
         	} else {
                 dealerProfileResource.save(os)
                     .then(function(returnedos) {
-                        orderSegments = returnedos.orderSegments;
-                        profile.nonCompliant = returnedos.nonCompliant;
-                        $modalInstance.close();
+                        $modalInstance.close(returnedos.successful);
                 });
         	}
         };
 
         $scope.exitWithNoChanges = function () {
-            $modalInstance.close();
+        	var success = true;
+            $modalInstance.close(success);
         };
 
         $scope.cancel = function () {

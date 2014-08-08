@@ -21,15 +21,13 @@
 	    		os = {nonCompliant: profile.nonCompliant, orderSegments: orderSegments};
 	    		
 	            dealerProfileResource.submit(os)
-	                .then(function(returnedOs) {
-	                	profile.nonCompliant = returnedOs.nonCompliant;
-	                	profile.orderSegments = returnedOs.orderSegments;
-	                    $modalInstance.close();
+	                .then(function(returnedos) {
+	                    $modalInstance.close(returnedos.successful);
 	                });
 	    	} else if(level === "dsm") {
 	    		dealerProfileResource.approveRequested(os)
 	    			.then(function(returnedos) {
-	    				$modalInstance.close();
+	    				$modalInstance.close(returnedos.successful);
     			});
 	    	}
         };
