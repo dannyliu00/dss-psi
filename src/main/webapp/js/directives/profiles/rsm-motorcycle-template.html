@@ -1,4 +1,4 @@
-<rsm-button role = "role" profile="profile"></rsm-button>
+<rsm-button role="role" profile="profile"></rsm-button>
 <div class="container-full">
     <div class="panel panel-primary">
         <div class="panel-heading">
@@ -6,67 +6,70 @@
         </div>
         <div class="panel-body">
             <div class="col-md-12">
-                <div id="activeObjectsTable_processing" class="dataTables_processing" style="visibility: hidden;">Processing...</div>
+                <div id="activeObjectsTable_processing" class="dataTables_processing" style="visibility: hidden;">
+                    Processing...
+                </div>
                 <table datatable dt-options="dtOptions" id="activeObjectsTable"
                        class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
                        aria-describedby="activeObjectsTable_info">
                     <thead>
                     <tr role="row">
-                    	<th class="table-hidden-col">{{os.sort}}</th>
-                        <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
+                        <th class="table-hidden-col">{{os.sort}}</th>
+                        <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable">
                             Segment
                         </th>
-                        <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
+                        <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable">
                             Order Segment
                         </th>
-                        <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
+                        <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" tabindex="0"
+                            aria-controls="activeObjectsTable">
                             {{period.name}}<br/>Recommendation - DSM Qty - RSM Qty
                         </th>
                     </tr>
                     </thead>
                     <tbody role="alert" aria-live="polite" aria-relevant="all">
-	                    <tr ng-repeat="orderSegment in orderSegments" class="odd">
-	                    	<td class="table-hidden-col">{{os.sort}}</td>
-	                        <td ng-class="">{{segName(orderSegment.subSegment)}}</td>
-	                        <td class="">{{orderSegment.name}}</td>
-	                        <td class="text-center"><span>{{orderSegment.recommended}}&nbsp;&nbsp;&nbsp;&nbsp;
+                    <tr ng-repeat="orderSegment in orderSegments" class="odd">
+                        <td class="table-hidden-col">{{os.sort}}</td>
+                        <td ng-class="">{{segName(orderSegment.subSegment)}}</td>
+                        <td class="">{{orderSegment.name}}</td>
+                        <td class="text-center"><span>{{orderSegment.recommended}}&nbsp;&nbsp;&nbsp;&nbsp;
 	                        	<input tabindex="0"
-	                                   class="text-center numberInput"
-	                                   ng-model="orderSegment.actual"
-	                                   min="0"
-	                                   max="999"
-	                                   numbers-only
-	                                   ng-disabled="orderSegment.actual != null"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>
+                                       class="text-center numberInput"
+                                       ng-model="orderSegment.actual"
+                                       min="0"
+                                       max="999"
+                                       numbers-only
+                                       ng-disabled="orderSegment.actual != null"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>
 	                         	<input tabindex="0"
-	                                   class="text-center numberInput"
-	                                   ng-model="orderSegment.dsmQty"
-	                                   min="0"
-	                                   max="999"
-	                                   numbers-only
-	                                   ng-disabled="orderSegment.dsmQty != null"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                       class="text-center numberInput"
+                                       ng-model="orderSegment.dsmQty"
+                                       min="0"
+                                       max="999"
+                                       numbers-only
+                                       ng-disabled="orderSegment.dsmQty != null"></span>&nbsp;&nbsp;&nbsp;&nbsp;
 								<span ng-switch on="isEditable()">
 		                            <input ng-switch-when="false"
-		                            	tabindex="0"		
-		                            	ng-class="{noncompliant: orderSegment.adminQty < orderSegment.recommended}"
-	                                    class="text-center compliant numberInput"
-	                                    ng-model="orderSegment.adminQty"
-		                                min="0"
-		                                max="999"
-		                                numbers-only
-		                                readonly
-		                                ng-disabled="orderSegment.adminQty >= orderSegment.recommended">
+                                           tabindex="0"
+                                           ng-class="{noncompliant: orderSegment.adminQty < orderSegment.recommended}"
+                                           class="text-center compliant numberInput"
+                                           ng-model="orderSegment.adminQty"
+                                           min="0"
+                                           max="999"
+                                           numbers-only
+                                           readonly
+                                           ng-disabled="orderSegment.adminQty >= orderSegment.recommended">
 	                                <input ng-switch-when="true"
-		                            	ng-class="{noncompliant: orderSegment.adminQty < orderSegment.recommended}"
-	                                    class="text-center compliant numberInput"
-	                                    ng-model="orderSegment.adminQty"
-		                                min="0"
-		                                max="999"
-		                                numbers-only
-		                                spinner-input>
+                                           ng-class="{noncompliant: orderSegment.adminQty < orderSegment.recommended}"
+                                           class="text-center compliant numberInput"
+                                           ng-model="orderSegment.adminQty"
+                                           min="0"
+                                           max="999"
+                                           numbers-only
+                                           spinner-input>
 	                            </span>
-	                        </td>
-	                    </tr>
-					</tbody>
+                        </td>
+                    </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -79,19 +82,22 @@
             <h3 class="panel-title">Profile Totals</h3>
         </div>
         <div class="panel-body">
-            <div id="summaryTable_processing" class="dataTables_processing" style="visibility: hidden;">Processing...</div>
+            <div id="summaryTable_processing" class="dataTables_processing" style="visibility: hidden;">Processing...
+            </div>
             <table id="summaryTable"
                    class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
                    aria-describedby="activeObjectsSummaryTable">
                 <thead>
                 <tr role="row">
-                    <th class="text-left" role="columnheader" aria-controls="activeObjectsSummaryTable" >
+                    <th class="text-left" role="columnheader" aria-controls="activeObjectsSummaryTable">
                         Super Segment
                     </th>
-                    <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" aria-controls="activeObjectsSummaryTable" >
+                    <th ng-repeat="period in profile.periods" class="text-center" role="columnheader"
+                        aria-controls="activeObjectsSummaryTable">
                         {{period.name}}<br/>Min - <b>Recommendation</b> - Max
                     </th>
-                    <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" aria-controls="activeObjectsSummaryTable" >
+                    <th ng-repeat="period in profile.periods" class="text-center" role="columnheader"
+                        aria-controls="activeObjectsSummaryTable">
                         {{period.name}}<br/>Qty
                     </th>
                     <th class="text-center" aria-controls="activeObjectsSummaryTable">
@@ -103,13 +109,23 @@
                 <tr ng-repeat="segment in segments | orderBy: 'name'" class="odd">
                     <td class="">{{segment.name}}</td>
                     <td class="text-center">{{segment.recommended}}</td>
-                    <td class="text-center compliant" ng-class="{noncomplianttotal: getSegmentActualTotal(segment).actualTotal < segment.recommended}" >{{getSegmentActualTotal(segment).actualTotal}}</td>
-                    <td class="text-center compliant" ng-class="{noncomplianttotal: getSegmentActualTotal(segment).orderSegmentCount < segment.recommendedOSCount}" >{{getSegmentActualTotal(segment).orderSegmentCount}} / {{segment.recommendedOSCount}}</td>
+                    <td class="text-center compliant"
+                        ng-class="{noncomplianttotal: getSegmentActualTotal(segment).actualTotal < segment.recommended}">
+                        {{getSegmentActualTotal(segment).actualTotal}}
+                    </td>
+                    <td class="text-center compliant"
+                        ng-class="{noncomplianttotal: getSegmentActualTotal(segment).orderSegmentCount < segment.recommendedOSCount}">
+                        {{getSegmentActualTotal(segment).orderSegmentCount}} / {{segment.recommendedOSCount}}
+                    </td>
                 </tr>
                 <tr class="even">
                     <td class="text-left">Grand Total</td>
-                    <td class="text-center">{{recommendedGrandTotal - 1}} - {{recommendedGrandTotal}} - {{recommendedGrandTotal + 2}}</td>
-                    <td ng-class="{noncomplianttotal: actualGrandTotal < recommendedGrandTotal - 1 || actualGrandTotal > recommendedGrandTotal + 2}" class="text-center compliant">{{actualGrandTotal}}</td>
+                    <td class="text-center">{{recommendedGrandTotal - 1}} - {{recommendedGrandTotal}} -
+                        {{recommendedGrandTotal + 2}}
+                    </td>
+                    <td ng-class="{noncomplianttotal: actualGrandTotal < recommendedGrandTotal - 1 || actualGrandTotal > recommendedGrandTotal + 2}"
+                        class="text-center compliant">{{actualGrandTotal}}
+                    </td>
                     <td></td>
                 </tr>
                 </tbody>
@@ -117,5 +133,5 @@
         </div>
     </div>
 </div>
-<comment-display role = "role" profile = "profile"></comment-display>
-<rsm-button role = "role" profile="profile"></rsm-button>
+<comment-display role="role" profile="profile"></comment-display>
+<rsm-button role="role" profile="profile"></rsm-button>

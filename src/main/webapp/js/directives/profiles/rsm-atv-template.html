@@ -1,4 +1,4 @@
-<rsm-button role = "role" profile="profile"></rsm-button>
+<rsm-button role="role" profile="profile"></rsm-button>
 <div class="container-full">
     <div class="panel panel-primary">
         <div class="panel-heading">
@@ -11,54 +11,55 @@
                        aria-describedby="activeObjectsTable_info">
                     <thead>
                     <tr role="row">
-                    	<th class="table-hidden-col">{{os.sort}}</th>
-                        <th class="col-sm-2" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
+                        <th class="table-hidden-col">{{os.sort}}</th>
+                        <th class="col-sm-2" role="columnheader" tabindex="0" aria-controls="activeObjectsTable">
                             Order Segment
                         </th>
-                        <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" >
+                        <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" tabindex="0"
+                            aria-controls="activeObjectsTable">
                             {{period.name}}<br/>Min - Target - Max<br/>Qty - DSM Qty - RSM Qty
                         </th>
                     </tr>
                     </thead>
                     <tbody role="alert" aria-live="polite" aria-relevant="all">
                     <tr ng-repeat="key in distinctOS" class="odd">
-                    	<td class="table-hidden-col">{{os.sort}}</td>
+                        <td class="table-hidden-col">{{os.sort}}</td>
                         <td class="col-sm-2">{{key}}</td>
                         <td ng-repeat="os in orderSegments | filter:{name: key}:true" class="text-center"><span>{{os.recMinimum}} - {{os.recommended}} - {{os.recMaximum}}<br/>
                         	<input tabindex="0"
-                            	ng-model="os.actual"
-                                class="text-center numberInput"
-                                min="0"
-                                max="999"
-                                numbers-only
-                                ng-disabled="os.actual != null" ></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>
+                                   ng-model="os.actual"
+                                   class="text-center numberInput"
+                                   min="0"
+                                   max="999"
+                                   numbers-only
+                                   ng-disabled="os.actual != null"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span>
                          	<input tabindex="0"
-                              	ng-model="os.dsmQty"
-                                class="text-center numberInput"
-                                min="0"
-                                max="999"
-                                numbers-only
-                                ng-disabled="os.dsmQty != null" ></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                   ng-model="os.dsmQty"
+                                   class="text-center numberInput"
+                                   min="0"
+                                   max="999"
+                                   numbers-only
+                                   ng-disabled="os.dsmQty != null"></span>&nbsp;&nbsp;&nbsp;&nbsp;
                          	<span ng-switch on="isEditable()">
 	                           	<input ng-switch-when="false"
-	                          		tabindex="0"		
-	                            	ng-class="{noncompliant: os.adminQty < os.recMinimum || os.adminQty > os.recMaximum}"
-                                    ng-model="os.adminQty"
-	                                class="compliant numberInput text-center"
-	                                min="0"
-	                                max="999"
-	                                numbers-only
-	                                readonly
-	                                ng-disabled="os.adminQty >= os.recMinimum || os.adminQty <= os.recMaximum">
+                                       tabindex="0"
+                                       ng-class="{noncompliant: os.adminQty < os.recMinimum || os.adminQty > os.recMaximum}"
+                                       ng-model="os.adminQty"
+                                       class="compliant numberInput text-center"
+                                       min="0"
+                                       max="999"
+                                       numbers-only
+                                       readonly
+                                       ng-disabled="os.adminQty >= os.recMinimum || os.adminQty <= os.recMaximum">
                                 <input ng-switch-when="true"
-	                            	tabindex="0"		
-	                            	ng-class="{noncompliant: os.adminQty < os.recMinimum || os.adminQty > os.recMaximum}"
-                                    ng-model="os.adminQty"
-	                                class="ui-spinner-input compliant numberInput text-center"
-	                                min="0"
-	                                max="999"
-	                                numbers-only
-	                                spinner-input>
+                                       tabindex="0"
+                                       ng-class="{noncompliant: os.adminQty < os.recMinimum || os.adminQty > os.recMaximum}"
+                                       ng-model="os.adminQty"
+                                       class="ui-spinner-input compliant numberInput text-center"
+                                       min="0"
+                                       max="999"
+                                       numbers-only
+                                       spinner-input>
                         	</span>
                         </td>
                     </tr>
@@ -66,29 +67,32 @@
                 </table>
             </div>
             <div class="col-sm-12">
-                <table datatable dt-options="{bPaginate: false,bInfo: false,bSort: false,bFilter: false}" id="summaryTable"
+                <table datatable dt-options="{bPaginate: false,bInfo: false,bSort: false,bFilter: false}"
+                       id="summaryTable"
                        class="table table-condensed table-bordered table-default table-available-items dataTable"
                        aria-describedby="activeObjectsTable_info">
                     <thead>
-	                    <tr role="row" >
-	                    	<th class="table-hidden-col"></th>
-	                       <th ng-repeat="period in profile.periods" class="table-hidden-col"> </th>
-	                    </tr>
+                    <tr role="row">
+                        <th class="table-hidden-col"></th>
+                        <th ng-repeat="period in profile.periods" class="table-hidden-col"></th>
+                    </tr>
                     </thead>
                     <tbody role="alert" aria-live="polite" aria-relevant="all">
-                    	<tr>
-	                    	<td class="col-sm-2 match-header">Profile Totals
-	                        </td>
-		                    <td ng-repeat="period in profile.periods" class="text-center totals-color">
-		                    	<span class="text-center"><strong>{{period.recMinimum}} - {{period.recommended}} - {{period.recMaximum}}</strong></span><br/>
-		                        <span ng-class="{noncomplianttotal: getPeriodTotal(period.code) < period.recMinimum || getPeriodTotal(period.code) > period.recMaximum}" class="compliant text-center" ><strong>{{getPeriodTotal(period.code)}}</strong></span>
-		                    </td>
-	                    </tr>
+                    <tr>
+                        <td class="col-sm-2 match-header">Profile Totals
+                        </td>
+                        <td ng-repeat="period in profile.periods" class="text-center totals-color">
+                            <span class="text-center"><strong>{{period.recMinimum}} - {{period.recommended}} -
+                                {{period.recMaximum}}</strong></span><br/>
+                            <span ng-class="{noncomplianttotal: getPeriodTotal(period.code) < period.recMinimum || getPeriodTotal(period.code) > period.recMaximum}"
+                                  class="compliant text-center"><strong>{{getPeriodTotal(period.code)}}</strong></span>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
-<comment-display role = "role" profile = "profile"></comment-display>
-<rsm-button role = "role" profile="profile"></rsm-button>
+<comment-display role="role" profile="profile"></comment-display>
+<rsm-button role="role" profile="profile"></rsm-button>
