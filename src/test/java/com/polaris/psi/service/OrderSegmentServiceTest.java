@@ -1,5 +1,7 @@
 package com.polaris.psi.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.times;
@@ -106,7 +108,6 @@ public class OrderSegmentServiceTest {
 		service.stockingProfileService = mockStockingService;
 	}
 	
-	@Test(expected=IndexOutOfBoundsException.class)
 	public void testSaveQuantitiesCreateRecordNoRecords() {
 		when(mockStatusService.getInProgressStatus()).thenReturn(mockStatus);
 		when(mockProfileDetailsDto.getOrderSegments()).thenReturn(new ArrayList<OrderSegmentDto>());
@@ -115,6 +116,8 @@ public class OrderSegmentServiceTest {
 		
 		verify(mockStatusService).getInProgressStatus();
 		verify(mockProfileDetailsDto).getOrderSegments();
+		verify(mockProfileDetailsDto).setSuccessful(false);
+		verify(mockProfileDetailsDto).setMessage(Constants.COULD_NOT_UPDATE_DLR_VALUES);
 		
 		verifyNoMoreInteractions(mockProfileDetailsDto, mockStatusService);
 		verifyZeroInteractions(mockDetail, mockReturnedDetail, mockStatus, mockOrderSegment, mockHeader, 
@@ -165,14 +168,17 @@ public class OrderSegmentServiceTest {
 		verifyNoMoreInteractions(mockStatusService, mockStatus, mockProfileDetailsDto, mockHeaderDao, mockHeaderMapper);
 	}
 
-	@Test(expected=IndexOutOfBoundsException.class)
 	public void testSubmitQuantitiesCreateRecordNoRecords() {
 		when(mockStatusService.getPendingStatus()).thenReturn(mockStatus);
 		when(mockProfileDetailsDto.getOrderSegments()).thenReturn(new ArrayList<OrderSegmentDto>());
 		
-		service.submitOrderSegmentQuantities(mockProfileDetailsDto);
+		ProfileDetailsDto result = service.submitOrderSegmentQuantities(mockProfileDetailsDto);
+		
+		assertTrue(result.isSuccessful());
+		assertEquals(Constants.COULD_NOT_UPDATE_DLR_VALUES, result.getMessage());
 		
 		verify(mockStatusService).getPendingStatus();
+		verify(mockProfileDetailsDto).getOrderSegments();
 		
 		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto);
 		verifyZeroInteractions(mockDetail, mockReturnedDetail, mockStatus, mockOrderSegment, mockHeader, 
@@ -246,8 +252,13 @@ public class OrderSegmentServiceTest {
 		service.dsmApproveWithChanges(mockProfileDetailsDto, userName);
 		
 		verify(mockStatusService).getApprovedWithChangesStatus();
+		verify(mockProfileDetailsDto).getOrderSegments();
+		verify(mockProfileDetailsDto, times(2)).isSuccessful();
+		verify(mockProfileDetailsDto).setSuccessful(false);
+		verify(mockProfileDetailsDto).setMessage(Constants.NO_RECORDS);
+		verify(mockProfileDetailsDto).setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
 		
-		verifyNoMoreInteractions(mockStatusService);
+		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto);
 
 		verifyZeroInteractions(mockDetail, mockReturnedDetail, mockStatus, mockOrderSegment, mockHeader, 
 				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao, mockLogService, mockEmailService);
@@ -276,7 +287,7 @@ public class OrderSegmentServiceTest {
 		verify(mockHeaderDao).update(mockHeader);
 		verify(mockHeaderMapper).updateApprovedHeader(mockHeader, mockStatus, userName, nonCompliant);
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
-		verify(mockProfileDetailsDto).isSuccessful();
+		verify(mockProfileDetailsDto, times(2)).isSuccessful();
 		verify(mockProfileDetailsDto).setSuccessful(true);
 		verify(mockLogService).writeDsmChangesToLog(mockHeader, mockOrderSegment);
 		verify(mockEmailService).sendApproveWithChangesEmail(mockProfileDetailsDto);
@@ -297,8 +308,9 @@ public class OrderSegmentServiceTest {
 		verify(mockProfileDetailsDto).getOrderSegments();
 		verify(mockProfileDetailsDto).setMessage(Constants.NO_RECORDS);
 		verify(mockProfileDetailsDto).setSuccessful(false);
+		verify(mockProfileDetailsDto).isSuccessful();
 		
-		verifyNoMoreInteractions(mockStatusService);
+		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto);
 
 		verifyZeroInteractions(mockDetail, mockReturnedDetail, mockStatus, mockOrderSegment, mockHeader, 
 				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao, mockLogService, mockEmailService);
@@ -347,9 +359,11 @@ public class OrderSegmentServiceTest {
 		verify(mockStatusService).getApprovedAsRequestedStatus();
 		verify(mockProfileDetailsDto).getOrderSegments();
 		verify(mockProfileDetailsDto).setMessage(Constants.NO_RECORDS);
+		verify(mockProfileDetailsDto).setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
 		verify(mockProfileDetailsDto).setSuccessful(false);
+		verify(mockProfileDetailsDto, times(2)).isSuccessful();
 
-		verifyNoMoreInteractions(mockStatusService);
+		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto);
 
 		verifyZeroInteractions(mockDetail, mockReturnedDetail, mockStatus, mockOrderSegment, mockHeader, 
 				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao, mockLogService, mockEmailService);
@@ -398,9 +412,11 @@ public class OrderSegmentServiceTest {
 		verify(mockStatusService).getExceptionRequestedStatus();
 		verify(mockProfileDetailsDto).getOrderSegments();
 		verify(mockProfileDetailsDto).setMessage(Constants.NO_RECORDS);
+		verify(mockProfileDetailsDto).setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
 		verify(mockProfileDetailsDto).setSuccessful(false);
+		verify(mockProfileDetailsDto, times(2)).isSuccessful();
 
-		verifyNoMoreInteractions(mockStatusService);
+		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto);
 
 		verifyZeroInteractions(mockDetail, mockReturnedDetail, mockStatus, mockOrderSegment, mockHeader, 
 				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao, mockLogService, mockEmailService);
@@ -428,7 +444,7 @@ public class OrderSegmentServiceTest {
 		verify(mockHeaderDao).update(mockHeader);
 		verify(mockHeaderMapper).updateChangedAttributes(mockHeader, mockStatus, userName, nonCompliant);
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
-		verify(mockProfileDetailsDto).isSuccessful();
+		verify(mockProfileDetailsDto, times(2)).isSuccessful();
 		verify(mockProfileDetailsDto).setSuccessful(true);
 		verify(mockLogService).writeDsmChangesToLog(mockHeader, mockOrderSegment);
 		verify(mockEmailService).sendSubmitForExceptionEmail(mockProfileDetailsDto);
@@ -449,7 +465,7 @@ public class OrderSegmentServiceTest {
 		verify(mockProfileDetailsDto).setMessage(Constants.NO_RECORDS);
 		verify(mockProfileDetailsDto).setSuccessful(false);
 
-		verifyNoMoreInteractions(mockStatusService);
+		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto);
 
 		verifyZeroInteractions(mockDetail, mockReturnedDetail, mockStatus, mockOrderSegment, mockHeader, 
 				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao, mockLogService);
@@ -496,7 +512,8 @@ public class OrderSegmentServiceTest {
 		verify(mockProfileDetailsDto).setSuccessful(false);
 		verify(mockStatusService).getExceptionRequestedStatus();
 		
-		verifyNoMoreInteractions(mockStatusService);
+		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto);
+
 		verifyZeroInteractions(mockDetail, mockReturnedDetail, mockStatus, mockOrderSegment, mockHeader, mockDetailMapper, 
 				mockHeaderMapper, mockDetailDao, mockHeaderDao, mockLogService, mockEmailService, mockStatusService);
 	}
@@ -542,8 +559,9 @@ public class OrderSegmentServiceTest {
 		verify(mockProfileDetailsDto).getOrderSegments();
 		verify(mockProfileDetailsDto).setMessage(Constants.NO_RECORDS);
 		verify(mockProfileDetailsDto).setSuccessful(false);
+		verify(mockProfileDetailsDto).isSuccessful();
 		
-		verifyNoMoreInteractions(mockStatusService);
+		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto);
 
 		verifyZeroInteractions(mockDetail, mockReturnedDetail, mockStatus, mockOrderSegment, mockHeader, 
 				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao, mockLogService, mockEmailService);
@@ -592,9 +610,11 @@ public class OrderSegmentServiceTest {
 		verify(mockStatusService).getApproveAsCompliantStatus();
 		verify(mockProfileDetailsDto).getOrderSegments();
 		verify(mockProfileDetailsDto).setMessage(Constants.NO_RECORDS);
+		verify(mockProfileDetailsDto).setMessage(Constants.COULD_NOT_UPDATE_RSM_VALUES);
 		verify(mockProfileDetailsDto).setSuccessful(false);
+		verify(mockProfileDetailsDto, times(2)).isSuccessful();
 
-		verifyNoMoreInteractions(mockStatusService);
+		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto);
 
 		verifyZeroInteractions(mockDetail, mockReturnedDetail, mockStatus, mockOrderSegment, mockHeader, 
 				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao, mockLogService, mockEmailService);
@@ -624,7 +644,7 @@ public class OrderSegmentServiceTest {
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockProfileDetailsDto).setSuccessful(true);
 		verify(mockLogService).writeRsmChangesToLog(mockHeader, mockOrderSegment);
-		verify(mockProfileDetailsDto).isSuccessful();
+		verify(mockProfileDetailsDto, times(2)).isSuccessful();
 		verify(mockEmailService).sendApproveAsCompliantEmail(mockProfileDetailsDto);
 		
 		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, 
@@ -642,9 +662,11 @@ public class OrderSegmentServiceTest {
 		verify(mockStatusService).getApproveAsNonCompliantStatus();
 		verify(mockProfileDetailsDto).getOrderSegments();
 		verify(mockProfileDetailsDto).setMessage(Constants.NO_RECORDS);
+		verify(mockProfileDetailsDto).setMessage(Constants.COULD_NOT_UPDATE_RSM_VALUES);
 		verify(mockProfileDetailsDto).setSuccessful(false);
+		verify(mockProfileDetailsDto, times(2)).isSuccessful();
 
-		verifyNoMoreInteractions(mockStatusService);
+		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto);
 
 		verifyZeroInteractions(mockDetail, mockReturnedDetail, mockStatus, mockOrderSegment, mockHeader, 
 				mockDetailMapper, mockHeaderMapper, mockDetailDao, mockHeaderDao, mockLogService, mockEmailService);
@@ -674,7 +696,7 @@ public class OrderSegmentServiceTest {
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockProfileDetailsDto).setSuccessful(true);
 		verify(mockLogService).writeRsmChangesToLog(mockHeader, mockOrderSegment);
-		verify(mockProfileDetailsDto).isSuccessful();
+		verify(mockProfileDetailsDto, times(2)).isSuccessful();
 		verify(mockEmailService).sendApproveAsNonCompliantEmail(mockProfileDetailsDto);
 		
 		verifyNoMoreInteractions(mockStatusService, mockProfileDetailsDto, mockOrderSegment, mockHeaderDao, 
