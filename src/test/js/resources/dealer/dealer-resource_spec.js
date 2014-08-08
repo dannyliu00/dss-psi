@@ -1,17 +1,17 @@
-describe('DealerResource', function() {
+describe('DealerResource', function () {
     var httpBackend;
 
-    beforeEach(function() {
+    beforeEach(function () {
         angular.mock.module('sellIn.resources.dealer');
 
-        angular.mock.inject(function($injector) {
+        angular.mock.inject(function ($injector) {
             httpBackend = $injector.get('$httpBackend');
         });
     });
 
-    describe('get', function() {
-        it('returns a promise of a single dealer resource', inject(function(dealerResource, dealerUrl) {
-	        var type = 'type';
+    describe('get', function () {
+        it('returns a promise of a single dealer resource', inject(function (dealerResource, dealerUrl) {
+            var type = 'type';
 
             var dealer = {type: type};
             var expectedRequest = dealerUrl.replace(':type', type);
@@ -22,7 +22,7 @@ describe('DealerResource', function() {
 
             var promise = dealerResource.get(dealer);
 
-            promise.then(function(actualDealer) {
+            promise.then(function (actualDealer) {
                 expect(actualDealer.name).toEqual(expectedDealer.name);
             });
 

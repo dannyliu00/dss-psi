@@ -1,9 +1,9 @@
-(function() {
+(function () {
     var dateFilters = sellInNamespace('sellIn.filters.dateFilters');
 
     describe('DefaultDateFilter', function () {
 
-        var defaultDateFilter ;
+        var defaultDateFilter;
         var defaultDate = new Date('1900-01-01T00:00:00.000Z');
 
         beforeEach(function () {

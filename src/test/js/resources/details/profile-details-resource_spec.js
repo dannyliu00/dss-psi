@@ -1,10 +1,10 @@
-describe('DealerProfileDetailsResource', function() {
+describe('DealerProfileDetailsResource', function () {
     var httpBackend;
 
-    beforeEach(function() {
+    beforeEach(function () {
         angular.mock.module('sellIn.resources.dealerProfileDetails');
 
-        angular.mock.inject(function($injector) {
+        angular.mock.inject(function ($injector) {
             httpBackend = $injector.get('$httpBackend');
         });
     });

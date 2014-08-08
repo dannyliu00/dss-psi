@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var nonDealerSummary = sellInNamespace('sellIn.pages.nondealersummary');
 
     describe('NonDealerSummaryController', function () {
@@ -7,10 +7,10 @@
         var expectedProfilesDeferred, expectedProfiles, expectedRoleDeferred, expectedRole;
         var ctrl;
 
-        beforeEach(function() {
+        beforeEach(function () {
             angular.mock.module('sellIn.pages.nondealersummary');
 
-            angular.mock.module(function($provide) {
+            angular.mock.module(function ($provide) {
                 appRoleResource = jasmine.createSpyObj('appRoleResource', ['get']);
                 $provide.decorator('appRoleResource', [function () {
                     return appRoleResource;
@@ -32,7 +32,7 @@
                 }]);
 
                 blockUI = jasmine.createSpyObj('blockUI', ['start', 'stop']);
-                $provide.decorator('blockUI', [function() {
+                $provide.decorator('blockUI', [function () {
                     return blockUI;
                 }]);
             });
@@ -43,7 +43,10 @@
             expectedStatus = 'current';
             routeParams = {id: expectedId, status: expectedStatus};
             lastTab = 'current';
-            expectedProfiles = [{id: 'id1', name: 'profile 1 name'}, {id: 'id2', name: 'profile 2 name'}];
+            expectedProfiles = [
+                {id: 'id1', name: 'profile 1 name'},
+                {id: 'id2', name: 'profile 2 name'}
+            ];
         });
 
         beforeEach(inject(function ($q, $rootScope, appRoleResource, dsmProfilesResource, rsmProfilesResource) {
@@ -57,17 +60,8 @@
             rsmProfilesResource.queryHistory.andReturn(expectedProfilesDeferred.promise);
         }));
 
-        describe('constructor', function() {
-            it('sets an array of profiles on scope for DSM', inject(function($rootScope,
-                                                                             $location,
-                                                                             dsmProfilesResource,
-                                                                             appRoleResource,
-                                                                             rsmProfilesResource,
-                                                                             profilePageUrl,
-                                                                             dsmUrl,
-                                                                             productTabs,
-                                                                             lastTab,
-                                                                             blockUI) {
+        describe('constructor', function () {
+            it('sets an array of profiles on scope for DSM', inject(function ($rootScope, $location, dsmProfilesResource, appRoleResource, rsmProfilesResource, profilePageUrl, dsmUrl, productTabs, lastTab, blockUI) {
 
                 lastTab.productTab = '';
                 lastTab.profilesTab = '';
@@ -98,20 +92,11 @@
             }));
         });
 
-        describe('constructor', function() {
-            it('sets an array of profiles on scope for RSM', inject(function($rootScope,
-                                                                             $location,
-                                                                             appRoleResource,
-                                                                             dsmProfilesResource,
-                                                                             rsmProfilesResource,
-                                                                             profilePageUrl,
-                                                                             dsmUrl,
-                                                                             productTabs,
-                                                                             lastTab,
-                                                                             blockUI) {
-            	lastTab.productTab = '';
+        describe('constructor', function () {
+            it('sets an array of profiles on scope for RSM', inject(function ($rootScope, $location, appRoleResource, dsmProfilesResource, rsmProfilesResource, profilePageUrl, dsmUrl, productTabs, lastTab, blockUI) {
+                lastTab.productTab = '';
                 lastTab.profilesTab = '';
-            	
+
                 expectedRole = {dsm: false, rsm: true, sessionDetail: {ATV: 'Y'}};
                 expectedRoleDeferred.resolve(expectedRole);
                 var expectedRsm = {type: expectedType, r: expectedR};
@@ -131,7 +116,7 @@
 
                 expect($rootScope.productTabs).toBeDefined();
                 expect($rootScope.productTabs.length).toEqual(1);
-                
+
                 expect(blockUI.start).toHaveBeenCalled();
                 expect(blockUI.stop).toHaveBeenCalled();
             }));

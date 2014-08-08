@@ -1,7 +1,7 @@
-(function() {
+(function () {
     var mainMenu = sellInNamespace('polaris.directives.menu');
 
-    describe('MainMenuController', function() {
+    describe('MainMenuController', function () {
 
         var appRoleResource, menuResource, appAttributeResource;
         var roleDeferred, menuDeferred, attributesDeferred;
@@ -9,7 +9,7 @@
         var scope, isSalesman, isDealer, isDIS, isRSM, dealerId, dealerName;
         var ctrl;
 
-        beforeEach(function() {
+        beforeEach(function () {
             dealerId = 999;
             dealerName = 'UT Dealer Name';
             isSalesman = isDIS = isRSM = true;
@@ -25,29 +25,35 @@
                 }
             };
             expectedAttributes = {};
-            expectedMenuData = {data: [{
-                category: [{
-                    colName: 'mktg',
-                    displayName: 'Marketing',
-                    displayOrder: 1,
-                    mainCategory: 1,
-                    menuLinks:  [{
-                        colName: 'Mktg',
-                        displayName: 'Display Name',
-                        linkTarget: 'http://ut.local/polaris',
-                        linkType: 'Local',
-                        linkWindow: '',
-                        mainCategory: true,
-                        parentName: 'Marketing',
-                        subCatHpId: 0,
-                        subMenuLinks: []
-                    }]
-                }]
-            }]
+            expectedMenuData = {data: [
+                {
+                    category: [
+                        {
+                            colName: 'mktg',
+                            displayName: 'Marketing',
+                            displayOrder: 1,
+                            mainCategory: 1,
+                            menuLinks: [
+                                {
+                                    colName: 'Mktg',
+                                    displayName: 'Display Name',
+                                    linkTarget: 'http://ut.local/polaris',
+                                    linkType: 'Local',
+                                    linkWindow: '',
+                                    mainCategory: true,
+                                    parentName: 'Marketing',
+                                    subCatHpId: 0,
+                                    subMenuLinks: []
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
             };
         });
 
-        beforeEach(function() {
+        beforeEach(function () {
             angular.mock.module('polaris.directives.menu');
 
             angular.mock.module(function ($provide) {
@@ -57,18 +63,18 @@
                 }]);
 
                 menuResource = jasmine.createSpyObj('menuResource', ['get']);
-                $provide.decorator('menuResource', function() {
+                $provide.decorator('menuResource', function () {
                     return menuResource;
                 });
 
                 appAttributeResource = jasmine.createSpyObj('appAttributeResource', ['get']);
-                $provide.decorator('appAttributeResource', function() {
+                $provide.decorator('appAttributeResource', function () {
                     return appAttributeResource;
                 });
             });
         });
 
-        beforeEach(inject(function($q, $rootScope, appRoleResource, menuResource, appAttributeResource) {
+        beforeEach(inject(function ($q, $rootScope, appRoleResource, menuResource, appAttributeResource) {
             roleDeferred = $q.defer();
             appRoleResource.get.andReturn(roleDeferred.promise);
 
@@ -81,8 +87,8 @@
             scope = $rootScope.$new();
         }));
 
-        describe('constructor', function() {
-            it('sets variables on scope', inject(function($rootScope, appRoleResource, menuResource, appAttributeResource) {
+        describe('constructor', function () {
+            it('sets variables on scope', inject(function ($rootScope, appRoleResource, menuResource, appAttributeResource) {
                 roleDeferred.resolve(expectedRole);
                 attributesDeferred.resolve(expectedAttributes);
                 menuDeferred.resolve(expectedMenuData);

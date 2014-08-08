@@ -1,7 +1,7 @@
-(function() {
+(function () {
     var productTabs = sellInNamespace('sellIn.directives.producttabs');
 
-    describe('ProductTabsController', function() {
+    describe('ProductTabsController', function () {
         var scope, ctrl, expectedProductTabs;
 
 //        beforeEach(function() {
@@ -10,7 +10,7 @@
 //            ctrl = new productTabs.ProductTabsController(scope, expectedProductTabs);
 //        });
 
-        
+
 //
 //        });
     });

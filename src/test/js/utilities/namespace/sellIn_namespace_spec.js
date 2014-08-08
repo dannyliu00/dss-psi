@@ -1,40 +1,40 @@
 var sellInNamespace;
 
-describe('PolarisNamespace', function() {
-	var oldConstructor;
-	var errorMessage;
+describe('PolarisNamespace', function () {
+    var oldConstructor;
+    var errorMessage;
 
-	beforeEach(function() {
-		oldConstructor = namespaceUtility.NamespaceInterface;
-		namespaceUtility.NamespaceInterface = jasmine.createSpy('NamespaceInterface');
-		sellInNamespace = undefined;
-		errorMessage = 'expected error message';
-	});
+    beforeEach(function () {
+        oldConstructor = namespaceUtility.NamespaceInterface;
+        namespaceUtility.NamespaceInterface = jasmine.createSpy('NamespaceInterface');
+        sellInNamespace = undefined;
+        errorMessage = 'expected error message';
+    });
 
-	afterEach(function() {
-		namespaceUtility.NamespaceInterface = oldConstructor;
-	});
+    afterEach(function () {
+        namespaceUtility.NamespaceInterface = oldConstructor;
+    });
 
-	it('creates a namespace if one doesnt already exist', function() {
-		var expectedNamespace = 'expected namespace';
+    it('creates a namespace if one doesnt already exist', function () {
+        var expectedNamespace = 'expected namespace';
 
-		namespaceUtility.NamespaceInterface.andReturn(expectedNamespace);
+        namespaceUtility.NamespaceInterface.andReturn(expectedNamespace);
 
-		createSellInNamespace();
+        createSellInNamespace();
 
-		expect(namespaceUtility.NamespaceInterface).toHaveBeenCalled();
-		expect(sellInNamespace).toEqual(expectedNamespace);
-	});
+        expect(namespaceUtility.NamespaceInterface).toHaveBeenCalled();
+        expect(sellInNamespace).toEqual(expectedNamespace);
+    });
 
-	it('throws an error if the namespace already exists', function() {
-		sellInNamespace = 'already created namespace';
+    it('throws an error if the namespace already exists', function () {
+        sellInNamespace = 'already created namespace';
 
-		var testFunction = function() {
+        var testFunction = function () {
             createSellInNamespace(errorMessage);
-		};
+        };
 
-		expect(testFunction).toThrow(errorMessage);
+        expect(testFunction).toThrow(errorMessage);
 
-		expect(namespaceUtility.NamespaceInterface).not.toHaveBeenCalled();
-	});
+        expect(namespaceUtility.NamespaceInterface).not.toHaveBeenCalled();
+    });
 });
