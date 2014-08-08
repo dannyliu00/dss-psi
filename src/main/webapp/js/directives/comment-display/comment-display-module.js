@@ -1,5 +1,5 @@
-(function() {
-	var commentDisplay = sellInNamespace('sellIn.directives.commentdisplay');
+(function () {
+    var commentDisplay = sellInNamespace('sellIn.directives.commentdisplay');
 
     angular.module('sellIn.directives.commentdisplay', [])
         .controller('commentDisplayController', commentDisplay.CommentDisplayController)
