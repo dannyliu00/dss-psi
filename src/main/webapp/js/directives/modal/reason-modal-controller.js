@@ -45,37 +45,37 @@
 	    	if(caption === 'dealerReason') {
 	            dealerProfileResource.submit(os)
 	            	.then(function(returnedos) {
-	            		$modalInstance.close();
+	            		$modalInstance.close(returnedos.successful);
 	            });
 	    	} else if(caption === "Submit for Exception") {
 	    		dealerProfileResource.submitException(os)
         			.then(function(returnedos) {
-        				$modalInstance.close();
+        				$modalInstance.close(returnedos.successful);
     			});
 	    	} else if(caption === "Approve with Changes") {
 	    		dealerProfileResource.approveWChanges(os)
     				.then(function(returnedos) {
-    					$modalInstance.close();
+    					$modalInstance.close(returnedos.successful);
     				});
 	    	} else if(caption === "sendBack") {
 	    		dealerProfileResource.sendBack(os)
 	    			.then(function(returnedos) {
-	    				$modalInstance.close();
+	    				$modalInstance.close(returnedos.successful);
 	    			});
 	    	} else if(caption ==="Return to DSM") {
 	    		dealerProfileResource.returnDsm(os)
 	    			.then(function(returnedos) {
-	    				$modalInstance.close();
+	    				$modalInstance.close(returnedos.successful);
 	    			});
 	    	} else if(caption === "Approve as Compliant") {
 	    		dealerProfileResource.compliant(os)
 	    			.then(function(returnedos) {
-	    				$modalInstance.close();
+	    				$modalInstance.close(returnedos.successful);
 	    			});
 	    	} else if(caption === "Approve as Non-Compliant") {
 	    		dealerProfileResource.nonCompliant(os)
 	    			.then(function(returnedos) {
-	    				$modalInstance.close();
+	    				$modalInstance.close(returnedos.successful);
 	    			});
 	    	}
        };

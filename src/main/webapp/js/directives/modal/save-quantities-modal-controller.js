@@ -15,12 +15,10 @@
         	
         	dealerProfileResource.save(os)
                 .then(function(returnedos) {
-                    orderSegments = returnedos.orderSegments;
-                    profile.nonCompliant = returnedos.nonCompliant;
                     
                     resetChanges();
                     
-                    $modalInstance.close();
+                    $modalInstance.close(returnedos.successful);
                 });
         };
         

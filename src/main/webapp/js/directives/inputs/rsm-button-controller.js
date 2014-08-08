@@ -52,9 +52,13 @@
                 }
             });
 
-            modalInstance.result.then(function () {
-            	var finalDsmUrl = buildUrl();
-                $location.path(finalDsmUrl);
+            modalInstance.result.then(function (success) {
+            	if(success === true) {
+            		var finalDsmUrl = buildUrl();
+                    $location.path(finalDsmUrl);
+                } else {
+                	openResultsDialog();
+                }
             }, function () {
                 console.log('Modal dismissed at: ' + new Date());
             });
@@ -104,10 +108,27 @@
                 }
 			});
 
-        	modalInstance.result.then(function () {
-        		var finalDsmUrl = buildUrl();
-                $location.path(finalDsmUrl);
+        	modalInstance.result.then(function (success) {
+        		if(success === true) {
+            		var finalDsmUrl = buildUrl();
+                    $location.path(finalDsmUrl);
+                } else {
+                	openResultsDialog();
+                }
             }, function () {
+                console.log('Modal dismissed at: ' + new Date());
+            });
+		}
+        
+        function openResultsDialog() {
+        	
+        	var modalInstance = $modal.open({
+				templateUrl: 'js/directives/modal/results-modal-template.html',
+				controller: 'resultsModalController',
+				size: 'sm'
+			});
+
+        	modalInstance.result.then(function () {
                 console.log('Modal dismissed at: ' + new Date());
             });
 		}

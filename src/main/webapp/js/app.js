@@ -11,6 +11,7 @@ angular.module('sellIn', [
     'polaris.directives.tabs',
     'polaris.directives.pagination',
     'sellIn.directives.unsavedChanges',
+    'sellIn.directives.resultsmodal',
     'sellIn.directives.profiles',
     'sellIn.directives.dealerInfo',
     'sellIn.directives.numbersonly',
