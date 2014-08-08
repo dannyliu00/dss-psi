@@ -1,41 +1,41 @@
-(function() {
+(function () {
     var dsmButton = sellInNamespace('sellIn.directives.dsmbutton');
 
     function DsmButtonController($scope, $location, $modal, dsmUrl, lastTab) {
-    	var caption = '';
-    	var changeCaption = 0;
-    	var dsmButtonCaption = "";
-    	
-    	var buildUrl = function() {
+        var caption = '';
+        var changeCaption = 0;
+        var dsmButtonCaption = "";
+
+        var buildUrl = function () {
             return dsmUrl
                 .replace(':type', $scope.profile.typeCode)
                 .replace(':status', lastTab.profilesTab);
         };
-    	
-        $scope.dsmButtonCaptionFill = function() {
-        	if(angular.element('.compliant').hasClass('noncompliant') || angular.element('.compliant').hasClass('noncomplianttotal')) {
-        		dsmButtonCaption = "Submit for Exception";
-        	} else if (isChanged() || angular.element('input').hasClass('noncompliant')) {
-				dsmButtonCaption = "Approve with Changes";	
-        	} else {
-        		dsmButtonCaption = "Approve as Requested";
-        	}
-        	return  dsmButtonCaption;
+
+        $scope.dsmButtonCaptionFill = function () {
+            if (angular.element('.compliant').hasClass('noncompliant') || angular.element('.compliant').hasClass('noncomplianttotal')) {
+                dsmButtonCaption = "Submit for Exception";
+            } else if (isChanged() || angular.element('input').hasClass('noncompliant')) {
+                dsmButtonCaption = "Approve with Changes";
+            } else {
+                dsmButtonCaption = "Approve as Requested";
+            }
+            return  dsmButtonCaption;
         };
-        
-        
-        $scope.dsmToSummary = function(dealerId) {
+
+
+        $scope.dsmToSummary = function (dealerId) {
             lastTab.changeProductTab($scope.profile.typeCode);
 
-            if(isChanged() && $scope.isDirty()) {
-            	openSaveDialog();
+            if (isChanged() && $scope.isDirty()) {
+                openSaveDialog();
             } else {
                 var finalDsmUrl = buildUrl();
-            	$location.path(finalDsmUrl);
+                $location.path(finalDsmUrl);
             }
         };
 
-        function openSaveDialog () {
+        function openSaveDialog() {
 
             var modalInstance = $modal.open({
                 templateUrl: 'js/directives/modal/unsaved-changes-modal-template.html',
@@ -45,84 +45,84 @@
                     role: function () {
                         return $scope.role;
                     },
-		            orderSegments: function () {
-		                return $scope.orderSegments;
-		            },
-		    		profile: function() {
-		    			return $scope.profile;
-		    		}
+                    orderSegments: function () {
+                        return $scope.orderSegments;
+                    },
+                    profile: function () {
+                        return $scope.profile;
+                    }
                 }
             });
 
             modalInstance.result.then(function (success) {
-            	if(success === true) {
-            		var finalDsmUrl = buildUrl();
+                if (success === true) {
+                    var finalDsmUrl = buildUrl();
                     $location.path(finalDsmUrl);
                 } else {
-                	openResultsDialog();
+                    openResultsDialog();
                 }
             }, function () {
-                console.log('Modal dismissed at: ' + new Date());
+                //no-op
             });
         }
 
-        $scope.approveSubmit = function() {
-    		changeCaption = 0;
-        	if(dsmButtonCaption === "Approve as Requested") {
-        		openSubmitDialog();
-        	}else{	
+        $scope.approveSubmit = function () {
+            changeCaption = 0;
+            if (dsmButtonCaption === "Approve as Requested") {
+                openSubmitDialog();
+            } else {
                 openReasonDialog();
-        	}
+            }
         };
-        
-        $scope.sendBack = function() {
-        	changeCaption = 1;
-        	openReasonDialog();
+
+        $scope.sendBack = function () {
+            changeCaption = 1;
+            openReasonDialog();
         };
-        
+
         function openReasonDialog() {
-        	
-        	var modalInstance = $modal.open({
-				templateUrl: 'js/directives/modal/reason-modal-template.html',
-				controller: 'reasonModalController',
-				size: 'sm',
+
+            var modalInstance = $modal.open({
+                templateUrl: 'js/directives/modal/reason-modal-template.html',
+                controller: 'reasonModalController',
+                size: 'sm',
                 resolve: {
-		            orderSegments: function () {
-		                return $scope.orderSegments;
-		            },
-		    		profile: function() {
-		    			return $scope.profile;
-		    		},
-		    		caption: function() {
-		    			if(changeCaption === 1) {
-		    				caption = 'sendBack';
-		    			} else {
-		    				caption = dsmButtonCaption;
-		    			}
-		    			return caption;
-		    		},
-                    confirm: function() {
+                    orderSegments: function () {
+                        return $scope.orderSegments;
+                    },
+                    profile: function () {
+                        return $scope.profile;
+                    },
+                    caption: function () {
+                        if (changeCaption === 1) {
+                            caption = 'sendBack';
+                        } else {
+                            caption = dsmButtonCaption;
+                        }
+                        return caption;
+                    },
+                    confirm: function () {
                         return '';
                     }
                 }
-			});
+            });
 
-        	modalInstance.result.then(function (success) {
-        		if(success === true) {
-            		var finalDsmUrl = buildUrl();
+            modalInstance.result.then(function (success) {
+                if (success === true) {
+                    var finalDsmUrl = buildUrl();
                     $location.path(finalDsmUrl);
                 } else {
-                	openResultsDialog();
+                    openResultsDialog();
                 }
             }, function () {
-                console.log('Modal dismissed at: ' + new Date());
+                // no-op
             });
-		}
-        
+        }
+
         function openSubmitDialog() {
-        	
-        	var dsm = "dsm";
-        	
+
+            var dsm = "dsm";
+
             var modalInstance = $modal.open({
                 templateUrl: 'js/directives/modal/submit-modal-template.html',
                 controller: 'submitController',
@@ -131,13 +131,13 @@
                     orderSegments: function () {
                         return $scope.orderSegments;
                     },
-            		profile: function() {
-            			return $scope.profile;
-            		},
-            		level: function() {
-            			return dsm;
-            		},
-                    confirm: function() {
+                    profile: function () {
+                        return $scope.profile;
+                    },
+                    level: function () {
+                        return dsm;
+                    },
+                    confirm: function () {
                         return '';
                     }
 
@@ -145,38 +145,38 @@
             });
 
             modalInstance.result.then(function (success) {
-            	if(success === true) {
-            		var finalDsmUrl = buildUrl();
+                if (success === true) {
+                    var finalDsmUrl = buildUrl();
                     $location.path(finalDsmUrl);
                 } else {
-                	openResultsDialog();
+                    openResultsDialog();
                 }
             }, function () {
-                console.log('Modal dismissed at: ' + new Date());
+                // no-op
             });
         }
-        
-        function openResultsDialog() {
-        	
-        	var modalInstance = $modal.open({
-				templateUrl: 'js/directives/modal/results-modal-template.html',
-				controller: 'resultsModalController',
-				size: 'sm'
-			});
 
-        	modalInstance.result.then(function () {
-                console.log('Modal dismissed at: ' + new Date());
+        function openResultsDialog() {
+
+            var modalInstance = $modal.open({
+                templateUrl: 'js/directives/modal/results-modal-template.html',
+                controller: 'resultsModalController',
+                size: 'sm'
             });
-		}	
-        
+
+            modalInstance.result.then(function () {
+                // no-op
+            });
+        }
+
         function isChanged() {
-        	for(var i = 0, j = $scope.orderSegments.length; i < j; i++) {
-        		if($scope.orderSegments[i].actual !== parseInt($scope.orderSegments[i].dsmQty)) {
-        			return true;
-        		}
-        	}
-    		return false;
-        } 
+            for (var i = 0, j = $scope.orderSegments.length; i < j; i++) {
+                if ($scope.orderSegments[i].actual !== parseInt($scope.orderSegments[i].dsmQty)) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     dsmButton.DsmButtonController = DsmButtonController;
