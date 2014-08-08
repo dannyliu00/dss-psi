@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var reasonCode = sellInNamespace('sellIn.resources.reasoncode');
 
     angular.module('sellIn.resources.reasoncode', ['ngResource'])

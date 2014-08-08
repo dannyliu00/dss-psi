@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var dealerProfileDetails = sellInNamespace('sellIn.resources.dealerProfileDetails');
 
     function DealerProfileDetailsResource($resource, detailsSaveUrl, detailsSubmitUrl) {
@@ -8,11 +8,11 @@
         });
     }
 
-    DealerProfileDetailsResource.prototype.save = function(details) {
+    DealerProfileDetailsResource.prototype.save = function (details) {
         return this.resource.save(details).$promise;
     };
 
-    DealerProfileDetailsResource.prototype.submit = function(details) {
+    DealerProfileDetailsResource.prototype.submit = function (details) {
         return this.resource.submit(details).$promise;
     };
 

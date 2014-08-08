@@ -1,7 +1,7 @@
 /**
  * Created by pceder on 7/14/2014.
  */
-(function() {
+(function () {
     var menu = sellInNamespace('sellIn.resources.menu');
 
     angular.module('sellIn.resources.menu', ['ngResource'])

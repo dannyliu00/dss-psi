@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var appAttributes = sellInNamespace('sellIn.resources.attribute');
 
     angular.module('sellIn.resources.attribute', ['ngResource'])

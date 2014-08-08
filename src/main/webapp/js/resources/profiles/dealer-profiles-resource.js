@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var dealerProfiles = sellInNamespace('sellIn.resources.dealerProfiles');
 
     function DealerProfilesResource($resource, currentProfilesUrl, historyProfilesUrl) {
@@ -9,13 +9,13 @@
         );
     }
 
-    DealerProfilesResource.prototype.queryCurrent = function(profile) {
+    DealerProfilesResource.prototype.queryCurrent = function (profile) {
         return this.resource.current(profile).$promise;
     };
 
-    DealerProfilesResource.prototype.queryHistory = function(profile) {
+    DealerProfilesResource.prototype.queryHistory = function (profile) {
         return this.resource.history(profile).$promise;
     };
-    
+
     dealerProfiles.DealerProfilesResource = DealerProfilesResource;
 })();
