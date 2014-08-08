@@ -56,32 +56,19 @@ public class PSIProfileMapper implements IMapper<PSIProfile, ProfileDto> {
 		
 		switch (s) {
 			case Constants.PENDING_STATUS:
-				break;
-	
 			case Constants.RETURNED_TO_DEALER:
+			case Constants.APPROVED_NONCOMPLIANT:
 				break;
-	
+		
 			case Constants.RETURNED_TO_DSM:
-				s = Constants.PENDING_STATUS;
-				break;
-	
 			case Constants.EXCEPTION_REQUESTED:
 				s = Constants.PENDING_STATUS;
 				break;
 	
 			case Constants.APPROVED_AS_REQUESTED:
-				s = Constants.APPROVED;
-				break;
-	
 			case Constants.APPROVED_W_CHANGES:
-				s = Constants.APPROVED;
-				break;
-	
 			case Constants.APPROVED_COMPLIANT:
 				s = Constants.APPROVED;
-				break;
-	
-			case Constants.APPROVED_NONCOMPLIANT:
 				break;
 	
 			default:
