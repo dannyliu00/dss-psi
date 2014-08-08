@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var tabs = sellInNamespace('polaris.directives.tabs');
 
     function ApplicationTabs() {
