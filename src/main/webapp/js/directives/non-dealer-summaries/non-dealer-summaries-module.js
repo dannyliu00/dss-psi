@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var nonDealerSummaries = sellInNamespace('sellIn.directives.nondealersummaries');
 
     angular.module('sellIn.directives.nondealersummaries', [
@@ -8,6 +8,6 @@
         'sellIn.resources.role',
         'sellIn.resources.dsmProfiles',
         'sellIn.routing.paths'])
-        .controller('nonDealerSummariesController',nonDealerSummaries.NonDealerSummariesController)
+        .controller('nonDealerSummariesController', nonDealerSummaries.NonDealerSummariesController)
         .directive('nonDealerSummariesDirective', nonDealerSummaries.NonDealerSummariesDirective);
 })();
