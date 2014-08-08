@@ -1,40 +1,56 @@
-(function() {
+(function () {
     var defaultPage = sellInNamespace('sellIn.pages.default');
 
     function DefaultPageController($scope, $location, appRoleResource, dealerSummaryPageUrl, dsmUrl, dsmRoleId, rsmRoleId) {
         var finalUrl = '/';
 
-        appRoleResource.get().then(function(role) {
+        appRoleResource.get().then(function (role) {
             $scope.role = role;
-        }).then(function() {
+        }).then(function () {
+
+            var type = null;
 
             switch ($scope.role.customerClass) {
                 case dsmRoleId:
-	            case rsmRoleId:
-                    var type = getProductType($scope.role);
+                case rsmRoleId:
+                    type = getProductType($scope.role);
                     finalUrl = dsmUrl
                         .replace(':type', type)
                         .replace(':status', 'current');
                     break;
                 default:
-	                var type = getProductType($scope.role);
+                    type = getProductType($scope.role);
                     finalUrl = dealerSummaryPageUrl
                         .replace(':type', type)
                         .replace(':status', 'current');
             }
-        }).then(function() {
+        }).then(function () {
             $location.path(finalUrl);
         });
 
-	    var getProductType = function(role) {
-		    if(role.sessionDetail.ATV === 'Y') return '2';
-		    if(role.sessionDetail.RGR === 'Y') return '6';
-		    if(role.sessionDetail.RZR === 'Y') return 'Z';
-		    if(role.sessionDetail.VIC === 'Y') return '5';
-		    if(role.sessionDetail.IND === 'Y') return 'F';
-		    if(role.sessionDetail.MIL === 'Y') return '9';
-		    if(role.sessionDetail.OSP === 'Y') return 'D';
-	    }
+        var getProductType = function (role) {
+            if (role.sessionDetail.ATV === 'Y') {
+                return '2';
+            }
+            if (role.sessionDetail.RGR === 'Y') {
+                return '6';
+            }
+            if (role.sessionDetail.RZR === 'Y') {
+                return 'Z';
+            }
+            if (role.sessionDetail.VIC === 'Y') {
+                return '5';
+            }
+            if (role.sessionDetail.IND === 'Y') {
+                return 'F';
+            }
+            if (role.sessionDetail.MIL === 'Y') {
+                return '9';
+            }
+            if (role.sessionDetail.OSP === 'Y') {
+                return 'D';
+            }
+        };
     }
 
     defaultPage.DefaultPageController = DefaultPageController;
