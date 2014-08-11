@@ -11,6 +11,9 @@ import com.polaris.psi.repository.entity.PSIProfile;
 import com.polaris.psi.resource.dto.DsmDealerProfilesDto;
 
 /**
+ * DsmDealerProfileMapper handles mapping data from DealerAndDsm and PSIProfile objects to 
+ * a DsmDealerProfilesDto object.
+ * 
  * @author bericks
  *
  */
