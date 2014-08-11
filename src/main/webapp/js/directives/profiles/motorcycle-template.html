@@ -29,9 +29,9 @@
                     </thead>
                     <tbody role="alert" aria-live="polite" aria-relevant="all">
                     <tr ng-repeat="orderSegment in orderSegments" class="odd">
-                        <td class="table-hidden-col">{{os.sort}}</td>
-                        <td ng-class="">{{segName(orderSegment.subSegment)}}</td>
-                        <td class="">{{orderSegment.name}}</td>
+                        <td class="table-hidden-col">{{orderSegment.sort}}</td>
+                        <td ng-class="">{{segName(orderSegment.osName)}}</td>
+                        <td class="">{{orderSegment.osName}}</td>
                         <td class="text-center"><span>{{orderSegment.recommended}}&nbsp;&nbsp;&nbsp;&nbsp;
 	                            <span ng-switch on="isEditable()">
 		                            <input ng-switch-when="false"

@@ -25,7 +25,7 @@
                     <tr ng-repeat="key in distinctOS" class="odd">
                         <td class="table-hidden-col">{{os.sort}}</td>
                         <td class="col-sm-2">{{key}}</td>
-                        <td ng-repeat="os in orderSegments | filter:{name: key}:true" class="text-center"><span>{{os.recMinimum}} - {{os.recommended}} - {{os.recMaximum}}<br/>
+                        <td ng-repeat="os in orderSegments | filter:{osName: key}:true" class="text-center"><span>{{os.recMinimum}} - {{os.recommended}} - {{os.recMaximum}}<br/>
                         	<input tabindex="0"
                                    ng-model="os.actual"
                                    class="text-center numberInput"

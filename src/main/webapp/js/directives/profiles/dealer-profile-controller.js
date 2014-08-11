@@ -72,10 +72,10 @@
         function findDistinctOSes(data) {
             var keys = [];
 
-            keys.push(data[0].name);
+            keys.push(data[0].osName);
             if (data.length > 1) {
                 for (var i = 1; i < data.length; i++) {
-                    var newName = data[i].name;
+                    var newName = data[i].osName;
                     if (keys.indexOf(newName) === -1) {
                         keys.push(newName);
                     }

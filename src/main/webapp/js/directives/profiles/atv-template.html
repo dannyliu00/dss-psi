@@ -25,7 +25,7 @@
                     <tr ng-repeat="key in distinctOS" class="odd">
                         <td class="table-hidden-col">{{os.sort}}</td>
                         <td class="col-sm-2">{{key}}</td>
-                        <td ng-repeat="os in orderSegments | filter:{name: key}:true" class="text-center">
+                        <td ng-repeat="os in orderSegments | filter:{osName: key}:true" class="text-center">
                             {{os.recMinimum}} - {{os.recommended}} - {{os.recMaximum}}<br/>
                             <span ng-switch on="isEditable()">
 	                            <input ng-switch-when="false"
