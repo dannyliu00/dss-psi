@@ -15,8 +15,8 @@ public class OrderSegmentDto implements IBaseDto, Serializable {
 	private static final long serialVersionUID = -4692650680058882881L;
 	
 	private int id;
-	private String name;
-	private String subSegment;
+	private String osCode;
+	private String osName;
 	private int recMinimum;
 	private int recommended;
 	private int recMaximum;
@@ -67,31 +67,31 @@ public class OrderSegmentDto implements IBaseDto, Serializable {
 	}
 
 	/**
-	 * @return the name
+	 * @return the osCode
 	 */
-	public String getName() {
-		return name;
+	public String getOsCode() {
+		return osCode;
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param osCode the osCode to set
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setOsCode(String osCode) {
+		this.osCode = osCode;
 	}
 
 	/**
-	 * @return the subSegment
+	 * @return the osName
 	 */
-	public String getSubSegment() {
-		return subSegment;
+	public String getOsName() {
+		return osName;
 	}
 
 	/**
-	 * @param subSegment the subSegment to set
+	 * @param osName the osName to set
 	 */
-	public void setSubSegment(String subSegment) {
-		this.subSegment = subSegment;
+	public void setOsName(String osName) {
+		this.osName = osName;
 	}
 
 	/**

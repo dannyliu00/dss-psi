@@ -21,7 +21,7 @@ public class PSILogMapperTest {
 	private PSILogMapper mapper;
 	@Mock private DealerProfileHeader mockHeader;
 	@Mock private OrderSegmentDto mockOS;
-	private String userName, adminComments, dealerComments, orderSegmentName;
+	private String userName, adminComments, dealerComments, orderSegmentCode;
 	private Date date;
 	private int headerId, adminQty, adminReasonCode, dealerQty, dealerReasonCode, detailId;
 	
@@ -38,7 +38,7 @@ public class PSILogMapperTest {
 		dealerQty = 1;
 		dealerReasonCode = 9;
 		detailId = 888;
-		orderSegmentName = "os name";
+		orderSegmentCode = "os name";
 		
 		date = Calendar.getInstance().getTime();
 		
@@ -55,7 +55,7 @@ public class PSILogMapperTest {
 		when(mockOS.getAdminReasonCode()).thenReturn(adminReasonCode);
 		when(mockOS.getDealerComments()).thenReturn(dealerComments);
 		when(mockOS.getId()).thenReturn(detailId);
-		when(mockOS.getName()).thenReturn(orderSegmentName);
+		when(mockOS.getOsCode()).thenReturn(orderSegmentCode);
 		when(mockOS.getReasonCode()).thenReturn(dealerReasonCode);
 		
 		mapper = new PSILogMapper();
@@ -82,7 +82,7 @@ public class PSILogMapperTest {
 		verify(mockOS).getDsmReasonCode();
 		verify(mockOS).getFinalQty();
 		verify(mockOS).getId();
-		verify(mockOS).getName();
+		verify(mockOS).getOsCode();
 		verify(mockOS).getReasonCode();
 		
 		verifyNoMoreInteractions(mockHeader, mockOS);
@@ -109,7 +109,7 @@ public class PSILogMapperTest {
 		verify(mockOS).getDsmReasonCode();
 		verify(mockOS).getFinalQty();
 		verify(mockOS).getId();
-		verify(mockOS).getName();
+		verify(mockOS).getOsCode();
 		verify(mockOS).getReasonCode();
 		
 		verifyNoMoreInteractions(mockHeader, mockOS);
@@ -136,7 +136,7 @@ public class PSILogMapperTest {
 		verify(mockOS).getDsmReasonCode();
 		verify(mockOS).getFinalQty();
 		verify(mockOS).getId();
-		verify(mockOS).getName();
+		verify(mockOS).getOsCode();
 		verify(mockOS).getReasonCode();
 		
 		verifyNoMoreInteractions(mockHeader, mockOS);

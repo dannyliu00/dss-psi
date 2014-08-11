@@ -62,7 +62,7 @@ public class ProfileServiceTest {
 	private List<ProfilePeriodDto> mockProfilePeriodDtos;
 
 	private int dealerId, profileId, headerId;
-	private String expectedSubSegment, expectedType, typeCode, expectedEmail;
+	private String expectedOsName, expectedType, typeCode, expectedEmail;
 
 	@Before
 	public void setUp() throws Exception {
@@ -71,7 +71,7 @@ public class ProfileServiceTest {
 		dealerId = 999;
 		profileId = 888;
 		headerId = 111;
-		expectedSubSegment = "U.T. SubSegment";
+		expectedOsName = "U.T. OS Name";
 		typeCode = "U.t. Type Code";
 		expectedType = "U.T. Type";
 		
@@ -82,7 +82,7 @@ public class ProfileServiceTest {
 		
 		mockOrderSegmentDtos = new ArrayList<OrderSegmentDto>();
 		mockOrderSegmentDtos.add(mockOrderSegmentDto);
-		when(mockOrderSegmentDto.getSubSegment()).thenReturn(expectedSubSegment);
+		when(mockOrderSegmentDto.getOsName()).thenReturn(expectedOsName);
 		
 		mockSegmentDtos = new ArrayList<SegmentDto>();
 		mockSegmentDtos.add(mockSegmentDto);

@@ -113,7 +113,7 @@ public class SegmentStockingProfileOrderService {
 	protected SegmentStockingProfile getMatchingStockingProfile(List<SegmentStockingProfile> stockingProfiles, OrderSegmentDto orderSegment) {
 		for (SegmentStockingProfile stockingProfile : stockingProfiles) {
 			String orderSegmentCode = stockingProfile.getOrderSegmentCode();
-			if(orderSegmentCode.equals(orderSegment.getName())) 
+			if(orderSegmentCode.equals(orderSegment.getOsCode())) 
 				return stockingProfile;
 		}
 		

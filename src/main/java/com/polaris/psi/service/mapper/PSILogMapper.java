@@ -65,7 +65,7 @@ public class PSILogMapper {
 		log.setFinalQty(CommonUtils.setIntegerValue(detail.getFinalQty()));
 		log.setHeaderId(header.getId());
 		log.setLogTimestamp(date);
-		log.setOrderSegment(detail.getName());
+		log.setOrderSegment(detail.getOsCode());
 		
 		return log;
 	}
@@ -114,7 +114,7 @@ public class PSILogMapper {
 		log.setDetailId(detail.getId());
 		log.setFinalQty(CommonUtils.setIntegerValue(detail.getFinalQty()));
 		log.setHeaderId(header.getId());
-		log.setOrderSegment(detail.getName());
+		log.setOrderSegment(detail.getOsCode());
 		
 		return log;
 	}
@@ -163,7 +163,7 @@ public class PSILogMapper {
 		log.setDetailId(detail.getId());
 		log.setFinalQty(CommonUtils.setIntegerValue(detail.getFinalQty()));
 		log.setHeaderId(header.getId());
-		log.setOrderSegment(detail.getName());
+		log.setOrderSegment(detail.getOsCode());
 		
 		return log;
 	}
