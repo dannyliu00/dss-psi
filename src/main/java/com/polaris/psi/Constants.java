@@ -43,11 +43,14 @@ public class Constants {
     public static final String APPROVED_W_CHANGES = "APPROVED WITH CHANGES";
     public static final String APPROVED_COMPLIANT = "APPROVED AS COMPLIANT";
     public static final String APPROVED_NONCOMPLIANT = "APPROVED AS NON-COMPLIANT";
+    public static final String APPROVED = "APPROVED";
     
     public static final String SAVE_SUCCESSFUL = "Successful";
     public static final String NOT_AUTHORIZED = "Not Authorized";
     public static final String NO_RECORDS = "No Records";
+    public static final String COULD_NOT_UPDATE_RSM_VALUES = "Could not update the values submitted by the RSM";
     public static final String COULD_NOT_UPDATE_DSM_VALUES = "Could not update the values submitted by the DSM";
+    public static final String COULD_NOT_UPDATE_DLR_VALUES = "Could not update the values submitted";
     
     public static final String PRODUCT_LINE_REGEX = "2|5|6|9|D|F|Z";
     

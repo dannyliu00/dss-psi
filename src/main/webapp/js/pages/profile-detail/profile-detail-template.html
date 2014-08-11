@@ -2,10 +2,13 @@
 <section class="cntr-main-wrapper">
     <div class="cntr-main-content">
         <!-- Page title -->
-        <div class="row"><div class="col-md-8"><h2>{{profile.name}}</h2></div></div>
+        <div class="row">
+            <div class="col-md-8"><h2>{{profile.name}}</h2></div>
+        </div>
         <dealer-info dealer="dealer"></dealer-info>
         <!-- Data and Summary tables -->
-        <profile-details profile="profile" type="profile.type" segments="segments" orderSegments="orderSegments" ></profile-details>
+        <profile-details profile="profile" type="profile.type" segments="segments"
+                         orderSegments="orderSegments"></profile-details>
         <div class="row row-padding"></div>
     </div>
 </section>

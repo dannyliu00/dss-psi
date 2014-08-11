@@ -1,12 +1,12 @@
-(function() {
+(function () {
     var commonHeader = sellInNamespace('polaris.directives.commonHeader');
 
-    describe('CommonHeaderController', function() {
+    describe('CommonHeaderController', function () {
         var scope, expectedTitle, ctrl;
         var menuResource, appRoleResource, appAttributeResource;
         var expectedMenuDeferred, expectedRoleDeferred, expectedAttributeDeferred;
 
-        beforeEach(function() {
+        beforeEach(function () {
             angular.mock.module('polaris.directives.commonHeader');
 
             angular.mock.module(function ($provide) {
@@ -16,12 +16,12 @@
                 }]);
 
                 menuResource = jasmine.createSpyObj('menuResource', ['get']);
-                $provide.decorator('menuResource', function() {
+                $provide.decorator('menuResource', function () {
                     return menuResource;
                 });
 
                 appAttributeResource = jasmine.createSpyObj('appAttributeResource', ['get']);
-                $provide.decorator('appAttributeResource', function() {
+                $provide.decorator('appAttributeResource', function () {
                     return appAttributeResource;
                 });
             });
@@ -42,8 +42,8 @@
             scope = $rootScope.$new();
         }));
 
-        describe('constructor', function() {
-            it('sets attributes on scope', inject(function($rootScope, menuResource, appRoleResource, appAttributeResource) {
+        describe('constructor', function () {
+            it('sets attributes on scope', inject(function ($rootScope, menuResource, appRoleResource, appAttributeResource) {
                 var dealerId = 999;
                 var dealerName = 'UT Dealer Name';
                 var isSalesman, isDealer, isDIS, isRSM;
@@ -60,25 +60,31 @@
                     }
                 };
                 var expectedAttr = {};
-                var expectedMenuData = {data: [{
-                    category: [{
-                        colName: 'mktg',
-                        displayName: 'Marketing',
-                        displayOrder: 1,
-                        mainCategory: 1,
-                        menuLinks:  [{
-                            colName: 'Mktg',
-                            displayName: 'Display Name',
-                            linkTarget: 'http://ut.local/polaris',
-                            linkType: 'Local',
-                            linkWindow: '',
-                            mainCategory: true,
-                            parentName: 'Marketing',
-                            subCatHpId: 0,
-                            subMenuLinks: []
-                        }]
-                    }]
-                    }]
+                var expectedMenuData = {data: [
+                    {
+                        category: [
+                            {
+                                colName: 'mktg',
+                                displayName: 'Marketing',
+                                displayOrder: 1,
+                                mainCategory: 1,
+                                menuLinks: [
+                                    {
+                                        colName: 'Mktg',
+                                        displayName: 'Display Name',
+                                        linkTarget: 'http://ut.local/polaris',
+                                        linkType: 'Local',
+                                        linkWindow: '',
+                                        mainCategory: true,
+                                        parentName: 'Marketing',
+                                        subCatHpId: 0,
+                                        subMenuLinks: []
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
                 };
 
                 expectedRoleDeferred.resolve(expectedRole);

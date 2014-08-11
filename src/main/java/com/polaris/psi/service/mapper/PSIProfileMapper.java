@@ -52,7 +52,30 @@ public class PSIProfileMapper implements IMapper<PSIProfile, ProfileDto> {
 	}
 	
 	protected String getStatus(String s) {
-		if(s == null || s.length() == 0) return Constants.DEFAULT_PROFILE_STATUS;
+		if (s == null) s = "";
+		
+		switch (s) {
+			case Constants.PENDING_STATUS:
+			case Constants.RETURNED_TO_DEALER:
+			case Constants.APPROVED_NONCOMPLIANT:
+				break;
+		
+			case Constants.RETURNED_TO_DSM:
+			case Constants.EXCEPTION_REQUESTED:
+				s = Constants.PENDING_STATUS;
+				break;
+	
+			case Constants.APPROVED_AS_REQUESTED:
+			case Constants.APPROVED_W_CHANGES:
+			case Constants.APPROVED_COMPLIANT:
+				s = Constants.APPROVED;
+				break;
+	
+			default:
+				s = Constants.DEFAULT_PROFILE_STATUS;
+				break;
+		}
+
 		return s;
 	}
 

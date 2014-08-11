@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var appRole = sellInNamespace('sellIn.resources.role');
 
     angular.module('sellIn.resources.role', ['ngResource'])

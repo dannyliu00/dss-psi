@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var dateFilters = sellInNamespace('sellIn.filters.dateFilters');
 
     angular.module('sellIn.filters.dateFilters', [])

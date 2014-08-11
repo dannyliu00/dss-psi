@@ -1,19 +1,19 @@
 (function () {
-	angular.module('sellIn.services.lasttab',[])
+    angular.module('sellIn.services.lasttab', [])
         .factory('lastTab', function lastTabFactory() {
-		
-		var lastTab = {};
 
-        lastTab.productTab = '';
-        lastTab.changeProductTab = function(type) {
-            lastTab.productTab = type;
-        };
+            var lastTab = {};
 
-        lastTab.profilesTab = '';
-        lastTab.changeProfilesTab = function(status) {
-            lastTab.profilesTab = status;
-        };
+            lastTab.productTab = '';
+            lastTab.changeProductTab = function (type) {
+                lastTab.productTab = type;
+            };
 
-        return lastTab;
-	});
+            lastTab.profilesTab = '';
+            lastTab.changeProfilesTab = function (status) {
+                lastTab.profilesTab = status;
+            };
+
+            return lastTab;
+        });
 })();

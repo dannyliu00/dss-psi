@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var rsmProfiles = sellInNamespace('sellIn.resources.rsmProfiles');
 
     function RsmProfilesResource($resource, rsmCurrentProfilesUrl, rsmHistoryProfilesUrl) {
@@ -10,11 +10,11 @@
 
     }
 
-    RsmProfilesResource.prototype.queryCurrent = function(rsm) {
+    RsmProfilesResource.prototype.queryCurrent = function (rsm) {
         return this.resource.current(rsm).$promise;
     };
 
-    RsmProfilesResource.prototype.queryHistory = function(rsm) {
+    RsmProfilesResource.prototype.queryHistory = function (rsm) {
         return this.resource.history(rsm).$promise;
     };
 

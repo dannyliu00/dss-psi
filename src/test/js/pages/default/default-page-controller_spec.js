@@ -1,10 +1,10 @@
-describe('DefaultPageController', function() {
+describe('DefaultPageController', function () {
     var defaultPage = sellInNamespace('sellIn.pages.default');
 
-    var appRoleResource, expectedRole, expectedRoleDeferred, location,  dealerUrl, dsmUrl, dsmRoleId;
+    var appRoleResource, expectedRole, expectedRoleDeferred, location, dealerUrl, dsmUrl, dsmRoleId;
     var ctrl;
 
-    beforeEach(function() {
+    beforeEach(function () {
         angular.mock.module('sellIn.pages.default');
 
         angular.mock.module(function ($provide) {
@@ -14,21 +14,21 @@ describe('DefaultPageController', function() {
             }]);
 
             location = jasmine.createSpyObj('AngularLocation', ['path']);
-            $provide.decorator('$location', function() {
+            $provide.decorator('$location', function () {
                 return location;
             });
         });
 
-	    dealerUrl = '/dealer/:type/:status';
-	    dsmUrl = '/dsm/:type/:status';
-	    expectedRole = {
-		    dealerId: 'UTID',
-		    userName: 'utUser',
-		    customerClass: 'UTDLR',
-		    sessionDetail: {
-			    ATV: 'Y'
-		    }
-	    };
+        dealerUrl = '/dealer/:type/:status';
+        dsmUrl = '/dsm/:type/:status';
+        expectedRole = {
+            dealerId: 'UTID',
+            userName: 'utUser',
+            customerClass: 'UTDLR',
+            sessionDetail: {
+                ATV: 'Y'
+            }
+        };
     });
 
     beforeEach(inject(function ($q, appRoleResource) {
@@ -36,8 +36,8 @@ describe('DefaultPageController', function() {
         appRoleResource.get.andReturn(expectedRoleDeferred.promise);
     }));
 
-    describe('constructor', function() {
-        it('initializes role on scope', inject(function($rootScope, $location, appRoleResource) {
+    describe('constructor', function () {
+        it('initializes role on scope', inject(function ($rootScope, $location, appRoleResource) {
             expectedRoleDeferred.resolve(expectedRole);
 
             ctrl = new defaultPage.DefaultPageController($rootScope, $location, appRoleResource, dealerUrl, dsmUrl, dsmRoleId);
@@ -48,11 +48,11 @@ describe('DefaultPageController', function() {
             expect($rootScope.role.dealerId).toEqual(expectedRole.dealerId);
             expect($rootScope.role.userName).toEqual(expectedRole.userName);
             expect($rootScope.role.customerClass).toEqual(expectedRole.customerClass);
-	        expect($rootScope.role.sessionDetail.ATV).toEqual('Y');
+            expect($rootScope.role.sessionDetail.ATV).toEqual('Y');
         }));
 
-        it('calls location service based on dealer user role', inject(function($rootScope, $location, appRoleResource) {
-	        var expectedType = '2';
+        it('calls location service based on dealer user role', inject(function ($rootScope, $location, appRoleResource) {
+            var expectedType = '2';
 
             expectedRoleDeferred.resolve(expectedRole);
 
@@ -66,8 +66,8 @@ describe('DefaultPageController', function() {
             expect($location.path).toHaveBeenCalledWith(expectedDealerUrl);
         }));
 
-        it('calls location service based on dsm user role', inject(function($rootScope, $location, appRoleResource) {
-        	var expectedType = '2';
+        it('calls location service based on dsm user role', inject(function ($rootScope, $location, appRoleResource) {
+            var expectedType = '2';
             expectedRole = {
                 dealerId: 'UTID',
                 userName: 'utUser',

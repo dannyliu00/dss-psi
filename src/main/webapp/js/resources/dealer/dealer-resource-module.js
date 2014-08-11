@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var dealer = sellInNamespace('sellIn.resources.dealer');
 
     angular.module('sellIn.resources.dealer', ['ngResource'])

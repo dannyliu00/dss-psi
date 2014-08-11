@@ -49,14 +49,14 @@ public class PSIOrderSegmentMapper {
 		dto.setProfileId(os.getProfileId());
 		dto.setComplianceId(os.getComplianceId());
 		dto.setDealerId(os.getDealerId());
-		dto.setName(os.getName());
+		dto.setOsCode(os.getOsCode());
 		dto.setPeriodCode(os.getPeriodCode());
 		dto.setProfileOrderSegmentId(os.getId());
 		dto.setRecMaximum(os.getRecMaximum());
 		dto.setRecMinimum(os.getRecMinimum());
 		dto.setRecommended(os.getRecommended());
 		dto.setSort(os.getSort());
-		dto.setSubSegment(os.getSubSegment());
+		dto.setOsName(os.getOsName());
 
 		if(detail != null) {
 			dto.setActual(detail.getRequestedQty());

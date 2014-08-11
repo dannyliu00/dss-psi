@@ -1,8 +1,8 @@
-(function() {
+(function () {
     var dateFilters = sellInNamespace('sellIn.filters.dateFilters');
 
     function DashFilter() {
-        return function(input) {
+        return function (input) {
             if (input == null || input === '' || input.length === 0 || input === 0) {
                 return '-';
             }

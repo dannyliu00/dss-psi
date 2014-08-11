@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var rsmProfiles = sellInNamespace('sellIn.resources.rsmProfiles');
 
     angular.module('sellIn.resources.rsmProfiles', ['ngResource'])

@@ -37,6 +37,12 @@ public class PSIProfileDetailDao extends AbstractPolarisMinneapolisDao<PSIProfil
 		super(PSIProfileDetail.class);
 	}
 	
+	/**
+	 * Retrieves the details of an existing dealer inventory profile based on the header ID
+	 * 
+	 * @param headerId
+	 * @return
+	 */
 	public List<PSIProfileDetail> retrieveByHeaderId(Integer headerId) {
 		
 		LOG.methodStart(PolarisIdentity.get(), "retrieveByHeaderId");
@@ -47,31 +53,36 @@ public class PSIProfileDetailDao extends AbstractPolarisMinneapolisDao<PSIProfil
 		LOG.trace(PolarisIdentity.get(), "retrieveByHeaderId", "query to run: " + QUERY_BY_HEADER 
 				+ " query paramters: headerId = " + headerId);
 		
-		@SuppressWarnings("unchecked")
-		List<Object[]> results = query.getResultList();
 		List<PSIProfileDetail> details = new ArrayList<PSIProfileDetail>();
-		
-		for (Object[] result : results) {
-			PSIProfileDetail detail = new PSIProfileDetail();
-			detail.setHeaderId(CommonUtils.convertToInteger((BigDecimal) result[0]));
-			detail.setId(CommonUtils.convertToInteger((BigDecimal) result[1]));
-			detail.setProfileOrderSegmentId(CommonUtils.convertToInteger((BigDecimal) result[2]));
-			detail.setRequestedQty(CommonUtils.convertToInteger((BigDecimal) result[3]));
-			detail.setReasonCode(CommonUtils.convertToInteger((BigDecimal) result[4]));
-			detail.setDealerComments(CommonUtils.trimString((String) result[5]));
-			detail.setDsmQty(CommonUtils.convertToInteger((BigDecimal) result[6]));
-			detail.setDsmReasonCode(CommonUtils.convertToInteger((BigDecimal) result[7]));
-			detail.setDsmComments(CommonUtils.trimString((String) result[8]));
-			detail.setAdminQty(CommonUtils.convertToInteger((BigDecimal) result[9]));
-			detail.setAdminReasonCode(CommonUtils.convertToInteger((BigDecimal) result[10]));
-			detail.setAdminComments(CommonUtils.trimString((String) result[11]));
-			detail.setFinalQty(CommonUtils.convertToInteger((BigDecimal) result[12]));
-			detail.setPeriodCode(CommonUtils.trimString((String) result[13]));
+		try {
+			@SuppressWarnings("unchecked")
+			List<Object[]> results = query.getResultList();
 			
-			details.add(detail);
+			for (Object[] result : results) {
+				PSIProfileDetail detail = new PSIProfileDetail();
+				detail.setHeaderId(CommonUtils.convertToInteger((BigDecimal) result[0]));
+				detail.setId(CommonUtils.convertToInteger((BigDecimal) result[1]));
+				detail.setProfileOrderSegmentId(CommonUtils.convertToInteger((BigDecimal) result[2]));
+				detail.setRequestedQty(CommonUtils.convertToInteger((BigDecimal) result[3]));
+				detail.setReasonCode(CommonUtils.convertToInteger((BigDecimal) result[4]));
+				detail.setDealerComments(CommonUtils.trimString((String) result[5]));
+				detail.setDsmQty(CommonUtils.convertToInteger((BigDecimal) result[6]));
+				detail.setDsmReasonCode(CommonUtils.convertToInteger((BigDecimal) result[7]));
+				detail.setDsmComments(CommonUtils.trimString((String) result[8]));
+				detail.setAdminQty(CommonUtils.convertToInteger((BigDecimal) result[9]));
+				detail.setAdminReasonCode(CommonUtils.convertToInteger((BigDecimal) result[10]));
+				detail.setAdminComments(CommonUtils.trimString((String) result[11]));
+				detail.setFinalQty(CommonUtils.convertToInteger((BigDecimal) result[12]));
+				detail.setPeriodCode(CommonUtils.trimString((String) result[13]));
+				
+				details.add(detail);
+			}
+		} catch (Exception e) {
+			LOG.error(PolarisIdentity.get(), "retrieveByHeaderId", e);
+		} finally {
+			entityManager.close();
+			LOG.trace(PolarisIdentity.get(), "retrieveByHeaderId", "closed entityManager");
 		}
-		
-		entityManager.close();
 		
 		LOG.methodEnd(PolarisIdentity.get(), "retrieveByHeaderId");
 		

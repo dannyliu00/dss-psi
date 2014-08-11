@@ -15,9 +15,9 @@ public class PSIOrderSegment implements Serializable {
 	
 	private Integer id;
 	private Integer profileId;
-	private String name;
+	private String osCode;
 	private Integer sort;
-	private String subSegment;
+	private String osName;
 	private Integer complianceId;
 	private String periodCode;
 	private Integer dealerId;
@@ -54,17 +54,17 @@ public class PSIOrderSegment implements Serializable {
 	}
 
 	/**
-	 * @return the name
+	 * @return the osCode
 	 */
-	public String getName() {
-		return name;
+	public String getOsCode() {
+		return osCode;
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param osCode the osCode to set
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setOsCode(String name) {
+		this.osCode = name;
 	}
 
 	/**
@@ -82,17 +82,17 @@ public class PSIOrderSegment implements Serializable {
 	}
 
 	/**
-	 * @return the subSegment
+	 * @return the osName
 	 */
-	public String getSubSegment() {
-		return subSegment;
+	public String getOsName() {
+		return osName;
 	}
 
 	/**
-	 * @param subSegment the subSegment to set
+	 * @param osName the osName to set
 	 */
-	public void setSubSegment(String subSegment) {
-		this.subSegment = subSegment;
+	public void setOsName(String osName) {
+		this.osName = osName;
 	}
 
 	/**
@@ -192,13 +192,13 @@ public class PSIOrderSegment implements Serializable {
 				+ ((dealerId == null) ? 0 : dealerId.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((profileId == null) ? 0 : profileId.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((osCode == null) ? 0 : osCode.hashCode());
 		result = prime * result
 				+ ((periodCode == null) ? 0 : periodCode.hashCode());
 		result = prime * result
 				+ ((recommended == null) ? 0 : recommended.hashCode());
 		result = prime * result
-				+ ((subSegment == null) ? 0 : subSegment.hashCode());
+				+ ((osName == null) ? 0 : osName.hashCode());
 		return result;
 	}
 	
@@ -234,10 +234,10 @@ public class PSIOrderSegment implements Serializable {
 				return false;
 		} else if (!profileId.equals(other.profileId))
 			return false;
-		if (name == null) {
-			if (other.name != null)
+		if (osCode == null) {
+			if (other.osCode != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!osCode.equals(other.osCode))
 			return false;
 		if (periodCode == null) {
 			if (other.periodCode != null)
@@ -249,10 +249,10 @@ public class PSIOrderSegment implements Serializable {
 				return false;
 		} else if (!recommended.equals(other.recommended))
 			return false;
-		if (subSegment == null) {
-			if (other.subSegment != null)
+		if (osName == null) {
+			if (other.osName != null)
 				return false;
-		} else if (!subSegment.equals(other.subSegment))
+		} else if (!osName.equals(other.osName))
 			return false;
 		return true;
 	}
@@ -262,8 +262,8 @@ public class PSIOrderSegment implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "PSIOrderSegmentDao [id=" + id + ", profileId=" + profileId + ", name=" + name + ", subSegment="
-				+ subSegment + ", complianceId=" + complianceId
+		return "PSIOrderSegmentDao [id=" + id + ", profileId=" + profileId + ", osCode=" + osCode + ", osName="
+				+ osName + ", complianceId=" + complianceId
 				+ ", periodCode=" + periodCode + ", dealerId=" + dealerId
 				+ ", recommended=" + recommended + "]";
 	}

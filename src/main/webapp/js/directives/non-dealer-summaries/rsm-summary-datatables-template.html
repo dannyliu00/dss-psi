@@ -1,16 +1,18 @@
 <div class="col-md-12">
-    <div id="activeObjectsTable_processing" class="dataTables_processing" style="visibility: hidden;">Processing...</div>
+    <div id="activeObjectsTable_processing" class="dataTables_processing" style="visibility: hidden;">Processing...
+    </div>
     <table datatable="ng" dt-options="dtOptions" id="activeObjectsTable"
            class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
            aria-describedby="activeObjectsTable_info">
         <thead>
         <tr role="row">
-            <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" rowspan="1" colspan="1" style="width: 5%;">
+            <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" rowspan="1"
+                colspan="1" style="width: 5%;">
             </th>
             <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable"
-            	colspan="1" aria-label="DSM/DRM : activate to sort column ascending" style="width: 15%;">
-            	DSM/DRM
-            	</th>
+                colspan="1" aria-label="DSM/DRM : activate to sort column ascending" style="width: 15%;">
+                DSM/DRM
+            </th>
             <th class="sorting" role="columnheader" tabindex="0" aria-controls="activeObjectsTable"
                 colspan="1" aria-label="Dealer Number : activate to sort column ascending" style="width: 10%;">
                 Dealer Number
@@ -34,14 +36,26 @@
         </tr>
         </thead>
         <tbody role="alert" aria-live="polite" aria-relevant="all">
-        <tr dt-rows ng-repeat="profile in profiles" >
-            <td class=" navLink" ng-class="profile.nonCompliant === true ? 'red-light' : 'green-light'" ></td>
-            <td class=" navLink"><a ng-click="navigateToNonDealerProfile(profile.dealerid, profile.profileId, profile.type)" >{{profile.dsmName}}</a></td>
-            <td class=" navLink"><a ng-click="navigateToNonDealerProfile(profile.dealerid, profile.profileId, profile.type)" >{{profile.dealerid}}</a></td>
-            <td class=" navLink"><a ng-click="navigateToNonDealerProfile(profile.dealerid, profile.profileId, profile.type)" >{{profile.dealerName}}</a></td>
-            <td class=" navLink"><a ng-click="navigateToNonDealerProfile(profile.dealerid, profile.profileId, profile.type)" >{{profile.profileName}}</a></td>
-            <td class=" navLink"><a ng-click="navigateToNonDealerProfile(profile.dealerid, profile.profileId, profile.type)" >{{profile.modifiedDate | date : 'mediumDate' | stringToDate | defaultDate | date : 'mediumDate' | dash}}</a></td>
-            <td class=" navLink"><a ng-click="navigateToNonDealerProfile(profile.dealerid, profile.profileId, profile.type)" >{{profile.status}}</a></td>
+        <tr dt-rows ng-repeat="profile in profiles">
+            <td class=" navLink" ng-class="profile.nonCompliant === true ? 'red-light' : 'green-light'"></td>
+            <td class=" navLink"><a
+                    ng-click="navigateToNonDealerProfile(profile.dealerid, profile.profileId, profile.type)">{{profile.dsmName}}</a>
+            </td>
+            <td class=" navLink"><a
+                    ng-click="navigateToNonDealerProfile(profile.dealerid, profile.profileId, profile.type)">{{profile.dealerid}}</a>
+            </td>
+            <td class=" navLink"><a
+                    ng-click="navigateToNonDealerProfile(profile.dealerid, profile.profileId, profile.type)">{{profile.dealerName}}</a>
+            </td>
+            <td class=" navLink"><a
+                    ng-click="navigateToNonDealerProfile(profile.dealerid, profile.profileId, profile.type)">{{profile.profileName}}</a>
+            </td>
+            <td class=" navLink"><a
+                    ng-click="navigateToNonDealerProfile(profile.dealerid, profile.profileId, profile.type)">{{profile.modifiedDate
+                | date : 'mediumDate' | stringToDate | defaultDate | date : 'mediumDate' | dash}}</a></td>
+            <td class=" navLink"><a
+                    ng-click="navigateToNonDealerProfile(profile.dealerid, profile.profileId, profile.type)">{{profile.status}}</a>
+            </td>
         </tr>
         </tbody>
     </table>

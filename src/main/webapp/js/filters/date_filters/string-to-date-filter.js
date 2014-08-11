@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var dateFilters = sellInNamespace('sellIn.filters.dateFilters');
 
     function StringToDateFilter() {
@@ -16,7 +16,7 @@
             //Tue, 10 Dec 2013 17:38:30
             //2013-12-10T17:49:22.750
 
-            if ((typeof dateString != 'string') || (dateString === '') || (dateString === null)) {
+            if ((typeof dateString !== 'string') || (dateString === '') || (dateString === null)) {
                 return null;
             }
 

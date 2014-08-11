@@ -11,6 +11,7 @@ angular.module('sellIn', [
     'polaris.directives.tabs',
     'polaris.directives.pagination',
     'sellIn.directives.unsavedChanges',
+    'sellIn.directives.resultsmodal',
     'sellIn.directives.profiles',
     'sellIn.directives.dealerInfo',
     'sellIn.directives.numbersonly',
@@ -49,7 +50,7 @@ angular.module('sellIn', [
     'sellIn.routing.paths',
     'sellIn.routing',
     'blockUI'
-]).config(function(blockUIConfigProvider) {
+]).config(function (blockUIConfigProvider) {
 
     // Change the default overlay message
     blockUIConfigProvider.message('Please wait...');

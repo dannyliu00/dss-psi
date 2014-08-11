@@ -97,7 +97,7 @@ public class SegmentStockingProfileOrderServiceTest {
 
 	@Test
 	public void testSaveStockingProfileSendTrueNewProfile() {
-		when(mockOrderSegment.getName()).thenReturn("matching name");
+		when(mockOrderSegment.getOsCode()).thenReturn("matching name");
 		when(mockStockingProfile.getOrderSegmentCode()).thenReturn("matching name");
 		when(mockStockingProfile.getStockingProfileProfileCode()).thenReturn(null);
 		when(mockStockingProfile.getStockingProfileSegmentCode()).thenReturn(expectedSegmentCode);
@@ -112,7 +112,7 @@ public class SegmentStockingProfileOrderServiceTest {
 		verify(mockDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockOrderSegment).getDealerId();
 		verify(mockOrderSegment).getProfileId();
-		verify(mockOrderSegment).getName();
+		verify(mockOrderSegment).getOsCode();
 		verify(mockPSIProfileDao).retrieveProfileById(expectedProfileId, expectedDealerId);
 		verify(mockPSIProfile).getType();
 		verify(mockStockingProfileDao).retrieveSegmentProfilesList(expectedDealerId, expectedType);
@@ -127,7 +127,7 @@ public class SegmentStockingProfileOrderServiceTest {
 
 	@Test
 	public void testSaveStockingProfileSendTrueExistingProfile() {
-		when(mockOrderSegment.getName()).thenReturn("matching name");
+		when(mockOrderSegment.getOsCode()).thenReturn("matching name");
 		when(mockStockingProfile.getOrderSegmentCode()).thenReturn("matching name");
 		when(mockStockingProfile.getStockingProfileProfileCode()).thenReturn(expectedProfileCode);
 		when(mockStockingProfile.getStockingProfileSegmentCode()).thenReturn(expectedSegmentCode);
@@ -142,7 +142,7 @@ public class SegmentStockingProfileOrderServiceTest {
 		verify(mockDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockOrderSegment).getDealerId();
 		verify(mockOrderSegment).getProfileId();
-		verify(mockOrderSegment).getName();
+		verify(mockOrderSegment).getOsCode();
 		verify(mockPSIProfileDao).retrieveProfileById(expectedProfileId, expectedDealerId);
 		verify(mockPSIProfile).getType();
 		verify(mockStockingProfileDao).retrieveSegmentProfilesList(expectedDealerId, expectedType);
@@ -171,7 +171,7 @@ public class SegmentStockingProfileOrderServiceTest {
 	
 	@Test
 	public void testGetMatchingStockingProfileNullResult() {
-		when(mockOrderSegment.getName()).thenReturn("no match");
+		when(mockOrderSegment.getOsCode()).thenReturn("no match");
 		when(mockStockingProfile.getOrderSegmentCode()).thenReturn("NO MATCH");
 		
 		SegmentStockingProfile result = orderService.getMatchingStockingProfile(mockProfileResults, mockOrderSegment);
@@ -182,7 +182,7 @@ public class SegmentStockingProfileOrderServiceTest {
 
 	@Test
 	public void testGetMatchingStockingProfile() {
-		when(mockOrderSegment.getName()).thenReturn("match");
+		when(mockOrderSegment.getOsCode()).thenReturn("match");
 		when(mockStockingProfile.getOrderSegmentCode()).thenReturn("match");
 		
 		SegmentStockingProfile result = orderService.getMatchingStockingProfile(mockProfileResults, mockOrderSegment);

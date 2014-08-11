@@ -36,6 +36,12 @@ public class PSIProfilePeriodDao extends AbstractPolarisMinneapolisDao<PSIProfil
 		super(PSIProfilePeriod.class);
 	}
 	
+	/**
+	 * Retrieves a list of inventory profile sell-in periods for the given profile ID
+	 * 
+	 * @param profileId
+	 * @return
+	 */
 	public List<PSIProfilePeriod> retrieveByProfileId(Integer profileId) {
 		
 		LOG.methodStart(PolarisIdentity.get(), "retrieveByProfileId");
@@ -46,22 +52,27 @@ public class PSIProfilePeriodDao extends AbstractPolarisMinneapolisDao<PSIProfil
 		LOG.trace(PolarisIdentity.get(), "retrieveByProfileId", "query to run: " + QUERY_BY_PROFILE_ID 
 				+ "query paramters: profileId = " + profileId);
 		
-		@SuppressWarnings("unchecked")
-		List<Object[]> results = query.getResultList();
-
 		List<PSIProfilePeriod> periods = new ArrayList<PSIProfilePeriod>();
-		for (Object[] result : results) {
-			PSIProfilePeriod period = new PSIProfilePeriod();
-			period.setId(CommonUtils.convertToInteger((BigDecimal) result[0]));
-			period.setPeriodCode(CommonUtils.trimString((String) result[1]));
-			period.setName(CommonUtils.trimString((String) result[2]));
-			period.setStartDate((Date) result[3]);
-			period.setEndDate((Date) result[4]);
-			period.setSort(CommonUtils.convertToInteger((BigDecimal) result[5]));
-			periods.add(period);
+		try {
+			@SuppressWarnings("unchecked")
+			List<Object[]> results = query.getResultList();
+
+			for (Object[] result : results) {
+				PSIProfilePeriod period = new PSIProfilePeriod();
+				period.setId(CommonUtils.convertToInteger((BigDecimal) result[0]));
+				period.setPeriodCode(CommonUtils.trimString((String) result[1]));
+				period.setName(CommonUtils.trimString((String) result[2]));
+				period.setStartDate((Date) result[3]);
+				period.setEndDate((Date) result[4]);
+				period.setSort(CommonUtils.convertToInteger((BigDecimal) result[5]));
+				periods.add(period);
+			}
+		} catch (Exception e) {
+			LOG.error(PolarisIdentity.get(), "retrieveByProfileId", e);
+		} finally {
+			entityManager.close();
+			LOG.trace(PolarisIdentity.get(), "retrieveByProfileId", "entityManager closed");
 		}
-		
-		entityManager.close();
 		
 		LOG.methodEnd(PolarisIdentity.get(), "retrieveByProfileId");
 		

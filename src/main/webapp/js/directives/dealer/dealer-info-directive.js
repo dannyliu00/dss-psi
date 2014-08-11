@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var dealerInfo = sellInNamespace('sellIn.directives.dealerInfo');
 
     function DealerInfoDirective() {

@@ -1,53 +1,51 @@
 /**
  * Created by bericks on 5/13/2014.
  */
-(function() {
+(function () {
     var dealerProfileSummary = sellInNamespace('sellIn.pages.dealerProfileSummary');
 
-    function DealerProfileSummaryCtrl ($scope, $routeParams, $location, dealerProfilesResource,
-                                       profilePageUrl, dealerSummaryPageUrl, lastTab, blockUI) {
+    function DealerProfileSummaryCtrl($scope, $routeParams, $location, dealerProfilesResource, profilePageUrl, dealerSummaryPageUrl, lastTab, blockUI) {
 
         this.location = $location;
-        
-        var loadProfiles = function(status) {
+
+        var loadProfiles = function (status) {
             // Block the user interface
             blockUI.start();
-            
+
             lastTab.changeProfilesTab(status);
-            
+
             var rVal = new Date().getTime();
-             
+
             var profile = {r: rVal};
 
-            if(status === 'current') {
-                dealerProfilesResource.queryCurrent(profile).then(function(profiles) {
+            if (status === 'current') {
+                dealerProfilesResource.queryCurrent(profile).then(function (profiles) {
                     $scope.profiles = profiles;
                 });
             } else {
-                dealerProfilesResource.queryHistory(profile).then(function(profiles) {
+                dealerProfilesResource.queryHistory(profile).then(function (profiles) {
                     $scope.profiles = profiles;
                 });
             }
             // Unblock the user interface
             blockUI.stop();
         };
-        
+
         loadProfiles($routeParams.status);
 
-        $scope.navigateToProfile = function(profileId, type) {
-        	lastTab.changeProductTab('');
+        $scope.navigateToProfile = function (profileId, type) {
+            lastTab.changeProductTab('');
             var finalUrl = profilePageUrl.replace(':profileId', profileId)
                 .replace(':type', type);
             $location.path(finalUrl);
         };
 
-        $scope.$on('tabClick', function(event, data) {
+        $scope.$on('tabClick', function (event, data) {
             lastTab.changeProfilesTab(data);
             var type = $routeParams.type;
-            var status = data;
             var finalUrl = dealerSummaryPageUrl
                 .replace(':type', type)
-                .replace(':status', status);
+                .replace(':status', data);
             $location.path(finalUrl);
         });
 

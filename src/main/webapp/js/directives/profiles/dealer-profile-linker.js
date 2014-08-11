@@ -1,7 +1,7 @@
-(function() {
+(function () {
     var dealerProfiles = sellInNamespace('sellIn.directives.profiles');
 
-    function ProfileUILinker (tElement, tAttrs) {
+    function ProfileUILinker(tElement, tAttrs) {
         var basePath = 'js/directives/profiles/';
         var type = tAttrs.profile.type;
         var pathSuffix = '-template.html';

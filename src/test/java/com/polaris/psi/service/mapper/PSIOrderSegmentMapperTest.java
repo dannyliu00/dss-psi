@@ -27,8 +27,8 @@ public class PSIOrderSegmentMapperTest {
 		expectedRecommended, expectedRecMaximum;
 	private Integer expectedHeaderId, expectedProfileOrderSegmentId, expectedRequestedQty, expectedReasonCode, 
 		expectedDsmQty, expectedDsmReasonCode, expectedAdminQty, expectedAdminReasonCode, expectedFinalQty;
-	private String expectedDealerComments, expectedDsmComments, expectedAdminComments, expectedName, 
-		expectedSubSegment, expectedPeriodCode, expectedDealerEmail;
+	private String expectedDealerComments, expectedDsmComments, expectedAdminComments, expectedOsCode, 
+		expectedOsName, expectedPeriodCode, expectedDealerEmail;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -42,8 +42,8 @@ public class PSIOrderSegmentMapperTest {
 		expectedRecMinimum = 1;
 		expectedRecommended = 3;
 		expectedRecMaximum = 5;
-		expectedName = "UT Name";
-		expectedSubSegment = "UT SubSegment";
+		expectedOsCode = "UT Name";
+		expectedOsName = "UT SubSegment";
 		expectedPeriodCode = "UT CODE";
 		expectedDealerEmail = "UT@local";
 		
@@ -65,13 +65,13 @@ public class PSIOrderSegmentMapperTest {
 		when(mockOS.getProfileId()).thenReturn(expectedProfileId);
 		when(mockOS.getDealerId()).thenReturn(expectedDealerId);
 		when(mockOS.getId()).thenReturn(expectedId);
-		when(mockOS.getName()).thenReturn(expectedName);
+		when(mockOS.getOsCode()).thenReturn(expectedOsCode);
 		when(mockOS.getPeriodCode()).thenReturn(expectedPeriodCode);
 		when(mockOS.getRecMaximum()).thenReturn(expectedRecMaximum);
 		when(mockOS.getRecMinimum()).thenReturn(expectedRecMinimum);
 		when(mockOS.getRecommended()).thenReturn(expectedRecommended);
 		when(mockOS.getSort()).thenReturn(expectedSort);
-		when(mockOS.getSubSegment()).thenReturn(expectedSubSegment);
+		when(mockOS.getOsName()).thenReturn(expectedOsName);
 		
 		when(mockDetail.getAdminComments()).thenReturn(expectedAdminComments);
 		when(mockDetail.getAdminQty()).thenReturn(expectedAdminQty);
@@ -100,13 +100,13 @@ public class PSIOrderSegmentMapperTest {
 		verify(mockOS).getComplianceId();
 		verify(mockOS).getDealerId();
 		verify(mockOS).getProfileId();
-		verify(mockOS).getName();
+		verify(mockOS).getOsCode();
 		verify(mockOS).getPeriodCode();
 		verify(mockOS).getRecMaximum();
 		verify(mockOS).getRecMinimum();
 		verify(mockOS).getRecommended();
 		verify(mockOS).getSort();
-		verify(mockOS).getSubSegment();
+		verify(mockOS).getOsName();
 		
 		verify(mockDetail).getAdminComments();
 		verify(mockDetail).getAdminQty();
@@ -133,13 +133,13 @@ public class PSIOrderSegmentMapperTest {
 		verify(mockOS).getProfileId();
 		verify(mockOS).getComplianceId();
 		verify(mockOS).getDealerId();
-		verify(mockOS).getName();
+		verify(mockOS).getOsCode();
 		verify(mockOS).getPeriodCode();
 		verify(mockOS).getRecMaximum();
 		verify(mockOS).getRecMinimum();
 		verify(mockOS).getRecommended();
 		verify(mockOS).getSort();
-		verify(mockOS).getSubSegment();
+		verify(mockOS).getOsName();
 		
 		verifyZeroInteractions(mockDetail);
 	}
@@ -158,13 +158,13 @@ public class PSIOrderSegmentMapperTest {
 		verify(mockOS).getProfileId();
 		verify(mockOS).getComplianceId();
 		verify(mockOS).getDealerId();
-		verify(mockOS).getName();
+		verify(mockOS).getOsCode();
 		verify(mockOS, times(2)).getPeriodCode();
 		verify(mockOS).getRecMaximum();
 		verify(mockOS).getRecMinimum();
 		verify(mockOS).getRecommended();
 		verify(mockOS).getSort();
-		verify(mockOS).getSubSegment();
+		verify(mockOS).getOsName();
 		
 		verify(mockDetail).getAdminComments();
 		verify(mockDetail).getAdminQty();
@@ -220,13 +220,13 @@ public class PSIOrderSegmentMapperTest {
 		verify(mockOS).getProfileId();
 		verify(mockOS).getComplianceId();
 		verify(mockOS).getDealerId();
-		verify(mockOS).getName();
+		verify(mockOS).getOsCode();
 		verify(mockOS).getPeriodCode();
 		verify(mockOS).getRecMaximum();
 		verify(mockOS).getRecMinimum();
 		verify(mockOS).getRecommended();
 		verify(mockOS).getSort();
-		verify(mockOS).getSubSegment();
+		verify(mockOS).getOsName();
 		
 		verifyZeroInteractions(mockDetail);
 	}

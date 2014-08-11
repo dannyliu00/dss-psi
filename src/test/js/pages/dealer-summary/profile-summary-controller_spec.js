@@ -1,19 +1,19 @@
 /**
  * Created by bericks on 5/13/2014.
  */
-(function() {
+(function () {
     var dealerProfileSummary = sellInNamespace('sellIn.pages.dealerProfileSummary');
 
-    describe('DealerProfileSummaryCtrl', function() {
+    describe('DealerProfileSummaryCtrl', function () {
         var scope, routeParams, location;
-        var dealerProfilesResource, expectedProfileUrl, expectedSummaryUrl; 
+        var dealerProfilesResource, expectedProfileUrl, expectedSummaryUrl;
         var expectedProfilesDeferred, lastTab, expectedStatus, blockUI;
 
         beforeEach(function () {
             angular.mock.module('sellIn.pages.dealerProfileSummary');
 
             angular.mock.module(function ($provide) {
-                
+
                 dealerProfilesResource = jasmine.createSpyObj('dealerProfilesResource', ['queryCurrent', 'queryHistory']);
                 $provide.decorator('dealerProfilesResource', [function () {
                     return dealerProfilesResource;
@@ -23,7 +23,7 @@
                     return lastTab;
                 }]);
                 blockUI = jasmine.createSpyObj('blockUI', ['start', 'stop']);
-                $provide.decorator('blockUI', [function() {
+                $provide.decorator('blockUI', [function () {
                     return blockUI;
                 }]);
             });
@@ -58,7 +58,7 @@
                     expectedProfileUrl,
                     expectedSummaryUrl,
                     lastTab, blockUI);
-                
+
                 expect(lastTab.changeProfilesTab).toHaveBeenCalled();
                 expect(dealerProfilesResource.queryCurrent).toHaveBeenCalled();
                 expect(blockUI.start).toHaveBeenCalled();

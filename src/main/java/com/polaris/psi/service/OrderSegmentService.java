@@ -59,142 +59,185 @@ public class OrderSegmentService {
 	private static final SplunkLogger LOG = new SplunkLogger(OrderSegmentService.class);
 
 	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
-	public ProfileDetailsDto saveOrderSegmentQuantities(ProfileDetailsDto profileDetailsDto) {
-		
+	public ProfileDetailsDto saveOrderSegmentQuantities(ProfileDetailsDto profile) {
+
 		LOG.methodStart(PolarisIdentity.get(), "saveOrderSegmentQuantities");
 		
-		List<OrderSegmentDto> records = profileDetailsDto.getOrderSegments();
-		List<OrderSegmentDto> saved = new ArrayList<OrderSegmentDto>();
-		DealerProfileHeaderStatus status = statusService.getInProgressStatus();
-		
-		OrderSegmentDto testRecord = records.get(0);
-		if(testRecord.getHeaderId() != null) {
+		try {
+			List<OrderSegmentDto> records = profile.getOrderSegments();
+			List<OrderSegmentDto> saved = new ArrayList<OrderSegmentDto>();
+			DealerProfileHeaderStatus status = statusService.getInProgressStatus();
 			
-			LOG.debug(PolarisIdentity.get(), "saveOrderSegmentQuantities", "Header record does exist for the detail records passed in. System will update existing "
+			OrderSegmentDto testRecord = records.get(0);
+			if(testRecord.getHeaderId() != null) {
+				
+				LOG.debug(PolarisIdentity.get(), "saveOrderSegmentQuantities", "Header record does exist for the detail records passed in. System will update existing "
+						+ "header and detail records for saving the profile.");
+
+				updateOrderSegmentQty(records);
+				DealerProfileHeader header = headerDao.select(testRecord.getHeaderId());
+				headerDataMapper.updateChangedAttributes(header, status, testRecord.getModifiedUserName(), profile.isNonCompliant());
+				headerDao.update(header);
+				
+				profile.setOrderSegments(records);
+				profile.setMessage(Constants.SAVE_SUCCESSFUL);
+				profile.setSuccessful(true);
+
+				return profile;
+			}
+			
+			LOG.debug(PolarisIdentity.get(), "saveOrderSegmentQuantities", "Header record does not exist for the detail records passed in. System will create new "
 					+ "header and detail records for saving the profile.");
-
-			updateOrderSegmentQty(records);
-			DealerProfileHeader header = headerDao.select(testRecord.getHeaderId());
-			headerDataMapper.updateChangedAttributes(header, status, testRecord.getModifiedUserName(), profileDetailsDto.isNonCompliant());
-			headerDao.update(header);
 			
-			profileDetailsDto.setOrderSegments(records);
-			profileDetailsDto.setMessage(Constants.SAVE_SUCCESSFUL);
-			profileDetailsDto.setSuccessful(true);
+			DealerProfileHeader header = headerDataMapper.createNewNonSubmittedNonApprovedHeader(testRecord, status, profile.isNonCompliant());
+			DealerProfileHeader returnedHeader = headerDao.insert(header);
+			for (OrderSegmentDto orderSegment : records) {
+				OrderSegmentDto returnedSegment = createOrderSegmentQty(returnedHeader, orderSegment);
+				saved.add(returnedSegment);
+			}
 
-			return profileDetailsDto;
-		}
-		
-		LOG.debug(PolarisIdentity.get(), "saveOrderSegmentQuantities", "Header record does not exist for the detail records passed in. System will create new "
-				+ "header and detail records for saving the profile.");
-		
-		DealerProfileHeader header = headerDataMapper.createNewNonSubmittedNonApprovedHeader(testRecord, status, profileDetailsDto.isNonCompliant());
-		DealerProfileHeader returnedHeader = headerDao.insert(header);
-		for (OrderSegmentDto orderSegment : records) {
-			OrderSegmentDto returnedSegment = createOrderSegmentQty(returnedHeader, orderSegment);
-			saved.add(returnedSegment);
+			profile.setOrderSegments(saved);
+			profile.setMessage(Constants.SAVE_SUCCESSFUL);
+			profile.setSuccessful(true);
+			
+		} catch (Exception e) {
+			LOG.error(PolarisIdentity.get(), "saveOrderSegmentQuantities", e);
+			profile.setSuccessful(false);
+			profile.setMessage(Constants.COULD_NOT_UPDATE_DLR_VALUES);
 		}
 
-		profileDetailsDto.setOrderSegments(saved);
-		profileDetailsDto.setMessage(Constants.SAVE_SUCCESSFUL);
-		profileDetailsDto.setSuccessful(true);
-		
 		LOG.methodEnd(PolarisIdentity.get(), "saveOrderSegmentQuantities");
 		
-		return profileDetailsDto;
+		return profile;
 	}
 	
 	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
-	public ProfileDetailsDto submitOrderSegmentQuantities(ProfileDetailsDto profileDetailsDto) {
-		
+	public ProfileDetailsDto submitOrderSegmentQuantities(ProfileDetailsDto profile) {
+
 		LOG.methodStart(PolarisIdentity.get(), "submitOrderSegmentQuantities");
 		
-		List<OrderSegmentDto> records = profileDetailsDto.getOrderSegments();
-		List<OrderSegmentDto> submitted = new ArrayList<OrderSegmentDto>();
-		DealerProfileHeaderStatus status = statusService.getPendingStatus();
+		try {
+			List<OrderSegmentDto> records = profile.getOrderSegments();
+			List<OrderSegmentDto> submitted = new ArrayList<OrderSegmentDto>();
+			DealerProfileHeaderStatus status = statusService.getPendingStatus();
 
-		OrderSegmentDto testRecord = records.get(0);
-		if(testRecord.getHeaderId() != null) {
-			LOG.debug(PolarisIdentity.get(), "submitOrderSegmentQuantities", "Header record does exist for the detail records passed in. System will update existing "
-					+ "header and detail records for saving the profile.");
-
-			updateOrderSegmentQty(records);
-			DealerProfileHeader header = headerDao.select(testRecord.getHeaderId());
-			headerDataMapper.updateExistingSubmittedHeader(header, status, testRecord.getDealerEmail(), profileDetailsDto.isNonCompliant());
-			headerDao.update(header);
+			OrderSegmentDto representative = records.get(0);
+			if(representative.getHeaderId() != null) {
+				LOG.debug(PolarisIdentity.get(), "submitOrderSegmentQuantities", "Header record does exist for the detail records passed in. System will update existing "
+						+ "header and detail records for saving the profile.");
+	
+				updateOrderSegmentQty(records);
+				DealerProfileHeader header = headerDao.select(representative.getHeaderId());
+				headerDataMapper.updateExistingSubmittedHeader(header, status, representative.getDealerEmail(), profile.isNonCompliant());
+				headerDao.update(header);
+				
+				for (OrderSegmentDto dto : records) {
+					dto.setSubmittedDate(header.getSubmittedDate());
+					logService.writeDealerChangesToLog(header, dto);
+				}
+				
+				// Send email.
+				emailService.sendProfileSubmissionEmail(profile);
+					 
+				profile.setOrderSegments(records);
+				profile.setMessage(Constants.SAVE_SUCCESSFUL);
+				profile.setSuccessful(true);
+					 
+				LOG.methodEnd(PolarisIdentity.get(), "submitOrderSegmentQuantities");
+	
+				return profile;
+			}
 			
+			LOG.debug(PolarisIdentity.get(), "submitOrderSegmentQuantities", "Header record does not exist for the detail records passed in. System will create new "
+					+ "header and detail records for saving the profile.");
+			
+			DealerProfileHeader header = headerDataMapper.createNewSubmittedHeader(representative, status, profile.isNonCompliant());
+			DealerProfileHeader returnedHeader = headerDao.insert(header);
 			for (OrderSegmentDto dto : records) {
-				dto.setSubmittedDate(header.getSubmittedDate());
+				OrderSegmentDto returnedSegment = createOrderSegmentQty(returnedHeader, dto);
+				submitted.add(returnedSegment);
 				logService.writeDealerChangesToLog(header, dto);
 			}
 			
+			profile.setOrderSegments(submitted);
+			profile.setMessage(Constants.SAVE_SUCCESSFUL);
+			profile.setSuccessful(true);
+			
 			// Send email.
-			try {
-				emailService.sendProfileSubmissionEmail(profileDetailsDto);
-			} catch (Exception e) {
-				LOG.error(PolarisIdentity.get(), "submitOrderSegmentQuantities", e);
-			}
-				 
-			profileDetailsDto.setOrderSegments(records);
-			profileDetailsDto.setMessage(Constants.SAVE_SUCCESSFUL);
-			profileDetailsDto.setSuccessful(true);
-				 
-			LOG.methodEnd(PolarisIdentity.get(), "submitOrderSegmentQuantities");
-
-			return profileDetailsDto;
-		}
-		
-		LOG.debug(PolarisIdentity.get(), "submitOrderSegmentQuantities", "Header record does not exist for the detail records passed in. System will create new "
-				+ "header and detail records for saving the profile.");
-		
-		DealerProfileHeader header = headerDataMapper.createNewSubmittedHeader(testRecord, status, profileDetailsDto.isNonCompliant());
-		DealerProfileHeader returnedHeader = headerDao.insert(header);
-		for (OrderSegmentDto dto : records) {
-			OrderSegmentDto returnedSegment = createOrderSegmentQty(returnedHeader, dto);
-			submitted.add(returnedSegment);
-			logService.writeDealerChangesToLog(header, dto);
-		}
-		
-		profileDetailsDto.setOrderSegments(submitted);
-		profileDetailsDto.setMessage(Constants.SAVE_SUCCESSFUL);
-		profileDetailsDto.setSuccessful(true);
-		
-		// Send email.
-		try {
-			emailService.sendProfileSubmissionEmail(profileDetailsDto);
+			emailService.sendProfileSubmissionEmail(profile);
+			
 		} catch (Exception e) {
 			LOG.error(PolarisIdentity.get(), "submitOrderSegmentQuantities", e);
+			profile.setSuccessful(false);
+			profile.setMessage(Constants.COULD_NOT_UPDATE_DLR_VALUES);
 		}
  			 
 		LOG.methodEnd(PolarisIdentity.get(), "submitOrderSegmentQuantities");
 
-		return profileDetailsDto;
+		return profile;
 	}
 	
 	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public ProfileDetailsDto dsmApproveWithChanges(ProfileDetailsDto profile, String userName) {
+
+		LOG.methodStart(PolarisIdentity.get(), "dsmApproveWithChanges");
+		
 		DealerProfileHeaderStatus status = statusService.getApprovedWithChangesStatus();
 		
-		updateDataFromDsm(profile, status, userName);
-		if(profile.isSuccessful()) emailService.sendApproveWithChangesEmail(profile);
+		try {
+			updateDataFromDsm(profile, status, userName);
+			if(profile.isSuccessful()) {
+				stockingProfileService.saveStockingProfiles(profile, userName);
+				emailService.sendApproveWithChangesEmail(profile);
+			}
+			
+			if(!profile.isSuccessful()) {
+				LOG.error(PolarisIdentity.get(), "dsmApproveWithChanges", Constants.COULD_NOT_UPDATE_DSM_VALUES);
+				profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
+			}
+		} catch (Exception e) {
+			LOG.error(PolarisIdentity.get(), "dsmApproveWithChanges", e.getMessage());
+			profile.setSuccessful(false);
+			profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
+		}
+
+		LOG.methodEnd(PolarisIdentity.get(), "dsmApproveWithChanges");
+		
 		return profile;
 	}
 	
 	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public ProfileDetailsDto dsmSendToDealer(ProfileDetailsDto profile, String userName) {
+
+		LOG.methodStart(PolarisIdentity.get(), "dsmSendToDealer");
+		
 		DealerProfileHeaderStatus status = statusService.getSendToDealerStatus();
 		
-		updateDataFromDsm(profile, status, userName);
-		if(profile.isSuccessful()) emailService.sendReturnToDealerEmail(profile);
+		try {
+			updateDataFromDsm(profile, status, userName);
+			
+			if(profile.isSuccessful()) emailService.sendReturnToDealerEmail(profile);
+		} catch (Exception e) {
+			LOG.error(PolarisIdentity.get(), "dsmSendToDealer", e.getMessage());
+			profile.setSuccessful(false);
+			profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
+		}
+
+		LOG.methodEnd(PolarisIdentity.get(), "dsmSendToDealer");
+		
 		return profile;
 	}
 	
 	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public ProfileDetailsDto dsmApproveAsRequested(ProfileDetailsDto profile, String userName) {
+
+		LOG.methodStart(PolarisIdentity.get(), "dsmApproveAsRequested");
+		
 		DealerProfileHeaderStatus status = statusService.getApprovedAsRequestedStatus();
 		
 		try {
 			updateDataFromDsm(profile, status, userName);
+
 			if(profile.isSuccessful()) {
 				stockingProfileService.saveStockingProfiles(profile, userName);
 				emailService.sendApproveAsRequestedEmail(profile);
@@ -209,61 +252,150 @@ public class OrderSegmentService {
 			profile.setSuccessful(false);
 			profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
 		}
+
+		LOG.methodEnd(PolarisIdentity.get(), "dsmApproveAsRequested");
 		
 		return profile;
 	}
 	
 	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public ProfileDetailsDto dsmSubmitForException(ProfileDetailsDto profile, String userName) {
+
+		LOG.methodStart(PolarisIdentity.get(), "dsmSubmitForException");
+		
 		DealerProfileHeaderStatus status = statusService.getExceptionRequestedStatus();
 		
-		updateDataFromDsm(profile, status, userName);
-		if(profile.isSuccessful()) emailService.sendSubmitForExceptionEmail(profile);
+		try {
+			updateDataFromDsm(profile, status, userName);
+			if(profile.isSuccessful()) {
+				emailService.sendSubmitForExceptionEmail(profile);
+			}
+			
+			if(!profile.isSuccessful()) {
+				LOG.error(PolarisIdentity.get(), "dsmSubmitForException", Constants.COULD_NOT_UPDATE_DSM_VALUES);
+				profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
+			}
+		} catch (Exception e) {
+			LOG.error(PolarisIdentity.get(), "dsmSubmitForException", e.getMessage());
+			profile.setSuccessful(false);
+			profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
+		}
+
+		LOG.methodEnd(PolarisIdentity.get(), "dsmSubmitForException");
+		
 		return profile;
 	}
 	
 	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public ProfileDetailsDto dsmSaveChanges(ProfileDetailsDto profile, String userName) {
+
+		LOG.methodStart(PolarisIdentity.get(), "dsmSaveChanges");
+		
 		DealerProfileHeaderStatus status = statusService.getPendingStatus();
 		
-		return updateDataFromDsm(profile, status, userName);
+		try {
+			updateDataFromDsm(profile, status, userName);
+		} catch (Exception e) {
+			LOG.error(PolarisIdentity.get(), "dsmSaveChanges", e.getMessage());
+			profile.setSuccessful(false);
+			profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
+		}
+
+		LOG.methodEnd(PolarisIdentity.get(), "dsmSaveChanges");
+		
+		return profile;
 	}
 	
 	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public ProfileDetailsDto rsmSaveChanges(ProfileDetailsDto profile, String userName) {
+
+		LOG.methodStart(PolarisIdentity.get(), "rsmSaveChanges");
+		
 		DealerProfileHeaderStatus status = statusService.getExceptionRequestedStatus();
+
+		LOG.methodEnd(PolarisIdentity.get(), "rsmSaveChanges");
 		
 		return updateDataFromRsm(profile, status, userName);
 	}
 	
 	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public ProfileDetailsDto rsmSendToDsm(ProfileDetailsDto profile, String userName) {
+
+		LOG.methodStart(PolarisIdentity.get(), "rsmSendToDsm");
+		
 		DealerProfileHeaderStatus status = statusService.getSendToDsmStatus();
 		
 		updateDataFromRsm(profile, status, userName);
 		if(profile.isSuccessful()) emailService.sendReturnToDsmEmail(profile);
+
+		LOG.methodEnd(PolarisIdentity.get(), "rsmSendToDsm");
+		
 		return profile;
 	}
 	
 	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public ProfileDetailsDto rsmApproveAsCompliant(ProfileDetailsDto profile, String userName) {
-		DealerProfileHeaderStatus status = statusService.getApproveAsCompliantStatus();
+
+		LOG.methodStart(PolarisIdentity.get(), "rsmApproveAsCompliant");
 		
-		updateDataFromRsm(profile, status, userName);
-		if(profile.isSuccessful()) emailService.sendApproveAsCompliantEmail(profile);
+		DealerProfileHeaderStatus status = statusService.getApproveAsCompliantStatus();
+
+		try {
+			updateDataFromRsm(profile, status, userName);
+			if(profile.isSuccessful()) {
+				stockingProfileService.saveStockingProfiles(profile, userName);
+				emailService.sendApproveAsCompliantEmail(profile);
+			}
+
+			if(!profile.isSuccessful()) {
+				LOG.error(PolarisIdentity.get(), "rsmApproveAsCompliant", Constants.COULD_NOT_UPDATE_RSM_VALUES);
+				profile.setMessage(Constants.COULD_NOT_UPDATE_RSM_VALUES);
+			}
+		} catch (Exception e) {
+			LOG.error(PolarisIdentity.get(), "rsmApproveAsCompliant", e.getMessage());
+			profile.setSuccessful(false);
+			profile.setMessage(Constants.COULD_NOT_UPDATE_RSM_VALUES);
+		}
+
+		LOG.methodEnd(PolarisIdentity.get(), "rsmApproveAsCompliant");
+		
 		return profile;
 	}
 	
 	@Transactional(CommonRepositoryConstants.TX_MANAGER_POLMPLS)
 	public ProfileDetailsDto rsmApproveAsNonCompliant(ProfileDetailsDto profile, String userName) {
+
+		LOG.methodStart(PolarisIdentity.get(), "rsmApproveAsNonCompliant");
+		
 		DealerProfileHeaderStatus status = statusService.getApproveAsNonCompliantStatus();
 		
-		updateDataFromRsm(profile, status, userName);
-		if(profile.isSuccessful()) emailService.sendApproveAsNonCompliantEmail(profile);
+		try {
+			updateDataFromRsm(profile, status, userName);
+
+			if(profile.isSuccessful()) {
+				stockingProfileService.saveStockingProfiles(profile, userName);
+				emailService.sendApproveAsNonCompliantEmail(profile);
+			}
+
+			if(!profile.isSuccessful()) {
+				LOG.error(PolarisIdentity.get(), "rsmApproveAsNonCompliant", Constants.COULD_NOT_UPDATE_RSM_VALUES);
+				profile.setMessage(Constants.COULD_NOT_UPDATE_RSM_VALUES);
+			}
+		} catch (Exception e) {
+			LOG.error(PolarisIdentity.get(), "rsmApproveAsCompliant", e.getMessage());
+			profile.setSuccessful(false);
+			profile.setMessage(Constants.COULD_NOT_UPDATE_RSM_VALUES);
+		}
+
+		LOG.methodEnd(PolarisIdentity.get(), "rsmApproveAsNonCompliant");
+		
 		return profile;
 	}
 	
 	protected ProfileDetailsDto updateDataFromDsm(ProfileDetailsDto profile, DealerProfileHeaderStatus status, String userName) {
+
+		LOG.methodStart(PolarisIdentity.get(), "updateDataFromDsm");
+		
 		if(areRecordsEmpty(profile)) {
 			LOG.warn(PolarisIdentity.get(),"updateDataFromDsm", "No records passed in to do any work.  System will not make any changes.");
 			return profile;
@@ -311,10 +443,16 @@ public class OrderSegmentService {
 		
 		profile.setMessage(Constants.SAVE_SUCCESSFUL);
 		profile.setSuccessful(true);
+
+		LOG.methodEnd(PolarisIdentity.get(), "updateDataFromDsm");
+		
 		return profile;
 	}
 
 	protected ProfileDetailsDto updateDataFromRsm(ProfileDetailsDto profile, DealerProfileHeaderStatus status, String userName) {
+
+		LOG.methodStart(PolarisIdentity.get(), "updateDataFromRsm");
+		
 		if(areRecordsEmpty(profile)) {
 			LOG.warn(PolarisIdentity.get(),"updateDataFromRsm", "No records passed in to do any work.  System will not make any changes.");
 			return profile;
@@ -362,73 +500,116 @@ public class OrderSegmentService {
 		
 		profile.setMessage(Constants.SAVE_SUCCESSFUL);
 		profile.setSuccessful(true);
+
+		LOG.methodEnd(PolarisIdentity.get(), "updateDataFromRsm");
+		
 		return profile;
 	}
 
 	protected OrderSegmentDto createOrderSegmentQty(DealerProfileHeader header, OrderSegmentDto orderSegment) {
+
+		LOG.methodStart(PolarisIdentity.get(), "createOrderSegmentQty");
+		
 		DealerProfileDetail detail = detailDataMapper.createInitialDetail(orderSegment, header);
 		DealerProfileDetail returnedDetail = detailDao.insert(detail);
 		
 		orderSegment.setId(returnedDetail.getId());
 		orderSegment.setHeaderId(header.getId());
+
+		LOG.methodEnd(PolarisIdentity.get(), "createOrderSegmentQty");
 		
 		return orderSegment;
 	}
 
 	protected void updateOrderSegmentQty(List<OrderSegmentDto> orderSegments) {
+
+		LOG.methodStart(PolarisIdentity.get(), "updateOrderSegmentQty");
+		
 		for (OrderSegmentDto dto : orderSegments) {
 			updateOrderSegmentQty(dto);
 		}
+
+		LOG.methodEnd(PolarisIdentity.get(), "updateOrderSegmentQty");
 	}
 	
 	protected void updateOrderSegmentQty(OrderSegmentDto orderSegment) {
+
+		LOG.methodStart(PolarisIdentity.get(), "updateOrderSegmentQty");
+		
 		DealerProfileDetail detail = detailDao.select(orderSegment.getId());
 		detailDataMapper.updateDealerEnteredDetails(detail, orderSegment);
 		detailDao.update(detail);
+
+		LOG.methodEnd(PolarisIdentity.get(), "updateOrderSegmentQty");
 	}
 	
 	protected boolean isNonCompliant(ProfileDetailsDto profile) {
+
+		LOG.methodStart(PolarisIdentity.get(), "isNonCompliant");
+		
 		if(areDetailsNonCompliant(profile.getOrderSegments())) return true;
+		
+		LOG.methodEnd(PolarisIdentity.get(), "isNonCompliant");
 		
 		return profile.isNonCompliant();
 	}
 	
 	protected boolean areDetailsNonCompliant(List<OrderSegmentDto> orderSegments) {
+
+		LOG.methodStart(PolarisIdentity.get(), "areDetailsNonCompliant");
+		
 		for (OrderSegmentDto dto : orderSegments) {
 			if(dto.isNonCompliant()) return true;
 		}
+
+		LOG.methodEnd(PolarisIdentity.get(), "areDetailsNonCompliant");
 		
 		return false;
 	}
 	
 	protected DealerProfileDetail getDetailsFromOrderSegment(List<DealerProfileDetail> details, OrderSegmentDto orderSegment) {
+
+		LOG.methodStart(PolarisIdentity.get(), "getDetailsFromOrderSegment");
+		
 		for (DealerProfileDetail detail : details) {
 			if(orderSegment.getHeaderId() == detail.getHeader().getId()
 					&& orderSegment.getProfileOrderSegmentId() == detail.getProfileOrderSegmentId()
 					&& orderSegment.getPeriodCode().equals(detail.getPeriodCode()))
 				return detail;
 		}
+
+		LOG.methodEnd(PolarisIdentity.get(), "getDetailsFromOrderSegment");
 		
 		return null;
 	}
 	
 	protected boolean areRecordsEmpty(ProfileDetailsDto profile) {
+
+		LOG.methodStart(PolarisIdentity.get(), "areRecordsEmpty");
+		
 		if(profile.getOrderSegments().size() == 0) {
 			profile.setMessage(Constants.NO_RECORDS);
 			profile.setSuccessful(false);
 			return true;
 		}
+
+		LOG.methodEnd(PolarisIdentity.get(), "areRecordsEmpty");
 		
 		return false;
 	}
 	
 	protected boolean isHeaderEmpty(ProfileDetailsDto profile) {
+
+		LOG.methodStart(PolarisIdentity.get(), "isHeaderEmpty");
+		
 		OrderSegmentDto testRecord = profile.getOrderSegments().get(0);
 		if(testRecord.getHeaderId() == null) {
 			profile.setMessage(Constants.NO_RECORDS);
 			profile.setSuccessful(false);
 			return true;
 		}
+
+		LOG.methodEnd(PolarisIdentity.get(), "isHeaderEmpty");
 		
 		return false;
 	}

@@ -44,7 +44,7 @@ public class OrderSegmentGrid {
 		// Build the rows
 		for(OrderSegmentDto ordSeg:profile.getOrderSegments()) {
 			
-			if(currentSegment==null || currentSegment.equals(ordSeg.getName())==false) {
+			if(currentSegment==null || currentSegment.equals(ordSeg.getOsName())==false) {
 				row = new ArrayList<String>(columnCount);
 				grid.getRows().add(row);
 				
@@ -57,8 +57,8 @@ public class OrderSegmentGrid {
 				}
 				
 				// Segment
-				row.add(ordSeg.getName());
-				currentSegment = ordSeg.getName();
+				row.add(ordSeg.getOsName());
+				currentSegment = ordSeg.getOsName();
 			}
 			// Display the periods. Note that we rely on sort order here.
 			row.add(String.valueOf(ordSeg.getActual()));
@@ -70,7 +70,7 @@ public class OrderSegmentGrid {
 		for(SegmentDto supSeg: profile.getSegments()) {
 			
 			for(String subSeg: supSeg.getSubSegments()) {
-				if(subSeg.equals(ordSeg.getSubSegment())) {
+				if(subSeg.equals(ordSeg.getOsName())) {
 					return supSeg;
 				}
 			}

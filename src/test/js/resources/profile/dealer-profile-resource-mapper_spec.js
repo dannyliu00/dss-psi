@@ -1,10 +1,10 @@
 var dealerProfile = sellInNamespace('sellIn.resources.dealerProfile');
 
-describe('OrderSegmentResourceMapper', function() {
+describe('OrderSegmentResourceMapper', function () {
     var restOrderSegment, restSegment, jsOrderSegment;
     var mapper;
 
-    beforeEach(function() {
+    beforeEach(function () {
         angular.mock.module('sellIn.resources.dealerProfile');
 
         restOrderSegment = {
@@ -30,8 +30,8 @@ describe('OrderSegmentResourceMapper', function() {
         mapper = new dealerProfile.OrderSegmentResourceMapper();
     });
 
-    describe('mapFromRest', function() {
-        it('maps a REST-based OrderSegment to a JS OrderSegment', function() {
+    describe('mapFromRest', function () {
+        it('maps a REST-based OrderSegment to a JS OrderSegment', function () {
             var actualObject = mapper.mapFromRest(restOrderSegment, restSegment);
 
             expect(actualObject.orderSegmentId).toEqual(jsOrderSegment.orderSegmentId);
@@ -43,8 +43,8 @@ describe('OrderSegmentResourceMapper', function() {
         });
     });
 
-    describe('mapToRest', function() {
-        it('maps a JS OrderSegment to a REST-based OrderSegment', function() {
+    describe('mapToRest', function () {
+        it('maps a JS OrderSegment to a REST-based OrderSegment', function () {
             var actualObject = mapper.mapToRest(jsOrderSegment);
 
             expect(actualObject.orderSegmentId).toEqual(restOrderSegment.orderSegmentId);

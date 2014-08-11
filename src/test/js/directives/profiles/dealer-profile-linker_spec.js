@@ -1,10 +1,10 @@
-(function() {
+(function () {
     var dealerProfiles = sellInNamespace('sellIn.directives.profiles');
 
-    describe('DealerProfileUILinker', function() {
+    describe('DealerProfileUILinker', function () {
         var element, attrs, expectedProfile, expectedType;
 
-        beforeEach(function() {
+        beforeEach(function () {
             attrs = {};
             element = {};
             expectedProfile = {};
@@ -13,7 +13,7 @@
             attrs.profile = expectedProfile;
         });
 
-        it('returns an appropriate template', function() {
+        it('returns an appropriate template', function () {
             var result = dealerProfiles.ProfileUILinker(element, attrs);
             var basePath = 'js/directives/profiles/';
             var pathSuffix = '-template.html';

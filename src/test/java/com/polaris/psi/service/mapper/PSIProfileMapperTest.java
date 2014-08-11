@@ -6,14 +6,17 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import com.polaris.psi.Constants;
 import com.polaris.psi.repository.entity.PSIProfile;
 import com.polaris.psi.resource.dto.ProfileDto;
 
@@ -23,6 +26,7 @@ public class PSIProfileMapperTest {
 	@Mock private ProfileTypeMapper mockTypeMapper;
 	@Mock private PSIProfile mockProfile;
 	@Mock private ProfileDto mockDto;
+	private List<PSIProfile> psiProfiles;
 	private String expectedName, expectedStatus, expectedType, expectedEmail;
 	private Integer expectedProfileId;
 	private Date expectedTargetCompletion, expectedModified;
@@ -32,7 +36,7 @@ public class PSIProfileMapperTest {
 		MockitoAnnotations.initMocks(this);
 		
 		expectedName = "UT Name";
-		expectedStatus = "UT Status";
+		expectedStatus = "";
 		expectedType = "UT Type";
 		expectedEmail = "UT@local";
 		expectedTargetCompletion = Calendar.getInstance().getTime();
@@ -47,19 +51,25 @@ public class PSIProfileMapperTest {
 		when(mockProfile.getType()).thenReturn(expectedType);
 		when(mockProfile.getEmail()).thenReturn(expectedEmail);
 		
+		psiProfiles = new ArrayList<PSIProfile>();
+		psiProfiles.add(mockProfile);
+		
 		mapper = new PSIProfileMapper();
 		mapper.typeMapper = mockTypeMapper;
 	}
 
 	@Test
-	public void testMapToDtoPSIProfile() {
+	public void testMapToDtoPSIProfileList() {
 
-		ProfileDto result = mapper.mapToDto(mockProfile);
+		List<ProfileDto> results = mapper.mapToDto(psiProfiles);
 		
+		assertEquals(1, results.size());
+		
+		ProfileDto result = results.get(0);
 		assertEquals(expectedModified, result.getModifiedDate());
 		assertEquals(expectedName, result.getName());
 		assertEquals(expectedProfileId.intValue(), result.getProfileId());
-		assertEquals(expectedStatus, result.getStatus());
+		assertEquals(Constants.DEFAULT_PROFILE_STATUS, result.getStatus());
 		assertEquals(expectedTargetCompletion, result.getTargetCompletionDate());
 		assertEquals(expectedEmail, result.getDealerEmail());
 		
@@ -73,6 +83,84 @@ public class PSIProfileMapperTest {
 		
 		verify(mockTypeMapper).mapTypeToProfile(expectedType, result);
 		verifyNoMoreInteractions(mockProfile, mockTypeMapper, mockDto);
+	}
+
+	@Test
+	public void testMapToDtoPSIProfile() {
+
+		ProfileDto result = mapper.mapToDto(mockProfile);
+		
+		assertEquals(expectedModified, result.getModifiedDate());
+		assertEquals(expectedName, result.getName());
+		assertEquals(expectedProfileId.intValue(), result.getProfileId());
+		assertEquals(Constants.DEFAULT_PROFILE_STATUS, result.getStatus());
+		assertEquals(expectedTargetCompletion, result.getTargetCompletionDate());
+		assertEquals(expectedEmail, result.getDealerEmail());
+		
+		verify(mockProfile).getId();
+		verify(mockProfile).getLastModifiedDate();
+		verify(mockProfile).getName();
+		verify(mockProfile).getStatus();
+		verify(mockProfile).getTargetCompleteDate();
+		verify(mockProfile, times(2)).getType();
+		verify(mockProfile).getEmail();
+		
+		verify(mockTypeMapper).mapTypeToProfile(expectedType, result);
+		verifyNoMoreInteractions(mockProfile, mockTypeMapper, mockDto);
+	}
+
+	@Test
+	public void testGetStatusDefault() {
+		String result = mapper.getStatus(null);
+		assertEquals(Constants.DEFAULT_PROFILE_STATUS, result);
+	}
+
+	@Test
+	public void testGetStatusPending() {
+		String result = mapper.getStatus(Constants.PENDING_STATUS);
+		assertEquals(Constants.PENDING_STATUS, result);
+	}
+
+	@Test
+	public void testGetStatusReturnedToDealer() {
+		String result = mapper.getStatus(Constants.RETURNED_TO_DEALER);
+		assertEquals(Constants.RETURNED_TO_DEALER, result);
+	}
+
+	@Test
+	public void testGetStatusReturnedToDSM() {
+		String result = mapper.getStatus(Constants.RETURNED_TO_DSM);
+		assertEquals(Constants.PENDING_STATUS, result);
+	}
+
+	@Test
+	public void testGetStatusExceptionRequested() {
+		String result = mapper.getStatus(Constants.EXCEPTION_REQUESTED);
+		assertEquals(Constants.PENDING_STATUS, result);
+	}
+
+	@Test
+	public void testGetStatusApprovedAsRequested() {
+		String result = mapper.getStatus(Constants.APPROVED_AS_REQUESTED);
+		assertEquals(Constants.APPROVED, result);
+	}
+
+	@Test
+	public void testGetStatusApprovedWithChanges() {
+		String result = mapper.getStatus(Constants.APPROVED_W_CHANGES);
+		assertEquals(Constants.APPROVED, result);
+	}
+
+	@Test
+	public void testGetStatusApprovedAsCompliant() {
+		String result = mapper.getStatus(Constants.APPROVED_COMPLIANT);
+		assertEquals(Constants.APPROVED, result);
+	}
+
+	@Test
+	public void testGetStatusApprovedAsNonCompliant() {
+		String result = mapper.getStatus(Constants.APPROVED_NONCOMPLIANT);
+		assertEquals(Constants.APPROVED_NONCOMPLIANT, result);
 	}
 
 }

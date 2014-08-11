@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var mainMenu = sellInNamespace('polaris.directives.menu');
 
     function MainMenuDirective() {
@@ -6,7 +6,7 @@
             restrict: 'E',
             controller: mainMenu.MainMenuController,
             templateUrl: 'js/directives/menu/main-menu-rsm-template.html'
-        }
+        };
     }
 
     mainMenu.MainMenuDirective = MainMenuDirective;

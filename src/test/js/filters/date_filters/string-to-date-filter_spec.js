@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var dateFilters = sellInNamespace('sellIn.filters.dateFilters');
 
     describe('StringToDateFilter', function () {

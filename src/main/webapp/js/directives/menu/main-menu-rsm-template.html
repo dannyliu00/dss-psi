@@ -2,7 +2,8 @@
     <div ng-if="isSalesman || isRSM" id="extraHeaderBar" class="col-md-12 ctr-navbar">
         <nav class="navbar navbar-default " role="navigation">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#pga-navbar-collapse-id">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#pga-navbar-collapse-id">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span><span class="icon-bar"></span>
                     <span class="icon-bar"></span></button>
@@ -20,14 +21,16 @@
     <div ng-if="isDIS" id="extraHeaderBar" class="col-md-12 ctr-navbar">
         <nav class="navbar navbar-default" role="navigation">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#pga-navbar-collapse-id">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#pga-navbar-collapse-id">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span><span class="icon-bar"></span>
                     <span class="icon-bar"></span></button>
             </div>
             <div class="collapse navbar-collapse" id="pga-navbar-collapse-id">
                 <ul class="nav navbar-nav">
-                    <li><a href="{{attributes.DealerCases}}DealerID={{dealerId}}&DealerName={{dealerName}}">Dealer Cases</a></li>
+                    <li><a href="{{attributes.DealerCases}}DealerID={{dealerId}}&DealerName={{dealerName}}">Dealer
+                        Cases</a></li>
                     <li><a href="{{attributes.IntranetHome}}">Intranet</a></li>
                     <li><a href="{{attributes.ChangeDealer}}">Change Dealer</a></li>
                 </ul>
