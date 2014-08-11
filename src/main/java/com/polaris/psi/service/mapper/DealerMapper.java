@@ -10,6 +10,8 @@ import com.polaris.psi.repository.entity.DealerAndDsm;
 import com.polaris.psi.resource.dto.DealerDto;
 
 /**
+ * Maps Dealer and DealerAndDsm objects in to a single DealerDto
+ * 
  * @author bericks
  *
  */
