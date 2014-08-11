@@ -69,6 +69,12 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 		super(PSIProfile.class);
 	}
 	
+	/**
+	 * Retrieves a list of dealer inventory profiles where the profile status is considered an 'ACTIVE PROFILE SESSION'.
+	 * 
+	 * @param dealerId
+	 * @return
+	 */
 	public List<PSIProfile> retrieveDealerCurrentProfileListByDealerId(Integer dealerId) {
 		
 		LOG.methodStart(PolarisIdentity.get(), "retrieveDealerCurrentProfileListByDealerId");
@@ -82,31 +88,42 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 				+ QRY_BY_DLR_STATUS + "query paramters: dealerId = " + dealerId  + ", canceled = " 
 				+ Constants.DEALER_NOT_CANCELED_CODE + ", status = " + Constants.ACTIVE_PROFILE_STATUS);
 		
-		@SuppressWarnings("unchecked")
-		List<Object[]> results = query.getResultList();
-		
 		List<PSIProfile> profiles = new ArrayList<PSIProfile>();
-		for (Object[] result : results) {
-			PSIProfile profile = new PSIProfile();
-			profile.setProfileStatus(CommonUtils.trimString((String) result[0]));
-			profile.setId(((BigDecimal) result[1]).intValueExact());
-			profile.setName(CommonUtils.trimString((String) result[2]));
-			profile.setTargetCompleteDate((Date) result[3]);
-			profile.setType(CommonUtils.trimString((String) result[4]));
-			profile.setStatus(CommonUtils.trimString((String) result[5]));
-			profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInt((BigDecimal) result[6])));
-			profile.setLastModifiedDate(CommonUtils.setDate((Date) result[7]));
+		try {
+			@SuppressWarnings("unchecked")
+			List<Object[]> results = query.getResultList();
 			
-			profiles.add(profile);
+			for (Object[] result : results) {
+				PSIProfile profile = new PSIProfile();
+				profile.setProfileStatus(CommonUtils.trimString((String) result[0]));
+				profile.setId(((BigDecimal) result[1]).intValueExact());
+				profile.setName(CommonUtils.trimString((String) result[2]));
+				profile.setTargetCompleteDate((Date) result[3]);
+				profile.setType(CommonUtils.trimString((String) result[4]));
+				profile.setStatus(CommonUtils.trimString((String) result[5]));
+				profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInt((BigDecimal) result[6])));
+				profile.setLastModifiedDate(CommonUtils.setDate((Date) result[7]));
+				
+				profiles.add(profile);
+			}
+		} catch (Exception e) {
+			LOG.error(PolarisIdentity.get(), "retrieveDealerCurrentProfileListByDealerId", e);
+		} finally {
+			entityManager.close();
+			LOG.trace(PolarisIdentity.get(), "retrieveDealerCurrentProfileListByDealerId", "closed entityManager");
 		}
-		
-		entityManager.close();
 		
 		LOG.methodEnd(PolarisIdentity.get(), "retrieveDealerCurrentProfileListByDealerId");
 		
         return profiles;
 	}
 	
+	/**
+	 * Retrieves a list of dealer inventory profiles where the profile status is considered an 'OFF-LINE'.
+	 * 
+	 * @param dealerId
+	 * @return
+	 */
 	public List<PSIProfile> retrieveDealerHistoryProfileListByDealerId(Integer dealerId) {
 		
 		LOG.methodStart(PolarisIdentity.get(), "retrieveDealerHistoryProfileListByDealerId");
@@ -121,31 +138,44 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 				+ dealerId + ", canceled = " + Constants.DEALER_NOT_CANCELED_CODE 
 				+ ", status = " + Constants.HISTORICAL_PROFILE_STATUS);
 		
-		@SuppressWarnings("unchecked")
-		List<Object[]> results = query.getResultList();
-		
 		List<PSIProfile> profiles = new ArrayList<PSIProfile>();
-		for (Object[] result : results) {
-			PSIProfile profile = new PSIProfile();
-			profile.setProfileStatus(CommonUtils.trimString((String) result[0]));
-			profile.setId(((BigDecimal) result[1]).intValueExact());
-			profile.setName(CommonUtils.trimString((String) result[2]));
-			profile.setTargetCompleteDate((Date) result[3]);
-			profile.setType(CommonUtils.trimString((String) result[4]));
-			profile.setStatus(CommonUtils.trimString((String) result[5]));
-			profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInt((BigDecimal) result[6])));
-			profile.setLastModifiedDate(CommonUtils.setDate((Date) result[7]));
+		try {
+			@SuppressWarnings("unchecked")
+			List<Object[]> results = query.getResultList();
+			
+			for (Object[] result : results) {
+				PSIProfile profile = new PSIProfile();
+				profile.setProfileStatus(CommonUtils.trimString((String) result[0]));
+				profile.setId(((BigDecimal) result[1]).intValueExact());
+				profile.setName(CommonUtils.trimString((String) result[2]));
+				profile.setTargetCompleteDate((Date) result[3]);
+				profile.setType(CommonUtils.trimString((String) result[4]));
+				profile.setStatus(CommonUtils.trimString((String) result[5]));
+				profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInt((BigDecimal) result[6])));
+				profile.setLastModifiedDate(CommonUtils.setDate((Date) result[7]));
 
-			profiles.add(profile);
+				profiles.add(profile);
+			}
+		} catch (Exception e) {
+			LOG.error(PolarisIdentity.get(), "retrieveDealerHistoryProfileListByDealerId", e.getMessage());
+		} finally {
+			entityManager.close();
+			LOG.trace(PolarisIdentity.get(), "retrieveDealerHistoryProfileListByDealerId", "closed entityManager");
 		}
-		
-		entityManager.close();
 		
 		LOG.methodEnd(PolarisIdentity.get(), "retrieveDealerHistoryProfileListByDealerId");
 		
         return profiles;
 	}
 	
+	/**
+	 * Retrieves a list of dealer inventory profiles based on a DSM and where the profile 
+	 * status is considered an 'ACTIVE PROFILE SESSION'.
+	 * 
+	 * @param dealerId
+	 * @param type
+	 * @return
+	 */
 	public List<PSIProfile> retrieveDsmCurrentProfileListByDealerId(Integer dealerId, String type) {
 		
 		LOG.methodStart(PolarisIdentity.get(), "retrieveDsmCurrentProfileListByDealerId");
@@ -160,31 +190,44 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 				+ "query paramters: dealerId = " + dealerId + ", canceled = " + Constants.DEALER_NOT_CANCELED_CODE
 				+ ", status = " + Constants.ACTIVE_PROFILE_STATUS + ", type = " + type);
 		
-		@SuppressWarnings("unchecked")
-		List<Object[]> results = query.getResultList();
-		
 		List<PSIProfile> profiles = new ArrayList<PSIProfile>();
-		for (Object[] result : results) {
-			PSIProfile profile = new PSIProfile();
-			profile.setProfileStatus(CommonUtils.trimString((String) result[0]));
-			profile.setId(((BigDecimal) result[1]).intValueExact());
-			profile.setName(CommonUtils.trimString((String) result[2]));
-			profile.setTargetCompleteDate((Date) result[3]);
-			profile.setType(CommonUtils.trimString((String) result[4]));
-			profile.setStatus(CommonUtils.trimString((String) result[5]));
-			profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInt((BigDecimal) result[6])));
-			profile.setLastModifiedDate(CommonUtils.setDate((Date) result[7]));
+		try {
+			@SuppressWarnings("unchecked")
+			List<Object[]> results = query.getResultList();
 			
-			profiles.add(profile);
+			for (Object[] result : results) {
+				PSIProfile profile = new PSIProfile();
+				profile.setProfileStatus(CommonUtils.trimString((String) result[0]));
+				profile.setId(((BigDecimal) result[1]).intValueExact());
+				profile.setName(CommonUtils.trimString((String) result[2]));
+				profile.setTargetCompleteDate((Date) result[3]);
+				profile.setType(CommonUtils.trimString((String) result[4]));
+				profile.setStatus(CommonUtils.trimString((String) result[5]));
+				profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInt((BigDecimal) result[6])));
+				profile.setLastModifiedDate(CommonUtils.setDate((Date) result[7]));
+				
+				profiles.add(profile);
+			}
+		} catch (Exception e) {
+			LOG.error(PolarisIdentity.get(), "retrieveDsmCurrentProfileListByDealerId", e);
+		} finally {
+			entityManager.close();
+			LOG.trace(PolarisIdentity.get(), "retrieveDsmCurrentProfileListByDealerId", "closed entityManager");
 		}
-		
-		entityManager.close();
 		
 		LOG.methodEnd(PolarisIdentity.get(), "retrieveDsmCurrentProfileListByDealerId");
 		
         return profiles;
 	}
 	
+	/**
+	 * Retrieves a list of dealer inventory profiles based on a DSM and where the profile 
+	 * status is considered an 'OFF-LINE'.
+	 * 
+	 * @param dealerId
+	 * @param type
+	 * @return
+	 */
 	public List<PSIProfile> retrieveDsmHistoryProfileListByDealerId(Integer dealerId, String type) {
 		
 		LOG.methodStart(PolarisIdentity.get(), "retrieveDsmHistoryProfileListByDealerId");
@@ -199,31 +242,43 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 				+ "query paramters: dealerId = " + dealerId + ", canceled = " + Constants.DEALER_NOT_CANCELED_CODE
 				+ ", status = " + Constants.HISTORICAL_PROFILE_STATUS + ", type = " + type);
 		
-		@SuppressWarnings("unchecked")
-		List<Object[]> results = query.getResultList();
-		
 		List<PSIProfile> profiles = new ArrayList<PSIProfile>();
-		for (Object[] result : results) {
-			PSIProfile profile = new PSIProfile();
-			profile.setProfileStatus(CommonUtils.trimString((String) result[0]));
-			profile.setId(((BigDecimal) result[1]).intValueExact());
-			profile.setName(CommonUtils.trimString((String) result[2]));
-			profile.setTargetCompleteDate((Date) result[3]);
-			profile.setType(CommonUtils.trimString((String) result[4]));
-			profile.setStatus(CommonUtils.trimString((String) result[5]));
-			profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInt((BigDecimal) result[6])));
-			profile.setLastModifiedDate(CommonUtils.setDate((Date) result[7]));
+		try {
+			@SuppressWarnings("unchecked")
+			List<Object[]> results = query.getResultList();
 			
-			profiles.add(profile);
+			for (Object[] result : results) {
+				PSIProfile profile = new PSIProfile();
+				profile.setProfileStatus(CommonUtils.trimString((String) result[0]));
+				profile.setId(((BigDecimal) result[1]).intValueExact());
+				profile.setName(CommonUtils.trimString((String) result[2]));
+				profile.setTargetCompleteDate((Date) result[3]);
+				profile.setType(CommonUtils.trimString((String) result[4]));
+				profile.setStatus(CommonUtils.trimString((String) result[5]));
+				profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInt((BigDecimal) result[6])));
+				profile.setLastModifiedDate(CommonUtils.setDate((Date) result[7]));
+				
+				profiles.add(profile);
+			}
+		} catch (Exception e) {
+			LOG.error(PolarisIdentity.get(), "retrieveDsmHistoryProfileListByDealerId", e);
+		} finally {
+			entityManager.close();
+			LOG.trace(PolarisIdentity.get(), "retrieveDsmHistoryProfileListByDealerId", "closed entityManager");
 		}
-		
-		entityManager.close();
 		
 		LOG.methodEnd(PolarisIdentity.get(), "retrieveDsmHistoryProfileListByDealerId");
 		
         return profiles;
 	}
 	
+	/**
+	 * Retrieves a dealer inventory profile based on a profile ID and dealer ID.
+	 * 
+	 * @param profileId
+	 * @param dealerId
+	 * @return
+	 */
 	public PSIProfile retrieveProfileById(Integer profileId, Integer dealerId) {
 		
 		LOG.methodStart(PolarisIdentity.get(), "retrieveProfileById");
@@ -237,33 +292,38 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 				+ "query paramters: profileId = " + profileId + ", dealerId = " + dealerId 
 				+ ", canceled = " + Constants.DEALER_NOT_CANCELED_CODE);
 		
-		@SuppressWarnings("unchecked")
-		List<Object[]> results = query.getResultList();
-		
-		if(results.size() < 1) {
-			entityManager.close();
-			return null;
-		}
-		
-		Object[] result = results.get(0);
-
 		PSIProfile profile = new PSIProfile();
-		profile.setProfileStatus(CommonUtils.trimString((String) result[0]));
-		profile.setId(CommonUtils.convertToInteger((BigDecimal) result[1]));
-		profile.setName(CommonUtils.trimString((String) result[2]));
-		profile.setTargetCompleteDate((Date) result[3]);
-		profile.setType(CommonUtils.trimString((String) result[4]));
-		profile.setStatus(CommonUtils.trimString((String) result[5]));
-		profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInt((BigDecimal) result[6])));
-		profile.setLegalText(CommonUtils.trimString((Character) result[7]));
-		profile.setHeaderId(CommonUtils.convertToInteger((BigDecimal) result[8]));
-		profile.setDealer(CommonUtils.convertToInteger((BigDecimal) result[9]));
-		profile.setEmail(CommonUtils.trimString((String) result[10]));
-		profile.setSubmittedDate((Date) result[11]); 
-		profile.setApprovedDate((Date) result[12]);
-		profile.setLastModifiedDate(result[14] != null ? (Date) result[14] : (Date) result[13]);
-		
-		entityManager.close();
+		try {
+			@SuppressWarnings("unchecked")
+			List<Object[]> results = query.getResultList();
+			
+			if(results.size() < 1) {
+				return null;
+			}
+			
+			Object[] result = results.get(0);
+	
+			profile.setProfileStatus(CommonUtils.trimString((String) result[0]));
+			profile.setId(CommonUtils.convertToInteger((BigDecimal) result[1]));
+			profile.setName(CommonUtils.trimString((String) result[2]));
+			profile.setTargetCompleteDate((Date) result[3]);
+			profile.setType(CommonUtils.trimString((String) result[4]));
+			profile.setStatus(CommonUtils.trimString((String) result[5]));
+			profile.setNonCompliant(BooleanUtils.toBoolean(CommonUtils.convertToInt((BigDecimal) result[6])));
+			profile.setLegalText(CommonUtils.trimString((Character) result[7]));
+			profile.setHeaderId(CommonUtils.convertToInteger((BigDecimal) result[8]));
+			profile.setDealer(CommonUtils.convertToInteger((BigDecimal) result[9]));
+			profile.setEmail(CommonUtils.trimString((String) result[10]));
+			profile.setSubmittedDate((Date) result[11]); 
+			profile.setApprovedDate((Date) result[12]);
+			profile.setLastModifiedDate(result[14] != null ? (Date) result[14] : (Date) result[13]);
+			
+		} catch (Exception e) {
+			LOG.error(PolarisIdentity.get(), "retrieveProfileById", e);
+		} finally {
+			entityManager.close();
+			LOG.trace(PolarisIdentity.get(), "retrieveProfileById", "closed entityManager");
+		}
 		
 		LOG.methodEnd(PolarisIdentity.get(), "retrieveProfileById");
 		
