@@ -110,7 +110,7 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 			LOG.error(PolarisIdentity.get(), "retrieveDealerCurrentProfileListByDealerId", e);
 		} finally {
 			entityManager.close();
-			LOG.trace(PolarisIdentity.get(), "retrieveDealerCurrentProfileListByDealerId", "closed entityManager");
+			LOG.trace(PolarisIdentity.get(), "retrieveDealerCurrentProfileListByDealerId", "entityManager closed");
 		}
 		
 		LOG.methodEnd(PolarisIdentity.get(), "retrieveDealerCurrentProfileListByDealerId");
@@ -160,7 +160,7 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 			LOG.error(PolarisIdentity.get(), "retrieveDealerHistoryProfileListByDealerId", e.getMessage());
 		} finally {
 			entityManager.close();
-			LOG.trace(PolarisIdentity.get(), "retrieveDealerHistoryProfileListByDealerId", "closed entityManager");
+			LOG.trace(PolarisIdentity.get(), "retrieveDealerHistoryProfileListByDealerId", "entityManager closed");
 		}
 		
 		LOG.methodEnd(PolarisIdentity.get(), "retrieveDealerHistoryProfileListByDealerId");
@@ -212,7 +212,7 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 			LOG.error(PolarisIdentity.get(), "retrieveDsmCurrentProfileListByDealerId", e);
 		} finally {
 			entityManager.close();
-			LOG.trace(PolarisIdentity.get(), "retrieveDsmCurrentProfileListByDealerId", "closed entityManager");
+			LOG.trace(PolarisIdentity.get(), "retrieveDsmCurrentProfileListByDealerId", "entityManager closed");
 		}
 		
 		LOG.methodEnd(PolarisIdentity.get(), "retrieveDsmCurrentProfileListByDealerId");
@@ -264,7 +264,7 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 			LOG.error(PolarisIdentity.get(), "retrieveDsmHistoryProfileListByDealerId", e);
 		} finally {
 			entityManager.close();
-			LOG.trace(PolarisIdentity.get(), "retrieveDsmHistoryProfileListByDealerId", "closed entityManager");
+			LOG.trace(PolarisIdentity.get(), "retrieveDsmHistoryProfileListByDealerId", "entityManager closed");
 		}
 		
 		LOG.methodEnd(PolarisIdentity.get(), "retrieveDsmHistoryProfileListByDealerId");
@@ -322,7 +322,7 @@ public class PSIProfileDao extends AbstractPolarisMinneapolisDao<PSIProfile> {
 			LOG.error(PolarisIdentity.get(), "retrieveProfileById", e);
 		} finally {
 			entityManager.close();
-			LOG.trace(PolarisIdentity.get(), "retrieveProfileById", "closed entityManager");
+			LOG.trace(PolarisIdentity.get(), "retrieveProfileById", "entityManager closed");
 		}
 		
 		LOG.methodEnd(PolarisIdentity.get(), "retrieveProfileById");

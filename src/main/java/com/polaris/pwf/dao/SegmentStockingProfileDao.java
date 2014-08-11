@@ -41,6 +41,13 @@ public class SegmentStockingProfileDao extends AbstractPolarisMinneapolisDao<Seg
 		super(SegmentStockingProfile.class);
 	}
 	
+	/**
+	 * Retrieves a list of segment stocking profiles for the given dealer ID and product line
+	 * 
+	 * @param dealerId
+	 * @param productLine
+	 * @return
+	 */
 	public List<SegmentStockingProfile> retrieveSegmentProfilesList(int dealerId, String productLine) {
 		
 		LOG.methodStart(PolarisIdentity.get(), "retrieveSegmentProfilesList");
@@ -78,7 +85,7 @@ public class SegmentStockingProfileDao extends AbstractPolarisMinneapolisDao<Seg
 			LOG.error(PolarisIdentity.get(), "retrieveSegmentProfilesList", e.getMessage());
 		} finally {
 			entityManager.close();
-			LOG.trace(PolarisIdentity.get(), "retrieveSegmentProfilesList", "closed entityManager");
+			LOG.trace(PolarisIdentity.get(), "retrieveSegmentProfilesList", "entityManager closed");
 		}
 		
 		LOG.methodEnd(PolarisIdentity.get(), "retrieveSegmentProfilesList");

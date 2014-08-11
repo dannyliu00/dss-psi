@@ -85,6 +85,7 @@ public class PSIOrderSegmentDao extends AbstractPolarisMinneapolisDao<PSIOrderSe
 			LOG.error(PolarisIdentity.get(), "retrieveByProfileAndDealer", e);
 		} finally {
 			entityManager.close();
+			LOG.trace(PolarisIdentity.get(), "retrieveByProfileAndDealer", "entityManager closed");
 		}
 		
 		LOG.methodEnd(PolarisIdentity.get(), "retrieveByProfileAndDealer");
