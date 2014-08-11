@@ -6,11 +6,17 @@
         $routeProvider
             .when(defaultPageUrl, {
                 templateUrl: defaultPageTemplateUrl,
-                controller: defaultPageControllerName
+                controller: defaultPageControllerName,
+                resolve:{
+                    'translationData':function(translationPSI){
+                      return translationPSI.promise;
+                    }
+            	}
             })
             .when(dealerSummaryPageUrl, {
                 templateUrl: dealerSummaryPageTemplateUrl,
-                controller: dealerSummaryPageControllerName
+                controller: dealerSummaryPageControllerName,
+                resolve:defaultPageControllerName.resolve
             })
             .when(profilePageUrl, {
                 templateUrl: profilePageTemplateUrl,

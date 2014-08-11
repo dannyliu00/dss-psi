@@ -28,6 +28,7 @@ angular.module('sellIn', [
     'sellIn.directives.producttabs',
     'sellIn.directives.nondealersummaries',
     'sellIn.directives.commentdisplay',
+    'sellIn.directives.translate',
     'sellIn.resources.dealerProfileDetails',
     'sellIn.resources.dealerProfiles',
     'sellIn.resources.dealerProfile',
@@ -37,6 +38,7 @@ angular.module('sellIn', [
     'sellIn.resources.rsmProfiles',
     'sellIn.resources.reasoncode',
     'sellIn.resources.menu',
+    'sellIn.resources.translate',
     'sellIn.resources.attribute',
     'sellIn.pages.dealerProfileSummary',
     'sellIn.pages.profile',
@@ -44,6 +46,7 @@ angular.module('sellIn', [
     'sellIn.pages.nondealersummary',
     'sellIn.services.lasttab',
     'sellIn.services.currentdealer',
+    'sellIn.services.translation',
     'sellIn.routing.paths',
     'sellIn.routing',
     'blockUI'
