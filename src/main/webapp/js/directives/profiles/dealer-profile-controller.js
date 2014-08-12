@@ -111,8 +111,8 @@
                 var recQty = 0, recMin = 0, recMax = 0;
                 for (var i = 0, h = $scope.orderSegments.length; i < h; i++) {
                     var orderSegment = $scope.orderSegments[i];
-                    if (($scope.profile.type === "motorcycle") && (orderSegment.subSegment !== null)) {
-                        recSegmentTotal(orderSegment.subSegment);
+                    if (($scope.profile.type === "motorcycle") && (orderSegment.osName !== null)) {
+                        recSegmentTotal(orderSegment.osName);
                     }
                     if (orderSegment.periodCode === periodCode) {
                         recQty = recQty + orderSegment.recommended;
@@ -133,7 +133,7 @@
             var segment = getSegment(sub);
             var total = 0;
             for (var i = 0, j = $scope.orderSegments.length; i < j; i++) {
-                var checkList = segment.subSegments.indexOf($scope.orderSegments[i].subSegment);
+                var checkList = segment.subSegments.indexOf($scope.orderSegments[i].osName);
                 if (checkList !== -1) {
                     total = total + parseInt($scope.orderSegments[i].recommended);
                 }
@@ -147,7 +147,6 @@
                 if (listCheck !== -1) {
                     return $scope.segments[i];
                 }
-                i = $scope.segments.length;
             }
         }
 
