@@ -85,6 +85,19 @@ public class SegmentStockingProfileOrderServiceTest {
 	}
 	
 	@Test
+	public void testSaveStockingProfileSendNull() {
+		when(mockAttributeHelper.getAttribute("sendToStockingProfile")).thenReturn(null);
+
+		orderService.saveStockingProfiles(mockDetailsDto, expectedUserName);
+		
+		verify(mockDetailsDto).setSuccessful(true);
+		verify(mockDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
+		
+		verifyZeroInteractions(mockDetailsDto, mockMapper, mockOrderProfile, mockOrderSegment, mockProfileOrderDao, 
+				mockStockingProfile, mockStockingProfileDao);
+	}
+
+	@Test
 	public void testSaveStockingProfileSendFalse() {
 		orderService.saveStockingProfiles(mockDetailsDto, expectedUserName);
 		

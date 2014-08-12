@@ -51,7 +51,8 @@ public class SegmentStockingProfileOrderService {
 
 		// check app property before trying to write the stocking profile
 		Boolean sendToStockingProfile = new Boolean(attributeHelper.getAttribute("sendToStockingProfile"));
-		if(!sendToStockingProfile) {
+
+		if(sendToStockingProfile == null || !sendToStockingProfile) {
 			LOG.trace(PolarisIdentity.get(), "saveStockingProfiles", 
 					"sendToStockingProfile attribute is set to false in Attribute table.  Will not be "
 					+ "sending the Inventory Profile data to OT003F");
