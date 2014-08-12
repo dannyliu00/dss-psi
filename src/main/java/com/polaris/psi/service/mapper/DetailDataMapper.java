@@ -15,6 +15,8 @@ import com.polaris.psi.repository.entity.DealerProfileDetail;
 import com.polaris.psi.repository.entity.DealerProfileHeader;
 import com.polaris.psi.resource.dto.OrderSegmentDto;
 import com.polaris.psi.util.CommonUtils;
+import com.polaris.psi.util.PolarisIdentity;
+import com.polaris.psi.util.SplunkLogger;
 
 /**
  * DetailDataMapper handles mapping data from an OrderSegmentDto and DealerProfileHeader to 
@@ -27,6 +29,8 @@ import com.polaris.psi.util.CommonUtils;
 @Component
 public class DetailDataMapper {
 
+	private static final SplunkLogger LOG = new SplunkLogger(DetailDataMapper.class);
+	
 	/**
 	 * Creates a list of new DealerProfileDetail objects from a list of OrderSegmentDtos and a DealerProfileHeader
 	 * 
@@ -35,10 +39,14 @@ public class DetailDataMapper {
 	 * @return
 	 */
 	public List<DealerProfileDetail> createInitialDetail(List<OrderSegmentDto> dtos, DealerProfileHeader header) {
+		LOG.methodStart(PolarisIdentity.get(), "createInitialDetail");
+		
 		List<DealerProfileDetail> details = new ArrayList<DealerProfileDetail>();
 		for (OrderSegmentDto dto : dtos) {
 			details.add(createInitialDetail(dto, header));
 		}
+		
+		LOG.methodEnd(PolarisIdentity.get(), "createInitialDetail");
 		
 		return details;
 	}
@@ -51,6 +59,8 @@ public class DetailDataMapper {
 	 * @return
 	 */
 	public DealerProfileDetail createInitialDetail(OrderSegmentDto dto, DealerProfileHeader header) {
+		LOG.methodStart(PolarisIdentity.get(), "createInitialDetail");
+		
 		DealerProfileDetail detail = new DealerProfileDetail();
 		detail.setActual(dto.getActual());
 		detail.setCreatedDate(new Date());
@@ -74,6 +84,8 @@ public class DetailDataMapper {
 		detail.setDsmRecommendedQty(CommonUtils.setIntegerValue(null));
 		detail.setFinalQty(CommonUtils.setIntegerValue(null));
 		
+		LOG.methodEnd(PolarisIdentity.get(), "createInitialDetail");
+		
 		return detail;
 	}
 	
@@ -85,6 +97,8 @@ public class DetailDataMapper {
 	 * @param dto
 	 */
 	public void updateDealerEnteredDetails(DealerProfileDetail detail, OrderSegmentDto dto) {
+		LOG.methodStart(PolarisIdentity.get(), "updateDealerEnteredDetails");
+		
 		detail.setActual(dto.getActual());
 		detail.setDealerReasonCode(CommonUtils.setIntegerValue(dto.getReasonCode()));
 		detail.setDealerComments(CommonUtils.setStringValue(dto.getDealerComments()));
@@ -92,6 +106,8 @@ public class DetailDataMapper {
 		detail.setChangedProgram(Constants.PROGRAM_CODE);
 		detail.setChangedTime(new Date());
 		detail.setChangedUser(dto.getModifiedUserName());
+
+		LOG.methodEnd(PolarisIdentity.get(), "updateDealerEnteredDetails");
 	}
 	
 	/**
@@ -103,6 +119,8 @@ public class DetailDataMapper {
 	 * @param userName
 	 */
 	public void updateDsmEnteredDetails(DealerProfileDetail detail, OrderSegmentDto dto, String userName) {
+		LOG.methodStart(PolarisIdentity.get(), "updateDsmEnteredDetails");
+		
 		Date date = Calendar.getInstance().getTime();
 		detail.setDsmRecommendedQty(CommonUtils.setIntegerValue(dto.getDsmQty()));
 		detail.setDsmReasonCode(CommonUtils.setIntegerValue(dto.getDsmReasonCode()));
@@ -111,6 +129,8 @@ public class DetailDataMapper {
 		detail.setChangedProgram(Constants.PROGRAM_CODE);
 		detail.setChangedTime(date);
 		detail.setChangedUser(userName);
+
+		LOG.methodEnd(PolarisIdentity.get(), "updateDsmEnteredDetails");
 	}
 
 	/**
@@ -122,6 +142,8 @@ public class DetailDataMapper {
 	 * @param userName
 	 */
 	public void updateRsmEnteredDetails(DealerProfileDetail detail, OrderSegmentDto dto, String userName) {
+		LOG.methodStart(PolarisIdentity.get(), "updateRsmEnteredDetails");
+		
 		Date date = Calendar.getInstance().getTime();
 		detail.setAdminApprovedQty(CommonUtils.setIntegerValue(dto.getAdminQty()));
 		detail.setAdminReasonCode(CommonUtils.setIntegerValue(dto.getAdminReasonCode()));
@@ -130,6 +152,8 @@ public class DetailDataMapper {
 		detail.setChangedProgram(Constants.PROGRAM_CODE);
 		detail.setChangedTime(date);
 		detail.setChangedUser(userName);
+
+		LOG.methodEnd(PolarisIdentity.get(), "updateRsmEnteredDetails");
 	}
 	
 	/**
@@ -141,6 +165,8 @@ public class DetailDataMapper {
 	 * @param status
 	 */
 	public void updateApprovedDetails(DealerProfileDetail detail, OrderSegmentDto dto, String status) {
+		LOG.methodStart(PolarisIdentity.get(), "updateApprovedDetails");
+
 		int finalValue = -1;
 		
 		switch (status) {
@@ -161,6 +187,8 @@ public class DetailDataMapper {
 		}
 		
 		detail.setFinalQty(finalValue);
+
+		LOG.methodEnd(PolarisIdentity.get(), "updateApprovedDetails");
 	}
 	
 }

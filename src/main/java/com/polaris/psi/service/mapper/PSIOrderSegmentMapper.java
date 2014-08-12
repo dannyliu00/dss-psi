@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 import com.polaris.psi.repository.entity.PSIOrderSegment;
 import com.polaris.psi.repository.entity.PSIProfileDetail;
 import com.polaris.psi.resource.dto.OrderSegmentDto;
+import com.polaris.psi.util.PolarisIdentity;
+import com.polaris.psi.util.SplunkLogger;
 
 /**
  * @author bericks
@@ -19,6 +21,8 @@ import com.polaris.psi.resource.dto.OrderSegmentDto;
 @Component
 public class PSIOrderSegmentMapper {
 
+	private static final SplunkLogger LOG = new SplunkLogger(PSIOrderSegmentMapper.class);
+	
 	/**
 	 * @param oses
 	 * @param details
@@ -26,6 +30,8 @@ public class PSIOrderSegmentMapper {
 	 * @return
 	 */
 	public List<OrderSegmentDto> mapToDto(List<PSIOrderSegment> oses, List<PSIProfileDetail> details, String email) {
+		LOG.methodStart(PolarisIdentity.get(), "mapToDto");
+		
 		List<OrderSegmentDto> dtos = new ArrayList<OrderSegmentDto>();
 		
 		if(oses.size() == 0) return dtos;
@@ -44,10 +50,14 @@ public class PSIOrderSegmentMapper {
 			dtos.add(mapToDto(orderSegment, detail, email));
 		}
 		
+		LOG.methodEnd(PolarisIdentity.get(), "mapToDto");
+
 		return dtos;
 	}
 	
 	public OrderSegmentDto mapToDto(PSIOrderSegment os, PSIProfileDetail detail, String email) {
+		LOG.methodStart(PolarisIdentity.get(), "mapToDto");
+
 		OrderSegmentDto dto = new OrderSegmentDto();
 		
 		dto.setDealerEmail(email);
@@ -81,17 +91,25 @@ public class PSIOrderSegmentMapper {
 			dto.setPeriodCode(detail.getPeriodCode());
 		}
 		
+		LOG.methodEnd(PolarisIdentity.get(), "mapToDto");
+
 		return dto;
 	}
 	
 	protected PSIProfileDetail getDetailObject(List<PSIProfileDetail> details, Integer profileOrderSegmentId, String periodCode) {
+		LOG.methodEnd(PolarisIdentity.get(), "getDetailObject");
 
 		for (PSIProfileDetail detail : details) {
 			if(detail.getPeriodCode().equals(periodCode) 
-					&& detail.getProfileOrderSegmentId().intValue() == profileOrderSegmentId.intValue())
+					&& detail.getProfileOrderSegmentId().intValue() == profileOrderSegmentId.intValue()) {
+
+				LOG.methodEnd(PolarisIdentity.get(), "getDetailObject");
 				return detail;
+			}
 		}
 		
+		LOG.methodEnd(PolarisIdentity.get(), "getDetailObject");
+
 		return null;
 	}
 

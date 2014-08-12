@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import com.polaris.psi.Constants;
 import com.polaris.psi.repository.entity.PSIProfile;
 import com.polaris.psi.resource.dto.ProfileDto;
+import com.polaris.psi.util.PolarisIdentity;
+import com.polaris.psi.util.SplunkLogger;
 
 /**
  * PSIProfileMapper maps a PSIProfile JPA entity to a ProfileDto object more fit for
@@ -23,6 +25,8 @@ import com.polaris.psi.resource.dto.ProfileDto;
 @Component
 public class PSIProfileMapper implements IMapper<PSIProfile, ProfileDto> {
 
+	private static final SplunkLogger LOG = new SplunkLogger(PSIProfileMapper.class);
+	
 	@Autowired
 	ProfileTypeMapper typeMapper;
 	
@@ -31,11 +35,15 @@ public class PSIProfileMapper implements IMapper<PSIProfile, ProfileDto> {
 	 */
 	@Override
 	public List<ProfileDto> mapToDto(List<PSIProfile> entities) {
+		LOG.methodStart(PolarisIdentity.get(), "mapToDto");
+
 		List<ProfileDto> profiles = new ArrayList<ProfileDto>();
 		
 		for (PSIProfile entity : entities) {
 			profiles.add(mapToDto(entity));
 		}
+
+		LOG.methodEnd(PolarisIdentity.get(), "mapToDto");
 
 		return profiles;
 	}
@@ -45,6 +53,8 @@ public class PSIProfileMapper implements IMapper<PSIProfile, ProfileDto> {
 	 */
 	@Override
 	public ProfileDto mapToDto(PSIProfile entity) {
+		LOG.methodStart(PolarisIdentity.get(), "mapToDto");
+
 		ProfileDto dto = new ProfileDto();
 
 		dto.setName(entity.getName());
@@ -57,6 +67,8 @@ public class PSIProfileMapper implements IMapper<PSIProfile, ProfileDto> {
 		
 		typeMapper.mapTypeToProfile(entity.getType(), dto);
 		
+		LOG.methodEnd(PolarisIdentity.get(), "mapToDto");
+
 		return dto;
 	}
 	
@@ -70,6 +82,8 @@ public class PSIProfileMapper implements IMapper<PSIProfile, ProfileDto> {
 	 * @return
 	 */
 	protected String getStatus(String s) {
+		LOG.methodStart(PolarisIdentity.get(), "getStatus");
+
 		if (s == null) s = "";
 		
 		switch (s) {
@@ -94,6 +108,8 @@ public class PSIProfileMapper implements IMapper<PSIProfile, ProfileDto> {
 				s = Constants.DEFAULT_PROFILE_STATUS;
 				break;
 		}
+
+		LOG.methodEnd(PolarisIdentity.get(), "getStatus");
 
 		return s;
 	}

@@ -13,6 +13,8 @@ import com.polaris.psi.repository.entity.SegmentStockingProfile;
 import com.polaris.psi.repository.entity.SegmentStockingProfileOrder;
 import com.polaris.psi.resource.dto.OrderSegmentDto;
 import com.polaris.psi.util.CommonUtils;
+import com.polaris.psi.util.PolarisIdentity;
+import com.polaris.psi.util.SplunkLogger;
 
 /**
  * SegmentStockingProfileOrderMapper maps attributes from a SegmentStockingProfile and an OrderSegmentDto to a 
@@ -24,6 +26,8 @@ import com.polaris.psi.util.CommonUtils;
 @Component
 public class SegmentStockingProfileOrderMapper {
 
+	private static final SplunkLogger LOG = new SplunkLogger(SegmentStockingProfileOrderMapper.class);
+	
 	/**
 	 * Creates a new SegmentStockingProfileOrder object from a SegmentStockingProfile and OrderSegmentDto.
 	 * 
@@ -33,6 +37,8 @@ public class SegmentStockingProfileOrderMapper {
 	 * @return
 	 */
 	public SegmentStockingProfileOrder createNewOrder(SegmentStockingProfile profile, OrderSegmentDto orderSegment, String userName) {
+		LOG.methodStart(PolarisIdentity.get(), "createNewOrder");
+
 		SegmentStockingProfileOrder order = new SegmentStockingProfileOrder();
 		
 		Date date = Calendar.getInstance().getTime();
@@ -61,6 +67,8 @@ public class SegmentStockingProfileOrderMapper {
 		order.setUserDef9(CommonUtils.setIntegerValue(null));
 		order.setUserDef10(CommonUtils.setStringValue(null));
 		
+		LOG.methodEnd(PolarisIdentity.get(), "createNewOrder");
+
 		return order;
 	}
 	
@@ -74,6 +82,8 @@ public class SegmentStockingProfileOrderMapper {
 	 */
 	public SegmentStockingProfileOrder updateExistingOrder(SegmentStockingProfileOrder order, OrderSegmentDto orderSegment, String userName) {
 		
+		LOG.methodStart(PolarisIdentity.get(), "updateExistingOrder");
+
 		Date date = Calendar.getInstance().getTime();
 		
 		order.setChangeDate(date);
@@ -82,6 +92,8 @@ public class SegmentStockingProfileOrderMapper {
 		order.setChangeUser(userName);
 		order.setRecommendedMinQty(orderSegment.getFinalQty());
 		
+		LOG.methodEnd(PolarisIdentity.get(), "updateExistingOrder");
+
 		return order;
 	}
 }

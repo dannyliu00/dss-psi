@@ -13,6 +13,8 @@ import com.polaris.psi.repository.entity.DealerProfileHeader;
 import com.polaris.psi.repository.entity.PSILog;
 import com.polaris.psi.resource.dto.OrderSegmentDto;
 import com.polaris.psi.util.CommonUtils;
+import com.polaris.psi.util.PolarisIdentity;
+import com.polaris.psi.util.SplunkLogger;
 
 /**
  * PSILogMapper maps inventory profile data specific to a dealer and workflow step to an loggable PSILog object.
@@ -23,6 +25,8 @@ import com.polaris.psi.util.CommonUtils;
 @Component
 public class PSILogMapper {
 
+	private static final SplunkLogger LOG = new SplunkLogger(PSILogMapper.class);
+	
 	/**
 	 * Maps dealer-entered data from inventory header (DealerProfileHeader) and detail (OrderSegmentDto) 
 	 * objects to a PSILog object.
@@ -32,6 +36,8 @@ public class PSILogMapper {
 	 * @return
 	 */
 	public PSILog mapDealerDataToLog(DealerProfileHeader header, OrderSegmentDto detail) {
+		LOG.methodStart(PolarisIdentity.get(), "mapDealerDataToLog");
+		
 		PSILog log = new PSILog();
 		
 		Date date = Calendar.getInstance().getTime();
@@ -77,6 +83,8 @@ public class PSILogMapper {
 		log.setLogTimestamp(date);
 		log.setOrderSegment(detail.getOsCode());
 		
+		LOG.methodEnd(PolarisIdentity.get(), "mapDealerDataToLog");
+
 		return log;
 	}
 	
@@ -89,6 +97,8 @@ public class PSILogMapper {
 	 * @return
 	 */
 	public PSILog mapDsmDataToLog(DealerProfileHeader header, OrderSegmentDto detail) {
+		LOG.methodStart(PolarisIdentity.get(), "mapDsmDataToLog");
+		
 		PSILog log = new PSILog();
 		
 		Date date = Calendar.getInstance().getTime();
@@ -134,6 +144,8 @@ public class PSILogMapper {
 		log.setHeaderId(header.getId());
 		log.setOrderSegment(detail.getOsCode());
 		
+		LOG.methodEnd(PolarisIdentity.get(), "mapDsmDataToLog");
+
 		return log;
 	}
 	
@@ -146,6 +158,8 @@ public class PSILogMapper {
 	 * @return
 	 */
 	public PSILog mapRsmDataToLog(DealerProfileHeader header, OrderSegmentDto detail) {
+		LOG.methodStart(PolarisIdentity.get(), "mapRsmDataToLog");
+
 		PSILog log = new PSILog();
 		
 		Date date = Calendar.getInstance().getTime();
@@ -190,6 +204,8 @@ public class PSILogMapper {
 		log.setFinalQty(CommonUtils.setIntegerValue(detail.getFinalQty()));
 		log.setHeaderId(header.getId());
 		log.setOrderSegment(detail.getOsCode());
+		
+		LOG.methodEnd(PolarisIdentity.get(), "mapRsmDataToLog");
 		
 		return log;
 	}
