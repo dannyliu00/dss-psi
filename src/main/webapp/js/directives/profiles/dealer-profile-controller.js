@@ -179,7 +179,7 @@
 
             for (var i = 0, j = $scope.orderSegments.length; i < j; i++) {
 
-                var checkList = segment.subSegments.indexOf($scope.orderSegments[i].subSegment);
+                var checkList = segment.subSegments.indexOf($scope.orderSegments[i].osName);
                 if (checkList !== -1) {
                     var orderSegmentVal = $scope.orderSegments[i][level];
 
