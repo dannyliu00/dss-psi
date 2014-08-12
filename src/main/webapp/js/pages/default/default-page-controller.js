@@ -1,10 +1,9 @@
 (function () {
     var defaultPage = sellInNamespace('sellIn.pages.default');
 
-    function DefaultPageController($scope,$rootScope, $location, appRoleResource,translationResource, dealerSummaryPageUrl, dsmUrl, dsmRoleId, rsmRoleId,translationPSI) {
+    function DefaultPageController($scope, $location, appRoleResource, dealerSummaryPageUrl, dsmUrl, dsmRoleId, rsmRoleId) {
         var finalUrl = '/';
 
-        
         appRoleResource.get().then(function (role) {
             $scope.role = role;
         }).then(function () {
@@ -35,7 +34,6 @@
             }
             if (role.sessionDetail.RGR === 'Y') {
                 return '6';
-	    };
             }
             if (role.sessionDetail.RZR === 'Y') {
                 return 'Z';
@@ -53,8 +51,7 @@
                 return 'D';
             }
         };
-//    		  }
-//    		};
+    }
 
     defaultPage.DefaultPageController = DefaultPageController;
 })();
