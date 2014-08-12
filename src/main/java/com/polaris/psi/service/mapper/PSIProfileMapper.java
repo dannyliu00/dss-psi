@@ -14,6 +14,9 @@ import com.polaris.psi.repository.entity.PSIProfile;
 import com.polaris.psi.resource.dto.ProfileDto;
 
 /**
+ * PSIProfileMapper maps a PSIProfile JPA entity to a ProfileDto object more fit for
+ * use in PSI web requests.
+ * 
  * @author bericks
  *
  */
@@ -23,6 +26,9 @@ public class PSIProfileMapper implements IMapper<PSIProfile, ProfileDto> {
 	@Autowired
 	ProfileTypeMapper typeMapper;
 	
+	/* (non-Javadoc)
+	 * @see com.polaris.psi.service.mapper.IMapper#mapToDto(java.util.List)
+	 */
 	@Override
 	public List<ProfileDto> mapToDto(List<PSIProfile> entities) {
 		List<ProfileDto> profiles = new ArrayList<ProfileDto>();
@@ -34,6 +40,9 @@ public class PSIProfileMapper implements IMapper<PSIProfile, ProfileDto> {
 		return profiles;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.polaris.psi.service.mapper.IMapper#mapToDto(java.lang.Object)
+	 */
 	@Override
 	public ProfileDto mapToDto(PSIProfile entity) {
 		ProfileDto dto = new ProfileDto();
@@ -51,10 +60,20 @@ public class PSIProfileMapper implements IMapper<PSIProfile, ProfileDto> {
 		return dto;
 	}
 	
+	/**
+	 * Returns the appropriate status string based on the value passed in.  PENDING, RETURNED TO DEALER and 
+	 * APPROVED NONCOMPLIANT do not change.  RETURNED TO DSM and EXCEPTION REQUESTED return a PENDING status.  
+	 * APPROVED AS REQUESTED, APPROVED WITH CHANGES and APPROVED COMPLIANT return APPROVED.  A null or empty string
+	 * returns NOT STARTED.
+	 * 
+	 * @param s
+	 * @return
+	 */
 	protected String getStatus(String s) {
 		if (s == null) s = "";
 		
 		switch (s) {
+			case Constants.IN_PROGRESS_STATUS:
 			case Constants.PENDING_STATUS:
 			case Constants.RETURNED_TO_DEALER:
 			case Constants.APPROVED_NONCOMPLIANT:
