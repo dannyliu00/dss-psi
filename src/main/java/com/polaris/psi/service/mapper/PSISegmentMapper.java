@@ -12,12 +12,18 @@ import com.polaris.psi.repository.entity.PSISegment;
 import com.polaris.psi.resource.dto.SegmentDto;
 
 /**
+ * PSISegmentMapper maps a PSISegment JPA entity to a SegmentDto object more fit for
+ * use in PSI web requests.
+ * 
  * @author bericks
  *
  */
 @Component
 public class PSISegmentMapper implements IMapper<PSISegment, SegmentDto> {
 
+	/* (non-Javadoc)
+	 * @see com.polaris.psi.service.mapper.IMapper#mapToDto(java.util.List)
+	 */
 	@Override
 	public List<SegmentDto> mapToDto(List<PSISegment> entities) {
 		List<SegmentDto> segments = new ArrayList<SegmentDto>();
@@ -33,6 +39,9 @@ public class PSISegmentMapper implements IMapper<PSISegment, SegmentDto> {
 		return segments;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.polaris.psi.service.mapper.IMapper#mapToDto(java.lang.Object)
+	 */
 	@Override
 	public SegmentDto mapToDto(PSISegment entity) {
 		SegmentDto segment = new SegmentDto();

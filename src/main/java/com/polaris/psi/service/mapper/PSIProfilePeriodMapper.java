@@ -12,12 +12,18 @@ import com.polaris.psi.repository.entity.PSIProfilePeriod;
 import com.polaris.psi.resource.dto.ProfilePeriodDto;
 
 /**
+ * PSIProfilePeriodMapper maps a PSIProfilePeriod JPA entity to a ProfilePeriodDto object more fit for
+ * use in PSI web requests.
+ * 
  * @author bericks
  *
  */
 @Component
 public class PSIProfilePeriodMapper implements IMapper<PSIProfilePeriod, ProfilePeriodDto> {
 
+	/* (non-Javadoc)
+	 * @see com.polaris.psi.service.mapper.IMapper#mapToDto(java.util.List)
+	 */
 	@Override
 	public List<ProfilePeriodDto> mapToDto(List<PSIProfilePeriod> entities) {
 		List<ProfilePeriodDto> periods = new ArrayList<ProfilePeriodDto>();
@@ -29,6 +35,9 @@ public class PSIProfilePeriodMapper implements IMapper<PSIProfilePeriod, Profile
 		return periods;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.polaris.psi.service.mapper.IMapper#mapToDto(java.lang.Object)
+	 */
 	@Override
 	public ProfilePeriodDto mapToDto(PSIProfilePeriod entity) {
 		ProfilePeriodDto dto = new ProfilePeriodDto();

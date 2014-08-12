@@ -19,6 +19,12 @@ import com.polaris.psi.resource.dto.OrderSegmentDto;
 @Component
 public class PSIOrderSegmentMapper {
 
+	/**
+	 * @param oses
+	 * @param details
+	 * @param email
+	 * @return
+	 */
 	public List<OrderSegmentDto> mapToDto(List<PSIOrderSegment> oses, List<PSIProfileDetail> details, String email) {
 		List<OrderSegmentDto> dtos = new ArrayList<OrderSegmentDto>();
 		

@@ -15,6 +15,11 @@ import com.polaris.psi.resource.dto.OrderSegmentDto;
 import com.polaris.psi.util.CommonUtils;
 
 /**
+ * HeaderDataMapper handles creating and updating DealerProfileHeader objects from a combination of OrderSegmentDto, 
+ * DealerProfileHeader and DealerProfileHeaderStatus objects to a DealerProfileHeader object.  There are 
+ * methods for creating new, not-yet submitted header objects and creating new submitted header objects to mapping subsets 
+ * of data on existing header objects (like just approved headers or updating the changed data attributes).
+ * 
  * @author bericks
  *
  */

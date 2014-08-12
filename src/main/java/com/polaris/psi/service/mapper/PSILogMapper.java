@@ -15,12 +15,22 @@ import com.polaris.psi.resource.dto.OrderSegmentDto;
 import com.polaris.psi.util.CommonUtils;
 
 /**
+ * PSILogMapper maps inventory profile data specific to a dealer and workflow step to an loggable PSILog object.
+ * 
  * @author bericks
  *
  */
 @Component
 public class PSILogMapper {
 
+	/**
+	 * Maps dealer-entered data from inventory header (DealerProfileHeader) and detail (OrderSegmentDto) 
+	 * objects to a PSILog object.
+	 * 
+	 * @param header
+	 * @param detail
+	 * @return
+	 */
 	public PSILog mapDealerDataToLog(DealerProfileHeader header, OrderSegmentDto detail) {
 		PSILog log = new PSILog();
 		
@@ -70,6 +80,14 @@ public class PSILogMapper {
 		return log;
 	}
 	
+	/**
+	 * Maps DSM-entered data from inventory header (DealerProfileHeader) and detail (OrderSegmentDto) 
+	 * objects to a PSILog object.
+	 * 
+	 * @param header
+	 * @param detail
+	 * @return
+	 */
 	public PSILog mapDsmDataToLog(DealerProfileHeader header, OrderSegmentDto detail) {
 		PSILog log = new PSILog();
 		
@@ -119,6 +137,14 @@ public class PSILogMapper {
 		return log;
 	}
 	
+	/**
+	 * Maps RSM-entered data from inventory header (DealerProfileHeader) and detail (OrderSegmentDto) 
+	 * objects to a PSILog object.
+	 * 
+	 * @param header
+	 * @param detail
+	 * @return
+	 */
 	public PSILog mapRsmDataToLog(DealerProfileHeader header, OrderSegmentDto detail) {
 		PSILog log = new PSILog();
 		

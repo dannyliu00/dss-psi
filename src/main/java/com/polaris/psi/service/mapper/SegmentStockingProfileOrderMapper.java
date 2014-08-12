@@ -15,12 +15,23 @@ import com.polaris.psi.resource.dto.OrderSegmentDto;
 import com.polaris.psi.util.CommonUtils;
 
 /**
+ * SegmentStockingProfileOrderMapper maps attributes from a SegmentStockingProfile and an OrderSegmentDto to a 
+ * SegmentStockingProfileOrder object.
+ * 
  * @author bericks
  *
  */
 @Component
 public class SegmentStockingProfileOrderMapper {
 
+	/**
+	 * Creates a new SegmentStockingProfileOrder object from a SegmentStockingProfile and OrderSegmentDto.
+	 * 
+	 * @param profile
+	 * @param orderSegment
+	 * @param userName
+	 * @return
+	 */
 	public SegmentStockingProfileOrder createNewOrder(SegmentStockingProfile profile, OrderSegmentDto orderSegment, String userName) {
 		SegmentStockingProfileOrder order = new SegmentStockingProfileOrder();
 		
@@ -53,6 +64,14 @@ public class SegmentStockingProfileOrderMapper {
 		return order;
 	}
 	
+	/**
+	 * Updates the 'changed' and minimum quantity attributes of an existing SegmentStockingProfileOrder object.
+	 * 
+	 * @param order
+	 * @param orderSegment
+	 * @param userName
+	 * @return
+	 */
 	public SegmentStockingProfileOrder updateExistingOrder(SegmentStockingProfileOrder order, OrderSegmentDto orderSegment, String userName) {
 		
 		Date date = Calendar.getInstance().getTime();
