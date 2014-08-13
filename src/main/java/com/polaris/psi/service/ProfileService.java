@@ -20,6 +20,8 @@ import com.polaris.psi.service.mapper.PSIOrderSegmentMapper;
 import com.polaris.psi.service.mapper.PSIProfileMapper;
 import com.polaris.psi.service.mapper.PSIProfilePeriodMapper;
 import com.polaris.psi.service.mapper.PSISegmentMapper;
+import com.polaris.psi.util.PolarisIdentity;
+import com.polaris.psi.util.SplunkLogger;
 import com.polaris.pwf.dao.PSIOrderSegmentDao;
 import com.polaris.pwf.dao.PSIProfileDao;
 import com.polaris.pwf.dao.PSIProfileDetailDao;
@@ -32,6 +34,8 @@ import com.polaris.pwf.dao.PSISegmentDao;
  */
 @Service
 public class ProfileService {
+
+	private static final SplunkLogger LOG = new SplunkLogger(ProfileService.class);
 
 	@Autowired
 	PSIProfileDao psiProfileDao;
@@ -63,24 +67,47 @@ public class ProfileService {
 	@Autowired
 	OrderSegmentComparator osComparator;
 	
+	/**
+	 * @param dealerId
+	 * @return
+	 */
 	public List<ProfileDto> getCurrentDealerProfiles(int dealerId) {
 
+		LOG.methodStart(PolarisIdentity.get(), "getCurrentDealerProfiles");
+		
 		List<PSIProfile> psiProfiles = psiProfileDao.retrieveDealerCurrentProfileListByDealerId(dealerId);
 		List<ProfileDto> psiDtos = profileMapper.mapToDto(psiProfiles);
 		
+		LOG.methodEnd(PolarisIdentity.get(), "getCurrentDealerProfiles");
+
 		return psiDtos;
 	}
 
+	/**
+	 * @param dealerId
+	 * @return
+	 */
 	public List<ProfileDto> getHistoricalDealerProfiles(int dealerId) {
+
+		LOG.methodStart(PolarisIdentity.get(), "getHistoricalDealerProfiles");
 
 		List<PSIProfile> psiProfiles = psiProfileDao.retrieveDealerHistoryProfileListByDealerId(dealerId);
 		List<ProfileDto> psiDtos = profileMapper.mapToDto(psiProfiles);
 		
+		LOG.methodEnd(PolarisIdentity.get(), "getHistoricalDealerProfiles");
+
 		return psiDtos;
 	}
 
+	/**
+	 * @param profileId
+	 * @param dealerId
+	 * @return
+	 */
 	public ProfileDto getDealerProfile(int profileId, int dealerId) {
 		
+		LOG.methodStart(PolarisIdentity.get(), "getDealerProfile");
+
 		PSIProfile psiProfile = psiProfileDao.retrieveProfileById(profileId, dealerId);
 
 		List<PSIProfileDetail> details = new ArrayList<PSIProfileDetail>();
@@ -96,7 +123,9 @@ public class ProfileService {
     	List<PSIProfilePeriod> periods = profilePeriodDao.retrieveByProfileId(psiProfile.getId());
     	dto.setPeriods(periodMapper.mapToDto(periods));
     	
-    	return dto;
+		LOG.methodEnd(PolarisIdentity.get(), "getDealerProfile");
+
+		return dto;
 	}
 	
 }

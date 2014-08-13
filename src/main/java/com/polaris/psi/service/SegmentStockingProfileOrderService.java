@@ -94,7 +94,7 @@ public class SegmentStockingProfileOrderService {
 				}
 			}
 		} catch (Exception e) {
-			LOG.error(PolarisIdentity.get(), "saveStockingProfiles", e.getMessage());
+			LOG.error(PolarisIdentity.get(), "saveStockingProfiles", e);
 			LOG.methodEnd(PolarisIdentity.get(), "saveStockingProfiles");
 
 			throw e;

@@ -13,6 +13,8 @@ import com.polaris.psi.repository.dao.DealerProfileHeaderStatusDao;
 import com.polaris.psi.repository.entity.DealerProfileHeaderStatus;
 
 /**
+ * StatusService retrieves DealerProfileHeaderStatus objects from the persistent data store
+ * 
  * @author bericks
  *
  */

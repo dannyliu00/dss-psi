@@ -13,6 +13,8 @@ import com.polaris.psi.repository.dao.ReasonCodeDao;
 import com.polaris.psi.repository.entity.ReasonCode;
 import com.polaris.psi.resource.dto.ReasonCodeDto;
 import com.polaris.psi.service.mapper.ReasonCodeMapper;
+import com.polaris.psi.util.PolarisIdentity;
+import com.polaris.psi.util.SplunkLogger;
 
 /**
  * @author bericks
@@ -21,13 +23,22 @@ import com.polaris.psi.service.mapper.ReasonCodeMapper;
 @Service
 public class ReasonCodeService {
 
+	private static final SplunkLogger LOG = new SplunkLogger(ReasonCodeService.class);
+
 	@Autowired
 	ReasonCodeDao dao;
 	
 	@Autowired
 	ReasonCodeMapper mapper;
 	
+	/**
+	 * @param roleId
+	 * @return
+	 */
 	public List<ReasonCodeDto> getReasonCodes(int roleId) {
+		
+		LOG.methodStart(PolarisIdentity.get(), "getReasonCodes");
+
 		List<ReasonCode> reasonCodes = dao.getReasonCodes(roleId);
 		List<ReasonCodeDto> dtos = new LinkedList<ReasonCodeDto>();
 		
@@ -35,6 +46,8 @@ public class ReasonCodeService {
 			dtos.add(mapper.mapToDto(reasonCode));
 		}
 		
+		LOG.methodEnd(PolarisIdentity.get(), "getReasonCodes");
+
 		return dtos;
 	}
 }
