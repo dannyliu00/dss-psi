@@ -1,6 +1,7 @@
 package com.polaris.pwd.translation;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.time.DateUtils;
@@ -15,7 +16,7 @@ import org.apache.commons.lang.time.DateUtils;
 public class ResourceContainer {
 
 	private String language;
-	private Map<String, String> languageStrings;
+	private final Map<String, String> languageStrings = new HashMap<String,String>();
 	
 	private Date createDate;
 	
@@ -35,12 +36,6 @@ public class ResourceContainer {
 		return languageStrings;
 	}
 
-	/**
-	 * @param languageStrings the languageStrings to set
-	 */
-	public void setLanguageStrings(Map<String, String> languageStrings) {
-		this.languageStrings = languageStrings;
-	}
 
 	/**
 	 * @return the language

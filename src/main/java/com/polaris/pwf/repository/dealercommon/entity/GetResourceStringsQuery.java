@@ -1,12 +1,15 @@
-package com.polaris.pwd.translation;
+package com.polaris.pwf.repository.dealercommon.entity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.MappingSqlQuery;
+
+import com.polaris.pwd.translation.ResourceStringDto;
 
 /*
  * Returns all resource strings for an application

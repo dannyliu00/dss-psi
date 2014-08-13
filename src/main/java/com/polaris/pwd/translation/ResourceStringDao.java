@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.polaris.pwf.config.spring.datasource.PolarisDealersCommonDataSource;
 import com.polaris.pwf.dao.AbstractPolarisDealersExtensionDao;
+import com.polaris.pwf.repository.dealercommon.entity.GetResourceStringsQuery;
 
 /*
  * DAO for retrieving resource strings

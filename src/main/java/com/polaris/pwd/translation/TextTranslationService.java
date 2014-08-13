@@ -13,6 +13,12 @@ import com.polaris.psi.Constants;
 import com.polaris.psi.util.PolarisIdentity;
 import com.polaris.psi.util.SplunkLogger;
 import com.polaris.pwf.repository.CommonRepositoryConstants;
+import com.polaris.pwf.repository.dealercommon.entity.Application;
+import com.polaris.pwf.repository.dealercommon.entity.ApplicationDao;
+import com.polaris.pwf.repository.dealercommon.entity.Content;
+import com.polaris.pwf.repository.dealercommon.entity.ContentDao;
+import com.polaris.pwf.repository.dealercommon.entity.ContentLanguage;
+import com.polaris.pwf.repository.dealercommon.entity.ContentLanguageDao;
 
 
 @Service
@@ -27,12 +33,16 @@ public class TextTranslationService {
 	
 	@Autowired
 	ContentLanguageDao contentLanguageDao;
+
+	@Autowired
+	ApplicationDao applicationDao;
 	
 
 	
 	private static final SplunkLogger LOG = new SplunkLogger(TextTranslationService.class);
 	
 	private final  Map<String, ResourceContainer> resources = new HashMap<String,ResourceContainer>();
+	private Integer applicationId=null;
 	
 	private final Object myLock = new Object();
 	
@@ -67,18 +77,19 @@ public class TextTranslationService {
 
 		LOG.methodEnd(PolarisIdentity.get(), "getResourceStrings");
 		
-		return null;
+		return resources.get(languageCode).getLanguageStrings();
 	}
 	
 	/*
 	 * Adds a new term to the database and to the static collection.
 	 */
     @Transactional(CommonRepositoryConstants.TX_MANAGER_POLARIS_DEALERS_COMMON)
-	public synchronized void addTerm(String languageId, String term) {
+	public synchronized void addTerm(String applicationGuid, String languageId, String term) {
 		
 		// Do some null checks
 		if(languageId==null || languageId.isEmpty()) {throw new IllegalArgumentException("languageId cannot be null");}
 		if(term==null || term.isEmpty()) {throw new IllegalArgumentException("term cannot be null");}
+		if(applicationGuid==null || applicationGuid.isEmpty()) {throw new IllegalArgumentException("applicationGuid cannot be null");}
 		
 		// Make sure we don't already have it.
 		if(getResourceStrings(Constants.APPLICATION_GUID,languageId).containsKey(term)) {
@@ -86,6 +97,16 @@ public class TextTranslationService {
 			
 			// leave
 			return;
+		}
+		
+		// check if we need to go and get the applicationID
+		if(this.applicationId==null) {
+			Application app = applicationDao.selectByAppGuid(applicationGuid);
+			if(app!=null) {
+				this.applicationId=app.getId();
+			} else {
+				throw new IllegalArgumentException("Unable to find an ApplicationID for AppGuid: " + applicationGuid);
+			}
 		}
 		
 		// Create the term
@@ -106,7 +127,7 @@ public class TextTranslationService {
 		// Create the term
 		Content newContent = new Content();
 		newContent.setActive(true);
-		newContent.setApplicationId(Constants.APPLICATION_GUID);
+		newContent.setApplicationId(this.applicationId);
 		newContent.setContent(term);
 		newContent.setCreatedBy(PolarisIdentity.get().getUserId());
 		newContent.setCreatedDate(new Date());

@@ -14,6 +14,7 @@
 		    	  resourceStrings = data;
 		      },
 		      getString: function (term) {
+		    	  term=term.trim();
 		          var value = resourceStrings[term];
 		          
 		          if(!value) {

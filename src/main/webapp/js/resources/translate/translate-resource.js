@@ -5,8 +5,7 @@
 (function() {
     var translate = sellInNamespace('sellIn.resources.translate');
 
-    function TranslationResource($resource, translateGetStringsUrl) {
-        this.resource = $resource(translateGetStringsUrl);   
+    function TranslationResource($resource, translateGetStringsUrl,translateAddStringUrl) {
 
         this.resource = $resource(translateGetStringsUrl, {}, {
             addString: {method: 'POST', url: translateAddStringUrl}

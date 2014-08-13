@@ -1,4 +1,4 @@
-package com.polaris.pwd.translation;
+package com.polaris.pwf.repository.dealercommon.entity;
 
 import org.springframework.stereotype.Repository;
 

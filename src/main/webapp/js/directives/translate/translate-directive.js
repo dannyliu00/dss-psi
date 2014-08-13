@@ -6,8 +6,8 @@
  	   return {
 		   restrict: 'A',
 		   link: function(scope, element, attrs) {
-			   var text = element.html();
-			   element.html(translationPSI.getString(text));
+			   var text = element.text();
+			   element.text(translationPSI.getString(text));
 		   }
 	   };
     }

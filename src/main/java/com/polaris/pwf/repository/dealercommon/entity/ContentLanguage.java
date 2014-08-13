@@ -1,10 +1,12 @@
-package com.polaris.pwd.translation;
+package com.polaris.pwf.repository.dealercommon.entity;
 
 import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -12,8 +14,8 @@ import javax.persistence.Table;
  * @author: pceder
  */
 @Entity
-@Table(name = "Translate.Content")
-public class Content implements Serializable {
+@Table(name = "Translate.ContentLanguage")
+public class ContentLanguage implements Serializable {
 
 	/**
 	 * 
@@ -21,18 +23,19 @@ public class Content implements Serializable {
 	private static final long serialVersionUID = -2195442059956038029L;
 
 	@Id
-	@Column(name = "ContentId")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ContentLanguageId")
 	private Integer id;
 
-	@Column(name = "ApplicationId")
-	private String applicationId;
+	@Column(name = "ContentId")
+	private Integer contentId;
 	
-	@Column(name = "Content")
-	private String content;
-	
-	@Column(name = "DefaultLcid")
-	private Integer defaultLcid;
-	
+	@Column(name = "LanguageId")
+	private Integer languageId;
+
+	@Column(name = "Value")
+	private String value;
+
 	@Column(name = "IsActive")
 	private boolean isActive;
 	
@@ -63,45 +66,46 @@ public class Content implements Serializable {
 	}
 
 	/**
-	 * @return the applicationId
+	 * @return the contentId
 	 */
-	public String getApplicationId() {
-		return applicationId;
+	public Integer getContentId() {
+		return contentId;
 	}
 
 	/**
-	 * @param applicationId the applicationId to set
+	 * @param contentId the contentId to set
 	 */
-	public void setApplicationId(String applicationId) {
-		this.applicationId = applicationId;
+	public void setContentId(Integer contentId) {
+		this.contentId = contentId;
+	}
+
+
+	/**
+	 * @return the languageId
+	 */
+	public Integer getLanguageId() {
+		return languageId;
 	}
 
 	/**
-	 * @return the content
+	 * @param languageId the languageId to set
 	 */
-	public String getContent() {
-		return content;
+	public void setLanguageId(Integer languageId) {
+		this.languageId = languageId;
 	}
 
 	/**
-	 * @param content the content to set
+	 * @return the value
 	 */
-	public void setContent(String content) {
-		this.content = content;
+	public String getValue() {
+		return value;
 	}
 
 	/**
-	 * @return the defaultLcid
+	 * @param value the value to set
 	 */
-	public Integer getDefaultLcid() {
-		return defaultLcid;
-	}
-
-	/**
-	 * @param defaultLcid the defaultLcid to set
-	 */
-	public void setDefaultLcid(Integer defaultLcid) {
-		this.defaultLcid = defaultLcid;
+	public void setValue(String value) {
+		this.value = value;
 	}
 
 	/**
