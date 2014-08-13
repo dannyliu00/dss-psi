@@ -94,6 +94,8 @@
             modalInstance.result.then(function (success) {
                 if (success !== true) {
                     openResultsDialog();
+                } else {
+                	$scope.profile.status = 'IN PROGRESS';
                 }
             }, function () {
                 // no-op
