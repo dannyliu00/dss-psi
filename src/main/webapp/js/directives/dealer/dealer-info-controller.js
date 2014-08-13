@@ -4,9 +4,11 @@
     function DealerInfoController($scope, $routeParams) {
 
         var caption = '';
-
-        $scope.roleCaption = function () {
-            if ($routeParams.type === '5' || $routeParams.type === 'F') {
+        
+        var currentType = $routeParams.type;
+        
+        $scope.roleCaption = function (currentType) {
+            if (currentType === '5' || currentType === 'F') {
                 caption = 'DRM';
             } else {
                 caption = 'DSM';
@@ -16,4 +18,4 @@
     }
 
     dealerInfo.DealerInfoController = DealerInfoController;
-}());
+})();

@@ -6,9 +6,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -186,56 +183,6 @@ public class DetailDataMapperTest {
 		
 		verify(mockDto).getAdminQty();
 		verify(mockDetail).setFinalQty(expectedRsmQty);
-	}
-
-	@Test
-	public void testSetDateNull() {
-		Date result = mapper.setDate(null);
-		assertEquals(Constants.DEFAULT_DATE.getTime(), result);
-	}
-
-	@Test
-	public void testSetDate() {
-		Calendar cal = Calendar.getInstance();
-		Date date = cal.getTime();
-		Date result = mapper.setDate(date);
-		assertEquals(date, result);
-	}
-
-	@Test
-	public void testSetIntegerValueNull() {
-		int result = mapper.setIntegerValue(null);
-		assertEquals(-1, result);
-	}
-
-	@Test
-	public void testSetIntegerValue() {
-		int result = mapper.setIntegerValue(100);
-		assertEquals(100, result);
-	}
-
-	@Test
-	public void testSetStringValueNull() {
-		String result = mapper.setStringValue(null);
-		
-		assertNotNull(result);
-		assertEquals(0, result.length());
-	}
-
-	@Test
-	public void testSetStringValueEmpty() {
-		String result = mapper.setStringValue("");
-		
-		assertNotNull(result);
-		assertEquals(0, result.length());
-	}
-
-	@Test
-	public void testSetStringValue() {
-		String result = mapper.setStringValue(expectedComments);
-		
-		assertNotNull(result);
-		assertEquals(expectedComments, result);
 	}
 
 }

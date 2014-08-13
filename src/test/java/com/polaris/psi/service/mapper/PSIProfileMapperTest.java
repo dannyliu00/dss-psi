@@ -116,6 +116,12 @@ public class PSIProfileMapperTest {
 	}
 
 	@Test
+	public void testGetStatusInProgress() {
+		String result = mapper.getStatus(Constants.IN_PROGRESS_STATUS);
+		assertEquals(Constants.IN_PROGRESS_STATUS, result);
+	}
+
+	@Test
 	public void testGetStatusPending() {
 		String result = mapper.getStatus(Constants.PENDING_STATUS);
 		assertEquals(Constants.PENDING_STATUS, result);
