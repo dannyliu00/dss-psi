@@ -34,16 +34,26 @@
         };
 
         var getDealer = function () {
-            var dealer = {type: $routeParams.type};
-            dealerResource.get(dealer).then(function (returnedDealer) {
-                $scope.dealer = returnedDealer;
-                getProfile();
-            });
+            var dealer = {};
+            if ($scope.authLevel === 'actual') {
+                dealer = {type: $routeParams.type};
+                dealerResource.get(dealer).then(function (returnedDealer) {
+                    $scope.dealer = returnedDealer;
+                    getProfile();
+                });
+            } else {
+                dealer = {type: $routeParams.type, dealerId: currentDealer.dealerId};
+                dealerResource.getNonDealer(dealer).then(function (returnedDealer) {
+                    $scope.dealer = returnedDealer;
+                    getProfile();
+                });
+            }
         };
 
         var getProfile = function () {
             // Block the user interface
             blockUI.start();
+
             var profile = {};
 
             if ($scope.authLevel === 'actual') {
