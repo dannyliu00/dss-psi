@@ -92,7 +92,7 @@
             });
 
             modalInstance.result.then(function (success) {
-                if (success === false) {
+                if (success !== true) {
                     openResultsDialog();
                 }
             }, function () {
