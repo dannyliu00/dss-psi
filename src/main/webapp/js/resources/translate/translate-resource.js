@@ -5,12 +5,21 @@
 (function() {
     var translate = sellInNamespace('sellIn.resources.translate');
 
-    function TranslationResource($resource, translateUrl) {
-        this.resource = $resource(translateUrl);        
+    function TranslationResource($resource, translateGetStringsUrl) {
+        this.resource = $resource(translateGetStringsUrl);   
+
+        this.resource = $resource(translateGetStringsUrl, {}, {
+            addString: {method: 'POST', url: translateAddStringUrl}
+        });
+        
     }
 
-    TranslationResource.prototype.get = function() {
-        return this.resource.get().$promise;
+    TranslationResource.prototype.get = function (item) {
+        return this.resource.get(item).$promise;
+    };
+
+    TranslationResource.prototype.addString = function (item) {
+        return this.resource.addString(item).$promise;
     };
 
     translate.TranslationResource = TranslationResource;

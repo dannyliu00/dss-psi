@@ -68,6 +68,9 @@ public class Constants {
     public static final String ATTR_EMAILSERVICEURL = "PolarisEmailServiceUrl";
     public static final String ATTR_EMAILBOUNCEADDR = "EmailBounceAddress";
     public static final String ATTR_EMAILFROMNAME = "EmailFromName";
+    
+    // Session Constant
+    public final static String LANGUAGE_PREFERENCE = "DealerLanguage";
 
 }
 

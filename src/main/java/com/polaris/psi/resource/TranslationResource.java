@@ -1,6 +1,5 @@
 package com.polaris.psi.resource;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.ws.rs.GET;
@@ -8,14 +7,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.polaris.psi.Constants;
 import com.polaris.psi.util.PolarisIdentity;
 import com.polaris.psi.util.SplunkLogger;
+import com.polaris.pwd.translation.TextTranslationService;
 import com.polaris.pwf.session.SessionHelper;
-import com.polaris.pwf.webservice.client.MenuDataWebServiceClient;
 
 /**
  * @author pceder
@@ -30,7 +29,7 @@ public class TranslationResource {
 	SessionHelper sessionHelper;	
 	
 	@Autowired
-	MenuDataWebServiceClient menuDataWebServiceClient;
+	TextTranslationService translationService;
 	
 	private static final SplunkLogger LOG = new SplunkLogger(TranslationResource.class);
 	
@@ -42,10 +41,12 @@ public class TranslationResource {
 		try {
 			LOG.methodStart(PolarisIdentity.get(),"getResourceStrings");
 			
-	        Map<String, String> langMap = new HashMap<String, String>();
+			String languagePreference = sessionHelper.getUserData().getSessionDetail().get(Constants.LANGUAGE_PREFERENCE);
+			//Locale locale;
+
+			Map<String, String> langMap = 
+					translationService.getResourceStrings(Constants.APPLICATION_GUID, languagePreference);
 	        
-	        langMap.put("Inventory Profile Summary","Min inventering summering");
-	        langMap.put("Arne","Berit");
 			
 			LOG.methodEnd(PolarisIdentity.get(),"getResourceStrings");
 			

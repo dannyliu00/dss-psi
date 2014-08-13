@@ -6,5 +6,6 @@
 
     angular.module('sellIn.resources.translate', ['ngResource'])
         .service('translationResource', translate.TranslationResource)
-        .constant('translateUrl', '/dss-psi/webapi/translation/getResourceStrings');
+        .constant('translateGetStringsUrl', '/dss-psi/webapi/translation/getResourceStrings')
+        .constant('translateAddStringUrl', '/dss-psi/webapi/translation/addResourceString');
 })();

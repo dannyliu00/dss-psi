@@ -16,7 +16,7 @@ import com.polaris.pwf.config.spring.datasource.PolarisMinneapolisDataSource;
 import com.polaris.pwf.util.JndiUtil;
 
 @Configuration
-@ComponentScan(basePackages = {"com.polaris.psi"})
+@ComponentScan(basePackages = {"com.polaris.psi","com.polaris.pwd.translation"})
 @EnableTransactionManagement(proxyTargetClass = true)
 @Import({PwfSpringConfig.class, PolarisMinneapolisDataSource.class, PolarisDealersExtensionDataSource.class, 
 	PolarisDealersDataSource.class, PolarisDealersCommonDataSource.class})

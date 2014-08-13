@@ -14,7 +14,18 @@
 		    	  resourceStrings = data;
 		      },
 		      getString: function (term) {
-		          return resourceStrings[term];
+		          var value = resourceStrings[term];
+		          
+		          if(!value) {
+		        	  // This string does not exist. We'll ask for it to be added and return the same string.
+		        	  translationResource.addString(term).then(function(data) {
+		          		
+		        	  });
+		        	  // Return this to the client. 
+		        	  value = term;
+		          }
+		          
+		          return value;
 		      }
 		    };	
         });
