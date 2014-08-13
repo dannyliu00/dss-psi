@@ -33,6 +33,13 @@ public class DealerService {
 	@Autowired
 	DealerMapper mapper;
 
+	/**
+	 * Retrieves Dealer and associated DSM and RSM information
+	 * 
+	 * @param id
+	 * @param type
+	 * @return
+	 */
 	public DealerDto getDealer(Integer id, String type) {
 		LOG.methodStart(PolarisIdentity.get(), "getDealer");
 		

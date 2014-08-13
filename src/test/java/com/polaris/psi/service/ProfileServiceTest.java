@@ -135,6 +135,8 @@ public class ProfileServiceTest {
 
 	@Test
 	public void testGetDealerProfile() {
+		boolean isDealer = true;
+
 		when(mockProfile.getHeaderId()).thenReturn(headerId);
 		when(mockProfile.getType()).thenReturn(typeCode);
 		when(mockProfile.getEmail()).thenReturn(expectedEmail);
@@ -142,11 +144,11 @@ public class ProfileServiceTest {
 		when(mockPsiDetailDao.retrieveByHeaderId(headerId)).thenReturn(mockDetails);
 		when(mockPsiOsDao.retrieveByProfileAndDealer(profileId, dealerId)).thenReturn(mockOSes);
 		when(mockPsiSegmentDao.retrieveByProfileDealerAndType(profileId, dealerId, typeCode)).thenReturn(mockSegments);
-		when(mockProfileMapper.mapToDto(mockProfile)).thenReturn(mockDto);
+		when(mockProfileMapper.mapToDto(mockProfile, isDealer)).thenReturn(mockDto);
 		when(mockProfilePeriodMapper.mapToDto(mockProfilePeriods)).thenReturn(mockProfilePeriodDtos);
 		when(mockOrderSegmentMapper.mapToDto(mockOSes, mockDetails, null)).thenReturn(mockOrderSegmentDtos);
 		
-		service.getDealerProfile(profileId, dealerId);
+		service.getDealerProfile(profileId, dealerId, isDealer);
 		
 		verify(mockProfile, times(2)).getHeaderId();
 		verify(mockProfile).getType();
@@ -158,7 +160,7 @@ public class ProfileServiceTest {
 		verify(mockProfilePeriodMapper).mapToDto(mockProfilePeriods);
 		verify(mockOrderSegmentMapper).mapToDto(mockOSes, mockDetails, null);
 		
-		verify(mockProfileMapper).mapToDto(mockProfile);
+		verify(mockProfileMapper).mapToDto(mockProfile, isDealer);
 		verify(mockSegmentMapper).mapToDto(mockSegments);
 		
 	}

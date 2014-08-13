@@ -36,7 +36,7 @@ public class PSIProfileMapperTest {
 		MockitoAnnotations.initMocks(this);
 		
 		expectedName = "UT Name";
-		expectedStatus = "";
+		expectedStatus = Constants.EXCEPTION_REQUESTED;
 		expectedType = "UT Type";
 		expectedEmail = "UT@local";
 		expectedTargetCompletion = Calendar.getInstance().getTime();
@@ -69,7 +69,7 @@ public class PSIProfileMapperTest {
 		assertEquals(expectedModified, result.getModifiedDate());
 		assertEquals(expectedName, result.getName());
 		assertEquals(expectedProfileId.intValue(), result.getProfileId());
-		assertEquals(Constants.DEFAULT_PROFILE_STATUS, result.getStatus());
+		assertEquals(Constants.PENDING_STATUS, result.getStatus());
 		assertEquals(expectedTargetCompletion, result.getTargetCompletionDate());
 		assertEquals(expectedEmail, result.getDealerEmail());
 		
@@ -86,14 +86,38 @@ public class PSIProfileMapperTest {
 	}
 
 	@Test
-	public void testMapToDtoPSIProfile() {
+	public void testMapToDtoPSIProfileIsNonDealer() {
 
-		ProfileDto result = mapper.mapToDto(mockProfile);
+		ProfileDto result = mapper.mapToDto(mockProfile, false);
 		
 		assertEquals(expectedModified, result.getModifiedDate());
 		assertEquals(expectedName, result.getName());
 		assertEquals(expectedProfileId.intValue(), result.getProfileId());
-		assertEquals(Constants.DEFAULT_PROFILE_STATUS, result.getStatus());
+		assertEquals(Constants.EXCEPTION_REQUESTED, result.getStatus());
+		assertEquals(expectedTargetCompletion, result.getTargetCompletionDate());
+		assertEquals(expectedEmail, result.getDealerEmail());
+		
+		verify(mockProfile).getId();
+		verify(mockProfile).getLastModifiedDate();
+		verify(mockProfile).getName();
+		verify(mockProfile).getStatus();
+		verify(mockProfile).getTargetCompleteDate();
+		verify(mockProfile, times(2)).getType();
+		verify(mockProfile).getEmail();
+		
+		verify(mockTypeMapper).mapTypeToProfile(expectedType, result);
+		verifyNoMoreInteractions(mockProfile, mockTypeMapper, mockDto);
+	}
+
+	@Test
+	public void testMapToDtoPSIProfileIsDealer() {
+
+		ProfileDto result = mapper.mapToDto(mockProfile, true);
+		
+		assertEquals(expectedModified, result.getModifiedDate());
+		assertEquals(expectedName, result.getName());
+		assertEquals(expectedProfileId.intValue(), result.getProfileId());
+		assertEquals(Constants.PENDING_STATUS, result.getStatus());
 		assertEquals(expectedTargetCompletion, result.getTargetCompletionDate());
 		assertEquals(expectedEmail, result.getDealerEmail());
 		
