@@ -92,9 +92,11 @@
             });
 
             modalInstance.result.then(function (success) {
-                if (success !== true) {
+                if (success.successful !== true) {
                     openResultsDialog();
                 } else {
+                	$scope.profile.orderSegments = success.orderSegments;
+                	$scope.orderSegments = success.orderSegments;
                 	$scope.profile.status = 'IN PROGRESS';
                 }
             }, function () {
