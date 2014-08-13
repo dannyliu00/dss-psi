@@ -14,7 +14,7 @@
 
                     resetChanges();
 
-                    $modalInstance.close(returnedos.successful);
+                    $modalInstance.close(returnedos);
                 });
         };
 

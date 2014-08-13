@@ -54,14 +54,11 @@ public class DealerResourceTest {
 
 	@Test
 	public void testGetDealerAsDealer() {
-		int dealerId = 99;
-		
-		DealerDto actual = resource.getDealerInfo(dealerId, type);
+		DealerDto actual = resource.getDealerInfo(type);
 		
 		assertEquals(actual, mockDto);
 		
 		verify(mockSessionHelper).getUserData();
-		verify(mockUserData).isDealer();
 		verify(mockUserData).getDealerId();
 		verify(mockService).getDealer(id, type);
 	}
@@ -72,7 +69,7 @@ public class DealerResourceTest {
 		
 		int dealerId = 99;
 		
-		DealerDto actual = resource.getDealerInfo(dealerId, type);
+		DealerDto actual = resource.getDealerInfo(type, dealerId);
 		
 		assertEquals(actual, mockDto);
 		

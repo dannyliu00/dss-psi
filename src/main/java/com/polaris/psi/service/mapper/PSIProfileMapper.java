@@ -72,6 +72,39 @@ public class PSIProfileMapper implements IMapper<PSIProfile, ProfileDto> {
 		return dto;
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.polaris.psi.service.mapper.IMapper#mapToDto(java.lang.Object)
+	 */
+	public ProfileDto mapToDtoRealStatusMessaging(PSIProfile entity) {
+		LOG.methodStart(PolarisIdentity.get(), "mapToDto");
+
+		ProfileDto dto = new ProfileDto();
+
+		dto.setName(entity.getName());
+		dto.setTargetCompletionDate(entity.getTargetCompleteDate());
+		dto.setModifiedDate(entity.getLastModifiedDate());
+		dto.setProfileId(entity.getId());
+		dto.setStatus(entity.getStatus());
+		dto.setTypeCode(entity.getType());
+		dto.setDealerEmail(entity.getEmail());
+		
+		typeMapper.mapTypeToProfile(entity.getType(), dto);
+		
+		LOG.methodEnd(PolarisIdentity.get(), "mapToDto");
+
+		return dto;
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.polaris.psi.service.mapper.IMapper#mapToDto(java.lang.Object)
+	 */
+	public ProfileDto mapToDto(PSIProfile entity, boolean isDealer) {
+		
+		if(isDealer) return mapToDto(entity);
+		else return mapToDtoRealStatusMessaging(entity);
+
+	}
+	
 	/**
 	 * Returns the appropriate status string based on the value passed in.  PENDING, RETURNED TO DEALER and 
 	 * APPROVED NONCOMPLIANT do not change.  RETURNED TO DSM and EXCEPTION REQUESTED return a PENDING status.  

@@ -14,6 +14,8 @@ import com.polaris.psi.repository.entity.DealerAndDsm;
 import com.polaris.psi.repository.entity.PSIProfile;
 import com.polaris.psi.resource.dto.DsmDealerProfilesDto;
 import com.polaris.psi.service.mapper.DsmDealerProfileMapper;
+import com.polaris.psi.util.PolarisIdentity;
+import com.polaris.psi.util.SplunkLogger;
 import com.polaris.pwf.dao.PSIProfileDao;
 
 /**
@@ -23,6 +25,8 @@ import com.polaris.pwf.dao.PSIProfileDao;
 @Service
 public class DsmService {
 	
+	private static final SplunkLogger LOG = new SplunkLogger(DsmService.class);
+
 	@Autowired
 	DealerAndDsmDao dsmDao;
 	
@@ -33,6 +37,8 @@ public class DsmService {
 	DsmDealerProfileMapper mapper;
 	
 	public List<DsmDealerProfilesDto> getDsmCurrentProfiles(Integer dsmId, String type) {
+		LOG.methodStart(PolarisIdentity.get(), "getDsmCurrentProfiles");
+		
 		List<DealerAndDsm> dsmDealers = dsmDao.selectByDsmId(dsmId, type);
 		List<DsmDealerProfilesDto> dtos = new ArrayList<DsmDealerProfilesDto>();
 		
@@ -45,10 +51,14 @@ public class DsmService {
 			}
 		}
 		
+		LOG.methodEnd(PolarisIdentity.get(), "getDsmCurrentProfiles");
+
 		return dtos;
 	}
 	
 	public List<DsmDealerProfilesDto> getDsmHistoricalProfiles(Integer dsmId, String type) {
+		LOG.methodStart(PolarisIdentity.get(), "getDsmHistoricalProfiles");
+
 		List<DealerAndDsm> dsmDealers = dsmDao.selectByDsmId(dsmId, type);
 		List<DsmDealerProfilesDto> dtos = new ArrayList<DsmDealerProfilesDto>();
 		
@@ -61,10 +71,14 @@ public class DsmService {
 			}
 		}
 		
+		LOG.methodEnd(PolarisIdentity.get(), "getDsmHistoricalProfiles");
+
 		return dtos;
 	}
 	
 	public List<DsmDealerProfilesDto> getRsmProfiles(Integer rsmId, String type) {
+		LOG.methodStart(PolarisIdentity.get(), "getRsmProfiles");
+
 		List<DealerAndDsm> dsmDealers = dsmDao.selectByRsmId(rsmId, type);
 		List<DsmDealerProfilesDto> dtos = new ArrayList<DsmDealerProfilesDto>();
 		
@@ -77,10 +91,14 @@ public class DsmService {
 			}
 		}
 		
+		LOG.methodEnd(PolarisIdentity.get(), "getRsmProfiles");
+
 		return dtos;
 	}
 	
 	public List<DsmDealerProfilesDto> getRsmCurrentProfiles(Integer rsmId, String type) {
+		LOG.methodStart(PolarisIdentity.get(), "getRsmCurrentProfiles");
+
 		List<DealerAndDsm> dsmDealers = dsmDao.selectByRsmId(rsmId, type);
 		List<DsmDealerProfilesDto> dtos = new ArrayList<DsmDealerProfilesDto>();
 		
@@ -93,10 +111,14 @@ public class DsmService {
 			}
 		}
 		
+		LOG.methodEnd(PolarisIdentity.get(), "getRsmCurrentProfiles");
+
 		return dtos;
 	}
 	
 	public List<DsmDealerProfilesDto> getRsmHistoricalProfiles(Integer rsmId, String type) {
+		LOG.methodStart(PolarisIdentity.get(), "getRsmHistoricalProfiles");
+
 		List<DealerAndDsm> dsmDealers = dsmDao.selectByRsmId(rsmId, type);
 		List<DsmDealerProfilesDto> dtos = new ArrayList<DsmDealerProfilesDto>();
 		
@@ -109,6 +131,8 @@ public class DsmService {
 			}
 		}
 		
+		LOG.methodEnd(PolarisIdentity.get(), "getRsmHistoricalProfiles");
+
 		return dtos;
 	}
 	

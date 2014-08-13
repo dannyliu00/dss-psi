@@ -83,26 +83,30 @@ public class ProfileResourceTest {
 
 	@Test
 	public void testGetProfileAsDealer() {
+		boolean isDealer = true;
+		
 		when(mockUserData.getDealerId()).thenReturn(777);
 		when(mockUserData.isDealer()).thenReturn(true);
 
 		resource.getProfile(expectedProfileId, expectedDealerId);
 		
-		verify(mockSessionHelper, times(2)).getUserData();
+		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).isDealer();
 		verify(mockUserData).getDealerId();
-		verify(mockService).getDealerProfile(expectedProfileId, returnedDealerId);
+		verify(mockService).getDealerProfile(expectedProfileId, returnedDealerId, isDealer);
 	}
 
 	@Test
 	public void testGetProfileAsDsm() {
+		boolean isDealer = false;
+		
 		when(mockUserData.isDealer()).thenReturn(false);
 
 		resource.getProfile(expectedProfileId, expectedDealerId);
 		
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).isDealer();
-		verify(mockService).getDealerProfile(expectedProfileId, expectedDealerId);
+		verify(mockService).getDealerProfile(expectedProfileId, expectedDealerId, isDealer);
 	}
 
 	@Test

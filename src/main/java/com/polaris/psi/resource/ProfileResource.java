@@ -47,10 +47,12 @@ public class ProfileResource {
     @Produces(MediaType.APPLICATION_JSON)
 	public ProfileDto getProfile(@PathParam("profileId") int profileId, @PathParam("dealerId") int dealerId) {
 
-		if(sessionHelper.getUserData().isDealer()) {
-			return service.getDealerProfile(profileId, sessionHelper.getUserData().getDealerId());
+		UserData userData = sessionHelper.getUserData();
+		
+		if(userData.isDealer()) {
+			return service.getDealerProfile(profileId, userData.getDealerId(), true);
 		} else {
-			return service.getDealerProfile(profileId, dealerId);
+			return service.getDealerProfile(profileId, dealerId, false);
 		}
 	}
 	
@@ -59,7 +61,9 @@ public class ProfileResource {
     @Produces(MediaType.APPLICATION_JSON)
 	public ProfileDto getProfile(@PathParam("profileId") int profileId) {
 
-		return service.getDealerProfile(profileId, sessionHelper.getUserData().getDealerId());
+		UserData userData = sessionHelper.getUserData();
+		
+		return service.getDealerProfile(profileId, userData.getDealerId(), true);
 	}
 
 	@Path("/save")
