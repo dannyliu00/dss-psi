@@ -6,9 +6,6 @@
         </div>
         <div class="panel-body">
             <div class="col-md-12">
-                <div id="activeObjectsTable_processing" class="dataTables_processing" style="visibility: hidden;">
-                    Processing...
-                </div>
                 <table datatable dt-options="dtOptions" id="activeObjectsTable"
                        class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
                        aria-describedby="activeObjectsTable_info">
@@ -64,59 +61,60 @@
 <!-- Data table summary and Page Controls -->
 <div class="container-full">
     <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title">Profile Totals</h3>
-        </div>
         <div class="panel-body">
-            <div id="summaryTable_processing" class="dataTables_processing" style="visibility: hidden;">Processing...
-            </div>
             <table id="summaryTable"
                    class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
                    aria-describedby="summaryTable">
                 <thead>
-                <tr role="row">
-                    <th class="text-left" role="columnheader" aria-controls="activeObjectsSummaryTable">
-                        Super Segment
-                    </th>
-                    <th ng-repeat="period in profile.periods" class="text-center" role="columnheader"
-                        aria-controls="activeObjectsSummaryTable">
-                        {{period.name}}<br/>Recommendation
-                    </th>
-                    <th ng-repeat="period in profile.periods" class="text-center" role="columnheader"
-                        aria-controls="activeObjectsSummaryTable">
-                        {{period.name}}<br/>Qty
-                    </th>
-                    <th class="text-center" aria-controls="activeObjectsSummaryTable">
-                        Segments<br/>Requested / Min
-                    </th>
-                </tr>
+	                <tr role="row">
+	                    <th class="text-left" role="columnheader" aria-controls="activeObjectsSummaryTable">
+	                        Super Segment
+	                    </th>
+	                    <th ng-repeat="period in profile.periods" class="text-center" role="columnheader"
+	                        aria-controls="activeObjectsSummaryTable">
+	                        {{period.name}}<br/>Recommendation
+	                    </th>
+	                    <th ng-repeat="period in profile.periods" class="text-center" role="columnheader"
+	                        aria-controls="activeObjectsSummaryTable">
+	                        {{period.name}}<br/>Qty
+	                    </th>
+	                    <th class="text-center" aria-controls="activeObjectsSummaryTable">
+	                        Segments<br/>Requested / Min
+	                    </th>
+	                </tr>
                 </thead>
                 <tbody role="alert" aria-live="polite" aria-relevant="all">
-                <tr ng-repeat="segment in segments | orderBy: 'name'" class="odd">
-                    <td class="">{{segment.name}}</td>
-                    <td class="text-center">{{segment.recommended}}</td>
-                    <td class="text-center compliant"
-                        ng-class="{noncomplianttotal: getSegmentActualTotal(segment).actualTotal < segment.recommended}">
-                        {{getSegmentActualTotal(segment).actualTotal}}
-                    </td>
-                    <td class="text-center compliant"
-                        ng-class="{noncomplianttotal: getSegmentActualTotal(segment).orderSegmentCount < segment.recommendedOSCount}">
-                        {{getSegmentActualTotal(segment).orderSegmentCount}} / {{segment.recommendedOSCount}}
-                    </td>
-                </tr>
-                <tr class="even">
-                    <td class="text-left">Grand Total</td>
-                    <td class="text-center">{{recommendedGrandTotal - 1}} - {{recommendedGrandTotal}} -
-                        {{recommendedGrandTotal + 2}}
-                    </td>
-                    <td ng-class="{noncomplianttotal: getSuperSegmentGrandTotal() < recommendedGrandTotal-1 || getSuperSegmentGrandTotal() > recommendedGrandTotal+2}"
-                        class="text-center compliant">{{getSuperSegmentGrandTotal()}}
-                    </td>
-                    <td></td>
-                </tr>
+	                <tr ng-repeat="segment in segments | orderBy: 'name'" class="odd">
+	                    <td class="">{{segment.name}}</td>
+	                    <td class="text-center">{{segment.recommended}}</td>
+	                    <td class="text-center compliant"
+	                        ng-class="{noncomplianttotal: getSegmentActualTotal(segment).actualTotal < segment.recommended}">
+	                        {{getSegmentActualTotal(segment).actualTotal}}
+	                    </td>
+	                    <td class="text-center compliant"
+	                        ng-class="{noncomplianttotal: getSegmentActualTotal(segment).orderSegmentCount < segment.recommendedOSCount}">
+	                        {{getSegmentActualTotal(segment).orderSegmentCount}} / {{segment.recommendedOSCount}}
+	                    </td>
+	                </tr>
+	                <tr >
+	                	<td class="text-left match-header"><strong>Profile Total</strong></td>
+	                	<td ng-repeat="period in profile.periods" class="text-center match-header"><strong>Min - Recommended - Max</strong></td>
+	                	<td class="text-center match-header" ><strong>Requested Total</strong></td>
+	                	<td class="match-header"></td>
+	                </tr> 
+	                <tr class="even totals-color" >
+	                    <td class="totals-color" ></td>
+	                    <td ng-repeat="period in profile.periods" class="text-center totals-color"><strong>{{period.recMinimum}} - {{period.recommended}} -
+	                        {{period.recMaximum}}</strong>
+	                    </td>
+	                    <td ng-repeat="period in profile.periods" ng-class="{noncomplianttotal: getSuperSegmentGrandTotal() < period.recMinimum || getSuperSegmentGrandTotal() > period.recMaximum}"
+	                    	class="text-center compliant totals-color"><strong>{{getSuperSegmentGrandTotal()}}</strong>
+	                    </td>
+	                    <td class="totals-color"></td>
+	                </tr>
                 </tbody>
             </table>
-        </div>
+         </div>
     </div>
 </div>
 <comment-display role="role" profile="profile"></comment-display>

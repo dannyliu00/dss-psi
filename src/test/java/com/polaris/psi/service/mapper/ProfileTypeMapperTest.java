@@ -49,7 +49,108 @@ public class ProfileTypeMapperTest {
 	}
 	
 	@Test
-	public void testMapTypeToProfile() {
+	public void testMapTypeToProfileDefault() {
+		expectedTypeCode = "";
+		expectedType = "atv";
+		
+		mapper.mapTypeToProfile(expectedTypeCode, mockDto);
+		
+		assertEquals(expectedId.intValue(), mockDto.getProfileId());
+		assertEquals(expectedType, mockDto.getType());
+	}
+
+	@Test
+	public void testMapTypeToProfile2() {
+		expectedTypeCode = "2";
+		expectedType = "atv";
+		
+		mapper.mapTypeToProfile(expectedTypeCode, mockDto);
+		
+		assertEquals(expectedId.intValue(), mockDto.getProfileId());
+		assertEquals(expectedType, mockDto.getType());
+	}
+
+	@Test
+	public void testMapTypeToProfile6() {
+		expectedTypeCode = "6";
+		expectedType = "atv";
+		
+		mapper.mapTypeToProfile(expectedTypeCode, mockDto);
+		
+		assertEquals(expectedId.intValue(), mockDto.getProfileId());
+		assertEquals(expectedType, mockDto.getType());
+	}
+
+	@Test
+	public void testMapTypeToProfile7() {
+		expectedTypeCode = "7";
+		expectedType = "atv";
+		
+		mapper.mapTypeToProfile(expectedTypeCode, mockDto);
+		
+		assertEquals(expectedId.intValue(), mockDto.getProfileId());
+		assertEquals(expectedType, mockDto.getType());
+	}
+
+	@Test
+	public void testMapTypeToProfile9() {
+		expectedTypeCode = "9";
+		expectedType = "atv";
+		
+		mapper.mapTypeToProfile(expectedTypeCode, mockDto);
+		
+		assertEquals(expectedId.intValue(), mockDto.getProfileId());
+		assertEquals(expectedType, mockDto.getType());
+	}
+
+	@Test
+	public void testMapTypeToProfileD() {
+		expectedTypeCode = "D";
+		expectedType = "atv";
+		
+		mapper.mapTypeToProfile(expectedTypeCode, mockDto);
+		
+		assertEquals(expectedId.intValue(), mockDto.getProfileId());
+		assertEquals(expectedType, mockDto.getType());
+	}
+
+	@Test
+	public void testMapTypeToProfileZ() {
+		expectedTypeCode = "Z";
+		expectedType = "atv";
+		
+		mapper.mapTypeToProfile(expectedTypeCode, mockDto);
+		
+		assertEquals(expectedId.intValue(), mockDto.getProfileId());
+		assertEquals(expectedType, mockDto.getType());
+	}
+
+	@Test
+	public void testMapTypeToProfile5() {
+		expectedTypeCode = "5";
+		expectedType = "motorcycle";
+		
+		mapper.mapTypeToProfile(expectedTypeCode, mockDto);
+		
+		assertEquals(expectedId.intValue(), mockDto.getProfileId());
+		assertEquals(expectedType, mockDto.getType());
+	}
+
+	@Test
+	public void testMapTypeToProfileE() {
+		expectedTypeCode = "E";
+		expectedType = "motorcycle";
+		
+		mapper.mapTypeToProfile(expectedTypeCode, mockDto);
+		
+		assertEquals(expectedId.intValue(), mockDto.getProfileId());
+		assertEquals(expectedType, mockDto.getType());
+	}
+
+	@Test
+	public void testMapTypeToProfileF() {
+		expectedTypeCode = "F";
+		expectedType = "motorcycle";
 		
 		mapper.mapTypeToProfile(expectedTypeCode, mockDto);
 		
