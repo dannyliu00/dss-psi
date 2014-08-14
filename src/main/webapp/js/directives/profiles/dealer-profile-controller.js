@@ -131,11 +131,7 @@
                     }
                 }
                 totalRecQty = totalRecQty + recQty;
-                $scope.profile.periods[j].recommended = recQty;
-                $scope.profile.periods[j].recMinimum = recMin;
-                $scope.profile.periods[j].recMaximum = recMax;
             }
-
             return totalRecQty;
         };
 

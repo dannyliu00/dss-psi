@@ -136,11 +136,11 @@
 
 .match-header {
 	color: #E7E7E7;
-	background-color: #004990;
+	background-color: #004990 !important;
 }
 
 .totals-color {
-	background-color: #B0C4DE;
+	background-color: #B0C4DE !important;
 }
 
 .table thead tr th[class*="sorting"],
