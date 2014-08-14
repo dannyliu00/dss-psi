@@ -31,9 +31,9 @@ public class ResourceStringDao extends AbstractPolarisDealersExtensionDao<Resour
     	this.query = new GetResourceStringsQuery(dataSource);
 	}
 	
-	public List<ResourceStringDto> getResourceStrings(String appGuid, String languageId) {
+	public List<ResourceStringDto> getResourceStrings(String languageId,String appGuid) {
     	
-    	List<ResourceStringDto> items = this.query.execute(appGuid, languageId);
+    	List<ResourceStringDto> items = this.query.execute(languageId,appGuid);
 	    
 	    return items;
 	}

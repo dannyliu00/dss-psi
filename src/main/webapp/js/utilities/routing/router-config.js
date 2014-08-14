@@ -16,15 +16,32 @@
             .when(dealerSummaryPageUrl, {
                 templateUrl: dealerSummaryPageTemplateUrl,
                 controller: dealerSummaryPageControllerName,
-                resolve:defaultPageControllerName.resolve
+                resolve:defaultPageControllerName.resolve,
+                resolve:{
+                    'translationData':function(translationPSI){
+                      return translationPSI.promise;
+                    }
+            	}
+
             })
             .when(profilePageUrl, {
                 templateUrl: profilePageTemplateUrl,
-                controller: profilePageControllerName
+                controller: profilePageControllerName,
+                resolve:{
+                    'translationData':function(translationPSI){
+                      return translationPSI.promise;
+                    }
+            	}
+
             })
             .when(dsmUrl, {
                 templateUrl: dsmTemplateUrl,
-                controller: dsmControllerName
+                controller: dsmControllerName,
+                resolve:{
+                    'translationData':function(translationPSI){
+                      return translationPSI.promise;
+                    }
+            	}
             })
             .otherwise({
                 redirectTo: defaultRedirection
