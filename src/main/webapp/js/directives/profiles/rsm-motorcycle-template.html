@@ -15,15 +15,15 @@
                     <thead>
                     <tr role="row">
                         <th class="table-hidden-col">{{os.sort}}</th>
-                        <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable">
+                        <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" translate>
                             Segment
                         </th>
-                        <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable">
+                        <th class="" role="columnheader" tabindex="0" aria-controls="activeObjectsTable" translate>
                             Order Segment
                         </th>
                         <th ng-repeat="period in profile.periods" class="text-center" role="columnheader" tabindex="0"
                             aria-controls="activeObjectsTable">
-                            {{period.name}}<br/>Recommendation - DSM Qty - RSM Qty
+                            {{period.name}}<br/><span translate>Recommendation - DSM Qty - RSM Qty</span>
                         </th>
                     </tr>
                     </thead>

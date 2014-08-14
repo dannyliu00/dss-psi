@@ -1,7 +1,13 @@
 (function () {
     var tabs = sellInNamespace('polaris.directives.tabs');
 
-    function TabsController($scope, profileTabs, lastTab) {
+    function TabsController($scope, profileTabs, lastTab, translationPSI) {
+                
+        // Translate
+        for (var i = 0, j =profileTabs.length; i < j; i++) {
+        	profileTabs[i].name=translationPSI.getString(profileTabs[i].name);
+        }
+        
         $scope.tabs = profileTabs;
 
         var setActiveTab = function () {
@@ -19,6 +25,9 @@
             }
         };
 
+        $scope.translate = function(term) {
+        	return translationPSI.getString(term);
+        };
         $scope.showProfiles = function (url) {
             lastTab.changeProfilesTab(url);
             setActiveTab();
