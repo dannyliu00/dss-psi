@@ -51,35 +51,19 @@ public class ProfileTypeMapper {
 		
 		switch (type) {
 		case "2":
+		case "6":
+		case "7":
+		case "9":
+		case "D":
+		case "Z":
+		default:
 			productType = atv;
 			break;
 
 		case "5":
-			productType = mc;
-			break;
-			
-		case "6":
-			productType = atv;
-			break;
-			
-		case "9":
-			productType = atv;
-			break;
-			
-		case "D":
-			productType = atv;
-			break;
-			
+		case "E":
 		case "F":
 			productType = mc;
-			break;
-			
-		case "Z":
-			productType = atv;
-			break;
-			
-		default:
-			productType = atv;
 			break;
 		}
 		
