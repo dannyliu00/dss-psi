@@ -11,7 +11,8 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css styles/vendor.css -->
+    <!-- build:css css/vendor.css -->
+
     <!-- bower:css -->
     <link rel="stylesheet" media="screen, print" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" media="screen, print" href="bower_components/angular-datatables/dist/datatables.bootstrap.min.css" />
@@ -21,6 +22,7 @@
     <link rel="stylesheet" type="text/css" media="screen, print" href="bower_components/jquery-ui/themes/base/minified/jquery-ui.min.css">
     <!-- endbuild -->
 
+    <!-- build:css css/psi.css -->
     <link rel="stylesheet" media="screen, print" href="css/bootstrap.css">
     <link rel="stylesheet" media="screen, print" href="css/core-dealerdev.css">
     <link rel="stylesheet" media="screen, print" href="css/application-theme.css">
@@ -31,6 +33,8 @@
     <script src="bower_components/es5-shim/es5-shim.js"></script>
     <script src="bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
+
+    <!-- build:js js/vendor.js -->
 
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
@@ -44,10 +48,11 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
     <script src="bower_components/angular-route/angular-route.min.js"></script>
     <script src="bower_components/angular-datatables/dist/angular-datatables.min.js"></script>
-    <script src="bower_components/angular-block-ui/angular-block-ui.min.js"></script>
-
+    <script src="bower_components/angular-block-ui/dist/angular-block-ui.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
+
+    <!-- build:js js/psi.js -->
 
     <!-- namespace utilities -->
     <script src="js/utilities/namespace/sellIn_namespace.js"></script>
@@ -138,29 +143,29 @@
 
     <script src="js/resources/role/app-role-resource.js"></script>
     <script src="js/resources/role/app-role-resource-module.js"></script>
-    
+
     <script src="js/resources/reasoncode/reason-code-resource.js"></script>
     <script src="js/resources/reasoncode/reason-code-resource-module.js"></script>
 
 	<script src="js/resources/details/profile-details-resource.js"></script>
     <script src="js/resources/details/profile-details-resource-module.js"></script>
-    
+
     <script src="js/resources/profiles/dsm-profiles-resource.js"></script>
     <script src="js/resources/profiles/dsm-profiles-resource-module.js"></script>
-    
+
     <script src="js/resources/profiles/rsm-profiles-resource.js"></script>
     <script src="js/resources/profiles/rsm-profiles-resource-module.js"></script>
-    
+
     <script src="js/resources/menu/menu-resource.js"></script>
     <script src="js/resources/menu/menu-resource-module.js"></script>
-    
+
     <script src="js/resources/translate/translate-resource.js"></script>
     <script src="js/resources/translate/translate-resource-module.js"></script>
-    
-    
+
+
     <script src="js/resources/attributes/app-attribute-resource.js"></script>
     <script src="js/resources/attributes/app-attribute-resource-module.js"></script>
-    
+
     <script src="js/services/last-tab-service.js"></script>
     <script src="js/services/current-dealer-service.js"></script>
     <script src="js/services/translation-service.js"></script>
@@ -174,7 +179,7 @@
 
     <script src="js/pages/profile-detail/profile-detail-controller.js"></script>
     <script src="js/pages/profile-detail/profile-detail-module.js"></script>
-    
+
     <script src="js/pages/non-dealer-summary/non-dealer-summary-page-controller.js"></script>
     <script src="js/pages/non-dealer-summary/non-dealer-summary-page-module.js"></script>
 

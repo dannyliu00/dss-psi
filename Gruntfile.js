@@ -2,9 +2,21 @@
 var FilePatterns = require('./file_patterns.js').FilePatterns;
 
 module.exports = function(grunt) {
-	grunt.initConfig({
+    // Load grunt tasks automatically
+    require('load-grunt-tasks')(grunt);
 
-		jshint: {
+    // Time how long tasks take. Can help when optimizing build times
+    require('time-grunt')(grunt);
+
+    grunt.initConfig({
+
+        yeoman: {
+            // configurable paths
+            app: 'src/main/webapp',
+            dist: 'dist'
+        },
+
+        jshint: {
 			files: FilePatterns.javascript.jshint,
 			options: {
 				bitwise: true,      // prohibit use of bitwise operators such as ^ (XOR), | (OR) and others
@@ -47,8 +59,12 @@ module.exports = function(grunt) {
 			},
 			test: {
 				files: grunt.file.expand(FilePatterns.watch),
-				tasks: ['jshint', 'karma:unit:run']
-			}
+				tasks: ['karma:unit:run']
+			},
+            bower: {
+                files: ['bower.json'],
+                tasks: ['bowerInstall']
+            }
 		},
 
 		connect: {
@@ -70,7 +86,132 @@ module.exports = function(grunt) {
 			}
 		},
 
-		exec: {
+        clean: {
+            dist: {
+                files: [{
+                    dot: true,
+                    src: [
+                        '.tmp',
+                        '<%= yeoman.dist %>/*'
+                    ]
+                }]
+            },
+            server: '.tmp'
+        },
+
+        // Reads HTML for usemin blocks to enable smart builds that automatically
+        // concat, minify and revision files. Creates configurations in memory so
+        // additional tasks can operate on them
+        useminPrepare: {
+            html: '<%= yeoman.app %>/index.html',
+            options: {
+                dest: '<%= yeoman.dist %>',
+                flow: {
+                    html: {
+                        steps: {
+                            js: ['concat', 'uglifyjs'],
+                            css: ['cssmin']
+                        },
+                        post: {}
+                    }
+                }
+            }
+        },
+
+        // Performs rewrites based on rev and the useminPrepare configuration
+        usemin: {
+            html: ['<%= yeoman.dist %>/{,*/}*.html'],
+            css: ['<%= yeoman.dist %>/css/{,*/}*.css'],
+            options: {
+                assetsDirs: ['<%= yeoman.dist %>']
+            }
+        },
+
+        // The following *-min tasks produce minified files in the dist folder
+        cssmin: {
+            options: {
+                root: '<%= yeoman.app %>'
+            }
+        },
+
+        htmlmin: {
+            dist: {
+                options: {
+                    collapseWhitespace: true,
+                    collapseBooleanAttributes: true,
+                    removeCommentsFromCDATA: true,
+                    removeOptionalTags: true
+                },
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.dist %>',
+                    src: ['*.html', 'js/{,*/}*.html'],
+                    dest: '<%= yeoman.dist %>'
+                }]
+            }
+        },
+
+        // ngmin tries to make the code safe for minification automatically by
+        // using the Angular long form for dependency injection. It doesn't work on
+        // things like resolve or inject so those have to be done manually.
+        ngmin: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '.tmp/concat/scripts',
+                    src: '*.js',
+                    dest: '.tmp/concat/scripts'
+                }]
+            }
+        },
+
+        // Copies remaining files to places other tasks can use
+        copy: {
+            dist: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: '<%= yeoman.app %>',
+                    dest: '<%= yeoman.dist %>',
+                    src: [
+                        '*.{ico,png,txt}',
+                        '*.html',
+                        'js/**/*.html',
+                        //'js/*.js',
+                        //'js/**/*.js',
+                        'css/{,*/}*.css',
+                        'images/{,*/}*',
+                        'fonts/*'
+                    ]
+                }, {
+                    expand: true,
+                    cwd: '.tmp/images',
+                    dest: '<%= yeoman.dist %>/images',
+                    src: ['generated/*']
+                }]
+            },
+            styles: {
+                expand: true,
+                cwd: '<%= yeoman.app %>/css',
+                dest: '.tmp/css/',
+                src: '{,*/}*.css'
+            }
+        },
+
+        // Run some tasks in parallel to speed up the build process
+        concurrent: {
+            server: [
+                'copy:styles'
+            ],
+            test: [
+                'copy:styles'
+            ],
+            dist: [
+                'copy:styles'
+            ]
+        },
+
+        exec: {
 			cucumberjs: {
 				command: 'cucumber-js -f pretty <%= cucumberjs.files %>'
 			}
@@ -93,8 +234,8 @@ module.exports = function(grunt) {
 
 			continuous: {
                 configFile: 'karma.conf.js',
-				singleRun: true,
-				browsers: ['PhantomJS']
+				singleRun: true
+//				browsers: ['PhantomJS']
 			}
 		},
 
@@ -106,10 +247,9 @@ module.exports = function(grunt) {
 			}
 		},
 
-		'bower-install': {
+		bowerInstall: {
 			target: {
 				src: ['src/main/webapp/index.html'],
-				ignorePath: 'src/main/webapp/',
 				jsPattern: '<script type="text/javascript" src="{{filePath}}"></script>',
 				cssPattern: '<link href="{{filePath}}" rel="stylesheet" />'
 			}
@@ -125,15 +265,30 @@ module.exports = function(grunt) {
 			}
 		},
 
-		concat: {
-			options: {
-				seperator: ';'
-			},
-			dist: {
-				src: FilePatterns.javascript.concat,
-				dest: 'target/dss-psi/js/psi.js'
-			}
-		},
+//		concat: {
+//			options: {
+//				seperator: ';'
+//			},
+//			dist: {
+//				src: [
+//                    // namespace needs to be initialized before other files are read
+//                    'src/main/webapp/js/utilities/namespace/*.js',
+//                    'src/main/webapp/js/initialize_namespace.js',
+//
+//                    // all javascripts
+//                    'src/main/webapp/js/**/*.js',
+//
+//                    // reorder modules toward the bottom
+//                    '!src/main/webapp/js/**/*-module.js',
+//                    'src/main/webapp/js/**/*-module.js',
+//
+//                    // reorder app.js to be last
+//                    '!src/main/webapp/js/app.js',
+//                    'src/main/webapp/js/app.js'
+//                ],
+//				dest: '<%= yeoman.dist %>/js/psi.js'
+//			}
+//		},
 
 		processhtml: {
 			build: {
@@ -157,10 +312,10 @@ module.exports = function(grunt) {
 			}
 		},
 
-		clean: {
-			build: ['build/*', 'temp/*', 'dist/*'],
-			bower: ['.bower', 'app/bower_components']
-		},
+		//clean: {
+		//	build: ['build/*', 'temp/*', 'dist/*'],
+		//	bower: ['.bower', 'app/bower_components']
+		//},
 
 		html2js: {
 			options: {
@@ -171,16 +326,16 @@ module.exports = function(grunt) {
 				src: ['src/main/webapp/**/*.html'],
 				dest: 'temp/psi-templates.js'
 			}
-		},
-
-		copy: {
-			main: {
-				expand: true,
-				cwd: 'src/main/webapp/',
-				src: ['css/**', 'img/**', 'icons/**', 'libs/**', 'bower_components/**', '*.*', '!index.html', '!manifest.appcache'],
-				dest: 'build/'
-			}
 		}
+
+		//copy: {
+		//	main: {
+		//		expand: true,
+		//		cwd: 'src/main/webapp/',
+		//		src: ['css/**', 'img/**', 'icons/**', 'libs/**', 'bower_components/**', '*.*', '!index.html', '!manifest.appcache'],
+		//		dest: 'build/'
+		//	}
+		//}
 	});
 
 	grunt.registerTask('label', function() {
@@ -194,15 +349,24 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('cucumberjs', ['connect:headless', 'exec:cucumberjs']);
 	grunt.registerTask('server', ['connect:livereload', 'watch:livereload']);
-	grunt.registerTask('dev', ['karma:unit:start', 'watch:test']);
-	grunt.registerTask('build', ['clean:build', 'jshint', 'karma:continuous', 'label', 'html2js', 'copy', 'manifest', 'compress']);
+	grunt.registerTask('dev', ['karma:unit:dev', 'watch:test']);
+//	grunt.registerTask('build', ['clean:build', 'jshint', 'karma:continuous', 'label', 'html2js', 'copy', 'manifest', 'compress']);
+	grunt.registerTask('build', [
+		'clean:dist',
+		'karma:continuous',
+		'useminPrepare',
+		'concat:generated',
+		'cssmin:generated',
+		'uglify:generated',
+		'usemin'
+	]);
 
-	grunt.loadNpmTasks('grunt-contrib-connect');
-	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-karma');
-	grunt.loadNpmTasks('grunt-bower-install');
-	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-clean');
-	grunt.loadNpmTasks('grunt-contrib-copy');
+    //grunt.loadNpmTasks('grunt-contrib-connect');
+	//grunt.loadNpmTasks('grunt-contrib-watch');
+	//grunt.loadNpmTasks('grunt-karma');
+	//grunt.loadNpmTasks('grunt-bower-install');
+	//grunt.loadNpmTasks('grunt-contrib-jshint');
+	//grunt.loadNpmTasks('grunt-contrib-concat');
+	//grunt.loadNpmTasks('grunt-contrib-clean');
+	//grunt.loadNpmTasks('grunt-contrib-copy');
 };
