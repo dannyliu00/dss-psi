@@ -51,7 +51,7 @@ public class TranslationResource {
 			//Locale locale;
 
 			Map<String, String> langMap = 
-					translationService.getResourceStrings(Constants.APPLICATION_GUID, languagePreference);
+					translationService.getResourceStrings(languagePreference,Constants.APPLICATION_GUID);
 	        
 			
 			LOG.methodEnd(PolarisIdentity.get(),"getResourceStrings");

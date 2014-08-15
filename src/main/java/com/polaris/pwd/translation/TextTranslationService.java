@@ -48,7 +48,7 @@ public class TextTranslationService {
 	
 	
 	// Returns all resource strings for a application.
-	public Map<String, String> getResourceStrings(String applicationId, String languageCode) {
+	public Map<String, String> getResourceStrings(String languageCode, String applicationId) {
 		
 		LOG.methodStart(PolarisIdentity.get(), "getResourceStrings");
 		
@@ -69,8 +69,8 @@ public class TextTranslationService {
 			ResourceContainer newContainer = new ResourceContainer();
 			newContainer.setLanguage(languageCode);
 			
-			for(ResourceStringDto dto:resourceStringDao.getResourceStrings(applicationId, languageCode) ) {
-				newContainer.getLanguageStrings().put(dto.getTerm(), dto.getValue());	
+			for(ResourceStringDto dto:resourceStringDao.getResourceStrings(languageCode,applicationId) ) {
+				newContainer.getLanguageStrings().put(dto.getTerm(), dto.getValue() !=null ? dto.getValue() : dto.getTerm());	
 			}
 			resources.put(languageCode, newContainer);
 		}
@@ -79,6 +79,8 @@ public class TextTranslationService {
 		
 		return resources.get(languageCode).getLanguageStrings();
 	}
+	
+	
 	
 	/*
 	 * Adds a new term to the database and to the static collection.
@@ -92,7 +94,7 @@ public class TextTranslationService {
 		if(applicationGuid==null || applicationGuid.isEmpty()) {throw new IllegalArgumentException("applicationGuid cannot be null");}
 		
 		// Make sure we don't already have it.
-		if(getResourceStrings(Constants.APPLICATION_GUID,languageId).containsKey(term)) {
+		if(getResourceStrings(languageId,Constants.APPLICATION_GUID).containsKey(term)) {
 			LOG.warn(PolarisIdentity.get(), "addTerm", String.format("Attempt to add term:[%s] that already exist for language:[%s]. Action was aborted. ",term,languageId));
 			
 			// leave
@@ -119,7 +121,7 @@ public class TextTranslationService {
 		contentLanguageDao.insert(newContentLanguage);
 		
 		// Add it to the static structure
-		getResourceStrings(Constants.APPLICATION_GUID,languageId).put(term, term);
+		getResourceStrings(languageId,Constants.APPLICATION_GUID).put(term, term);
 		
 	}
     
