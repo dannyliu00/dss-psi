@@ -13,7 +13,7 @@ module.exports = function(grunt) {
         yeoman: {
             // configurable paths
             app: 'src/main/webapp',
-            dist: 'dist'
+            dist: 'dist/dss-psi'
         },
 
         jshint: {
@@ -103,7 +103,7 @@ module.exports = function(grunt) {
         // concat, minify and revision files. Creates configurations in memory so
         // additional tasks can operate on them
         useminPrepare: {
-            html: '<%= yeoman.app %>/index.html',
+            html: '<%= yeoman.dist %>/index.html',
             options: {
                 dest: '<%= yeoman.dist %>',
                 flow: {
@@ -120,7 +120,7 @@ module.exports = function(grunt) {
 
         // Performs rewrites based on rev and the useminPrepare configuration
         usemin: {
-            html: ['<%= yeoman.app %>/{,*/}*.html'],
+            html: ['<%= yeoman.dist %>/{,*/}*.html'],
             css: ['<%= yeoman.dist %>/css/{,*/}*.css'],
             options: {
                 assetsDirs: ['<%= yeoman.dist %>']
@@ -177,7 +177,10 @@ module.exports = function(grunt) {
                         '*.{ico,png,txt}',
                         '*.html',
                         'images/{,*/}*',
-                        'fonts/*'
+                        'js/{,*/}*',
+                        'fonts/*',
+                        'css/*',
+                        'css/images/*'
                     ]
                 }, {
                     expand: true,
@@ -343,13 +346,13 @@ module.exports = function(grunt) {
 //	grunt.registerTask('build', ['clean:build', 'jshint', 'karma:continuous', 'label', 'html2js', 'copy', 'manifest', 'compress']);
 	grunt.registerTask('build', [
 		'clean:dist',
+        'copy',
 //		'karma:continuous',
 		'useminPrepare',
 		'concat:generated',
 		'cssmin:generated',
 		'uglify:generated',
-		'usemin',
-		'copy'
+		'usemin'
 	]);
 
     //grunt.loadNpmTasks('grunt-contrib-connect');

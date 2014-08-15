@@ -52,8 +52,6 @@ public class Constants {
     public static final String COULD_NOT_UPDATE_DSM_VALUES = "Could not update the values submitted by the DSM";
     public static final String COULD_NOT_UPDATE_DLR_VALUES = "Could not update the values submitted";
     
-    public static final String PRODUCT_LINE_REGEX = "2|5|6|9|D|F|Z";
-    
     // Application Attributes
     public static final String ATTR_ASKPOLARISURL = "AskPolaris";
     public static final String ATTR_ECHATURL = "eChatUrl";
