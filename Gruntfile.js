@@ -234,8 +234,8 @@ module.exports = function(grunt) {
 
 			continuous: {
                 configFile: 'karma.conf.js',
-				singleRun: true,
-				browsers: ['PhantomJS']
+				singleRun: true
+//				browsers: ['PhantomJS']
 			}
 		},
 
@@ -265,30 +265,30 @@ module.exports = function(grunt) {
 			}
 		},
 
-		concat: {
-			options: {
-				seperator: ';'
-			},
-			dist: {
-				src: [
-                    // namespace needs to be initialized before other files are read
-                    'src/main/webapp/js/utilities/namespace/*.js',
-                    'src/main/webapp/js/initialize_namespace.js',
-
-                    // all javascripts
-                    'src/main/webapp/js/**/*.js',
-
-                    // reorder modules toward the bottom
-                    '!src/main/webapp/js/**/*-module.js',
-                    'src/main/webapp/js/**/*-module.js',
-
-                    // reorder app.js to be last
-                    '!src/main/webapp/js/app.js',
-                    'src/main/webapp/js/app.js'
-                ],
-				dest: '<%= yeoman.dist %>/js/psi.js'
-			}
-		},
+//		concat: {
+//			options: {
+//				seperator: ';'
+//			},
+//			dist: {
+//				src: [
+//                    // namespace needs to be initialized before other files are read
+//                    'src/main/webapp/js/utilities/namespace/*.js',
+//                    'src/main/webapp/js/initialize_namespace.js',
+//
+//                    // all javascripts
+//                    'src/main/webapp/js/**/*.js',
+//
+//                    // reorder modules toward the bottom
+//                    '!src/main/webapp/js/**/*-module.js',
+//                    'src/main/webapp/js/**/*-module.js',
+//
+//                    // reorder app.js to be last
+//                    '!src/main/webapp/js/app.js',
+//                    'src/main/webapp/js/app.js'
+//                ],
+//				dest: '<%= yeoman.dist %>/js/psi.js'
+//			}
+//		},
 
 		processhtml: {
 			build: {
@@ -349,24 +349,17 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('cucumberjs', ['connect:headless', 'exec:cucumberjs']);
 	grunt.registerTask('server', ['connect:livereload', 'watch:livereload']);
-	grunt.registerTask('dev', ['karma:unit:start', 'watch:test']);
+	grunt.registerTask('dev', ['karma:unit:dev', 'watch:test']);
 //	grunt.registerTask('build', ['clean:build', 'jshint', 'karma:continuous', 'label', 'html2js', 'copy', 'manifest', 'compress']);
-    grunt.registerTask('usemin', ['copy:dist', 'useminPrepare']);
-    grunt.registerTask('build', [
-        'clean:dist',
-        'bowerInstall',
-        'useminPrepare',
-//        'concurrent:dist',
-//        'concat',
-        'ngmin',
-        'copy:dist',
-        'cssmin',
-//        'uglify',
-//        'rev',
-        'usemin',
-        'htmlmin'
-    ]);
-
+	grunt.registerTask('build', [
+		'clean:dist',
+		'karma:continuous',
+		'useminPrepare',
+		'concat:generated',
+		'cssmin:generated',
+		'uglify:generated',
+		'usemin'
+	]);
 
     //grunt.loadNpmTasks('grunt-contrib-connect');
 	//grunt.loadNpmTasks('grunt-contrib-watch');
