@@ -5,7 +5,7 @@
         .directive('tabs', tabs.ApplicationTabs)
         .controller('tabsController', tabs.TabsController)
         .constant('profileTabs', [
-            {name: 'Current Profiles', url: 'current', isActive: 'active'},
-            {name: 'Profiles History', url: 'history', isActive: ''}
+            {rawName: 'Current Profiles', url: 'current', isActive: 'active'},
+            {rawName: 'Profiles History', url: 'history', isActive: ''}
         ]);
 })();

@@ -1,7 +1,7 @@
 (function () {
     var rsmButton = sellInNamespace('sellIn.directives.rsmbutton');
 
-    function RsmButtonController($scope, $location, $modal, dsmUrl, lastTab) {
+    function RsmButtonController($scope, $location, $modal, dsmUrl, lastTab,translationPSI) {
         var caption = '';
         var status = 0;
         var rsmButtonCaption = "";
@@ -14,9 +14,9 @@
 
         $scope.rsmButtonCaptionFill = function () {
             if ($scope.profile.typeCode === '5' || $scope.profile.typeCode === 'F') {
-                rsmButtonCaption = "Return to DRM";
+                rsmButtonCaption = translationPSI.getString("Return to DRM");
             } else {
-                rsmButtonCaption = "Return to DSM";
+                rsmButtonCaption = translationPSI.getString("Return to DSM");
             }
             return  rsmButtonCaption;
         };
@@ -94,11 +94,11 @@
                     },
                     caption: function () {
                         if (status === 1) {
-                            caption = 'Approve as Compliant';
+                            caption = translationPSI.getString('Approve as Compliant');
                         } else if (status === 2) {
-                            caption = 'Approve as Non-Compliant';
+                            caption = translationPSI.getString('Approve as Non-Compliant');
                         } else if (status === 3) {
-                            caption = 'Return to DSM';
+                            caption = translationPSI.getString('Return to DSM');
                         }
                         return caption;
                     },
