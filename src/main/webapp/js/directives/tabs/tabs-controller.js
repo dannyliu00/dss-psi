@@ -5,7 +5,7 @@
                 
         // Translate
         for (var i = 0, j =profileTabs.length; i < j; i++) {
-        	profileTabs[i].name=translationPSI.getString(profileTabs[i].name);
+        	profileTabs[i].name=translationPSI.getString(profileTabs[i].rawName);
         }
         
         $scope.tabs = profileTabs;

@@ -38,37 +38,37 @@
 
             var os = {nonCompliant: profile.nonCompliant, orderSegments: orderSegments};
 
-            if (caption === 'dealerReason') {
+            if (caption === translationPSI.getString('dealerReason')) {
                 dealerProfileResource.submit(os)
                     .then(function (returnedos) {
                         $modalInstance.close(returnedos.successful);
                     });
-            } else if (caption === "Submit for Exception") {
+            } else if (caption === translationPSI.getString("Submit for Exception")) {
                 dealerProfileResource.submitException(os)
                     .then(function (returnedos) {
                         $modalInstance.close(returnedos.successful);
                     });
-            } else if (caption === "Approve with Changes") {
+            } else if (caption === translationPSI.getString("Approve with Changes")) {
                 dealerProfileResource.approveWChanges(os)
                     .then(function (returnedos) {
                         $modalInstance.close(returnedos.successful);
                     });
-            } else if (caption === "sendBack") {
+            } else if (caption === translationPSI.getString("sendBack")) {
                 dealerProfileResource.sendBack(os)
                     .then(function (returnedos) {
                         $modalInstance.close(returnedos.successful);
                     });
-            } else if (caption === "Return to DSM") {
+            } else if (caption === translationPSI.getString("Return to DSM")) {
                 dealerProfileResource.returnDsm(os)
                     .then(function (returnedos) {
                         $modalInstance.close(returnedos.successful);
                     });
-            } else if (caption === "Approve as Compliant") {
+            } else if (caption === translationPSI.getString("Approve as Compliant")) {
                 dealerProfileResource.compliant(os)
                     .then(function (returnedos) {
                         $modalInstance.close(returnedos.successful);
                     });
-            } else if (caption === "Approve as Non-Compliant") {
+            } else if (caption === translationPSI.getString("Approve as Non-Compliant")) {
                 dealerProfileResource.nonCompliant(os)
                     .then(function (returnedos) {
                         $modalInstance.close(returnedos.successful);

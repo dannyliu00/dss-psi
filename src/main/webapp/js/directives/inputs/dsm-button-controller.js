@@ -1,7 +1,7 @@
 (function () {
     var dsmButton = sellInNamespace('sellIn.directives.dsmbutton');
 
-    function DsmButtonController($scope, $location, $modal, dsmUrl, lastTab) {
+    function DsmButtonController($scope, $location, $modal, dsmUrl, lastTab,translationPSI) {
         var caption = '';
         var changeCaption = 0;
         var dsmButtonCaption = "";
@@ -14,11 +14,11 @@
 
         $scope.dsmButtonCaptionFill = function () {
             if (angular.element('.compliant').hasClass('noncompliant') || angular.element('.compliant').hasClass('noncomplianttotal')) {
-                dsmButtonCaption = "Submit for Exception";
+                dsmButtonCaption = translationPSI.getString("Submit for Exception");
             } else if (isChanged() || angular.element('input').hasClass('noncompliant')) {
-                dsmButtonCaption = "Approve with Changes";
+                dsmButtonCaption = translationPSI.getString("Approve with Changes");
             } else {
-                dsmButtonCaption = "Approve as Requested";
+                dsmButtonCaption = translationPSI.getString("Approve as Requested");
             }
             return  dsmButtonCaption;
         };
