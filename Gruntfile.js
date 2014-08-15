@@ -120,7 +120,7 @@ module.exports = function(grunt) {
 
         // Performs rewrites based on rev and the useminPrepare configuration
         usemin: {
-            html: ['<%= yeoman.dist %>/{,*/}*.html'],
+            html: ['<%= yeoman.app %>/{,*/}*.html'],
             css: ['<%= yeoman.dist %>/css/{,*/}*.css'],
             options: {
                 assetsDirs: ['<%= yeoman.dist %>']
@@ -176,10 +176,6 @@ module.exports = function(grunt) {
                     src: [
                         '*.{ico,png,txt}',
                         '*.html',
-                        'js/**/*.html',
-                        //'js/*.js',
-                        //'js/**/*.js',
-                        'css/{,*/}*.css',
                         'images/{,*/}*',
                         'fonts/*'
                     ]
@@ -189,12 +185,6 @@ module.exports = function(grunt) {
                     dest: '<%= yeoman.dist %>/images',
                     src: ['generated/*']
                 }]
-            },
-            styles: {
-                expand: true,
-                cwd: '<%= yeoman.app %>/css',
-                dest: '.tmp/css/',
-                src: '{,*/}*.css'
             }
         },
 
@@ -234,8 +224,8 @@ module.exports = function(grunt) {
 
 			continuous: {
                 configFile: 'karma.conf.js',
-				singleRun: true
-//				browsers: ['PhantomJS']
+				singleRun: true,
+				browsers: ['PhantomJS']
 			}
 		},
 
@@ -349,16 +339,17 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('cucumberjs', ['connect:headless', 'exec:cucumberjs']);
 	grunt.registerTask('server', ['connect:livereload', 'watch:livereload']);
-	grunt.registerTask('dev', ['karma:unit:dev', 'watch:test']);
+	grunt.registerTask('dev', ['karma:unit:start', 'watch:test']);
 //	grunt.registerTask('build', ['clean:build', 'jshint', 'karma:continuous', 'label', 'html2js', 'copy', 'manifest', 'compress']);
 	grunt.registerTask('build', [
 		'clean:dist',
-		'karma:continuous',
+//		'karma:continuous',
 		'useminPrepare',
 		'concat:generated',
 		'cssmin:generated',
 		'uglify:generated',
-		'usemin'
+		'usemin',
+		'copy'
 	]);
 
     //grunt.loadNpmTasks('grunt-contrib-connect');
