@@ -32,6 +32,9 @@ public class DealerId implements Serializable {
 	
 	@Column(name = "PTCANDT")
 	private Integer canceled;
+	
+	@Column(name = "PTPRFN")
+	private String profileName;
 
 	/**
 	 * @return the id
@@ -73,6 +76,20 @@ public class DealerId implements Serializable {
 	 */
 	public void setCanceled(Integer canceled) {
 		this.canceled = canceled;
+	}
+
+	/**
+	 * @return the profileName
+	 */
+	public String getProfileName() {
+		return profileName;
+	}
+
+	/**
+	 * @param profileName the profileName to set
+	 */
+	public void setProfileName(String profileName) {
+		this.profileName = profileName;
 	}
 
 }
