@@ -1,5 +1,11 @@
 <div style='font-size: .8em; line-height: 1.5em; font-family: Verdana,Tahoma, Arial,sans-serif;'>
-<p>This is a notification that your ATV RFM inventory profile has been returned by your DSM. Please contact them if you have any questions.</p>
+<p>This is a notification that your $productLine RFM inventory profile has been returned by your DSM. Please contact them if you have any questions.</p>
+
+<p>
+<strong>Comment:</strong><br>
+$comment
+</p>
+
 #parse("/templates/profileTable.vm")  
 </div>
 

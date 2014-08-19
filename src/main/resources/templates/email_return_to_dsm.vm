@@ -1,6 +1,11 @@
 <div style='font-size: .8em; line-height: 1.5em; font-family: Verdana,Tahoma, Arial,sans-serif;'>
-<p>This is a notification that the ATV RFM inventory profile for dealer [$dealerId, $dealerName] has been returned by your RSM. Please contact them if you have any questions.   
+<p>This is a notification that the $productLine RFM inventory profile for dealer [$dealerId, $dealerName] has been returned by your RSM. Please contact them if you have any questions.   
 </p>
+<p>
+<strong>Comment:</strong><br>
+$comment
+</p>
+
  #parse("/templates/profileTable.vm") 
 </div>
 

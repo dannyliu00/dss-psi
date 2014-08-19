@@ -2,7 +2,7 @@
 <div class="container-full">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title">Profile Details</h3>
+            <h3 class="panel-title" translate>Profile Details</h3>
         </div>
         <div class="panel-body">
             <div class="col-md-12">
@@ -67,19 +67,19 @@
                    aria-describedby="summaryTable">
                 <thead>
 	                <tr role="row">
-	                    <th class="text-left" role="columnheader" aria-controls="activeObjectsSummaryTable">
+	                    <th class="text-left" role="columnheader" aria-controls="activeObjectsSummaryTable" translate>
 	                        Super Segment
 	                    </th>
 	                    <th ng-repeat="period in profile.periods" class="text-center" role="columnheader"
 	                        aria-controls="activeObjectsSummaryTable">
-	                        {{period.name}}<br/>Recommendation
+	                        {{period.name}}<br/><span translate>Recommendation</span>
 	                    </th>
 	                    <th ng-repeat="period in profile.periods" class="text-center" role="columnheader"
 	                        aria-controls="activeObjectsSummaryTable">
-	                        {{period.name}}<br/>Qty
+	                        {{period.name}}<br/><span translate>Qty</span>
 	                    </th>
 	                    <th class="text-center" aria-controls="activeObjectsSummaryTable">
-	                        Segments<br/>Requested / Min
+	                        <span translate>Segments</span><br/><span translate>Requested / Min</span>
 	                    </th>
 	                </tr>
                 </thead>
@@ -98,8 +98,8 @@
 	                </tr>
 	                <tr >
 	                	<td class="text-left match-header"><strong>Profile Total</strong></td>
-	                	<td ng-repeat="period in profile.periods" class="text-center match-header"><strong>Min - Recommended - Max</strong></td>
-	                	<td class="text-center match-header" ><strong>Requested Total</strong></td>
+	                	<td ng-repeat="period in profile.periods" class="text-center match-header"><strong translate>Min - Recommended - Max</strong></td>
+	                	<td class="text-center match-header" ><strong translate>Requested Total</strong></td>
 	                	<td class="match-header"></td>
 	                </tr> 
 	                <tr class="even totals-color" >

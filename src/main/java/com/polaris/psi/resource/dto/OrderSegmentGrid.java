@@ -20,7 +20,11 @@ public class OrderSegmentGrid {
 	}
 	
 	
-	public static OrderSegmentGrid create(ProfileDto profile) {
+	public static OrderSegmentGrid create(ProfileDto profile, 
+			boolean useActuals, 
+			boolean useDSMValues, 
+			boolean useRSMValues) {
+		
 		OrderSegmentGrid grid = new OrderSegmentGrid();
 		
 		boolean haveSuperSegments = profile.getSegments().size()>0;
@@ -61,7 +65,16 @@ public class OrderSegmentGrid {
 				currentSegment = ordSeg.getOsName();
 			}
 			// Display the periods. Note that we rely on sort order here.
-			row.add(String.valueOf(ordSeg.getActual()));
+			int value = 0;
+			if(useDSMValues) {
+				value = ordSeg.getDsmQty();
+			} else if(useRSMValues) {
+				value = ordSeg.getAdminQty();
+			} else {
+				value = ordSeg.getActual();
+			}
+			
+			row.add(String.valueOf(value));
 		}
 		
 		return grid;

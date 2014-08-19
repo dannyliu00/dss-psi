@@ -69,6 +69,9 @@ public class Constants {
     
     // Session Constant
     public final static String LANGUAGE_PREFERENCE = "DealerLanguage";
+    
+    // Cache Constants
+    public final static String PRODUCTLINE_CACHE = "app-ProductLines";
 
 }
 
