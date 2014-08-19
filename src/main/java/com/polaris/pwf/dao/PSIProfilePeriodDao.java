@@ -118,9 +118,9 @@ public class PSIProfilePeriodDao extends AbstractPolarisMinneapolisDao<PSIProfil
 				period.setStartDate((Date) result[3]);
 				period.setEndDate((Date) result[4]);
 				period.setSort(CommonUtils.convertToInteger((BigDecimal) result[5]));
-				period.setMinimum(CommonUtils.convertToInt((BigDecimal) result[6]));
-				period.setRecommended(CommonUtils.convertToInt((BigDecimal) result[7]));
-				period.setMaximum(CommonUtils.convertToInt((BigDecimal) result[8]));
+				period.setMinimum(CommonUtils.convertToInteger((BigDecimal) result[6]));
+				period.setRecommended(CommonUtils.convertToInteger((BigDecimal) result[7]));
+				period.setMaximum(CommonUtils.convertToInteger((BigDecimal) result[8]));
 				
 				periods.add(period);
 			}
