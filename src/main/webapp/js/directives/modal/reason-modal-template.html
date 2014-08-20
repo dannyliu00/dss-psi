@@ -1,7 +1,8 @@
-<div class="modal-header">
+<div class="modal-header" >
     <h3 class="modal-title">Reason and Comments</h3>
 </div>
 <div class="modal-body">
+	<div ng-hide="!isCompliant()" class="text-left noncomplianttotal"><strong>One or more inventory profile values are outside of the indicated range. Please select a reason code and include any other comments."</strong></div>
     <div class="text-left">Reason</div>
     <select class="reason-options" ng-model='selectedReasonCode'
             ng-options='reasonCode.description for reasonCode in reasonCodes'>{{selectedReasonCode}}</select>

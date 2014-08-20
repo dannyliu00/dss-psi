@@ -5,7 +5,12 @@
 
         var comments = "";
         var authorizationRoleId = 0;
-
+        
+        $scope.isCompliant = function() {
+        	profile.nonCompliant = !!(angular.element('.compliant').hasClass('noncompliant') || angular.element('.compliant').hasClass('noncomplianttotal'));
+        	return profile.nonCompliant;
+        };
+        
         appRoleResource.get().then(function (returnedRole) {
             $scope.role = returnedRole;
             authorizationRoleId = {roleId: returnedRole.authorizationRoleId};
@@ -16,8 +21,6 @@
         });
 
         $scope.saveChanges = function (id) {
-
-            profile.nonCompliant = !!(angular.element('.compliant').hasClass('noncompliant') || angular.element('.compliant').hasClass('noncomplianttotal'));
 
             if ($scope.role.rsm === true) {
                 comments = 'adminComments';
