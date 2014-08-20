@@ -1,13 +1,13 @@
 {
 	"name": "angular-datatables",
-	"version": "0.0.3",
+	"version": "0.0.1",
 	"dependencies": {},
 	"author": "l-lin",
 	"devDependencies": {
         "grunt": "~0.4.1",
         "grunt-express": "1.2.0",
         "grunt-contrib-watch": "~0.5.2",
-        "grunt-contrib-clean": "0.5.0",
+        "grunt-contrib-clean": "~0.5.0",
         "grunt-contrib-concat": "~0.3.0",
         "grunt-contrib-cssmin": "~0.7.0",
         "grunt-contrib-jshint": "~0.7.1",

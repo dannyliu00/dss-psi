@@ -23,30 +23,25 @@
 		<script type="text/javascript" language="javascript" src="../../js/jquery.dataTables.js"></script>
 		<script type="text/javascript" charset="utf-8">
 			$(document).ready(function() {
+				var oTable = $('#example').dataTable();
+				var iStart = new Date().getTime();
 				
 				//if ( typeof console != 'undefined' ) {
 				//	console.profile();
 				//}
-				var oTable = $('#example').dataTable();
+				for ( var i=0 ; i<10 ; i++ )
+				{
+					var oTable = $('#example').dataTable({"bDestroy": true});
+				}
 				//if ( typeof console != 'undefined' ) {
 				//	console.profileEnd();
 				//}
 				
-				var iStart = new Date().getTime();
-				
-				oTable.fnSort( [[ 1, 'asc' ]] );
-				oTable.fnSort( [[ 1, 'asc' ]] );
-				oTable.fnSort( [[ 2, 'asc' ]] );
-				oTable.fnSort( [[ 1, 'asc' ]] );
-				oTable.fnSort( [[ 2, 'asc' ]] );
-				oTable.fnSort( [[ 1, 'asc' ]] );
-				oTable.fnSort( [[ 2, 'asc' ]] );
-				oTable.fnSort( [[ 1, 'asc' ]] );
-				oTable.fnSort( [[ 2, 'asc' ]] );
-				oTable.fnSort( [[ 1, 'asc' ]] );
-				oTable.fnSort( [[ 2, 'asc' ]] );
-				oTable.fnSort( [[ 1, 'asc' ]] );
-				oTable.fnSort( [[ 2, 'asc' ]] );
+				//oTable.fnSort( [[ 1, 'asc' ]] );
+				//oTable.fnSort( [[ 1, 'asc' ]] );
+				//oTable.fnSort( [[ 2, 'asc' ]] );
+				//oTable.fnSort( [[ 1, 'asc' ]] );
+				//oTable.fnSort( [[ 2, 'asc' ]] );
 				
 				var iEnd = new Date().getTime();
 				document.getElementById('output').innerHTML = "Test took "+(iEnd-iStart)+" mS";
