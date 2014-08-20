@@ -1,7 +1,7 @@
 (function () {
     var reasonModal = sellInNamespace('sellIn.directives.reasonmodal');
 
-    function ReasonModalController($scope, $modalInstance, reasonCodeResource, appRoleResource, dealerProfileResource, orderSegments, profile, caption, confirm) {
+    function ReasonModalController($scope, $modalInstance, reasonCodeResource, appRoleResource, dealerProfileResource, orderSegments, profile, caption, confirm,translationPSI) {
 
         var comments = "";
         var authorizationRoleId = 0;

@@ -15,6 +15,7 @@ import com.polaris.psi.Constants;
 import com.polaris.psi.resource.dto.DealerDto;
 import com.polaris.psi.resource.dto.OrderSegmentDto;
 import com.polaris.psi.resource.dto.OrderSegmentGrid;
+import com.polaris.psi.resource.dto.ProductLineDto;
 import com.polaris.psi.resource.dto.ProfileDetailsDto;
 import com.polaris.psi.resource.dto.ProfileDto;
 import com.polaris.psi.util.AttributeHelper;
@@ -41,6 +42,9 @@ public class EmailService {
 
 	@Autowired
 	ProfileService profileService;
+	
+	@Autowired
+	ProductLineService productLineService;
 
 	private static final SplunkLogger LOG = new SplunkLogger(EmailService.class);
 	
@@ -123,8 +127,9 @@ public class EmailService {
     public void sendProfileSubmissionEmail(ProfileDetailsDto profileDetailsDto)  {
     	LOG.methodStart(PolarisIdentity.get(), "sendProfileSubmissionEmail");
     	
+    	
     	// Ticket: PS-178: Email to dealer confirming submission.
-    	String subject = "Sell-In Submitted";
+    	String subject = String.format("%s Inventory Profile - Submitted",getProductLine(profileDetailsDto));
     	
     	Template template = Velocity.getTemplate("/templates/email_sellIn_submitted.vm");
     	
@@ -133,7 +138,8 @@ public class EmailService {
     	VelocityContext context = new VelocityContext();
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
-    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto)));
+    	context.put("productLine", getProductLine(profileDetailsDto));
+    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto),true,false,false));
     	
     	StringWriter writer = new StringWriter();
     	template.merge(context, writer);
@@ -161,7 +167,7 @@ public class EmailService {
 		
 		LOG.methodStart(PolarisIdentity.get(), "sendApproveAsRequestedEmail");
 		
-    	String subject = "Sell-In Approved As Requested";
+    	String subject = String.format("%s Inventory Profile - Approved As Requested",getProductLine(profileDetailsDto));
     	
     	Template template = Velocity.getTemplate("/templates/email_sellIn_approved_as_requested.vm");
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
@@ -169,7 +175,8 @@ public class EmailService {
     	VelocityContext context = new VelocityContext();
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
-    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto)));
+    	context.put("productLine", getProductLine(profileDetailsDto));
+    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto),true,false,false));
     	
 
     	
@@ -184,15 +191,14 @@ public class EmailService {
     	LOG.methodEnd(PolarisIdentity.get(), "sendApproveAsRequestedEmail");
 	}     
     /*
-     * Sends an email to the dealer indicating that approved as requested.
-     * Story: PS-180: Approve as requested email notification to dealer.
      * @author pceder
      */
 	public void sendApproveWithChangesEmail(ProfileDetailsDto profileDetailsDto) {
 		
 		LOG.methodStart(PolarisIdentity.get(), "sendApproveWithChangesEmail");
 		
-    	String subject = "Sell-In Approved With Changes";
+    	String subject = String.format("%s Inventory Profile - Approved With Changes",getProductLine(profileDetailsDto));
+    	
     	
     	Template template = Velocity.getTemplate("/templates/email_sellIn_approved_w_changes.vm");
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
@@ -200,8 +206,8 @@ public class EmailService {
     	VelocityContext context = new VelocityContext();
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
-    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto)));
-
+    	context.put("productLine", getProductLine(profileDetailsDto));
+    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto),false,true,false));
     	
     	StringWriter writer = new StringWriter();
     	template.merge(context, writer);
@@ -222,7 +228,8 @@ public class EmailService {
 		
 		LOG.methodStart(PolarisIdentity.get(), "sendSubmitForExceptionEmail");
 		
-    	String subject = "Sell-In Submitted for Exception";
+    	String subject = String.format("%s Inventory Profile - Submitted for Exception",getProductLine(profileDetailsDto));
+    	
     	
     	Template template = Velocity.getTemplate("/templates/email_sellIn_submit_for_exception.vm");
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
@@ -230,7 +237,8 @@ public class EmailService {
     	VelocityContext context = new VelocityContext();
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
-    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto)));
+    	context.put("productLine", getProductLine(profileDetailsDto));
+    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto),true,false,false));
     	
     	
     	StringWriter writer = new StringWriter();
@@ -252,7 +260,7 @@ public class EmailService {
 		
 		LOG.methodStart(PolarisIdentity.get(), "sendReturnToDealerEmail");
 		
-    	String subject = "Sell-In Profile has been returned.";
+    	String subject = String.format("%s Inventory Profile - has been returned",getProductLine(profileDetailsDto));
     	
     	Template template = Velocity.getTemplate("/templates/email_sellIn_return_to_dealer.vm");
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
@@ -260,7 +268,9 @@ public class EmailService {
     	VelocityContext context = new VelocityContext();
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
-    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto)));
+    	context.put("comment", getDSMComments(profileDetailsDto));
+    	context.put("productLine", getProductLine(profileDetailsDto));
+    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto),true,false,false));
     	
     	
     	StringWriter writer = new StringWriter();
@@ -278,7 +288,7 @@ public class EmailService {
 		
 		LOG.methodStart(PolarisIdentity.get(), "sendApproveAsCompliantEmail");
 		
-    	String subject = "Sell-In Profile has been approved.";
+    	String subject = String.format("%s Inventory Profile - has been approved",getProductLine(profileDetailsDto));
     	
     	Template template = Velocity.getTemplate("/templates/email_approve_compliant.vm");
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
@@ -286,7 +296,9 @@ public class EmailService {
     	VelocityContext context = new VelocityContext();
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
-    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto)));
+    	context.put("comment", getDSMComments(profileDetailsDto));
+    	context.put("productLine", getProductLine(profileDetailsDto));
+    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto),true,false,false));
     	
     	
     	StringWriter writer = new StringWriter();
@@ -307,7 +319,8 @@ public class EmailService {
 		
 		LOG.methodStart(PolarisIdentity.get(), "sendApproveAsNonCompliantEmail");
 		
-    	String subject = "Sell-In Profile has been approved as non-compliant.";
+    	String subject = String.format("%s Inventory Profile - has been approved as non-compliant.",getProductLine(profileDetailsDto));
+    	
     	
     	Template template = Velocity.getTemplate("/templates/email_approve_noncompliant.vm");
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
@@ -315,7 +328,8 @@ public class EmailService {
     	VelocityContext context = new VelocityContext();
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
-    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto)));
+    	context.put("productLine", getProductLine(profileDetailsDto));
+    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto),true,false,false));
     	
     	
     	StringWriter writer = new StringWriter();
@@ -337,7 +351,8 @@ public class EmailService {
 		
 		LOG.methodStart(PolarisIdentity.get(), "sendReturnToDsmEmail");
 		
-    	String subject = "Sell-In Profile has been returned.";
+    	String subject = String.format("%s Inventory Profile - has been returned.",getProductLine(profileDetailsDto));
+    	
     	
     	Template template = Velocity.getTemplate("/templates/email_return_to_dsm.vm");
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
@@ -345,7 +360,9 @@ public class EmailService {
     	VelocityContext context = new VelocityContext();
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
-    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto)));
+    	context.put("comment", getRSMComments(profileDetailsDto));
+    	context.put("productLine", getProductLine(profileDetailsDto));
+    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto),true,false,false));
     	
     	
     	StringWriter writer = new StringWriter();
@@ -394,7 +411,47 @@ public class EmailService {
     	
     	return toAddress;
 
+    }
+    
+    private String getDSMComments(ProfileDetailsDto profileDetailsDto) {
+    	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
+    	if(profileDetailsDto.getOrderSegments().size()==0) { throw new IllegalArgumentException("profileDetailsDto.getOrderSegments is empty"); }
+    	
+    	OrderSegmentDto segment = profileDetailsDto.getOrderSegments().get(0);
+
+    	return segment.getDsmComments();
     }   
+
+    private String getRSMComments(ProfileDetailsDto profileDetailsDto) {
+    	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
+    	if(profileDetailsDto.getOrderSegments().size()==0) { throw new IllegalArgumentException("profileDetailsDto.getOrderSegments is empty"); }
+    	
+    	OrderSegmentDto segment = profileDetailsDto.getOrderSegments().get(0);
+
+    	return segment.getAdminComments();
+    }   
+    
+    
+    private String getProductLine(ProfileDetailsDto profileDetailsDto) {
+    	
+    	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
+    	
+    	ProfileDto profile = getProfile(profileDetailsDto);
+    	
+    	if(profile==null) {
+    		LOG.warn(PolarisIdentity.get(), "getProductLine", "Profile not found");
+    		return "Uknown ProductLine";
+    	}
+
+    	
+    	for(ProductLineDto pl: productLineService.getProductLines()) {
+    		if(pl.getProductLineId().equals(profile.getTypeCode())) {
+    			return pl.getShortDescription();
+    		}
+    	}
+		LOG.warn(PolarisIdentity.get(), "getProductLine", "Unknown ProductLine: " + profile.getType());
+		return "Uknown ProductLine";
+    }
     
     private String getDSMEmail(ProfileDetailsDto profileDetailsDto) {
     	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
