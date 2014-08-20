@@ -32,6 +32,15 @@ public class PSIProfilePeriodDao extends AbstractPolarisMinneapolisDao<PSIProfil
 			+ " WHERE pp.N3IPID = :profileId"
 			+ " ORDER BY N3SORT ASC";
 	
+	private static String QUERY_BY_PROFILE_ID_AND_DLR = ""
+			+ "SELECT period.N0PPID, period.N0CODE, period.N0DESC, period.N0SDAT, period.N0EDAT, pp.N3SORT, "
+			+ "       pcomp.P5RMIN, pcomp.P5REC, pcomp.P5RMAX "
+			+ "  FROM OT070F period INNER JOIN OT073F pp ON pp.N3PPID = period.N0PPID"
+			+ "       INNER JOIN OT085F pcomp on pcomp.P5IPID = pp.N3IPID AND pcomp.P5CODE = period.N0CODE"
+			+ " WHERE pp.N3IPID = :profileId "
+			+ "   AND pcomp.P5DLR = :dealerId "
+			+ "ORDER BY N3SORT ASC";
+	
 	public PSIProfilePeriodDao() {
 		super(PSIProfilePeriod.class);
 	}
@@ -78,4 +87,53 @@ public class PSIProfilePeriodDao extends AbstractPolarisMinneapolisDao<PSIProfil
 		
 		return periods;
 	}
+
+	/**
+	 * Retrieves a list of inventory profile sell-in periods for the given profile ID
+	 * 
+	 * @param profileId
+	 * @return
+	 */
+	public List<PSIProfilePeriod> retrieveByProfileAndDealer(Integer profileId, Integer dealerId) {
+		
+		LOG.methodStart(PolarisIdentity.get(), "retrieveByProfileAndDealer");
+		
+		Query query = entityManager.createNativeQuery(QUERY_BY_PROFILE_ID_AND_DLR);
+		query.setParameter("profileId", profileId);
+		query.setParameter("dealerId", dealerId);
+		
+		LOG.trace(PolarisIdentity.get(), "retrieveByProfileAndDealer", "query to run: " + QUERY_BY_PROFILE_ID_AND_DLR 
+				+ "query paramters: profileId = " + profileId + ", dealerId = " + dealerId);
+		
+		List<PSIProfilePeriod> periods = new ArrayList<PSIProfilePeriod>();
+		try {
+			@SuppressWarnings("unchecked")
+			List<Object[]> results = query.getResultList();
+
+			for (Object[] result : results) {
+				PSIProfilePeriod period = new PSIProfilePeriod();
+				period.setId(CommonUtils.convertToInteger((BigDecimal) result[0]));
+				period.setPeriodCode(CommonUtils.trimString((String) result[1]));
+				period.setName(CommonUtils.trimString((String) result[2]));
+				period.setStartDate((Date) result[3]);
+				period.setEndDate((Date) result[4]);
+				period.setSort(CommonUtils.convertToInteger((BigDecimal) result[5]));
+				period.setMinimum(CommonUtils.convertToInteger((BigDecimal) result[6]));
+				period.setRecommended(CommonUtils.convertToInteger((BigDecimal) result[7]));
+				period.setMaximum(CommonUtils.convertToInteger((BigDecimal) result[8]));
+				
+				periods.add(period);
+			}
+		} catch (Exception e) {
+			LOG.error(PolarisIdentity.get(), "retrieveByProfileAndDealer", e);
+		} finally {
+			entityManager.close();
+			LOG.trace(PolarisIdentity.get(), "retrieveByProfileAndDealer", "entityManager closed");
+		}
+		
+		LOG.methodEnd(PolarisIdentity.get(), "retrieveByProfileAndDealer");
+		
+		return periods;
+	}
+
 }

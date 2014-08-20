@@ -58,6 +58,9 @@ public class PSIProfilePeriodMapper implements IMapper<PSIProfilePeriod, Profile
 		dto.setName(entity.getName());
 		dto.setSort(entity.getSort());
 		dto.setStartDate(entity.getStartDate());
+		dto.setRecMinimum(entity.getMinimum());
+		dto.setRecommended(entity.getRecommended());
+		dto.setRecMaximum(entity.getMaximum());
 		
 		LOG.methodEnd(PolarisIdentity.get(), "mapToDto");
 		

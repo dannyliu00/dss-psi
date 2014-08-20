@@ -89,7 +89,7 @@ public class ProfileServiceTest {
 		when(mockSegmentDto.getType()).thenReturn(expectedType);
 		
 		mockProfilePeriods = new ArrayList<PSIProfilePeriod>();
-		when(mockProfilePeriodDao.retrieveByProfileId(profileId)).thenReturn(mockProfilePeriods);
+		when(mockProfilePeriodDao.retrieveByProfileAndDealer(profileId, dealerId)).thenReturn(mockProfilePeriods);
 		
 		mockProfilePeriodDtos = new ArrayList<ProfilePeriodDto>();
 		mockProfilePeriodDtos.add(mockProfilePeriodDto);

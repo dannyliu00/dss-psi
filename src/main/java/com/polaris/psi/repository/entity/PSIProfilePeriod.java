@@ -20,6 +20,9 @@ public class PSIProfilePeriod implements Serializable {
 	private String name;
 	private Date startDate;
 	private Date endDate;
+	private int minimum;
+	private int recommended;
+	private int maximum;
 	
 	/**
 	 * @return the id
@@ -105,6 +108,48 @@ public class PSIProfilePeriod implements Serializable {
 		this.endDate = endDate;
 	}
 
+	/**
+	 * @return the minimum
+	 */
+	public int getMinimum() {
+		return minimum;
+	}
+
+	/**
+	 * @param minimum the minimum to set
+	 */
+	public void setMinimum(int minimum) {
+		this.minimum = minimum;
+	}
+
+	/**
+	 * @return the recommended
+	 */
+	public int getRecommended() {
+		return recommended;
+	}
+
+	/**
+	 * @param recommended the recommended to set
+	 */
+	public void setRecommended(int recommended) {
+		this.recommended = recommended;
+	}
+
+	/**
+	 * @return the maximum
+	 */
+	public int getMaximum() {
+		return maximum;
+	}
+
+	/**
+	 * @param maximum the maximum to set
+	 */
+	public void setMaximum(int maximum) {
+		this.maximum = maximum;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -114,9 +159,12 @@ public class PSIProfilePeriod implements Serializable {
 		int result = 1;
 		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + maximum;
+		result = prime * result + minimum;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result
 				+ ((periodCode == null) ? 0 : periodCode.hashCode());
+		result = prime * result + recommended;
 		result = prime * result + ((sort == null) ? 0 : sort.hashCode());
 		result = prime * result
 				+ ((startDate == null) ? 0 : startDate.hashCode());
@@ -145,6 +193,10 @@ public class PSIProfilePeriod implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (maximum != other.maximum)
+			return false;
+		if (minimum != other.minimum)
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -154,6 +206,8 @@ public class PSIProfilePeriod implements Serializable {
 			if (other.periodCode != null)
 				return false;
 		} else if (!periodCode.equals(other.periodCode))
+			return false;
+		if (recommended != other.recommended)
 			return false;
 		if (sort == null) {
 			if (other.sort != null)
@@ -175,7 +229,9 @@ public class PSIProfilePeriod implements Serializable {
 	public String toString() {
 		return "PSIProfilePeriod [id=" + id + ", sort=" + sort
 				+ ", periodCode=" + periodCode + ", name=" + name
-				+ ", startDate=" + startDate + ", endDate=" + endDate + "]";
+				+ ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", minimum=" + minimum + ", recommended=" + recommended
+				+ ", maximum=" + maximum + "]";
 	}
-	
+
 }
