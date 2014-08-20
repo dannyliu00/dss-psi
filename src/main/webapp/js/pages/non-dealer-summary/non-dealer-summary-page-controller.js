@@ -96,6 +96,10 @@
                     currentTabs.push(productTabs[i]);
                 } else if (productTabs[i].content === 'F' && role.sessionDetail.IND === 'Y') {
                     currentTabs.push(productTabs[i]);
+                } else if (productTabs[i].content === 'E' && role.sessionDetail.SLG === 'Y') {
+                	currentTabs.push(productTabs[i]);
+                } else if (productTabs[i].content === '7' && role.sessionDetail.COM === 'Y') {
+                	currentTabs.push(productTabs[i]);
                 }
                 $scope.productTabs = currentTabs;
             }
