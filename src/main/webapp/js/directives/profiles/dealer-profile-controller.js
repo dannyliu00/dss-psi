@@ -270,8 +270,8 @@
 		        		$scope.profile.orderSegments[i].actual = orderSegments[i].adminQty;
 		        	} else if (status === 'PENDING' && dQty !== null && dQty > 0) {
 		        		$scope.profile.orderSegments[i].actual = orderSegments[i].dsmQty;
-		        	} else {
-		        		$scope.profile.orderSegments[i].actual = orderSegments[i].actual;
+		        	} else if (status === 'NOT STARTED') {
+		        		$scope.profile.orderSegments[i].actual = orderSegments[i].recommended;
 		        	}
 	        	} else if ($scope.authLevel === 'dsmQty') {
 	        		if (status === 'APPROVED AS REQUESTED' || status === 'APPROVED AS NONCOMPLIANT' || status === 'APPROVED AS COMPLIANT' || status === 'APPROVED WITH CHANGES'){

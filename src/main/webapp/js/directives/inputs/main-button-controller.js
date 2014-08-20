@@ -14,7 +14,7 @@
         };
 
         $scope.buttonCaptionFill = function () {
-            return $scope.profile.type === 'motorcycle' ? 'Auto-fill with Recommendations' : 'Auto-fill with Targets';
+            return $scope.profile.type === 'motorcycle' ? 'Reset to Recommendations' : 'Reset to Targets';
         };
 
         $scope.autoFill = function () {
