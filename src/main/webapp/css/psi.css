@@ -143,6 +143,12 @@
 	background-color: #B0C4DE !important;
 }
 
+.dealer-table-format {
+	margin-left: 150px;
+	margin-right: 150px;
+	align-center;
+}
+
 .table thead tr th[class*="sorting"],
 /* .table-default tfoot tr th, */
 .table caption {
