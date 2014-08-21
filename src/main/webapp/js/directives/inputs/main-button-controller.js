@@ -195,7 +195,7 @@
             });
 
             modalInstance.result.then(function () {
-                // no-op
+            	angular.element('.email-entry').trigger('focus');
             });
         }
 
