@@ -19,7 +19,7 @@ public class PSIProfilePeriodMapperTest {
 
 	private PSIProfilePeriodMapper mapper;
 	@Mock PSIProfilePeriod mockPeriod;
-	private Integer expectedId, expectedSort;
+	private Integer expectedId, expectedSort, expectedMin, expectedRec, expectedMax;
 	private String expectedName, expectedCode;
 	private Date expectedEndDate, expectedStartDate;
 	
@@ -33,6 +33,9 @@ public class PSIProfilePeriodMapperTest {
 		expectedCode = "UT Code";
 		expectedEndDate = Calendar.getInstance().getTime();
 		expectedStartDate = Calendar.getInstance().getTime();
+		expectedMin = 1;
+		expectedRec = 2;
+		expectedMax = 3;
 		
 		when(mockPeriod.getEndDate()).thenReturn(expectedEndDate);
 		when(mockPeriod.getId()).thenReturn(expectedId);
@@ -40,6 +43,9 @@ public class PSIProfilePeriodMapperTest {
 		when(mockPeriod.getPeriodCode()).thenReturn(expectedCode);
 		when(mockPeriod.getSort()).thenReturn(expectedSort);
 		when(mockPeriod.getStartDate()).thenReturn(expectedStartDate);
+		when(mockPeriod.getMinimum()).thenReturn(expectedMin);
+		when(mockPeriod.getRecommended()).thenReturn(expectedRec);
+		when(mockPeriod.getMaximum()).thenReturn(expectedMax);
 		
 		mapper = new PSIProfilePeriodMapper();
 	}
@@ -54,6 +60,9 @@ public class PSIProfilePeriodMapperTest {
 		assertEquals(expectedName, result.getName());
 		assertEquals(expectedStartDate, result.getStartDate());
 		assertEquals(expectedSort.intValue(), result.getSort());
+		assertEquals(expectedMin.intValue(), result.getRecMinimum());
+		assertEquals(expectedRec.intValue(), result.getRecommended());
+		assertEquals(expectedMax.intValue(), result.getRecMaximum());
 		
 		verify(mockPeriod).getEndDate();
 		verify(mockPeriod).getId();
@@ -61,6 +70,9 @@ public class PSIProfilePeriodMapperTest {
 		verify(mockPeriod).getPeriodCode();
 		verify(mockPeriod).getSort();
 		verify(mockPeriod).getStartDate();
+		verify(mockPeriod).getMinimum();
+		verify(mockPeriod).getRecommended();
+		verify(mockPeriod).getMaximum();
 	}
 
 }

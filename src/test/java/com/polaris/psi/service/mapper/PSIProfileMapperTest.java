@@ -100,6 +100,31 @@ public class PSIProfileMapperTest {
 		verify(mockProfile).getId();
 		verify(mockProfile).getLastModifiedDate();
 		verify(mockProfile).getName();
+		verify(mockProfile, times(2)).getStatus();
+		verify(mockProfile).getTargetCompleteDate();
+		verify(mockProfile, times(2)).getType();
+		verify(mockProfile).getEmail();
+		
+		verify(mockTypeMapper).mapTypeToProfile(expectedType, result);
+		verifyNoMoreInteractions(mockProfile, mockTypeMapper, mockDto);
+	}
+
+	@Test
+	public void testMapToDtoPSIProfileIsNonDealerNullStatus() {
+		when(mockProfile.getStatus()).thenReturn(null);
+
+		ProfileDto result = mapper.mapToDto(mockProfile, false);
+		
+		assertEquals(expectedModified, result.getModifiedDate());
+		assertEquals(expectedName, result.getName());
+		assertEquals(expectedProfileId.intValue(), result.getProfileId());
+		assertEquals(Constants.DEFAULT_PROFILE_STATUS, result.getStatus());
+		assertEquals(expectedTargetCompletion, result.getTargetCompletionDate());
+		assertEquals(expectedEmail, result.getDealerEmail());
+		
+		verify(mockProfile).getId();
+		verify(mockProfile).getLastModifiedDate();
+		verify(mockProfile).getName();
 		verify(mockProfile).getStatus();
 		verify(mockProfile).getTargetCompleteDate();
 		verify(mockProfile, times(2)).getType();

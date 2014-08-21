@@ -84,7 +84,7 @@ public class PSIProfileMapper implements IMapper<PSIProfile, ProfileDto> {
 		dto.setTargetCompletionDate(entity.getTargetCompleteDate());
 		dto.setModifiedDate(entity.getLastModifiedDate());
 		dto.setProfileId(entity.getId());
-		dto.setStatus(entity.getStatus());
+		dto.setStatus(entity.getStatus() == null ? Constants.DEFAULT_PROFILE_STATUS : entity.getStatus());
 		dto.setTypeCode(entity.getType());
 		dto.setDealerEmail(entity.getEmail());
 		

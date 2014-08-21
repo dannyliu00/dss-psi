@@ -120,7 +120,7 @@ public class ProfileService {
     	dto.setSegments(segmentMapper.mapToDto(psiSegments));
     	dto.setOrderSegments(osMapper.mapToDto(psiOSes, details, psiProfile.getEmail()));
     	
-    	List<PSIProfilePeriod> periods = profilePeriodDao.retrieveByProfileId(psiProfile.getId());
+    	List<PSIProfilePeriod> periods = profilePeriodDao.retrieveByProfileAndDealer(psiProfile.getId(), dealerId);
     	dto.setPeriods(periodMapper.mapToDto(periods));
     	
 		LOG.methodEnd(PolarisIdentity.get(), "getDealerProfile");
@@ -149,7 +149,7 @@ public class ProfileService {
     	dto.setSegments(segmentMapper.mapToDto(psiSegments));
     	dto.setOrderSegments(osMapper.mapToDto(psiOSes, details, psiProfile.getEmail()));
     	
-    	List<PSIProfilePeriod> periods = profilePeriodDao.retrieveByProfileId(psiProfile.getId());
+    	List<PSIProfilePeriod> periods = profilePeriodDao.retrieveByProfileAndDealer(psiProfile.getId(), dealerId);
     	dto.setPeriods(periodMapper.mapToDto(periods));
     	
 		LOG.methodEnd(PolarisIdentity.get(), "getDealerProfile");

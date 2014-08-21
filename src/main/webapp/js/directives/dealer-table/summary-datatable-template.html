@@ -1,18 +1,14 @@
-<div class="table-responsive">
+<div class="table-responsive" >
     <table datatable="" dt-options="dtOptions" role="table"
            class="table table-condensed table-bordered table-striped table-default table-available-items dataTable"
            aria-describedby="activeObjectsTable_info">
         <thead>
         <tr role="row">
-            <th class="text-center sorting col-sm-3" tabindex="0" aria-controls="activeObjectsTable"
-                aria-sort="ascending" aria-label="Date : activate to sort column descending" translate>
-                Target Completion Date
-            </th>
             <th class="sorting col-sm-6" tabindex="0" aria-controls="activeObjectsTable"
                 aria-label="Inventory Profile : activate to sort column ascending" translate>
                 Inventory Profile
             </th>
-            <th class="sorting col-sm-3" tabindex="0" aria-controls="activeObjectsTable"
+            <th class="sorting col-sm-6" tabindex="0" aria-controls="activeObjectsTable"
                 aria-label="Status : activate to sort column ascending" translate>
                 Status
             </th>
@@ -20,8 +16,6 @@
         </thead>
         <tbody aria-live="polite" aria-relevant="all">
         <tr ng-repeat="profile in profiles" role="row">
-            <td class="text-center navLink"><a ng-click="navigateToProfile(profile.profileId, profile.typeCode)">{{profile.targetCompletionDate
-                | date : 'mediumDate'}}</a></td>
             <td class="navLink"><a
                     ng-click="navigateToProfile(profile.profileId, profile.typeCode)">{{profile.name}}</a></td>
             <td class="navLink"><a
