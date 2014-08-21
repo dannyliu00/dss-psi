@@ -20,12 +20,13 @@ var FilePatterns = {
 		'src/main/webapp/bower_components/angular-resource/angular-resource.js',
 		'src/main/webapp/bower_components/bootstrap/dist/js/bootstrap.js',
 		'src/main/webapp/bower_components/angular-sanitize/angular-sanitize.min.js',
-        'src/main/webapp/bower_components/angular-block-ui/angular-block-ui.js'
+        'src/main/webapp/bower_components/angular-block-ui/dist/angular-block-ui.js',
+        'src/main/webapp/bower_components/datatables/media/js/jquery.dataTables.js'
 	],
 
 	thirdPartyJavascriptForSpecs: [
 		'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
-        'src/main/webapp/bower_components/angular-block-ui/angular-block-ui.js'
+        'src/main/webapp/bower_components/angular-block-ui/dist/angular-block-ui.js'
 	],
 
 	source: [
