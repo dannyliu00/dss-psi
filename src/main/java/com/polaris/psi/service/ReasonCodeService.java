@@ -50,4 +50,23 @@ public class ReasonCodeService {
 
 		return dtos;
 	}
+	
+	/*
+	 * Get all reason codes
+	 */
+	public List<ReasonCodeDto> getAllCodes() {
+		
+		LOG.methodStart(PolarisIdentity.get(), "getReasonCodes");
+
+		List<ReasonCode> reasonCodes = dao.selectAll();
+		List<ReasonCodeDto> dtos = new LinkedList<ReasonCodeDto>();
+		
+		for (ReasonCode reasonCode : reasonCodes) {
+			dtos.add(mapper.mapToDto(reasonCode));
+		}
+		
+		LOG.methodEnd(PolarisIdentity.get(), "getReasonCodes");
+
+		return dtos;
+	}
 }

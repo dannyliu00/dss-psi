@@ -2,6 +2,7 @@
 <p>This is a notification that your $productLine RFM inventory profile has been returned by your DSM. Please contact them if you have any questions.</p>
 
 <p>
+<strong>Reason:</strong> $reason<br>
 <strong>Comment:</strong><br>
 $comment
 </p>

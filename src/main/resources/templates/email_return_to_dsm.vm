@@ -2,6 +2,7 @@
 <p>This is a notification that the $productLine RFM inventory profile for dealer [$dealerId, $dealerName] has been returned by your RSM. Please contact them if you have any questions.   
 </p>
 <p>
+<strong>Reason:</strong> $reason<br>
 <strong>Comment:</strong><br>
 $comment
 </p>

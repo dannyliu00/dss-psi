@@ -2,6 +2,12 @@
 <p>This is a confirmation that the following $productLine RFM inventory profile has been finalized for dealer  [$dealerId, $dealerName]. 
 One or more items remain outside of the required ranges resulting in loss of program benefits.  
 </p>
+<p>
+<strong>Reason:</strong> $reason<br>
+<strong>Comment:</strong><br>
+$comment
+</p>
+
  #parse("/templates/profileTable.vm") 
 <p>Please review your inventory profile for accuracy and if you have any questions, contact Polaris Dealer Support at 1-800-330-9407.</p> 
 <p>Thank you for your business.</p>
