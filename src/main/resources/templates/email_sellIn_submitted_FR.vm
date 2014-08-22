@@ -1,0 +1,8 @@
+<div style='font-size: .8em; line-height: 1.5em; font-family: Verdana,Tahoma, Arial,sans-serif;'>
+<p>Par la présente, nous confirmons que le concessionnaire [$dealerId, $dealerName] a envoyé le profil des stocks de GPV $productLine
+
+ #parse("/templates/profileTable.vm") 
+<p>Veuillez vérifier votre profil des stocks pour exactitude. Si vous avez des questions, veuillez communiquer avec l’Assistance au concessionnaire Polaris au 1 800 330-9407. </p> 
+<p>Merci de votre collaboration.</p>
+</div>
+

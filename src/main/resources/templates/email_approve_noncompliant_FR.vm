@@ -1,0 +1,14 @@
+<div style='font-size: .8em; line-height: 1.5em; font-family: Verdana,Tahoma, Arial,sans-serif;'>
+<p>  
+Par la présente, nous confirmons que le profil des stocks de GPV $productLine suivant a été finalisé pour le concessionnaire [$dealerId, $dealerName].  
+Un ou plusieurs éléments demeurent en dehors des plages requises avec pour conséquence la perte des avantages du programme. 
+</p>
+<p>
+<strong>Reason:</strong> $reason<br>
+<strong>Comment:</strong><br>
+$comment
+</p>
+
+ #parse("/templates/profileTable.vm") 
+<p>Veuillez revoir le programme de vente en gros GPV ATV et contacter votre RCD si vous avez des questions.</p> 
+</div>

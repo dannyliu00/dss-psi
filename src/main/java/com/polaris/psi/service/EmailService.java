@@ -22,6 +22,9 @@ import com.polaris.psi.resource.dto.ReasonCodeDto;
 import com.polaris.psi.util.AttributeHelper;
 import com.polaris.psi.util.PolarisIdentity;
 import com.polaris.psi.util.SplunkLogger;
+import com.polaris.psi.util.TranslationHelper;
+import com.polaris.pwd.translation.TextTranslationService;
+import com.polaris.pwf.session.SessionHelper;
 import com.polarisind.proxy.emailservice.EmailClient;
 import com.polarisind.proxy.emailservice.EmailResponseType;
 import com.polarisind.proxy.emailservice.EmailType;
@@ -48,7 +51,13 @@ public class EmailService {
 	ProductLineService productLineService;
 	
 	@Autowired
-	ReasonCodeService reasonCodeService; 
+	ReasonCodeService reasonCodeService;
+	
+	@Autowired
+	SessionHelper sessionHelper;
+	
+	@Autowired
+	TranslationHelper translationHelper;
 
 	private static final SplunkLogger LOG = new SplunkLogger(EmailService.class);
 	
@@ -133,9 +142,9 @@ public class EmailService {
     	
     	
     	// Ticket: PS-178: Email to dealer confirming submission.
-    	String subject = String.format("%s Inventory Profile - Submitted",getProductLine(profileDetailsDto));
+    	String subject = String.format("%s %s - %s",getProductLine(profileDetailsDto),translationHelper.getString("Inventory Profile"),translationHelper.getString("Submitted"));
     	
-    	Template template = Velocity.getTemplate("/templates/email_sellIn_submitted.vm");
+    	Template template = Velocity.getTemplate("/templates/email_sellIn_submitted_" + getLang() + ".vm");
     	
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
 
@@ -143,8 +152,6 @@ public class EmailService {
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
     	context.put("productLine", getProductLine(profileDetailsDto));
-    	context.put("comment", getComments(profileDetailsDto));
-    	context.put("reason", getReasonCode(profileDetailsDto));
     	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto),true,false,false));
     	
     	StringWriter writer = new StringWriter();
@@ -173,9 +180,10 @@ public class EmailService {
 		
 		LOG.methodStart(PolarisIdentity.get(), "sendApproveAsRequestedEmail");
 		
-    	String subject = String.format("%s Inventory Profile - Approved As Requested",getProductLine(profileDetailsDto));
+    	String subject = String.format("%s %s - %s",getProductLine(profileDetailsDto),translationHelper.getString("Inventory Profile"),translationHelper.getString("Approved As Requested"));
     	
-    	Template template = Velocity.getTemplate("/templates/email_sellIn_approved_as_requested.vm");
+    	
+    	Template template = Velocity.getTemplate("/templates/email_sellIn_approved_as_requested_" + getLang() + ".vm");
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
     	
     	VelocityContext context = new VelocityContext();
@@ -205,10 +213,10 @@ public class EmailService {
 		
 		LOG.methodStart(PolarisIdentity.get(), "sendApproveWithChangesEmail");
 		
-    	String subject = String.format("%s Inventory Profile - Approved With Changes",getProductLine(profileDetailsDto));
+    	String subject = String.format("%s %s - %s",getProductLine(profileDetailsDto),translationHelper.getString("Inventory Profile"),translationHelper.getString("Approved With Changes"));
     	
     	
-    	Template template = Velocity.getTemplate("/templates/email_sellIn_approved_w_changes.vm");
+    	Template template = Velocity.getTemplate("/templates/email_sellIn_approved_w_changes_" + getLang() + ".vm");
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
     	
     	VelocityContext context = new VelocityContext();
@@ -238,10 +246,10 @@ public class EmailService {
 		
 		LOG.methodStart(PolarisIdentity.get(), "sendSubmitForExceptionEmail");
 		
-    	String subject = String.format("%s Inventory Profile - Submitted for Exception",getProductLine(profileDetailsDto));
+    	String subject = String.format("%s %s - %s",getProductLine(profileDetailsDto),translationHelper.getString("Inventory Profile"),translationHelper.getString("Submitted for Exception"));
     	
     	
-    	Template template = Velocity.getTemplate("/templates/email_sellIn_submit_for_exception.vm");
+    	Template template = Velocity.getTemplate("/templates/email_sellIn_submit_for_exception_" + getLang() + ".vm");
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
 
     	VelocityContext context = new VelocityContext();
@@ -272,9 +280,9 @@ public class EmailService {
 		
 		LOG.methodStart(PolarisIdentity.get(), "sendReturnToDealerEmail");
 		
-    	String subject = String.format("%s Inventory Profile - has been returned",getProductLine(profileDetailsDto));
+    	String subject = String.format("%s %s - %s",getProductLine(profileDetailsDto),translationHelper.getString("Inventory Profile"),translationHelper.getString("has been returned"));
     	
-    	Template template = Velocity.getTemplate("/templates/email_sellIn_return_to_dealer.vm");
+    	Template template = Velocity.getTemplate("/templates/email_sellIn_return_to_dealer_" + getLang() + ".vm");
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
 
     	VelocityContext context = new VelocityContext();
@@ -301,9 +309,9 @@ public class EmailService {
 		
 		LOG.methodStart(PolarisIdentity.get(), "sendApproveAsCompliantEmail");
 		
-    	String subject = String.format("%s Inventory Profile - has been approved",getProductLine(profileDetailsDto));
+    	String subject = String.format("%s %s - %s",getProductLine(profileDetailsDto),translationHelper.getString("Inventory Profile"),translationHelper.getString("has been approved"));
     	
-    	Template template = Velocity.getTemplate("/templates/email_approve_compliant.vm");
+    	Template template = Velocity.getTemplate("/templates/email_approve_compliant_" + getLang() + ".vm");
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
 
     	VelocityContext context = new VelocityContext();
@@ -333,10 +341,9 @@ public class EmailService {
 		
 		LOG.methodStart(PolarisIdentity.get(), "sendApproveAsNonCompliantEmail");
 		
-    	String subject = String.format("%s Inventory Profile - has been approved as non-compliant.",getProductLine(profileDetailsDto));
+    	String subject = String.format("%s %s - %s",getProductLine(profileDetailsDto),translationHelper.getString("Inventory Profile"),translationHelper.getString("has been approved as non-compliant."));
     	
-    	
-    	Template template = Velocity.getTemplate("/templates/email_approve_noncompliant.vm");
+    	Template template = Velocity.getTemplate("/templates/email_approve_noncompliant_" + getLang() + ".vm");
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
 
     	VelocityContext context = new VelocityContext();
@@ -367,10 +374,10 @@ public class EmailService {
 		
 		LOG.methodStart(PolarisIdentity.get(), "sendReturnToDsmEmail");
 		
-    	String subject = String.format("%s Inventory Profile - has been returned.",getProductLine(profileDetailsDto));
+    	String subject = String.format("%s %s - %s",getProductLine(profileDetailsDto),translationHelper.getString("Inventory Profile"),translationHelper.getString("has been returned."));
     	
     	
-    	Template template = Velocity.getTemplate("/templates/email_return_to_dsm.vm");
+    	Template template = Velocity.getTemplate("/templates/email_return_to_dsm_" + getLang() + ".vm");
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
 
     	VelocityContext context = new VelocityContext();
@@ -547,4 +554,9 @@ public class EmailService {
     	return dealerInfo.getRsmEmailAddress();
 
     }    
+    
+    private String getLang() {
+    	return sessionHelper.getUserData().getSessionDetail().get(Constants.LANGUAGE_PREFERENCE);    	
+    }
+    
 }

@@ -1,0 +1,10 @@
+<div style='font-size: .8em; line-height: 1.5em; font-family: Verdana,Tahoma, Arial,sans-serif;'>
+<p>
+Par la présente, nous confirmons que le profil des stocks de GPV $productLine pour le concessionnaire [$dealerId, $dealerName] a été retourné par votre DRV. Veuillez le contacter si vous avez des questions.   
+</p>
+<p>
+<strong>Reason:</strong> $reason<br>
+<strong>Comment:</strong><br>
+$comment
+</p>
+</div>
