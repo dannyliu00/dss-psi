@@ -22,19 +22,18 @@
 
         $scope.saveChanges = function (id) {
 
-            if ($scope.role.rsm === true) {
-                comments = 'adminComments';
-            } else if ($scope.role.dsm === true) {
-                comments = 'dsmComments';
-            } else {
-                comments = 'dealerComments';
-            }
-
             for (var i = 0, j = orderSegments.length; i < j; i++) {
                 var item = orderSegments[i];
-                item[comments] = this.reasonComments;
-                item.reasonCode = id;
-                if ($scope.role.dealer === true) {
+
+                if ($scope.role.rsm === true) {
+                    item.adminReasonCode = id;
+                    item.adminComments = this.reasonComments;
+                } else if ($scope.role.dsm === true) {
+                    item.dsmReasonCode = id;
+                    item.dsmComments = this.reasonComments;
+                } else {
+                    item.reasonCode = id;
+                    item.dealerComments = this.reasonComments;
                     item.dealerEmail = confirm;
                 }
             }
