@@ -20,7 +20,7 @@ BEGIN
 	INSERT INTO [PolarisDealersCommon].[Enterprise].[Attribute]
 	(ApplicationId, ApplicationModule, Description, Attribute, AttributeValue)
 	Values 
-	(@GlobalApplicationID,'Java Core Service','Polaris Email Service','PolarisEmailServiceUrl','https://svc.polarisind.com:9080/EmailService/1.0/DefaultEmailService/DefaultEmailService.wsdl')
+	(@GlobalApplicationID,'Java Core Service','Polaris Email Service','PolarisEmailServiceUrl','https://svc.polarisind.com:9443/EmailService/1.0/DefaultEmailService/DefaultEmailService.wsdl')
 
 	DELETE FROM [PolarisDealersCommon].[Enterprise].[Attribute] WHERE ApplicationID=@GlobalApplicationID and Attribute='EmailBounceAddress'
 	INSERT INTO [PolarisDealersCommon].[Enterprise].[Attribute]
