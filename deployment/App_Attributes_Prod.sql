@@ -1,4 +1,4 @@
--- PSI STAGE Attributes
+-- PSI PROD Attributes
 use [PolarisDealersCommon]
  
 DECLARE @APPGUID uniqueidentifier 
