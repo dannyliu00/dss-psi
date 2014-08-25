@@ -13,7 +13,7 @@
                 showGuide.dealer = true;
                 showGuide.dsm = true;
                 showGuide.rsm = true;
-            } else if ($scope.role.dealer === true && ($scope.profile.status === 'RETURNED TO DEALER' || $scope.profile.status === 'APPROVED WITH CHANGES')) {
+            } else if ($scope.role.dealer === true && ($scope.profile.status === 'RETURNED TO DEALER' || $scope.profile.status === 'APPROVED')) {
                 showGuide.dealer = true;
                 showGuide.dsm = true;
                 showGuide.rsm = false;
