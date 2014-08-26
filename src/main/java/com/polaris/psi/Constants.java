@@ -18,6 +18,8 @@ public class Constants {
     
     public static final Integer DEALER_NOT_CANCELED_CODE = 0;
     
+    public static final String DEFAULT_PRODUCT_LINE = "2";
+    
     public static final String DEALER_REASON_ROLE_DESC = "DEALER";
     public static final String DSM_REASON_ROLE_DESC = "DSM";
     public static final String ADMIN_REASON_ROLE_DESC = "ADMIN";

@@ -54,7 +54,7 @@ public class DsmProfilesResourceTest {
 		when(mockUserData.getDealerId()).thenReturn(expectedId);
 		when(mockService.getDsmCurrentProfiles(expectedId, expectedType)).thenReturn(profiles);
 
-		List<DsmDealerProfilesDto> results = resource.getDsmCurrentProfiles(expectedId, expectedType);
+		List<DsmDealerProfilesDto> results = resource.getDsmCurrentProfiles(expectedType);
 		
 		assertEquals(profiles.size(), results.size());
 		
@@ -71,7 +71,7 @@ public class DsmProfilesResourceTest {
 		when(mockUserData.getDealerId()).thenReturn(expectedId);
 		when(mockService.getDsmCurrentProfiles(expectedId, defaultType)).thenReturn(profiles);
 
-		List<DsmDealerProfilesDto> results = resource.getDsmCurrentProfiles(expectedId, null);
+		List<DsmDealerProfilesDto> results = resource.getDsmCurrentProfiles(null);
 		
 		assertEquals(profiles.size(), results.size());
 		
@@ -85,24 +85,8 @@ public class DsmProfilesResourceTest {
 
 	@Test
 	public void testGetCurrentProfilesDsmNullResult() {
-		when(mockUserData.getDealerId()).thenReturn(111);
-		List<DsmDealerProfilesDto> results = resource.getDsmCurrentProfiles(expectedId, expectedType);
-		
-		assertEquals(0, results.size());
-		
-		verify(mockSessionHelper).getUserData();
-		verify(mockUserData).isDsm();
-		verify(mockUserData).getDealerId();
-
-		verifyNoMoreInteractions(mockSessionHelper, mockUserData);
-		verifyZeroInteractions(mockService);
-	}
-
-	@Test
-	public void testGetCurrentProfilesDsmNullResultTwo() {
-		when(mockUserData.getDealerId()).thenReturn(expectedId);
 		when(mockUserData.isDsm()).thenReturn(false);
-		List<DsmDealerProfilesDto> results = resource.getDsmCurrentProfiles(expectedId, expectedType);
+		List<DsmDealerProfilesDto> results = resource.getDsmCurrentProfiles(expectedType);
 		
 		assertEquals(0, results.size());
 		
@@ -118,7 +102,7 @@ public class DsmProfilesResourceTest {
 		when(mockUserData.getDealerId()).thenReturn(expectedId);
 		when(mockService.getDsmHistoricalProfiles(expectedId, expectedType)).thenReturn(profiles);
 
-		List<DsmDealerProfilesDto> results = resource.getDsmHistoricalProfiles(expectedId, expectedType);
+		List<DsmDealerProfilesDto> results = resource.getDsmHistoricalProfiles(expectedType);
 		
 		assertEquals(profiles.size(), results.size());
 		
@@ -135,7 +119,7 @@ public class DsmProfilesResourceTest {
 		when(mockUserData.getDealerId()).thenReturn(expectedId);
 		when(mockService.getDsmHistoricalProfiles(expectedId, defaultType)).thenReturn(profiles);
 
-		List<DsmDealerProfilesDto> results = resource.getDsmHistoricalProfiles(expectedId, null);
+		List<DsmDealerProfilesDto> results = resource.getDsmHistoricalProfiles(null);
 		
 		assertEquals(profiles.size(), results.size());
 		
@@ -149,24 +133,8 @@ public class DsmProfilesResourceTest {
 
 	@Test
 	public void testGetHistoricalProfilesDsmNullResult() {
-		when(mockUserData.getDealerId()).thenReturn(111);
-		List<DsmDealerProfilesDto> results = resource.getDsmHistoricalProfiles(expectedId, expectedType);
-		
-		assertEquals(0, results.size());
-		
-		verify(mockSessionHelper).getUserData();
-		verify(mockUserData).isDsm();
-		verify(mockUserData).getDealerId();
-
-		verifyNoMoreInteractions(mockSessionHelper, mockUserData);
-		verifyZeroInteractions(mockService);
-	}
-
-	@Test
-	public void testGetHistoricalProfilesDsmNullResultTwo() {
-		when(mockUserData.getDealerId()).thenReturn(expectedId);
 		when(mockUserData.isDsm()).thenReturn(false);
-		List<DsmDealerProfilesDto> results = resource.getDsmHistoricalProfiles(expectedId, expectedType);
+		List<DsmDealerProfilesDto> results = resource.getDsmHistoricalProfiles(expectedType);
 		
 		assertEquals(0, results.size());
 		

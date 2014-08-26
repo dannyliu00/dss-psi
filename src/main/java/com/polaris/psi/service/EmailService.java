@@ -1,7 +1,6 @@
 package com.polaris.psi.service;
 
 import java.io.StringWriter;
-import java.util.List;
 import java.util.Properties;
 
 import javax.mail.MessagingException;
@@ -69,7 +68,6 @@ public class EmailService {
             p.setProperty("resource.loader", "class");
             p.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
             
-            
             Velocity.init(p);
         }
         catch(Exception e) {
@@ -128,10 +126,7 @@ public class EmailService {
     	LOG.info(PolarisIdentity.get(), "sendEmail", "Email sent to: " + to);
     	
     	LOG.methodEnd(PolarisIdentity.get(), "sendEmail");
-    	
     }
-
-
 
     /**
      * When an order is submitted, an e-mail is sent to the DSM letting them know there is a new order that needs approval.
@@ -140,7 +135,6 @@ public class EmailService {
      */
     public void sendProfileSubmissionEmail(ProfileDetailsDto profileDetailsDto)  {
     	LOG.methodStart(PolarisIdentity.get(), "sendProfileSubmissionEmail");
-    	
     	
     	// Ticket: PS-178: Email to dealer confirming submission.
     	String subject = String.format("%s %s - %s",getProductLine(profileDetailsDto),translationHelper.getString("Inventory Profile"),translationHelper.getString("Submitted"));
@@ -214,7 +208,6 @@ public class EmailService {
 		
     	String subject = String.format("%s %s - %s",getProductLine(profileDetailsDto),translationHelper.getString("Inventory Profile"),translationHelper.getString("Approved With Changes"));
     	
-    	
     	Template template = Velocity.getTemplate("/templates/email_sellIn_approved_w_changes_" + getLang() + ".vm");
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
     	
@@ -247,7 +240,6 @@ public class EmailService {
 		LOG.methodStart(PolarisIdentity.get(), "sendSubmitForExceptionEmail");
 		
     	String subject = String.format("%s %s - %s",getProductLine(profileDetailsDto),translationHelper.getString("Inventory Profile"),translationHelper.getString("Submitted for Exception"));
-    	
     	
     	Template template = Velocity.getTemplate("/templates/email_sellIn_submit_for_exception_" + getLang() + ".vm");
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
@@ -325,7 +317,6 @@ public class EmailService {
     	context.put("productLine", getProductLine(profileDetailsDto));
     	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto),true,false,false));
     	
-    	
     	StringWriter writer = new StringWriter();
     	template.merge(context, writer);
     	String renderedTemplate = writer.toString();
@@ -358,7 +349,6 @@ public class EmailService {
     	context.put("reason", getRSMReasonCode(profileDetailsDto));
     	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto),true,false,false));
     	
-    	
     	StringWriter writer = new StringWriter();
     	template.merge(context, writer);
     	String renderedTemplate = writer.toString();
@@ -380,7 +370,6 @@ public class EmailService {
 		
     	String subject = String.format("%s %s - %s",getProductLine(profileDetailsDto),translationHelper.getString("Inventory Profile"),translationHelper.getString("has been returned."));
     	
-    	
     	Template template = Velocity.getTemplate("/templates/email_return_to_dsm_" + getLang() + ".vm");
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
 
@@ -392,7 +381,6 @@ public class EmailService {
     	context.put("reason", getDSMReasonCode(profileDetailsDto));
     	context.put("productLine", getProductLine(profileDetailsDto));
     	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto),true,false,false));
-    	
     	
     	StringWriter writer = new StringWriter();
     	template.merge(context, writer);
@@ -455,11 +443,9 @@ public class EmailService {
     	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
     	if(profileDetailsDto.getOrderSegments().size()==0) { throw new IllegalArgumentException("profileDetailsDto.getOrderSegments is empty"); }
     	
-    	
     	OrderSegmentDto segment = profileDetailsDto.getOrderSegments().get(0);
 
-    	List<ReasonCodeDto> reasonCodes = reasonCodeService.getAllCodes();
-    	for(ReasonCodeDto code: reasonCodes) {
+    	for(ReasonCodeDto code: reasonCodeService.getAllCodes()) {
     		if(code.getId()==segment.getDsmReasonCode()) {
     			return code.getDescription();
     		}
@@ -471,7 +457,6 @@ public class EmailService {
     private String getRSMReasonCode(ProfileDetailsDto profileDetailsDto) {
     	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
     	if(profileDetailsDto.getOrderSegments().size()==0) { throw new IllegalArgumentException("profileDetailsDto.getOrderSegments is empty"); }
-    	
     	
     	OrderSegmentDto segment = profileDetailsDto.getOrderSegments().get(0);
     	
@@ -505,7 +490,6 @@ public class EmailService {
     		LOG.warn(PolarisIdentity.get(), "getProductLine", "Profile not found");
     		return "Uknown ProductLine";
     	}
-
     	
     	for(ProductLineDto pl: productLineService.getProductLines()) {
     		if(pl.getProductLineId().equals(profile.getTypeCode())) {
