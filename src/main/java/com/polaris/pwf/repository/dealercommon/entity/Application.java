@@ -53,9 +53,7 @@ public class Application implements Serializable {
 	
 	@Column(name = "UpdatedDate")
 	private Date updatedDate;
-	
-	@Column(name = "ApplicationSuite")
-	private String applicationSuite;
+
 
 	/**
 	 * @return the id
@@ -197,18 +195,6 @@ public class Application implements Serializable {
 		this.updatedDate = updatedDate;
 	}
 
-	/**
-	 * @return the applicationSuite
-	 */
-	public String getApplicationSuite() {
-		return applicationSuite;
-	}
 
-	/**
-	 * @param applicationSuite the applicationSuite to set
-	 */
-	public void setApplicationSuite(String applicationSuite) {
-		this.applicationSuite = applicationSuite;
-	}
 
 }
