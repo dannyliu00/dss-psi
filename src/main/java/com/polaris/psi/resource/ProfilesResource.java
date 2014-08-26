@@ -37,6 +37,7 @@ public class ProfilesResource {
 	@GET
     @Path("/{dealerId}")
     @Produces(MediaType.APPLICATION_JSON)
+	@Deprecated
 	public List<ProfileDto> getDealerProfiles(@PathParam("dealerId") int dealerId) {
 		UserData userData = sessionHelper.getUserData();
 		if(!userData.isDealer() || userData.getDealerId() != dealerId) {
@@ -49,6 +50,7 @@ public class ProfilesResource {
 	@GET
     @Path("/{dealerId}/current")
     @Produces(MediaType.APPLICATION_JSON)
+	@Deprecated
 	public List<ProfileDto> getCurrentDealerProfiles(@PathParam("dealerId") int dealerId) {
 		UserData userData = sessionHelper.getUserData();
 		if(!userData.isDealer() || userData.getDealerId() != dealerId) {
@@ -61,6 +63,7 @@ public class ProfilesResource {
 	@GET
     @Path("/{dealerId}/history")
     @Produces(MediaType.APPLICATION_JSON)
+	@Deprecated
 	public List<ProfileDto> getHistoricalDealerProfiles(@PathParam("dealerId") int dealerId) {
 		UserData userData = sessionHelper.getUserData();
 		if(!userData.isDealer() || userData.getDealerId() != dealerId) {

@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.polaris.psi.Constants;
 import com.polaris.psi.resource.dto.DsmDealerProfilesDto;
 import com.polaris.psi.service.DsmService;
 import com.polaris.pwf.session.SessionHelper;
@@ -37,6 +38,7 @@ public class RsmProfilesResource {
 	@GET
     @Path("/{rsmId}/{type}")
     @Produces(MediaType.APPLICATION_JSON)
+	@Deprecated
 	public List<DsmDealerProfilesDto> getRsmProfiles(@PathParam("rsmId") int rsmId, @PathParam("type") String type) {
 		UserData userData = sessionHelper.getUserData();
 		if(!userData.isRsm() || userData.getDealerId() != rsmId) {
@@ -48,6 +50,7 @@ public class RsmProfilesResource {
 	@GET
     @Path("/{rsmId}/{type}/current")
     @Produces(MediaType.APPLICATION_JSON)
+	@Deprecated
 	public List<DsmDealerProfilesDto> getRsmCurrentProfiles(@PathParam("rsmId") int rsmId, @PathParam("type") String type) {
 		UserData userData = sessionHelper.getUserData();
 		if(!userData.isRsm() || userData.getDealerId() != rsmId) {
@@ -59,6 +62,7 @@ public class RsmProfilesResource {
 	@GET
     @Path("/{rsmId}/{type}/history")
     @Produces(MediaType.APPLICATION_JSON)
+	@Deprecated
 	public List<DsmDealerProfilesDto> getRsmHistoricalProfiles(@PathParam("rsmId") int rsmId, @PathParam("type") String type) {
 		UserData userData = sessionHelper.getUserData();
 		if(!userData.isRsm() || userData.getDealerId() != rsmId) {
@@ -72,7 +76,9 @@ public class RsmProfilesResource {
     @Produces(MediaType.APPLICATION_JSON)
 	public List<DsmDealerProfilesDto> getRsmCurrentProfiles(@PathParam("type") String type) {
 		UserData userData = sessionHelper.getUserData();
-		if(type == null) type = "2";
+		if(type == null) {
+			type = Constants.DEFAULT_PRODUCT_LINE;
+		}
 		
 		if(userData.isRsm()) {
 			int rsmId = userData.getDealerId();
@@ -86,7 +92,9 @@ public class RsmProfilesResource {
     @Produces(MediaType.APPLICATION_JSON)
 	public List<DsmDealerProfilesDto> getRsmHistoricalProfiles(@PathParam("type") String type) {
 		UserData userData = sessionHelper.getUserData();
-		if(type == null) type = "2";
+		if(type == null) {
+			type = Constants.DEFAULT_PRODUCT_LINE;
+		}
 		
 		if(userData.isRsm()) {
 			int rsmId = userData.getDealerId();
