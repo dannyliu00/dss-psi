@@ -3,9 +3,13 @@
 One or more items remain outside of the required ranges resulting in loss of program benefits.  
 </p>
 <p>
-<strong>Reason:</strong> $reason<br>
-<strong>Comment:</strong><br>
-$comment
+#if($StringUtils.isNotEmpty($reason))
+    <strong>Reason:</strong> $reason<br>
+#end
+#if($StringUtils.isNotEmpty($comment))
+    <strong>Comment:</strong><br>
+    $comment
+#end
 </p>
 
  #parse("/templates/profileTable.vm") 

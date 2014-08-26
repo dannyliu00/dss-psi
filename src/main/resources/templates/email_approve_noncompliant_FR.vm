@@ -4,9 +4,13 @@ Par la présente, nous confirmons que le profil des stocks de GPV $productLine s
 Un ou plusieurs éléments demeurent en dehors des plages requises avec pour conséquence la perte des avantages du programme. 
 </p>
 <p>
-<strong>Reason:</strong> $reason<br>
-<strong>Comment:</strong><br>
-$comment
+#if($StringUtils.isNotEmpty($reason))
+    <strong>Reason:</strong> $reason<br>
+#end
+#if($StringUtils.isNotEmpty($comment))
+    <strong>Comment:</strong><br>
+    $comment
+#end
 </p>
 
  #parse("/templates/profileTable.vm") 

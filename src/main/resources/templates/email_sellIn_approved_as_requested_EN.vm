@@ -1,9 +1,13 @@
 <div style='font-size: .8em; line-height: 1.5em; font-family: Verdana,Tahoma, Arial,sans-serif;'>
 <p>This is a confirmation that the following $productLine RFM inventory profile has been approved as submitted.</p>
 <p>
-<strong>Reason:</strong> $reason<br>
-<strong>Comment:</strong><br>
-$comment
+#if($StringUtils.isNotEmpty($reason))
+    <strong>Reason:</strong> $reason<br>
+#end
+#if($StringUtils.isNotEmpty($comment))
+    <strong>Comment:</strong><br>
+    $comment
+#end
 </p>
  
 #parse("/templates/profileTable.vm") 

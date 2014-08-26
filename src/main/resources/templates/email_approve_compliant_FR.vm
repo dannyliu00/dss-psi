@@ -3,9 +3,13 @@
 Par la présente, nous confirmons que le profil des stocks de GPV $productLine a été approuvé pour le concessionnaire [$dealerId, $dealerName].  
 </p>
 <p>
-<strong>Reason:</strong> $reason<br>
-<strong>Comment:</strong><br>
-$comment
+#if($StringUtils.isNotEmpty($reason))
+    <strong>Reason:</strong> $reason<br>
+#end
+#if($StringUtils.isNotEmpty($comment))
+    <strong>Comment:</strong><br>
+    $comment
+#end
 </p>
 
  #parse("/templates/profileTable.vm") 
