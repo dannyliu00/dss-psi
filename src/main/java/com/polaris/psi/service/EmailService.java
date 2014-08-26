@@ -1,10 +1,12 @@
 package com.polaris.psi.service;
 
 import java.io.StringWriter;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.MessagingException;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -23,7 +25,6 @@ import com.polaris.psi.util.AttributeHelper;
 import com.polaris.psi.util.PolarisIdentity;
 import com.polaris.psi.util.SplunkLogger;
 import com.polaris.psi.util.TranslationHelper;
-import com.polaris.pwd.translation.TextTranslationService;
 import com.polaris.pwf.session.SessionHelper;
 import com.polarisind.proxy.emailservice.EmailClient;
 import com.polarisind.proxy.emailservice.EmailResponseType;
@@ -182,19 +183,17 @@ public class EmailService {
 		
     	String subject = String.format("%s %s - %s",getProductLine(profileDetailsDto),translationHelper.getString("Inventory Profile"),translationHelper.getString("Approved As Requested"));
     	
-    	
     	Template template = Velocity.getTemplate("/templates/email_sellIn_approved_as_requested_" + getLang() + ".vm");
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
     	
     	VelocityContext context = new VelocityContext();
+    	context.put("StringUtils", StringUtils.class);
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
     	context.put("productLine", getProductLine(profileDetailsDto));
-    	context.put("comment", getDSMComments(profileDetailsDto));
-    	context.put("reason", getDSMReasonCode(profileDetailsDto));
+    	context.put("comment", null);
+    	context.put("reason", null);
     	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto),true,false,false));
-    	
-
     	
     	StringWriter writer = new StringWriter();
     	template.merge(context, writer);
@@ -220,6 +219,7 @@ public class EmailService {
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
     	
     	VelocityContext context = new VelocityContext();
+    	context.put("StringUtils", StringUtils.class);
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
     	context.put("productLine", getProductLine(profileDetailsDto));
@@ -253,6 +253,7 @@ public class EmailService {
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
 
     	VelocityContext context = new VelocityContext();
+    	context.put("StringUtils", StringUtils.class);
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
     	context.put("productLine", getProductLine(profileDetailsDto));
@@ -286,6 +287,7 @@ public class EmailService {
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
 
     	VelocityContext context = new VelocityContext();
+    	context.put("StringUtils", StringUtils.class);
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
     	context.put("comment", getDSMComments(profileDetailsDto));
@@ -315,6 +317,7 @@ public class EmailService {
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
 
     	VelocityContext context = new VelocityContext();
+    	context.put("StringUtils", StringUtils.class);
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
     	context.put("comment", getRSMComments(profileDetailsDto));
@@ -347,6 +350,7 @@ public class EmailService {
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
 
     	VelocityContext context = new VelocityContext();
+    	context.put("StringUtils", StringUtils.class);
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
     	context.put("productLine", getProductLine(profileDetailsDto));
@@ -381,6 +385,7 @@ public class EmailService {
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
 
     	VelocityContext context = new VelocityContext();
+    	context.put("StringUtils", StringUtils.class);
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
     	context.put("comment", getDSMComments(profileDetailsDto));
@@ -437,16 +442,6 @@ public class EmailService {
 
     }
     
-    private String getComments(ProfileDetailsDto profileDetailsDto) {
-    	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
-    	if(profileDetailsDto.getOrderSegments().size()==0) { throw new IllegalArgumentException("profileDetailsDto.getOrderSegments is empty"); }
-    	
-    	OrderSegmentDto segment = profileDetailsDto.getOrderSegments().get(0);
-
-    	return segment.getDealerComments();
-    }
-
-    
     private String getDSMComments(ProfileDetailsDto profileDetailsDto) {
     	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
     	if(profileDetailsDto.getOrderSegments().size()==0) { throw new IllegalArgumentException("profileDetailsDto.getOrderSegments is empty"); }
@@ -456,37 +451,22 @@ public class EmailService {
     	return segment.getDsmComments();
     }
     
-    private String getReasonCode(ProfileDetailsDto profileDetailsDto) {
-    	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
-    	if(profileDetailsDto.getOrderSegments().size()==0) { throw new IllegalArgumentException("profileDetailsDto.getOrderSegments is empty"); }
-    	
-    	
-    	OrderSegmentDto segment = profileDetailsDto.getOrderSegments().get(0);
-    	
-    	for(ReasonCodeDto code: reasonCodeService.getAllCodes()) {
-    		if(code.getId()==segment.getReasonCode()) {
-    			return code.getDescription();
-    		}
-    	}
-
-    	return "Unknown ReasonCode: " + segment.getReasonCode();
-    }      
-    
     private String getDSMReasonCode(ProfileDetailsDto profileDetailsDto) {
     	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
     	if(profileDetailsDto.getOrderSegments().size()==0) { throw new IllegalArgumentException("profileDetailsDto.getOrderSegments is empty"); }
     	
     	
     	OrderSegmentDto segment = profileDetailsDto.getOrderSegments().get(0);
-    	
-    	for(ReasonCodeDto code: reasonCodeService.getAllCodes()) {
+
+    	List<ReasonCodeDto> reasonCodes = reasonCodeService.getAllCodes();
+    	for(ReasonCodeDto code: reasonCodes) {
     		if(code.getId()==segment.getDsmReasonCode()) {
     			return code.getDescription();
     		}
     	}
 
     	return "Unknown ReasonCode: " + segment.getReasonCode();
-    }   
+    }
 
     private String getRSMReasonCode(ProfileDetailsDto profileDetailsDto) {
     	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
