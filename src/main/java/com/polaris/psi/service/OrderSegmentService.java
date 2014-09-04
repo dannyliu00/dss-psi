@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.polaris.psi.Constants;
+import com.polaris.psi.exception.UnknownHeaderException;
 import com.polaris.psi.repository.dao.DealerProfileDetailDao;
 import com.polaris.psi.repository.dao.DealerProfileHeaderDao;
 import com.polaris.psi.repository.entity.DealerProfileDetail;
@@ -68,38 +69,51 @@ public class OrderSegmentService {
 			List<OrderSegmentDto> saved = new ArrayList<OrderSegmentDto>();
 			DealerProfileHeaderStatus status = statusService.getInProgressStatus();
 			
-			OrderSegmentDto testRecord = records.get(0);
-			if(testRecord.getHeaderId() != null) {
-				
+			OrderSegmentDto representative = records.get(0);
+			
+			// Act accordingly on whether or not a header record already exists.
+			if(representative.getHeaderId() != null) {
+				// Update existing header and detail records
 				LOG.debug(PolarisIdentity.get(), "saveOrderSegmentQuantities", "Header record does exist for the detail records passed in. System will update existing "
 						+ "header and detail records for saving the profile.");
 
 				updateOrderSegmentQty(records);
-				DealerProfileHeader header = headerDao.select(testRecord.getHeaderId());
-				headerDataMapper.updateChangedAttributes(header, status, testRecord.getModifiedUserName(), profile.isNonCompliant());
+				DealerProfileHeader header = headerDao.select(representative.getHeaderId());
+				headerDataMapper.updateChangedAttributes(header, status, representative.getModifiedUserName(), profile.isNonCompliant());
 				headerDao.update(header);
 				
 				profile.setOrderSegments(records);
 				profile.setMessage(Constants.SAVE_SUCCESSFUL);
 				profile.setSuccessful(true);
 
-				return profile;
+			} else {
+				// Create new header and detail records
+				LOG.debug(PolarisIdentity.get(), "saveOrderSegmentQuantities", "Header record does not exist for the detail records passed in. System will create new "
+						+ "header and detail records for saving the profile.");
+				
+				// Fix for use case when user has multiple browser windows/tabs open editing the same dealer profile
+				if(doesRecordExist(profile)) {
+					UnknownHeaderException e = new UnknownHeaderException("Unknown header record already exists for this Dealer (" + representative.getDealerId() + 
+							") and Profile (" + representative.getProfileId() + "). Failing this create attempt.");
+					throw e;
+				}
+				
+				DealerProfileHeader header = headerDataMapper.createNewNonSubmittedNonApprovedHeader(representative, status, profile.isNonCompliant());
+				DealerProfileHeader returnedHeader = headerDao.insert(header);
+				for (OrderSegmentDto orderSegment : records) {
+					OrderSegmentDto returnedSegment = createOrderSegmentQty(returnedHeader, orderSegment);
+					saved.add(returnedSegment);
+				}
+	
+				profile.setOrderSegments(saved);
+				profile.setMessage(Constants.SAVE_SUCCESSFUL);
+				profile.setSuccessful(true);
+				
 			}
-			
-			LOG.debug(PolarisIdentity.get(), "saveOrderSegmentQuantities", "Header record does not exist for the detail records passed in. System will create new "
-					+ "header and detail records for saving the profile.");
-			
-			DealerProfileHeader header = headerDataMapper.createNewNonSubmittedNonApprovedHeader(testRecord, status, profile.isNonCompliant());
-			DealerProfileHeader returnedHeader = headerDao.insert(header);
-			for (OrderSegmentDto orderSegment : records) {
-				OrderSegmentDto returnedSegment = createOrderSegmentQty(returnedHeader, orderSegment);
-				saved.add(returnedSegment);
-			}
-
-			profile.setOrderSegments(saved);
-			profile.setMessage(Constants.SAVE_SUCCESSFUL);
-			profile.setSuccessful(true);
-			
+		} catch (UnknownHeaderException uhe) {
+			LOG.error(PolarisIdentity.get(), "submitOrderSegmentQuantities", uhe);
+			profile.setSuccessful(false);
+			profile.setMessage(Constants.PROFILE_STATUS_CHANGED);
 		} catch (Exception e) {
 			LOG.error(PolarisIdentity.get(), "saveOrderSegmentQuantities", e);
 			profile.setSuccessful(false);
@@ -121,8 +135,10 @@ public class OrderSegmentService {
 			List<OrderSegmentDto> submitted = new ArrayList<OrderSegmentDto>();
 			DealerProfileHeaderStatus status = statusService.getPendingStatus();
 
+			// Act accordingly on whether or not a header record already exists.
 			OrderSegmentDto representative = records.get(0);
 			if(representative.getHeaderId() != null) {
+				// Update existing header and detail records
 				LOG.debug(PolarisIdentity.get(), "submitOrderSegmentQuantities", "Header record does exist for the detail records passed in. System will update existing "
 						+ "header and detail records for saving the profile.");
 	
@@ -143,29 +159,37 @@ public class OrderSegmentService {
 				profile.setMessage(Constants.SAVE_SUCCESSFUL);
 				profile.setSuccessful(true);
 					 
-				LOG.methodEnd(PolarisIdentity.get(), "submitOrderSegmentQuantities");
-	
-				return profile;
+			} else {
+				// Create new header and detail records
+				LOG.debug(PolarisIdentity.get(), "submitOrderSegmentQuantities", "Header record does not exist for the detail records passed in. System will create new "
+						+ "header and detail records for saving the profile.");
+				
+				// Fix for use case when user has multiple browser windows/tabs open editing the same dealer profile
+				if(doesRecordExist(profile)) {
+					UnknownHeaderException e = new UnknownHeaderException("Unknown header record already exists for this Dealer (" + representative.getDealerId() + 
+							") and Profile (" + representative.getProfileId() + "). Failing this create attempt.");
+					throw e;
+				}
+				
+				DealerProfileHeader header = headerDataMapper.createNewSubmittedHeader(representative, status, profile.isNonCompliant());
+				DealerProfileHeader returnedHeader = headerDao.insert(header);
+				for (OrderSegmentDto dto : records) {
+					OrderSegmentDto returnedSegment = createOrderSegmentQty(returnedHeader, dto);
+					submitted.add(returnedSegment);
+					logService.writeDealerChangesToLog(header, dto);
+				}
+				
+				profile.setOrderSegments(submitted);
+				profile.setMessage(Constants.SAVE_SUCCESSFUL);
+				profile.setSuccessful(true);
+				
+				// Send email.
+				emailService.sendProfileSubmissionEmail(profile);
 			}
-			
-			LOG.debug(PolarisIdentity.get(), "submitOrderSegmentQuantities", "Header record does not exist for the detail records passed in. System will create new "
-					+ "header and detail records for saving the profile.");
-			
-			DealerProfileHeader header = headerDataMapper.createNewSubmittedHeader(representative, status, profile.isNonCompliant());
-			DealerProfileHeader returnedHeader = headerDao.insert(header);
-			for (OrderSegmentDto dto : records) {
-				OrderSegmentDto returnedSegment = createOrderSegmentQty(returnedHeader, dto);
-				submitted.add(returnedSegment);
-				logService.writeDealerChangesToLog(header, dto);
-			}
-			
-			profile.setOrderSegments(submitted);
-			profile.setMessage(Constants.SAVE_SUCCESSFUL);
-			profile.setSuccessful(true);
-			
-			// Send email.
-			emailService.sendProfileSubmissionEmail(profile);
-			
+		} catch (UnknownHeaderException uhe) {
+			LOG.error(PolarisIdentity.get(), "submitOrderSegmentQuantities", uhe);
+			profile.setSuccessful(false);
+			profile.setMessage(Constants.PROFILE_STATUS_CHANGED);
 		} catch (Exception e) {
 			LOG.error(PolarisIdentity.get(), "submitOrderSegmentQuantities", e);
 			profile.setSuccessful(false);
@@ -612,5 +636,26 @@ public class OrderSegmentService {
 		LOG.methodEnd(PolarisIdentity.get(), "isHeaderEmpty");
 		
 		return false;
+	}
+	
+	// Check to see if header records already exist for the profile passed in
+	protected boolean doesRecordExist(ProfileDetailsDto profile) {
+
+		LOG.methodStart(PolarisIdentity.get(), "doesRecordExist");
+		
+		OrderSegmentDto representative = profile.getOrderSegments().get(0);
+		
+		LOG.methodEnd(PolarisIdentity.get(), "doesRecordExist");
+		
+		return headerDao.getByDealerAndProfile(representative.getDealerId(), representative.getProfileId()).size() > 0;
+	}
+	
+	// Check to see if existing status is higher than what user is trying to submit
+	protected boolean isStatusHigherPriority(DealerProfileHeader header, DealerProfileHeaderStatus status) {
+
+		LOG.methodStart(PolarisIdentity.get(), "isStatusHigherPriority");
+		LOG.methodEnd(PolarisIdentity.get(), "isStatusHigherPriority");
+		
+		return status.getCode() >= header.getStatus().getCode();
 	}
 }

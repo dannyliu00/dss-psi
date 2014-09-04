@@ -24,6 +24,9 @@ public class DealerProfileHeaderStatus implements Serializable {
 	@Column(name = "N9STID")
 	private int id;
 	
+	@Column(name = "N9CODE")
+	private int code;
+	
 	@Column(name = "N9DESC")
 	private String description;
 	
@@ -45,6 +48,20 @@ public class DealerProfileHeaderStatus implements Serializable {
 	 */
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the code
+	 */
+	public int getCode() {
+		return code;
+	}
+
+	/**
+	 * @param code the code to set
+	 */
+	public void setCode(int code) {
+		this.code = code;
 	}
 
 	/**

@@ -53,6 +53,7 @@ public class Constants {
     public static final String COULD_NOT_UPDATE_RSM_VALUES = "Could not update the values submitted by the RSM";
     public static final String COULD_NOT_UPDATE_DSM_VALUES = "Could not update the values submitted by the DSM";
     public static final String COULD_NOT_UPDATE_DLR_VALUES = "Could not update the values submitted";
+    public static final String PROFILE_STATUS_CHANGED = "The profile status has changed.  Please try again.";
     
     // Application Attributes
     public static final String ATTR_ASKPOLARISURL = "AskPolaris";

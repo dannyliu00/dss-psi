@@ -28,8 +28,8 @@ public class RoleResource {
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
 	public UserData getRole() {
-		
-		return sessionHelper.getUserData();
+		UserData userData = sessionHelper.getUserData();
+		return userData;
 	}
 	
 }
