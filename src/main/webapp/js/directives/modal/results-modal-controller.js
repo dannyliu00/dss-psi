@@ -1,10 +1,11 @@
 (function () {
     var resultsModal = sellInNamespace('sellIn.directives.resultsmodal');
 
-    function ResultsModalController($scope, $modalInstance) {
+    function ResultsModalController($scope, $modalInstance, profile) {
+        $scope.profile = profile;
 
         $scope.okay = function () {
-            $modalInstance.dismiss('cancel');
+            $modalInstance.close(profile);
         };
     }
 

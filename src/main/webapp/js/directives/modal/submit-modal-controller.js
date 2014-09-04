@@ -18,12 +18,12 @@
 
                 dealerProfileResource.submit(os)
                     .then(function (returnedos) {
-                        $modalInstance.close(returnedos.successful);
+                        $modalInstance.close(returnedos);
                     });
             } else if (level === "dsm") {
                 dealerProfileResource.approveRequested(os)
                     .then(function (returnedos) {
-                        $modalInstance.close(returnedos.successful);
+                        $modalInstance.close(returnedos);
                     });
             }
         };

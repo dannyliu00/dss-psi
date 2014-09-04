@@ -22,7 +22,7 @@
             } else {
                 dealerProfileResource.save(os)
                     .then(function (returnedos) {
-                        $modalInstance.close(returnedos.successful);
+                        $modalInstance.close(returnedos);
                     });
             }
         };

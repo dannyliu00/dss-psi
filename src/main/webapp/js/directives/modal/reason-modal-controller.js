@@ -45,37 +45,37 @@
 	            if (caption === translationPSI.getString('dealerReason')) {
 	                dealerProfileResource.submit(os)
 	                    .then(function (returnedos) {
-	                        $modalInstance.close(returnedos.successful);
+	                        $modalInstance.close(returnedos);
 	                    });
 	            } else if (caption === translationPSI.getString("Submit for Exception")) {
 	                dealerProfileResource.submitException(os)
 	                    .then(function (returnedos) {
-	                        $modalInstance.close(returnedos.successful);
+	                        $modalInstance.close(returnedos);
 	                    });
 	            } else if (caption === translationPSI.getString("Approve with Changes")) {
 	                dealerProfileResource.approveWChanges(os)
 	                    .then(function (returnedos) {
-	                        $modalInstance.close(returnedos.successful);
+	                        $modalInstance.close(returnedos);
 	                    });
 	            } else if (caption === translationPSI.getString("sendBack")) {
 	                dealerProfileResource.sendBack(os)
 	                    .then(function (returnedos) {
-	                        $modalInstance.close(returnedos.successful);
+	                        $modalInstance.close(returnedos);
 	                    });
 	            } else if (caption === translationPSI.getString("Return to DSM")) {
 	                dealerProfileResource.returnDsm(os)
 	                    .then(function (returnedos) {
-	                        $modalInstance.close(returnedos.successful);
+	                        $modalInstance.close(returnedos);
 	                    });
 	            } else if (caption === translationPSI.getString("Approve as Compliant")) {
 	                dealerProfileResource.compliant(os)
 	                    .then(function (returnedos) {
-	                        $modalInstance.close(returnedos.successful);
+	                        $modalInstance.close(returnedos);
 	                    });
 	            } else if (caption === translationPSI.getString("Approve as Non-Compliant")) {
 	                dealerProfileResource.nonCompliant(os)
 	                    .then(function (returnedos) {
-	                        $modalInstance.close(returnedos.successful);
+	                        $modalInstance.close(returnedos);
 	                    });
 	            }
         	} else {
