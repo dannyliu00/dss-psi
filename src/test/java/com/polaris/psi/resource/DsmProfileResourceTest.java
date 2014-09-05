@@ -37,7 +37,7 @@ public class DsmProfileResourceTest {
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		
-		userId = "UTUSER";
+		userId = "UTUSERLONGERTHAN10";
 		isDsm = true;
 		isNotDsm = false;
 		dtos = new ArrayList<OrderSegmentDto>();
@@ -78,7 +78,7 @@ public class DsmProfileResourceTest {
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).getUserName();
 		verify(mockUserData).isDsm();
-		verify(mockService).dsmApproveWithChanges(mockDetailDto, userId);
+		verify(mockService).dsmApproveWithChanges(mockDetailDto, userId.substring(0, 10));
 		
 		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockService, mockDetailDto);
 	}
@@ -106,7 +106,7 @@ public class DsmProfileResourceTest {
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).getUserName();
 		verify(mockUserData).isDsm();
-		verify(mockService).dsmApproveAsRequested(mockDetailDto, userId);
+		verify(mockService).dsmApproveAsRequested(mockDetailDto, userId.substring(0, 10));
 		
 		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockService, mockDetailDto);
 	}
@@ -134,7 +134,7 @@ public class DsmProfileResourceTest {
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).getUserName();
 		verify(mockUserData).isDsm();
-		verify(mockService).dsmSubmitForException(mockDetailDto, userId);
+		verify(mockService).dsmSubmitForException(mockDetailDto, userId.substring(0, 10));
 		
 		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockService, mockDetailDto);
 	}
@@ -162,7 +162,7 @@ public class DsmProfileResourceTest {
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).getUserName();
 		verify(mockUserData).isDsm();
-		verify(mockService).dsmSendToDealer(mockDetailDto, userId);
+		verify(mockService).dsmSendToDealer(mockDetailDto, userId.substring(0, 10));
 		
 		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockService, mockDetailDto);
 	}
@@ -190,7 +190,7 @@ public class DsmProfileResourceTest {
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).getUserName();
 		verify(mockUserData).isDsm();
-		verify(mockService).dsmSaveChanges(mockDetailDto, userId);
+		verify(mockService).dsmSaveChanges(mockDetailDto, userId.substring(0, 10));
 		
 		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockService, mockDetailDto);
 	}

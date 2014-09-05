@@ -30,7 +30,7 @@ public class RsmProfileResourceTest {
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		
-		userId = "UTUSER";
+		userId = "UTUSERLONGERTHAN10";
 		isRsm = true;
 		isNotRsm = false;
 		
@@ -67,7 +67,7 @@ public class RsmProfileResourceTest {
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).isRsm();
 		verify(mockUserData).getUserName();
-		verify(mockService).rsmApproveAsCompliant(mockDetailDto, userId);
+		verify(mockService).rsmApproveAsCompliant(mockDetailDto, userId.substring(0, 10));
 		
 		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockService, mockDetailDto);
 	}
@@ -96,7 +96,7 @@ public class RsmProfileResourceTest {
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).isRsm();
 		verify(mockUserData).getUserName();
-		verify(mockService).rsmApproveAsNonCompliant(mockDetailDto, userId);
+		verify(mockService).rsmApproveAsNonCompliant(mockDetailDto, userId.substring(0, 10));
 		
 		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockService, mockDetailDto);
 	}
@@ -125,7 +125,7 @@ public class RsmProfileResourceTest {
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).isRsm();
 		verify(mockUserData).getUserName();
-		verify(mockService).rsmSendToDsm(mockDetailDto, userId);
+		verify(mockService).rsmSendToDsm(mockDetailDto, userId.substring(0, 10));
 		
 		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockService, mockDetailDto);
 	}
@@ -154,7 +154,7 @@ public class RsmProfileResourceTest {
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).isRsm();
 		verify(mockUserData).getUserName();
-		verify(mockService).rsmSaveChanges(mockDetailDto, userId);
+		verify(mockService).rsmSaveChanges(mockDetailDto, userId.substring(0, 10));
 		
 		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockService, mockDetailDto);
 	}

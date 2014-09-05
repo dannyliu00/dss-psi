@@ -51,7 +51,7 @@ public class ProfileResourceTest {
 		authId = 999;
 		isDealer = true;
 		customerClass = "UT-DLR";
-		userName = "UTUSER";
+		userName = "UTUSERLONGERTHAN10";
 
 		expectedProfileId = 999;
 		expectedDealerId = 888;
@@ -170,7 +170,7 @@ public class ProfileResourceTest {
 		verify(mockUserData).isDealer();
 		verify(mockDetailDto, times(2)).getOrderSegments();
 		verify(mockOSService).saveOrderSegmentQuantities(mockDetailDto);
-		verify(mockOSDto).setModifiedUserName(userName);
+		verify(mockOSDto).setModifiedUserName(userName.substring(0, 10));
 	}
 
 	@Test
@@ -194,7 +194,7 @@ public class ProfileResourceTest {
 		verify(mockUserData).isDealer();
 		verify(mockDetailDto, times(2)).getOrderSegments();
 		verify(mockOSService).saveOrderSegmentQuantities(mockDetailDto);
-		verify(mockOSDto).setModifiedUserName(userName);
+		verify(mockOSDto).setModifiedUserName(userName.substring(0, 10));
 	}
 
 	@Test
@@ -218,7 +218,7 @@ public class ProfileResourceTest {
 		verify(mockUserData).isDealer();
 		verify(mockDetailDto, times(2)).getOrderSegments();
 		verify(mockOSService).saveOrderSegmentQuantities(mockDetailDto);
-		verify(mockOSDto).setModifiedUserName(userName);
+		verify(mockOSDto).setModifiedUserName(userName.substring(0, 10));
 	}
 
 	@Test
@@ -281,7 +281,7 @@ public class ProfileResourceTest {
 		verify(mockUserData).isDealer();
 		verify(mockDetailDto, times(2)).getOrderSegments();
 		verify(mockOSService).submitOrderSegmentQuantities(mockDetailDto);
-		verify(mockOSDto).setModifiedUserName(userName);
+		verify(mockOSDto).setModifiedUserName(userName.substring(0, 10));
 	}
 	
 	@Test
@@ -305,7 +305,7 @@ public class ProfileResourceTest {
 		verify(mockUserData).isDealer();
 		verify(mockDetailDto, times(2)).getOrderSegments();
 		verify(mockOSService).submitOrderSegmentQuantities(mockDetailDto);
-		verify(mockOSDto).setModifiedUserName(userName);
+		verify(mockOSDto).setModifiedUserName(userName.substring(0, 10));
 	}
 	
 	@Test
@@ -329,7 +329,7 @@ public class ProfileResourceTest {
 		verify(mockUserData).isDealer();
 		verify(mockDetailDto, times(2)).getOrderSegments();
 		verify(mockOSService).submitOrderSegmentQuantities(mockDetailDto);
-		verify(mockOSDto).setModifiedUserName(userName);
+		verify(mockOSDto).setModifiedUserName(userName.substring(0, 10));
 	}
 	
 	@Test

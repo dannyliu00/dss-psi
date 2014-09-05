@@ -104,7 +104,7 @@ public class ProfileResource {
 			return response;
 		}
 		
-		setModifiedUserName(records, userData.getUserName());
+		setModifiedUserName(records, userData.getUserName().substring(0, 10));
 		
 		try {
 			response = osService.saveOrderSegmentQuantities(dto);
@@ -150,7 +150,7 @@ public class ProfileResource {
 			return response;
 		}
 		
-		setModifiedUserName(records, userData.getUserName());
+		setModifiedUserName(records, userData.getUserName().substring(0, 10));
 		
 		try {
 			response = osService.submitOrderSegmentQuantities(dto);
