@@ -104,7 +104,7 @@ public class ProfileResource {
 			return response;
 		}
 		
-		setModifiedUserName(records, userData.getUserName().substring(0, 10));
+		setModifiedUserName(records, userData.getUserName());
 		
 		try {
 			response = osService.saveOrderSegmentQuantities(dto);
@@ -150,7 +150,7 @@ public class ProfileResource {
 			return response;
 		}
 		
-		setModifiedUserName(records, userData.getUserName().substring(0, 10));
+		setModifiedUserName(records, userData.getUserName());
 		
 		try {
 			response = osService.submitOrderSegmentQuantities(dto);
@@ -172,6 +172,10 @@ public class ProfileResource {
 	}
 	
 	protected void setModifiedUserName(List<OrderSegmentDto> dtos, String userName) {
+		if(userName.length() > 10) {
+			userName = userName.substring(0, 10);
+		}
+
 		for (OrderSegmentDto dto : dtos) {
 			dto.setModifiedUserName(userName);
 		}

@@ -45,7 +45,12 @@ public class RsmProfileResource {
 			return dto;
 		}
 		
-		return service.rsmApproveAsCompliant(dto, userData.getUserName().substring(0, 10));
+		String userName = userData.getUserName();
+		if(userName.length() > 10) {
+			userName = userName.substring(0, 10);
+		}
+		
+		return service.rsmApproveAsCompliant(dto, userName);
 	}
 
 	@Path("/approveAsNonCompliant")
@@ -61,7 +66,12 @@ public class RsmProfileResource {
 			return dto;
 		}
 		
-		return service.rsmApproveAsNonCompliant(dto, userData.getUserName().substring(0, 10));
+		String userName = userData.getUserName();
+		if(userName.length() > 10) {
+			userName = userName.substring(0, 10);
+		}
+		
+		return service.rsmApproveAsNonCompliant(dto, userName);
 	}
 
 	@Path("/toDsm")
@@ -77,7 +87,12 @@ public class RsmProfileResource {
 			return dto;
 		}
 		
-		return service.rsmSendToDsm(dto, userData.getUserName().substring(0, 10));
+		String userName = userData.getUserName();
+		if(userName.length() > 10) {
+			userName = userName.substring(0, 10);
+		}
+		
+		return service.rsmSendToDsm(dto, userName);
 	}
 
 	@Path("/save")
@@ -93,7 +108,12 @@ public class RsmProfileResource {
 			return dto;
 		}
 		
-		return service.rsmSaveChanges(dto, userData.getUserName().substring(0, 10));
+		String userName = userData.getUserName();
+		if(userName.length() > 10) {
+			userName = userName.substring(0, 10);
+		}
+		
+		return service.rsmSaveChanges(dto, userName);
 	}
 
 }
