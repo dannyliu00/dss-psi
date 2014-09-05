@@ -28,8 +28,8 @@
         };
 
         $scope.exitWithNoChanges = function () {
-            var success = true;
-            $modalInstance.close(success);
+            var profile = {successful: true, message: 'no changes saved'};
+            $modalInstance.close(profile);
         };
 
         $scope.cancel = function () {
