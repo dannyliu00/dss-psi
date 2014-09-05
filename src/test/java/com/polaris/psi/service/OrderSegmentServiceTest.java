@@ -22,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.polaris.psi.Constants;
+import com.polaris.psi.exception.UnknownHeaderException;
 import com.polaris.psi.repository.dao.DealerProfileDetailDao;
 import com.polaris.psi.repository.dao.DealerProfileHeaderDao;
 import com.polaris.psi.repository.entity.DealerProfileDetail;
@@ -168,22 +169,23 @@ public class OrderSegmentServiceTest {
 		headers.add(mockHeader);
 		when(mockHeaderDao.getByDealerAndProfile(dealerId, profileId)).thenReturn(headers);
 		
-		service.saveOrderSegmentQuantities(mockProfileDetailsDto);
-		
-		verify(mockHeaderDao).getByDealerAndProfile(dealerId, profileId);
-		verify(mockProfileDetailsDto, times(2)).getOrderSegments();
-		verify(mockStatusService).getInProgressStatus();
+		try {
+			service.saveOrderSegmentQuantities(mockProfileDetailsDto);
+		} catch (UnknownHeaderException uhe) {
+			verify(mockHeaderDao).getByDealerAndProfile(dealerId, profileId);
+			verify(mockProfileDetailsDto, times(2)).getOrderSegments();
+			verify(mockStatusService).getInProgressStatus();
 
-		verify(mockProfileDetailsDto).setMessage(Constants.PROFILE_STATUS_CHANGED);
-		verify(mockProfileDetailsDto).setSuccessful(false);
-		
-		verifyNoMoreInteractions(mockProfileDetailsDto, mockStatusService, mockStatus, mockHeaderDao);
-		verifyZeroInteractions(mockHeaderMapper, mockDetailMapper, mockDetailDao);
+			verifyNoMoreInteractions(mockProfileDetailsDto, mockStatusService, mockStatus, mockHeaderDao);
+			verifyZeroInteractions(mockHeaderMapper, mockDetailMapper, mockDetailDao);
+		}
 	}
 
 	@Test
 	public void testSaveQuantitiesUpdateRecord() throws Exception {
+		when(mockHeader.getStatus()).thenReturn(mockStatus);
 		when(mockStatusService.getInProgressStatus()).thenReturn(mockStatus);
+		when(mockStatus.getCode()).thenReturn(1);
 		when(mockOrderSegment.getHeaderId()).thenReturn(headerId);
 		
 		service.saveOrderSegmentQuantities(mockProfileDetailsDto);
@@ -199,8 +201,32 @@ public class OrderSegmentServiceTest {
 		verify(mockProfileDetailsDto).setMessage(Constants.SAVE_SUCCESSFUL);
 		verify(mockProfileDetailsDto).setSuccessful(true);
 		verify(mockProfileDetailsDto).setOrderSegments(recordsToSave);
+		verify(mockHeader).getStatus();
+		verify(mockStatus, times(2)).getCode();
 		
 		verifyNoMoreInteractions(mockStatusService, mockStatus, mockProfileDetailsDto, mockHeaderDao, mockHeaderMapper);
+	}
+
+	@Test
+	public void testSaveQuantitiesFailedStatusCheck() throws Exception {
+		when(mockStatusService.getInProgressStatus()).thenReturn(mockStatus);
+		when(mockOrderSegment.getHeaderId()).thenReturn(null);
+		when(mockStatus.getDescription()).thenReturn(Constants.IN_PROGRESS_STATUS);
+		
+		List<DealerProfileHeader> headers = new ArrayList<DealerProfileHeader>();
+		headers.add(mockHeader);
+		when(mockHeaderDao.getByDealerAndProfile(dealerId, profileId)).thenReturn(headers);
+		
+		try {
+			service.saveOrderSegmentQuantities(mockProfileDetailsDto);
+		} catch (UnknownHeaderException uhe) {
+			verify(mockHeaderDao).getByDealerAndProfile(dealerId, profileId);
+			verify(mockProfileDetailsDto, times(2)).getOrderSegments();
+			verify(mockStatusService).getInProgressStatus();
+
+			verifyNoMoreInteractions(mockProfileDetailsDto, mockStatusService, mockStatus, mockHeaderDao);
+			verifyZeroInteractions(mockHeaderMapper, mockDetailMapper, mockDetailDao);
+		}
 	}
 
 	public void testSubmitQuantitiesCreateRecordNoRecords() {
@@ -261,17 +287,16 @@ public class OrderSegmentServiceTest {
 		headers.add(mockHeader);
 		when(mockHeaderDao.getByDealerAndProfile(dealerId, profileId)).thenReturn(headers);
 		
-		service.submitOrderSegmentQuantities(mockProfileDetailsDto);
-		
-		verify(mockHeaderDao).getByDealerAndProfile(dealerId, profileId);
-		verify(mockProfileDetailsDto, times(2)).getOrderSegments();
-		verify(mockStatusService).getPendingStatus();
-
-		verify(mockProfileDetailsDto).setMessage(Constants.PROFILE_STATUS_CHANGED);
-		verify(mockProfileDetailsDto).setSuccessful(false);
-		
-		verifyNoMoreInteractions(mockProfileDetailsDto, mockStatusService, mockStatus, mockHeaderDao);
-		verifyZeroInteractions(mockHeaderMapper, mockDetailMapper, mockDetailDao);
+		try {
+			service.submitOrderSegmentQuantities(mockProfileDetailsDto);
+		} catch (UnknownHeaderException uhe) {
+			verify(mockHeaderDao).getByDealerAndProfile(dealerId, profileId);
+			verify(mockProfileDetailsDto, times(2)).getOrderSegments();
+			verify(mockStatusService).getPendingStatus();
+	
+			verifyNoMoreInteractions(mockProfileDetailsDto, mockStatusService, mockStatus, mockHeaderDao);
+			verifyZeroInteractions(mockHeaderMapper, mockDetailMapper, mockDetailDao);
+		}
 	}
 
 	@Test

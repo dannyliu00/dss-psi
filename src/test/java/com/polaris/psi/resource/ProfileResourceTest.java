@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.polaris.psi.Constants;
+import com.polaris.psi.exception.UnknownHeaderException;
 import com.polaris.psi.resource.dto.OrderSegmentDto;
 import com.polaris.psi.resource.dto.ProfileDetailsDto;
 import com.polaris.psi.resource.dto.ProfileDto;
@@ -173,6 +174,54 @@ public class ProfileResourceTest {
 	}
 
 	@Test
+	public void testSaveQuantitiesUknownHeaderException() {
+		expectedResult.setSuccessful(false);
+		expectedResult.setMessage(Constants.PROFILE_STATUS_CHANGED);
+		expectedResult.setOrderSegments(orderSegments);
+		when(mockOSService.saveOrderSegmentQuantities(mockDetailDto)).thenThrow(new UnknownHeaderException("known exception"));
+		
+		when(mockOSDto.getDealerId()).thenReturn(expectedDealerId);
+		
+		ProfileDetailsDto result = resource.saveQuantities(mockDetailDto);
+		assertFalse(result.isSuccessful());
+		assertEquals(expectedResult.getMessage(), result.getMessage());
+		assertEquals(expectedResult.getOrderSegments().size(), result.getOrderSegments().size());
+		assertEquals(expectedResult.getOrderSegments().get(0), result.getOrderSegments().get(0));
+		
+		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).getDealerId();
+		verify(mockUserData).getUserName();
+		verify(mockUserData).isDealer();
+		verify(mockDetailDto, times(2)).getOrderSegments();
+		verify(mockOSService).saveOrderSegmentQuantities(mockDetailDto);
+		verify(mockOSDto).setModifiedUserName(userName);
+	}
+
+	@Test
+	public void testSaveQuantitiesException() {
+		expectedResult.setSuccessful(false);
+		expectedResult.setMessage(Constants.COULD_NOT_UPDATE_DLR_VALUES);
+		expectedResult.setOrderSegments(orderSegments);
+		when(mockOSService.saveOrderSegmentQuantities(mockDetailDto)).thenThrow(new RuntimeException("known exception"));
+		
+		when(mockOSDto.getDealerId()).thenReturn(expectedDealerId);
+		
+		ProfileDetailsDto result = resource.saveQuantities(mockDetailDto);
+		assertFalse(result.isSuccessful());
+		assertEquals(expectedResult.getMessage(), result.getMessage());
+		assertEquals(expectedResult.getOrderSegments().size(), result.getOrderSegments().size());
+		assertEquals(expectedResult.getOrderSegments().get(0), result.getOrderSegments().get(0));
+		
+		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).getDealerId();
+		verify(mockUserData).getUserName();
+		verify(mockUserData).isDealer();
+		verify(mockDetailDto, times(2)).getOrderSegments();
+		verify(mockOSService).saveOrderSegmentQuantities(mockDetailDto);
+		verify(mockOSDto).setModifiedUserName(userName);
+	}
+
+	@Test
 	public void testSubmitNoRecords() {
 		orderSegments = new ArrayList<OrderSegmentDto>();
 		when(mockDetailDto.getOrderSegments()).thenReturn(orderSegments);
@@ -236,6 +285,54 @@ public class ProfileResourceTest {
 	}
 	
 	@Test
+	public void testSubmitUnknownHeaderException() {
+		expectedResult.setSuccessful(false);
+		expectedResult.setMessage(Constants.PROFILE_STATUS_CHANGED);
+		expectedResult.setOrderSegments(orderSegments);
+		when(mockOSService.submitOrderSegmentQuantities(mockDetailDto)).thenThrow(new UnknownHeaderException("known exception"));
+		
+		when(mockOSDto.getDealerId()).thenReturn(expectedDealerId);
+		
+		ProfileDetailsDto result = resource.submitQuantities(mockDetailDto);
+		
+		assertEquals(expectedResult.getMessage(), result.getMessage());
+		assertEquals(expectedResult.getOrderSegments().size(), result.getOrderSegments().size());
+		assertEquals(expectedResult.getOrderSegments().get(0), result.getOrderSegments().get(0));
+		
+		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).getDealerId();
+		verify(mockUserData).getUserName();
+		verify(mockUserData).isDealer();
+		verify(mockDetailDto, times(2)).getOrderSegments();
+		verify(mockOSService).submitOrderSegmentQuantities(mockDetailDto);
+		verify(mockOSDto).setModifiedUserName(userName);
+	}
+	
+	@Test
+	public void testSubmitException() {
+		expectedResult.setSuccessful(false);
+		expectedResult.setMessage(Constants.COULD_NOT_UPDATE_DLR_VALUES);
+		expectedResult.setOrderSegments(orderSegments);
+		when(mockOSService.submitOrderSegmentQuantities(mockDetailDto)).thenThrow(new RuntimeException("known exception"));
+		
+		when(mockOSDto.getDealerId()).thenReturn(expectedDealerId);
+		
+		ProfileDetailsDto result = resource.submitQuantities(mockDetailDto);
+		
+		assertEquals(expectedResult.getMessage(), result.getMessage());
+		assertEquals(expectedResult.getOrderSegments().size(), result.getOrderSegments().size());
+		assertEquals(expectedResult.getOrderSegments().get(0), result.getOrderSegments().get(0));
+		
+		verify(mockSessionHelper).getUserData();
+		verify(mockUserData).getDealerId();
+		verify(mockUserData).getUserName();
+		verify(mockUserData).isDealer();
+		verify(mockDetailDto, times(2)).getOrderSegments();
+		verify(mockOSService).submitOrderSegmentQuantities(mockDetailDto);
+		verify(mockOSDto).setModifiedUserName(userName);
+	}
+	
+	@Test
 	public void testIsCorrectDealer() {
 		when(mockUserData.isDealer()).thenReturn(false);
 		
@@ -244,9 +341,11 @@ public class ProfileResourceTest {
 		assertFalse(result);
 		
 		verify(mockUserData).isDealer();
+		verify(mockUserData).getDealerId();
+		verify(mockDetailDto).getOrderSegments();
+		verify(mockOSDto).getDealerId();
 		
-		verifyNoMoreInteractions(mockUserData);
-		verifyZeroInteractions(mockDetailDto, mockOSDto);
+		verifyNoMoreInteractions(mockUserData, mockDetailDto, mockOSDto);
 	}
 
 }
