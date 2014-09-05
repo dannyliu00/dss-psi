@@ -2,7 +2,12 @@
     var dealerProfile = sellInNamespace('sellIn.resources.dealerProfile');
 
     function DealerProfileResource($resource, profileUrl, profileSaveUrl, profileSubmitUrl, profileApproveWChangesUrl, profileApproveRequestedUrl, profileSubmitExceptionUrl, profileDsmSaveUrl, profileSendBackUrl, profileRsmSaveUrl, profileApproveCompliantUrl, profileApproveNonCompliantUrl, profileReturnToDsmUrl, profileNonDealerUrl) {
-        this.resource = $resource(profileUrl, {}, {
+        this.resource = $resource(profileUrl, {
+            ran: function () {
+                // parameter added to URL to work around IE caching mechanism
+                return new Date().getTime();
+            }
+        }, {
             nonDealer: {method: 'GET', url: profileNonDealerUrl},
             save: {method: 'POST', url: profileSaveUrl},
             submit: {method: 'POST', url: profileSubmitUrl},
