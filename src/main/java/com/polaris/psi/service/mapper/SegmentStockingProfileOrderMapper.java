@@ -53,7 +53,7 @@ public class SegmentStockingProfileOrderMapper {
 		order.setCreateUser(userName);
 		order.setDetailToken(profile.getSegmentCode());
 		order.setProfileName(profile.getProfileCode());
-		order.setProfilePeriod(profile.getStockingProfilePeriodId());
+		order.setProfilePeriod(orderSegment.getPeriodId());
 		order.setRecommendedMinQty(orderSegment.getFinalQty());
 		order.setRequiredToStock("Y");
 		order.setUserDef1(CommonUtils.setStringValue(null));

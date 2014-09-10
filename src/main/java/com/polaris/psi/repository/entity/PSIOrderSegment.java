@@ -20,6 +20,7 @@ public class PSIOrderSegment implements Serializable {
 	private String osName;
 	private Integer complianceId;
 	private String periodCode;
+	private Integer periodId;
 	private Integer dealerId;
 	private Integer recMinimum;
 	private Integer recommended;
@@ -124,6 +125,20 @@ public class PSIOrderSegment implements Serializable {
 	}
 
 	/**
+	 * @return the periodId
+	 */
+	public Integer getPeriodId() {
+		return periodId;
+	}
+
+	/**
+	 * @param periodId the periodId to set
+	 */
+	public void setPeriodId(Integer periodId) {
+		this.periodId = periodId;
+	}
+
+	/**
 	 * @return the dealerId
 	 */
 	public Integer getDealerId() {
@@ -191,17 +206,23 @@ public class PSIOrderSegment implements Serializable {
 		result = prime * result
 				+ ((dealerId == null) ? 0 : dealerId.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((profileId == null) ? 0 : profileId.hashCode());
 		result = prime * result + ((osCode == null) ? 0 : osCode.hashCode());
+		result = prime * result + ((osName == null) ? 0 : osName.hashCode());
 		result = prime * result
 				+ ((periodCode == null) ? 0 : periodCode.hashCode());
+		result = prime * result + periodId;
+		result = prime * result
+				+ ((profileId == null) ? 0 : profileId.hashCode());
+		result = prime * result
+				+ ((recMaximum == null) ? 0 : recMaximum.hashCode());
+		result = prime * result
+				+ ((recMinimum == null) ? 0 : recMinimum.hashCode());
 		result = prime * result
 				+ ((recommended == null) ? 0 : recommended.hashCode());
-		result = prime * result
-				+ ((osName == null) ? 0 : osName.hashCode());
+		result = prime * result + ((sort == null) ? 0 : sort.hashCode());
 		return result;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -229,30 +250,47 @@ public class PSIOrderSegment implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (profileId == null) {
-			if (other.profileId != null)
-				return false;
-		} else if (!profileId.equals(other.profileId))
-			return false;
 		if (osCode == null) {
 			if (other.osCode != null)
 				return false;
 		} else if (!osCode.equals(other.osCode))
+			return false;
+		if (osName == null) {
+			if (other.osName != null)
+				return false;
+		} else if (!osName.equals(other.osName))
 			return false;
 		if (periodCode == null) {
 			if (other.periodCode != null)
 				return false;
 		} else if (!periodCode.equals(other.periodCode))
 			return false;
+		if (periodId != other.periodId)
+			return false;
+		if (profileId == null) {
+			if (other.profileId != null)
+				return false;
+		} else if (!profileId.equals(other.profileId))
+			return false;
+		if (recMaximum == null) {
+			if (other.recMaximum != null)
+				return false;
+		} else if (!recMaximum.equals(other.recMaximum))
+			return false;
+		if (recMinimum == null) {
+			if (other.recMinimum != null)
+				return false;
+		} else if (!recMinimum.equals(other.recMinimum))
+			return false;
 		if (recommended == null) {
 			if (other.recommended != null)
 				return false;
 		} else if (!recommended.equals(other.recommended))
 			return false;
-		if (osName == null) {
-			if (other.osName != null)
+		if (sort == null) {
+			if (other.sort != null)
 				return false;
-		} else if (!osName.equals(other.osName))
+		} else if (!sort.equals(other.sort))
 			return false;
 		return true;
 	}
@@ -262,10 +300,12 @@ public class PSIOrderSegment implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "PSIOrderSegmentDao [id=" + id + ", profileId=" + profileId + ", osCode=" + osCode + ", osName="
-				+ osName + ", complianceId=" + complianceId
-				+ ", periodCode=" + periodCode + ", dealerId=" + dealerId
-				+ ", recommended=" + recommended + "]";
+		return "PSIOrderSegment [id=" + id + ", profileId=" + profileId
+				+ ", osCode=" + osCode + ", sort=" + sort + ", osName="
+				+ osName + ", complianceId=" + complianceId + ", periodCode="
+				+ periodCode + ", periodId=" + periodId + ", dealerId="
+				+ dealerId + ", recMinimum=" + recMinimum + ", recommended="
+				+ recommended + ", recMaximum=" + recMaximum + "]";
 	}
 
 }
