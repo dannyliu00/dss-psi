@@ -213,7 +213,7 @@ public class OrderSegmentService {
 				profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
 			}
 		} catch (Exception e) {
-			LOG.error(PolarisIdentity.get(), "dsmApproveWithChanges", e.getMessage());
+			LOG.error(PolarisIdentity.get(), "dsmApproveWithChanges", e);
 			profile.setSuccessful(false);
 			profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
 		}
@@ -235,7 +235,7 @@ public class OrderSegmentService {
 			
 			if(profile.isSuccessful()) emailService.sendReturnToDealerEmail(profile);
 		} catch (Exception e) {
-			LOG.error(PolarisIdentity.get(), "dsmSendToDealer", e.getMessage());
+			LOG.error(PolarisIdentity.get(), "dsmSendToDealer", e);
 			profile.setSuccessful(false);
 			profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
 		}
@@ -265,7 +265,7 @@ public class OrderSegmentService {
 				profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
 			}
 		} catch (Exception e) {
-			LOG.error(PolarisIdentity.get(), "dsmApproveAsRequested", e.getMessage());
+			LOG.error(PolarisIdentity.get(), "dsmApproveAsRequested", e);
 			profile.setSuccessful(false);
 			profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
 		}
@@ -293,7 +293,7 @@ public class OrderSegmentService {
 				profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
 			}
 		} catch (Exception e) {
-			LOG.error(PolarisIdentity.get(), "dsmSubmitForException", e.getMessage());
+			LOG.error(PolarisIdentity.get(), "dsmSubmitForException", e);
 			profile.setSuccessful(false);
 			profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
 		}
@@ -313,7 +313,7 @@ public class OrderSegmentService {
 		try {
 			updateDataFromDsm(profile, status, userName);
 		} catch (Exception e) {
-			LOG.error(PolarisIdentity.get(), "dsmSaveChanges", e.getMessage());
+			LOG.error(PolarisIdentity.get(), "dsmSaveChanges", e);
 			profile.setSuccessful(false);
 			profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
 		}
@@ -369,7 +369,7 @@ public class OrderSegmentService {
 				profile.setMessage(Constants.COULD_NOT_UPDATE_RSM_VALUES);
 			}
 		} catch (Exception e) {
-			LOG.error(PolarisIdentity.get(), "rsmApproveAsCompliant", e.getMessage());
+			LOG.error(PolarisIdentity.get(), "rsmApproveAsCompliant", e);
 			profile.setSuccessful(false);
 			profile.setMessage(Constants.COULD_NOT_UPDATE_RSM_VALUES);
 		}
@@ -399,7 +399,7 @@ public class OrderSegmentService {
 				profile.setMessage(Constants.COULD_NOT_UPDATE_RSM_VALUES);
 			}
 		} catch (Exception e) {
-			LOG.error(PolarisIdentity.get(), "rsmApproveAsCompliant", e.getMessage());
+			LOG.error(PolarisIdentity.get(), "rsmApproveAsCompliant", e);
 			profile.setSuccessful(false);
 			profile.setMessage(Constants.COULD_NOT_UPDATE_RSM_VALUES);
 		}
