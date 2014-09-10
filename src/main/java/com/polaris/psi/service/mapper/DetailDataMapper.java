@@ -187,6 +187,7 @@ public class DetailDataMapper {
 		}
 		
 		detail.setFinalQty(finalValue);
+		dto.setFinalQty(finalValue);
 
 		LOG.methodEnd(PolarisIdentity.get(), "updateApprovedDetails");
 	}
