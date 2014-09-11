@@ -201,20 +201,14 @@ public class OrderSegmentService {
 		
 		DealerProfileHeaderStatus status = statusService.getApprovedWithChangesStatus();
 		
-		try {
-			updateDataFromDsm(profile, status, userName);
-			if(profile.isSuccessful()) {
-				stockingProfileService.saveStockingProfiles(profile, userName);
-				emailService.sendApproveWithChangesEmail(profile);
-			}
-			
-			if(!profile.isSuccessful()) {
-				LOG.error(PolarisIdentity.get(), "dsmApproveWithChanges", Constants.COULD_NOT_UPDATE_DSM_VALUES);
-				profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
-			}
-		} catch (Exception e) {
-			LOG.error(PolarisIdentity.get(), "dsmApproveWithChanges", e);
-			profile.setSuccessful(false);
+		updateDataFromDsm(profile, status, userName);
+		if(profile.isSuccessful()) {
+			stockingProfileService.saveStockingProfiles(profile, userName);
+			emailService.sendApproveWithChangesEmail(profile);
+		}
+		
+		if(!profile.isSuccessful()) {
+			LOG.error(PolarisIdentity.get(), "dsmApproveWithChanges", Constants.COULD_NOT_UPDATE_DSM_VALUES);
 			profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
 		}
 
@@ -230,15 +224,9 @@ public class OrderSegmentService {
 		
 		DealerProfileHeaderStatus status = statusService.getSendToDealerStatus();
 		
-		try {
-			updateDataFromDsm(profile, status, userName);
-			
-			if(profile.isSuccessful()) emailService.sendReturnToDealerEmail(profile);
-		} catch (Exception e) {
-			LOG.error(PolarisIdentity.get(), "dsmSendToDealer", e);
-			profile.setSuccessful(false);
-			profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
-		}
+		updateDataFromDsm(profile, status, userName);
+		
+		if(profile.isSuccessful()) emailService.sendReturnToDealerEmail(profile);
 
 		LOG.methodEnd(PolarisIdentity.get(), "dsmSendToDealer");
 		
@@ -252,24 +240,18 @@ public class OrderSegmentService {
 		
 		DealerProfileHeaderStatus status = statusService.getApprovedAsRequestedStatus();
 		
-		try {
-			updateDataFromDsm(profile, status, userName);
+		updateDataFromDsm(profile, status, userName);
 
-			if(profile.isSuccessful()) {
-				stockingProfileService.saveStockingProfiles(profile, userName);
-				emailService.sendApproveAsRequestedEmail(profile);
-			}
-
-			if(!profile.isSuccessful()) {
-				LOG.error(PolarisIdentity.get(), "dsmApprovedAsRequested", Constants.COULD_NOT_UPDATE_DSM_VALUES);
-				profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
-			}
-		} catch (Exception e) {
-			LOG.error(PolarisIdentity.get(), "dsmApproveAsRequested", e);
-			profile.setSuccessful(false);
-			profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
+		if(profile.isSuccessful()) {
+			stockingProfileService.saveStockingProfiles(profile, userName);
+			emailService.sendApproveAsRequestedEmail(profile);
 		}
 
+		if(!profile.isSuccessful()) {
+			LOG.error(PolarisIdentity.get(), "dsmApprovedAsRequested", Constants.COULD_NOT_UPDATE_DSM_VALUES);
+			profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
+		}
+		
 		LOG.methodEnd(PolarisIdentity.get(), "dsmApproveAsRequested");
 		
 		return profile;
@@ -282,19 +264,13 @@ public class OrderSegmentService {
 		
 		DealerProfileHeaderStatus status = statusService.getExceptionRequestedStatus();
 		
-		try {
-			updateDataFromDsm(profile, status, userName);
-			if(profile.isSuccessful()) {
-				emailService.sendSubmitForExceptionEmail(profile);
-			}
-			
-			if(!profile.isSuccessful()) {
-				LOG.error(PolarisIdentity.get(), "dsmSubmitForException", Constants.COULD_NOT_UPDATE_DSM_VALUES);
-				profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
-			}
-		} catch (Exception e) {
-			LOG.error(PolarisIdentity.get(), "dsmSubmitForException", e);
-			profile.setSuccessful(false);
+		updateDataFromDsm(profile, status, userName);
+		if(profile.isSuccessful()) {
+			emailService.sendSubmitForExceptionEmail(profile);
+		}
+		
+		if(!profile.isSuccessful()) {
+			LOG.error(PolarisIdentity.get(), "dsmSubmitForException", Constants.COULD_NOT_UPDATE_DSM_VALUES);
 			profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
 		}
 
@@ -310,13 +286,7 @@ public class OrderSegmentService {
 		
 		DealerProfileHeaderStatus status = statusService.getPendingStatus();
 		
-		try {
-			updateDataFromDsm(profile, status, userName);
-		} catch (Exception e) {
-			LOG.error(PolarisIdentity.get(), "dsmSaveChanges", e);
-			profile.setSuccessful(false);
-			profile.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
-		}
+		updateDataFromDsm(profile, status, userName);
 
 		LOG.methodEnd(PolarisIdentity.get(), "dsmSaveChanges");
 		

@@ -66,9 +66,10 @@ public class DsmProfileResourceTest {
 
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).isDsm();
+		verify(mockDetailDto).getOrderSegments();
 		
-		verifyNoMoreInteractions(mockSessionHelper, mockUserData);
-		verifyZeroInteractions(mockDetailDto, mockOSDto, mockService);
+		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockDetailDto);
+		verifyZeroInteractions(mockOSDto, mockService);
 	}
 
 	@Test
@@ -94,6 +95,7 @@ public class DsmProfileResourceTest {
 
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).isDsm();
+		verify(mockDetailDto).getOrderSegments();
 		
 		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockDetailDto);
 		verifyZeroInteractions(mockOSDto, mockService);
@@ -122,6 +124,7 @@ public class DsmProfileResourceTest {
 
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).isDsm();
+		verify(mockDetailDto).getOrderSegments();
 		
 		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockDetailDto);
 		verifyZeroInteractions(mockOSDto, mockService);
@@ -150,6 +153,7 @@ public class DsmProfileResourceTest {
 
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).isDsm();
+		verify(mockDetailDto).getOrderSegments();
 		
 		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockDetailDto);
 		verifyZeroInteractions(mockOSDto, mockService);
@@ -178,6 +182,7 @@ public class DsmProfileResourceTest {
 
 		verify(mockSessionHelper).getUserData();
 		verify(mockUserData).isDsm();
+		verify(mockDetailDto).getOrderSegments();
 		
 		verifyNoMoreInteractions(mockSessionHelper, mockUserData, mockDetailDto);
 		verifyZeroInteractions(mockOSDto, mockService);

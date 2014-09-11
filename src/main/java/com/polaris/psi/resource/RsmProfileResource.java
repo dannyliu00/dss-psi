@@ -50,7 +50,14 @@ public class RsmProfileResource {
 			userName = userName.substring(0, 10);
 		}
 		
-		return service.rsmApproveAsCompliant(dto, userName);
+		try {
+			dto = service.rsmApproveAsCompliant(dto, userName);
+		} catch (Exception e) {
+			dto.setMessage(Constants.COULD_NOT_UPDATE_RSM_VALUES);
+			dto.setSuccessful(false);
+		}
+		
+		return dto;
 	}
 
 	@Path("/approveAsNonCompliant")
@@ -71,7 +78,14 @@ public class RsmProfileResource {
 			userName = userName.substring(0, 10);
 		}
 		
-		return service.rsmApproveAsNonCompliant(dto, userName);
+		try {
+			dto = service.rsmApproveAsNonCompliant(dto, userName);
+		} catch (Exception e) {
+			dto.setMessage(Constants.COULD_NOT_UPDATE_RSM_VALUES);
+			dto.setSuccessful(false);
+		}
+	
+		return dto;
 	}
 
 	@Path("/toDsm")
@@ -92,7 +106,14 @@ public class RsmProfileResource {
 			userName = userName.substring(0, 10);
 		}
 		
-		return service.rsmSendToDsm(dto, userName);
+		try {
+			dto = service.rsmSendToDsm(dto, userName);
+		} catch (Exception e) {
+			dto.setMessage(Constants.COULD_NOT_UPDATE_RSM_VALUES);
+			dto.setSuccessful(false);
+		}
+	
+		return dto;
 	}
 
 	@Path("/save")
@@ -113,7 +134,14 @@ public class RsmProfileResource {
 			userName = userName.substring(0, 10);
 		}
 		
-		return service.rsmSaveChanges(dto, userName);
+		try {
+			dto = service.rsmSaveChanges(dto, userName);
+		} catch (Exception e) {
+			dto.setMessage(Constants.COULD_NOT_UPDATE_RSM_VALUES);
+			dto.setSuccessful(false);
+		}
+
+		return dto;
 	}
 
 }

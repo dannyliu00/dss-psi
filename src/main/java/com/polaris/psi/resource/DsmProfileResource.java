@@ -37,12 +37,13 @@ public class DsmProfileResource {
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ProfileDetailsDto approveWithChanges(ProfileDetailsDto dto) {
+		ProfileDetailsDto response = new ProfileDetailsDto();
 		UserData userData = sessionHelper.getUserData();
 		
 		if(!userData.isDsm()) {
-			ProfileDetailsDto response = new ProfileDetailsDto();
 			response.setMessage(Constants.NOT_AUTHORIZED);
 			response.setSuccessful(false);
+			response.setOrderSegments(dto.getOrderSegments());
 			return response;
 		}
 		
@@ -50,7 +51,15 @@ public class DsmProfileResource {
 		if(userName.length() > 10) {
 			userName = userName.substring(0, 10);
 		}
-		return service.dsmApproveWithChanges(dto, userName);
+		
+		try {
+			response = service.dsmApproveWithChanges(dto, userName);
+		} catch (Exception e) {
+			response.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
+			response.setSuccessful(false);
+		}
+		
+		return response;
 	}
 
 	@Path("/approveRequested")
@@ -58,12 +67,13 @@ public class DsmProfileResource {
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ProfileDetailsDto approveAsRequested(ProfileDetailsDto dto) {
+		ProfileDetailsDto response = new ProfileDetailsDto();
 		UserData userData = sessionHelper.getUserData();
 		
 		if(!userData.isDsm()) {
-			ProfileDetailsDto response = new ProfileDetailsDto();
 			response.setMessage(Constants.NOT_AUTHORIZED);
 			response.setSuccessful(false);
+			response.setOrderSegments(dto.getOrderSegments());
 			return response;
 		}
 		
@@ -72,7 +82,14 @@ public class DsmProfileResource {
 			userName = userName.substring(0, 10);
 		}
 		
-		return service.dsmApproveAsRequested(dto, userName);
+		try {
+			response = service.dsmApproveAsRequested(dto, userName);
+		} catch (Exception e) {
+			response.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
+			response.setSuccessful(false);
+		}
+		
+		return response;
 	}
 
 	@Path("/approveException")
@@ -80,12 +97,13 @@ public class DsmProfileResource {
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ProfileDetailsDto submitForException(ProfileDetailsDto dto) {
+		ProfileDetailsDto response = new ProfileDetailsDto();
 		UserData userData = sessionHelper.getUserData();
 		
 		if(!userData.isDsm()) {
-			ProfileDetailsDto response = new ProfileDetailsDto();
 			response.setMessage(Constants.NOT_AUTHORIZED);
 			response.setSuccessful(false);
+			response.setOrderSegments(dto.getOrderSegments());
 			return response;
 		}
 		
@@ -94,7 +112,14 @@ public class DsmProfileResource {
 			userName = userName.substring(0, 10);
 		}
 
-		return service.dsmSubmitForException(dto, userName);
+		try {
+			response = service.dsmSubmitForException(dto, userName);
+		} catch (Exception e) {
+			response.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
+			response.setSuccessful(false);
+		}
+		
+		return response;
 	}
 
 	@Path("/toDealer")
@@ -102,12 +127,13 @@ public class DsmProfileResource {
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ProfileDetailsDto sendToDealer(ProfileDetailsDto dto) {
+		ProfileDetailsDto response = new ProfileDetailsDto();
 		UserData userData = sessionHelper.getUserData();
 		
 		if(!userData.isDsm()) {
-			ProfileDetailsDto response = new ProfileDetailsDto();
 			response.setMessage(Constants.NOT_AUTHORIZED);
 			response.setSuccessful(false);
+			response.setOrderSegments(dto.getOrderSegments());
 			return response;
 		}
 		
@@ -116,7 +142,14 @@ public class DsmProfileResource {
 			userName = userName.substring(0, 10);
 		}
 		
-		return service.dsmSendToDealer(dto, userName);
+		try {
+			response = service.dsmSendToDealer(dto, userName);
+		} catch (Exception e) {
+			response.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
+			response.setSuccessful(false);
+		}
+		
+		return response;
 	}
 
 	@Path("/save")
@@ -124,12 +157,13 @@ public class DsmProfileResource {
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ProfileDetailsDto saveChanges(ProfileDetailsDto dto) {
+		ProfileDetailsDto response = new ProfileDetailsDto();
 		UserData userData = sessionHelper.getUserData();
 		
 		if(!userData.isDsm()) {
-			ProfileDetailsDto response = new ProfileDetailsDto();
 			response.setMessage(Constants.NOT_AUTHORIZED);
 			response.setSuccessful(false);
+			response.setOrderSegments(dto.getOrderSegments());
 			return response;
 		}
 		
@@ -138,7 +172,14 @@ public class DsmProfileResource {
 			userName = userName.substring(0, 10);
 		}
 		
-		return service.dsmSaveChanges(dto, userName);
+		try {
+			response = service.dsmSaveChanges(dto, userName);
+		} catch (Exception e) {
+			response.setMessage(Constants.COULD_NOT_UPDATE_DSM_VALUES);
+			response.setSuccessful(false);
+		}
+	
+		return response;
 	}
 
 }
