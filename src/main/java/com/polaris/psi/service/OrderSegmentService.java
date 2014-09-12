@@ -326,7 +326,7 @@ public class OrderSegmentService {
 		DealerProfileHeaderStatus status = statusService.getSendToDsmStatus();
 		
 		updateDataFromRsm(profile, status, userName);
-		if(profile.isSuccessful()) emailService.sendReturnToDsmEmail(profile);
+		//if(profile.isSuccessful()) emailService.sendReturnToDsmEmail(profile);
 
 		LOG.methodEnd(PolarisIdentity.get(), "rsmSendToDsm");
 		

@@ -162,9 +162,9 @@ public class EmailService {
     	String toAddress = getDealerEmail(profileDetailsDto);
     	sendEmail(subject, renderedTemplate, toAddress);
     	
-    	// Send email to DSM
-    	toAddress = getDSMEmail(profileDetailsDto);
-    	sendEmail(subject, renderedTemplate, toAddress);
+//    	// Send email to DSM
+//    	toAddress = getDSMEmail(profileDetailsDto);
+//    	sendEmail(subject, renderedTemplate, toAddress);
     	
     	LOG.methodEnd(PolarisIdentity.get(), "sendProfileSubmissionEmail");
     	
@@ -332,8 +332,8 @@ public class EmailService {
     	sendEmail(subject, renderedTemplate, toAddress);
     	
     	// Send email to DSM
-    	toAddress = getDSMEmail(profileDetailsDto);
-    	sendEmail(subject, renderedTemplate, toAddress);
+//    	toAddress = getDSMEmail(profileDetailsDto);
+//    	sendEmail(subject, renderedTemplate, toAddress);
     	
     	LOG.methodEnd(PolarisIdentity.get(), "sendApproveAsCompliantEmail");
 	} 
@@ -364,41 +364,41 @@ public class EmailService {
     	sendEmail(subject, renderedTemplate, toAddress);
     	
     	// Send email to DSM
-    	toAddress = getDSMEmail(profileDetailsDto);
-    	sendEmail(subject, renderedTemplate, toAddress);
+//    	toAddress = getDSMEmail(profileDetailsDto);
+//    	sendEmail(subject, renderedTemplate, toAddress);
     	
     	LOG.methodEnd(PolarisIdentity.get(), "sendApproveAsNonCompliantEmail");
 	} 	
 	
-	public void sendReturnToDsmEmail(ProfileDetailsDto profileDetailsDto) {
-		
-		LOG.methodStart(PolarisIdentity.get(), "sendReturnToDsmEmail");
-		
-    	String subject = String.format("%s %s - %s",getProductLine(profileDetailsDto),translationHelper.getString("Inventory Profile"),translationHelper.getString("has been returned."));
-    	
-    	
-    	Template template = Velocity.getTemplate("/templates/email_return_to_dsm_" + getLang() + ".vm");
-    	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
-
-    	VelocityContext context = new VelocityContext();
-    	context.put("dealerId", dealerInfo.getDealerId());
-    	context.put("dealerName", dealerInfo.getName());
-    	context.put("comment", getDSMComments(profileDetailsDto));
-    	context.put("reason", getDSMReasonCode(profileDetailsDto));
-    	context.put("productLine", getProductLine(profileDetailsDto));
-    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto),true,false,false));
-    	
-    	
-    	StringWriter writer = new StringWriter();
-    	template.merge(context, writer);
-    	String renderedTemplate = writer.toString();
-    	
-    	// Send email to DSM
-    	String toAddress = getDSMEmail(profileDetailsDto);
-    	sendEmail(subject, renderedTemplate, toAddress);
-    	
-    	LOG.methodEnd(PolarisIdentity.get(), "sendReturnToDsmEmail");
-	} 		
+//	public void sendReturnToDsmEmail(ProfileDetailsDto profileDetailsDto) {
+//		
+//		LOG.methodStart(PolarisIdentity.get(), "sendReturnToDsmEmail");
+//		
+//    	String subject = String.format("%s %s - %s",getProductLine(profileDetailsDto),translationHelper.getString("Inventory Profile"),translationHelper.getString("has been returned."));
+//    	
+//    	
+//    	Template template = Velocity.getTemplate("/templates/email_return_to_dsm_" + getLang() + ".vm");
+//    	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
+//
+//    	VelocityContext context = new VelocityContext();
+//    	context.put("dealerId", dealerInfo.getDealerId());
+//    	context.put("dealerName", dealerInfo.getName());
+//    	context.put("comment", getDSMComments(profileDetailsDto));
+//    	context.put("reason", getDSMReasonCode(profileDetailsDto));
+//    	context.put("productLine", getProductLine(profileDetailsDto));
+//    	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto),true,false,false));
+//    	
+//    	
+//    	StringWriter writer = new StringWriter();
+//    	template.merge(context, writer);
+//    	String renderedTemplate = writer.toString();
+//    	
+//    	// Send email to DSM
+//    	String toAddress = getDSMEmail(profileDetailsDto);
+//    	sendEmail(subject, renderedTemplate, toAddress);
+//    	
+//    	LOG.methodEnd(PolarisIdentity.get(), "sendReturnToDsmEmail");
+//	} 		
 	
 	private ProfileDto getProfile(ProfileDetailsDto profileDetailsDto) {
     	OrderSegmentDto segment = profileDetailsDto.getOrderSegments().get(0);
@@ -437,14 +437,14 @@ public class EmailService {
 
     }
     
-    private String getComments(ProfileDetailsDto profileDetailsDto) {
-    	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
-    	if(profileDetailsDto.getOrderSegments().size()==0) { throw new IllegalArgumentException("profileDetailsDto.getOrderSegments is empty"); }
-    	
-    	OrderSegmentDto segment = profileDetailsDto.getOrderSegments().get(0);
-
-    	return segment.getDealerComments();
-    }
+//    private String getComments(ProfileDetailsDto profileDetailsDto) {
+//    	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
+//    	if(profileDetailsDto.getOrderSegments().size()==0) { throw new IllegalArgumentException("profileDetailsDto.getOrderSegments is empty"); }
+//    	
+//    	OrderSegmentDto segment = profileDetailsDto.getOrderSegments().get(0);
+//
+//    	return segment.getDealerComments();
+//    }
 
     
     private String getDSMComments(ProfileDetailsDto profileDetailsDto) {
@@ -456,21 +456,21 @@ public class EmailService {
     	return segment.getDsmComments();
     }
     
-    private String getReasonCode(ProfileDetailsDto profileDetailsDto) {
-    	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
-    	if(profileDetailsDto.getOrderSegments().size()==0) { throw new IllegalArgumentException("profileDetailsDto.getOrderSegments is empty"); }
-    	
-    	
-    	OrderSegmentDto segment = profileDetailsDto.getOrderSegments().get(0);
-    	
-    	for(ReasonCodeDto code: reasonCodeService.getAllCodes()) {
-    		if(code.getId()==segment.getReasonCode()) {
-    			return code.getDescription();
-    		}
-    	}
-
-    	return "Unknown ReasonCode: " + segment.getReasonCode();
-    }      
+//    private String getReasonCode(ProfileDetailsDto profileDetailsDto) {
+//    	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
+//    	if(profileDetailsDto.getOrderSegments().size()==0) { throw new IllegalArgumentException("profileDetailsDto.getOrderSegments is empty"); }
+//    	
+//    	
+//    	OrderSegmentDto segment = profileDetailsDto.getOrderSegments().get(0);
+//    	
+//    	for(ReasonCodeDto code: reasonCodeService.getAllCodes()) {
+//    		if(code.getId()==segment.getReasonCode()) {
+//    			return code.getDescription();
+//    		}
+//    	}
+//
+//    	return "Unknown ReasonCode: " + segment.getReasonCode();
+//    }      
     
     private String getDSMReasonCode(ProfileDetailsDto profileDetailsDto) {
     	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
@@ -536,15 +536,15 @@ public class EmailService {
 		return "Uknown ProductLine";
     }
     
-    private String getDSMEmail(ProfileDetailsDto profileDetailsDto) {
-    	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
-    	if(profileDetailsDto.getOrderSegments().size()==0) { throw new IllegalArgumentException("profileDetailsDto.getOrderSegments is empty"); }
-    	
-    	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
-    	
-    	return dealerInfo.getDsmEmailAddress();
-
-    }
+//    private String getDSMEmail(ProfileDetailsDto profileDetailsDto) {
+//    	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
+//    	if(profileDetailsDto.getOrderSegments().size()==0) { throw new IllegalArgumentException("profileDetailsDto.getOrderSegments is empty"); }
+//    	
+//    	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
+//    	
+//    	return dealerInfo.getDsmEmailAddress();
+//
+//    }
     private String getRSMEmail(ProfileDetailsDto profileDetailsDto) {
     	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
     	if(profileDetailsDto.getOrderSegments().size()==0) { throw new IllegalArgumentException("profileDetailsDto.getOrderSegments is empty"); }
