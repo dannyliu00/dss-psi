@@ -5,6 +5,7 @@ import java.util.Properties;
 
 import javax.mail.MessagingException;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -23,7 +24,6 @@ import com.polaris.psi.util.AttributeHelper;
 import com.polaris.psi.util.PolarisIdentity;
 import com.polaris.psi.util.SplunkLogger;
 import com.polaris.psi.util.TranslationHelper;
-import com.polaris.pwd.translation.TextTranslationService;
 import com.polaris.pwf.session.SessionHelper;
 import com.polarisind.proxy.emailservice.EmailClient;
 import com.polarisind.proxy.emailservice.EmailResponseType;
@@ -67,7 +67,6 @@ public class EmailService {
             Properties p = new Properties();
             p.setProperty("resource.loader", "class");
             p.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-            
             
             Velocity.init(p);
         }
@@ -127,10 +126,7 @@ public class EmailService {
     	LOG.info(PolarisIdentity.get(), "sendEmail", "Email sent to: " + to);
     	
     	LOG.methodEnd(PolarisIdentity.get(), "sendEmail");
-    	
     }
-
-
 
     /**
      * When an order is submitted, an e-mail is sent to the DSM letting them know there is a new order that needs approval.
@@ -139,7 +135,6 @@ public class EmailService {
      */
     public void sendProfileSubmissionEmail(ProfileDetailsDto profileDetailsDto)  {
     	LOG.methodStart(PolarisIdentity.get(), "sendProfileSubmissionEmail");
-    	
     	
     	// Ticket: PS-178: Email to dealer confirming submission.
     	String subject = String.format("%s %s - %s",getProductLine(profileDetailsDto),translationHelper.getString("Inventory Profile"),translationHelper.getString("Submitted"));
@@ -182,19 +177,17 @@ public class EmailService {
 		
     	String subject = String.format("%s %s - %s",getProductLine(profileDetailsDto),translationHelper.getString("Inventory Profile"),translationHelper.getString("Approved As Requested"));
     	
-    	
     	Template template = Velocity.getTemplate("/templates/email_sellIn_approved_as_requested_" + getLang() + ".vm");
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
     	
     	VelocityContext context = new VelocityContext();
+    	context.put("StringUtils", StringUtils.class);
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
     	context.put("productLine", getProductLine(profileDetailsDto));
-    	context.put("comment", getDSMComments(profileDetailsDto));
-    	context.put("reason", getDSMReasonCode(profileDetailsDto));
+    	context.put("comment", null);
+    	context.put("reason", null);
     	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto),true,false,false));
-    	
-
     	
     	StringWriter writer = new StringWriter();
     	template.merge(context, writer);
@@ -215,11 +208,11 @@ public class EmailService {
 		
     	String subject = String.format("%s %s - %s",getProductLine(profileDetailsDto),translationHelper.getString("Inventory Profile"),translationHelper.getString("Approved With Changes"));
     	
-    	
     	Template template = Velocity.getTemplate("/templates/email_sellIn_approved_w_changes_" + getLang() + ".vm");
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
     	
     	VelocityContext context = new VelocityContext();
+    	context.put("StringUtils", StringUtils.class);
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
     	context.put("productLine", getProductLine(profileDetailsDto));
@@ -248,11 +241,11 @@ public class EmailService {
 		
     	String subject = String.format("%s %s - %s",getProductLine(profileDetailsDto),translationHelper.getString("Inventory Profile"),translationHelper.getString("Submitted for Exception"));
     	
-    	
     	Template template = Velocity.getTemplate("/templates/email_sellIn_submit_for_exception_" + getLang() + ".vm");
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
 
     	VelocityContext context = new VelocityContext();
+    	context.put("StringUtils", StringUtils.class);
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
     	context.put("productLine", getProductLine(profileDetailsDto));
@@ -286,6 +279,7 @@ public class EmailService {
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
 
     	VelocityContext context = new VelocityContext();
+    	context.put("StringUtils", StringUtils.class);
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
     	context.put("comment", getDSMComments(profileDetailsDto));
@@ -315,13 +309,13 @@ public class EmailService {
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
 
     	VelocityContext context = new VelocityContext();
+    	context.put("StringUtils", StringUtils.class);
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
     	context.put("comment", getRSMComments(profileDetailsDto));
     	context.put("reason", getRSMReasonCode(profileDetailsDto));
     	context.put("productLine", getProductLine(profileDetailsDto));
     	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto),true,false,false));
-    	
     	
     	StringWriter writer = new StringWriter();
     	template.merge(context, writer);
@@ -347,13 +341,13 @@ public class EmailService {
     	DealerDto dealerInfo = getDealerInfo(profileDetailsDto);
 
     	VelocityContext context = new VelocityContext();
+    	context.put("StringUtils", StringUtils.class);
     	context.put("dealerId", dealerInfo.getDealerId());
     	context.put("dealerName", dealerInfo.getName());
     	context.put("productLine", getProductLine(profileDetailsDto));
     	context.put("comment", getRSMComments(profileDetailsDto));
     	context.put("reason", getRSMReasonCode(profileDetailsDto));
     	context.put("grid",OrderSegmentGrid.create(getProfile(profileDetailsDto),true,false,false));
-    	
     	
     	StringWriter writer = new StringWriter();
     	template.merge(context, writer);
@@ -445,8 +439,6 @@ public class EmailService {
 //
 //    	return segment.getDealerComments();
 //    }
-
-    
     private String getDSMComments(ProfileDetailsDto profileDetailsDto) {
     	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
     	if(profileDetailsDto.getOrderSegments().size()==0) { throw new IllegalArgumentException("profileDetailsDto.getOrderSegments is empty"); }
@@ -476,9 +468,8 @@ public class EmailService {
     	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
     	if(profileDetailsDto.getOrderSegments().size()==0) { throw new IllegalArgumentException("profileDetailsDto.getOrderSegments is empty"); }
     	
-    	
     	OrderSegmentDto segment = profileDetailsDto.getOrderSegments().get(0);
-    	
+
     	for(ReasonCodeDto code: reasonCodeService.getAllCodes()) {
     		if(code.getId()==segment.getDsmReasonCode()) {
     			return code.getDescription();
@@ -486,12 +477,11 @@ public class EmailService {
     	}
 
     	return "Unknown ReasonCode: " + segment.getReasonCode();
-    }   
+    }
 
     private String getRSMReasonCode(ProfileDetailsDto profileDetailsDto) {
     	if(profileDetailsDto==null) {throw new IllegalArgumentException("profileDetailsDto cannot be null");}
     	if(profileDetailsDto.getOrderSegments().size()==0) { throw new IllegalArgumentException("profileDetailsDto.getOrderSegments is empty"); }
-    	
     	
     	OrderSegmentDto segment = profileDetailsDto.getOrderSegments().get(0);
     	
@@ -525,7 +515,6 @@ public class EmailService {
     		LOG.warn(PolarisIdentity.get(), "getProductLine", "Profile not found");
     		return "Uknown ProductLine";
     	}
-
     	
     	for(ProductLineDto pl: productLineService.getProductLines()) {
     		if(pl.getProductLineId().equals(profile.getTypeCode())) {

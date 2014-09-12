@@ -30,7 +30,7 @@ public class PSIOrderSegmentDaoTest {
 	private Object[] mockResult, mockResult2;
 	private List<Object[]> mockResults;
 	private Integer expectedProfileId, expectedDealerId;
-	private BigDecimal expectedId, expectedSort, expectedComplianceId, expectedMin, expectedRec, expectedMax;
+	private BigDecimal expectedId, expectedSort, expectedComplianceId, expectedMin, expectedRec, expectedMax, expectedPeriodId;
 	private String expectedOsCode, expectedOsCode2, expectedOsName, expectedPeriodCode, expectedPeriodCode2;
 	@Mock private PSIOrderSegment mockOrderSegment;
 
@@ -47,6 +47,7 @@ public class PSIOrderSegmentDaoTest {
 		expectedMin = new BigDecimal(1);
 		expectedRec = new BigDecimal(3);
 		expectedMax = new BigDecimal(5);
+		expectedPeriodId = new BigDecimal(10);
 		expectedOsCode = "UT OS Name";
 		expectedOsCode2 = "UT OS Name 2";
 		expectedOsName = "UT SubSegment";
@@ -55,7 +56,7 @@ public class PSIOrderSegmentDaoTest {
 
 		mockResults = new ArrayList<Object[]>();
 		
-		mockResult = new Object[9];
+		mockResult = new Object[10];
 		mockResult[0] = expectedId;
 		mockResult[1] = expectedOsCode;
 		mockResult[2] = expectedSort;
@@ -65,8 +66,9 @@ public class PSIOrderSegmentDaoTest {
 		mockResult[6] = expectedMin;
 		mockResult[7] = expectedRec;
 		mockResult[8] = expectedMax;
+		mockResult[9] = expectedPeriodId;
 		
-		mockResult2 = new Object[9];
+		mockResult2 = new Object[10];
 		mockResult2[0] = expectedId;
 		mockResult2[1] = expectedOsCode2;
 		mockResult2[2] = expectedSort;
@@ -76,6 +78,7 @@ public class PSIOrderSegmentDaoTest {
 		mockResult2[6] = expectedMin;
 		mockResult2[7] = expectedRec;
 		mockResult2[8] = expectedMax;
+		mockResult2[9] = expectedPeriodId;
 		
 		mockResults.add(mockResult);
 		mockResults.add(mockResult2);
@@ -112,6 +115,7 @@ public class PSIOrderSegmentDaoTest {
 		assertEquals(expectedMin.intValueExact(), result.getRecMinimum().intValue());
 		assertEquals(expectedRec.intValueExact(), result.getRecommended().intValue());
 		assertEquals(expectedMax.intValueExact(), result.getRecMaximum().intValue());
+		assertEquals(expectedPeriodId.intValueExact(), result.getPeriodId().intValue());
 		
 		PSIOrderSegment result2 = results.get(1);
 		assertEquals(expectedProfileId, result2.getProfileId());
@@ -125,6 +129,7 @@ public class PSIOrderSegmentDaoTest {
 		assertEquals(expectedMin.intValueExact(), result2.getRecMinimum().intValue());
 		assertEquals(expectedRec.intValueExact(), result2.getRecommended().intValue());
 		assertEquals(expectedMax.intValueExact(), result2.getRecMaximum().intValue());
+		assertEquals(expectedPeriodId.intValueExact(), result2.getPeriodId().intValue());
 		
 		verifyNoMoreInteractions(mockEM, mockQuery);
 	}
@@ -133,7 +138,7 @@ public class PSIOrderSegmentDaoTest {
 	public void testRetrieveByProfileAndDealerSameResult() {
 		mockResults = new ArrayList<Object[]>();
 		
-		mockResult = new Object[9];
+		mockResult = new Object[10];
 		mockResult[0] = expectedId;
 		mockResult[1] = expectedOsCode;
 		mockResult[2] = expectedSort;
@@ -143,8 +148,9 @@ public class PSIOrderSegmentDaoTest {
 		mockResult[6] = expectedMin;
 		mockResult[7] = expectedRec;
 		mockResult[8] = expectedMax;
+		mockResult[9] = expectedPeriodId;
 		
-		mockResult2 = new Object[9];
+		mockResult2 = new Object[10];
 		mockResult2[0] = expectedId;
 		mockResult2[1] = expectedOsCode;
 		mockResult2[2] = expectedSort;
@@ -154,6 +160,7 @@ public class PSIOrderSegmentDaoTest {
 		mockResult2[6] = expectedMin;
 		mockResult2[7] = expectedRec;
 		mockResult2[8] = expectedMax;
+		mockResult2[9] = expectedPeriodId;
 		
 		mockResults.add(mockResult);
 		mockResults.add(mockResult2);
@@ -181,6 +188,7 @@ public class PSIOrderSegmentDaoTest {
 		assertEquals(expectedMin.intValueExact(), result.getRecMinimum().intValue());
 		assertEquals(expectedRec.intValueExact(), result.getRecommended().intValue());
 		assertEquals(expectedMax.intValueExact(), result.getRecMaximum().intValue());
+		assertEquals(expectedPeriodId.intValueExact(), result.getPeriodId().intValue());
 		
 		verifyNoMoreInteractions(mockEM, mockQuery);
 	}

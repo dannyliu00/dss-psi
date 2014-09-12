@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.polaris.psi.Constants;
 import com.polaris.psi.resource.dto.DsmDealerProfilesDto;
 import com.polaris.psi.service.DsmService;
 import com.polaris.pwf.session.SessionHelper;
@@ -37,6 +38,7 @@ public class DsmProfilesResource {
 	@GET
     @Path("/{dsmId}/{type}/current")
     @Produces(MediaType.APPLICATION_JSON)
+	@Deprecated
 	public List<DsmDealerProfilesDto> getDsmCurrentProfiles(@PathParam("dsmId") int dsmId, @PathParam("type") String type) {
 		UserData userData = sessionHelper.getUserData();
 		if(!userData.isDsm() || userData.getDealerId() != dsmId) {
@@ -49,6 +51,7 @@ public class DsmProfilesResource {
 	@GET
     @Path("/{dsmId}/{type}/history")
     @Produces(MediaType.APPLICATION_JSON)
+	@Deprecated
 	public List<DsmDealerProfilesDto> getDsmHistoricalProfiles(@PathParam("dsmId") int dsmId, @PathParam("type") String type) {
 		UserData userData = sessionHelper.getUserData();
 		if(!userData.isDsm() || userData.getDealerId() != dsmId) {
@@ -63,7 +66,9 @@ public class DsmProfilesResource {
     @Produces(MediaType.APPLICATION_JSON)
 	public List<DsmDealerProfilesDto> getDsmCurrentProfiles(@PathParam("type") String type) {
 		UserData userData = sessionHelper.getUserData();
-		if(type == null) type = "2";
+		if(type == null) {
+			type = Constants.DEFAULT_PRODUCT_LINE;
+		}
 		
 		if(userData.isDsm()) {
 			int dsmId = userData.getDealerId();
@@ -77,7 +82,9 @@ public class DsmProfilesResource {
     @Produces(MediaType.APPLICATION_JSON)
 	public List<DsmDealerProfilesDto> getDsmHistoricalProfiles(@PathParam("type") String type) {
 		UserData userData = sessionHelper.getUserData();
-		if(type == null) type = "2";
+		if(type == null) {
+			type = Constants.DEFAULT_PRODUCT_LINE;
+		}
 		
 		if(userData.isDsm()) {
 			int dsmId = userData.getDealerId();

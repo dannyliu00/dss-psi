@@ -137,6 +137,7 @@ public class DetailDataMapperTest {
 		mapper.updateApprovedDetails(mockDetail, mockDto, status);
 		
 		verify(mockDetail).setFinalQty(-1);
+		verify(mockDto).setFinalQty(-1);
 	}
 
 	@Test
@@ -146,6 +147,7 @@ public class DetailDataMapperTest {
 		mapper.updateApprovedDetails(mockDetail, mockDto, status);
 		
 		verify(mockDto).getActual();
+		verify(mockDto).setFinalQty(expectedActual);
 		verify(mockDetail).setFinalQty(expectedActual);
 	}
 
@@ -170,6 +172,7 @@ public class DetailDataMapperTest {
 		mapper.updateApprovedDetails(mockDetail, mockDto, status);
 		
 		verify(mockDto).getAdminQty();
+		verify(mockDto).setFinalQty(expectedRsmQty);
 		verify(mockDetail).setFinalQty(expectedRsmQty);
 	}
 
@@ -182,6 +185,7 @@ public class DetailDataMapperTest {
 		mapper.updateApprovedDetails(mockDetail, mockDto, status);
 		
 		verify(mockDto).getAdminQty();
+		verify(mockDto).setFinalQty(expectedRsmQty);
 		verify(mockDetail).setFinalQty(expectedRsmQty);
 	}
 

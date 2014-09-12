@@ -22,14 +22,14 @@
             } else {
                 dealerProfileResource.save(os)
                     .then(function (returnedos) {
-                        $modalInstance.close(returnedos.successful);
+                        $modalInstance.close(returnedos);
                     });
             }
         };
 
         $scope.exitWithNoChanges = function () {
-            var success = true;
-            $modalInstance.close(success);
+            var profile = {successful: true, message: 'no changes saved'};
+            $modalInstance.close(profile);
         };
 
         $scope.cancel = function () {

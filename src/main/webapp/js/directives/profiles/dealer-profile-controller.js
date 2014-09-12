@@ -98,7 +98,9 @@
         $scope.isEditable = function () {
             var status = $scope.profile.status;
             if (lastTab.profilesTab === 'current') {
-                if ($scope.authLevel === 'adminQty' && status === 'EXCEPTION REQUESTED') {
+            	if ($scope.role.dis === true) {
+            		return false;
+            	} else if ($scope.authLevel === 'adminQty' && status === 'EXCEPTION REQUESTED') {
                     return true;
                 } else if ($scope.authLevel === 'dsmQty' && (status === 'PENDING' || status === 'RETURNED TO DSM')) {
                     return true;

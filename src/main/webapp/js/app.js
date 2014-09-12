@@ -5,7 +5,6 @@
 angular.module('sellIn', [
     'sellIn.filters.dateFilters',
     'polaris.directives.commonHeader',
-    'polaris.directives.commonSearch',
     'polaris.directives.commonFooter',
     'polaris.directives.menu',
     'polaris.directives.tabs',
@@ -23,6 +22,7 @@ angular.module('sellIn', [
     'sellIn.directives.reasonmodal',
     'sellIn.directives.savequantities',
     'sellIn.directives.emailrequired',
+    'sellIn.directives.reasonrequired',
     'sellIn.directives.submitValues',
     'sellIn.directives.summarydatatables',
     'sellIn.directives.producttabs',

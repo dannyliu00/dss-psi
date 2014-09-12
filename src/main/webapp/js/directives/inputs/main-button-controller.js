@@ -54,12 +54,12 @@
                 }
             });
 
-            modalInstance.result.then(function (success) {
-                if (success === true) {
+            modalInstance.result.then(function (profile) {
+                if (profile.successful === true) {
                     var url = buildUrl();
                     navigateTo(url);
                 } else {
-                    openResultsDialog();
+                    openResultsDialog(profile);
                 }
             }, function () {
                 // no-op
@@ -91,12 +91,12 @@
                 }
             });
 
-            modalInstance.result.then(function (success) {
-                if (success.successful !== true) {
-                    openResultsDialog();
+            modalInstance.result.then(function (profile) {
+                if (profile.successful !== true) {
+                    openResultsDialog(profile);
                 } else {
-                	$scope.profile.orderSegments = success.orderSegments;
-                	$scope.orderSegments = success.orderSegments;
+                	$scope.profile.orderSegments = profile.orderSegments;
+                	$scope.orderSegments = profile.orderSegments;
                 	$scope.profile.status = 'IN PROGRESS';
                 }
             }, function () {
@@ -128,12 +128,12 @@
                 }
             });
 
-            modalInstance.result.then(function (success) {
-                if (success === true) {
+            modalInstance.result.then(function (profile) {
+                if (profile.successful === true) {
                     var url = buildUrl();
                     navigateTo(url);
                 } else {
-                    openResultsDialog();
+                    openResultsDialog(profile);
                 }
             }, function () {
                 // no-op
@@ -143,8 +143,7 @@
         $scope.submitRequests = function () {
             if ($scope.profile.dealerEmail == null || $scope.profile.dealerEmail === '') {
                 openEmailRequiredDialog();
-            }
-            else if (angular.element('.compliant').hasClass('noncompliant') || angular.element('.compliant').hasClass('noncomplianttotal')) {
+            } else if (angular.element('.compliant').hasClass('noncompliant') || angular.element('.compliant').hasClass('noncomplianttotal')) {
                 openReasonDialog();
             } else {
                 openSubmitDialog();
@@ -174,12 +173,12 @@
                 }
             });
 
-            modalInstance.result.then(function (success) {
-                if (success === true) {
+            modalInstance.result.then(function (profile) {
+                if (profile.successful === true) {
                     var url = buildUrl();
                     navigateTo(url);
                 } else {
-                    openResultsDialog();
+                    openResultsDialog(profile);
                 }
             }, function () {
                 // no-op
@@ -199,16 +198,24 @@
             });
         }
 
-        function openResultsDialog() {
+        function openResultsDialog(profile) {
 
             var modalInstance = $modal.open({
                 templateUrl: 'js/directives/modal/results-modal-template.html',
                 controller: 'resultsModalController',
-                size: 'sm'
+                size: 'sm',
+                resolve: {
+                    profile: function () {
+                        return profile;
+                    }
+                }
             });
 
             modalInstance.result.then(function () {
-                // no-op
+                if(profile.message === 'The profile status has changed.  Please try again.') {
+                    var url = buildUrl();
+                    navigateTo(url);
+                }
             });
         }
     }

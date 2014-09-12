@@ -38,11 +38,11 @@ public class SegmentStockingProfileOrderMapperTest {
 		expectedSegmentCode = "UT_SEGMENT_CODE";
 		expectedPeriodId = 999;
 		
-		when(mockProfile.getStockingProfilePeriodId()).thenReturn(expectedPeriodId);
 		when(mockProfile.getProfileCode()).thenReturn(expectedProfileCode);
 		when(mockProfile.getSegmentCode()).thenReturn(expectedSegmentCode);
 		
 		when(mockOrderSegment.getFinalQty()).thenReturn(expectedQty);
+		when(mockOrderSegment.getPeriodId()).thenReturn(expectedPeriodId);
 		
 		mapper = new SegmentStockingProfileOrderMapper();
 	}
@@ -82,10 +82,10 @@ public class SegmentStockingProfileOrderMapperTest {
 		assertEquals(-1, result.getUserDef9());
 		assertEquals("", result.getUserDef10());
 		
-		verify(mockProfile).getStockingProfilePeriodId();
 		verify(mockProfile).getProfileCode();
 		verify(mockProfile).getSegmentCode();
 		verify(mockOrderSegment).getFinalQty();
+		verify(mockOrderSegment).getPeriodId();
 		
 		verifyNoMoreInteractions(mockOrderSegment, mockProfile);
 	}

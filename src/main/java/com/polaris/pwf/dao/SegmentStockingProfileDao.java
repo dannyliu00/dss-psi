@@ -13,6 +13,7 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 import com.polaris.psi.repository.entity.SegmentStockingProfile;
+import com.polaris.psi.repository.entity.SegmentStockingProfileOrder;
 import com.polaris.psi.util.CommonUtils;
 import com.polaris.psi.util.PolarisIdentity;
 import com.polaris.psi.util.SplunkLogger;
@@ -22,7 +23,7 @@ import com.polaris.psi.util.SplunkLogger;
  *
  */
 @Repository
-public class SegmentStockingProfileDao extends AbstractPolarisMinneapolisDao<SegmentStockingProfile> {
+public class SegmentStockingProfileDao extends AbstractPolarisMinneapolisDao<SegmentStockingProfileOrder> {
 	
 	private static final SplunkLogger LOG = new SplunkLogger(SegmentStockingProfileDao.class);
 	
@@ -38,7 +39,7 @@ public class SegmentStockingProfileDao extends AbstractPolarisMinneapolisDao<Seg
 			+ "   AND dealer.PTCUST = :dealerId";
 
 	public SegmentStockingProfileDao() {
-		super(SegmentStockingProfile.class);
+		super(SegmentStockingProfileOrder.class);
 	}
 	
 	/**
@@ -76,13 +77,13 @@ public class SegmentStockingProfileDao extends AbstractPolarisMinneapolisDao<Seg
 				profile.setPeriodEndDate(CommonUtils.setDate((Date) result[7]));
 				profile.setStockingProfileProfileCode(CommonUtils.trimString((String) result[8]));
 				profile.setStockingProfileSegmentCode(CommonUtils.trimString((String) result[9]));
-				profile.setStockingProfilePeriodId(((BigDecimal) result[10]).intValueExact());
-				profile.setRecommendedQty(((BigDecimal) result[11]).intValueExact());
+				profile.setStockingProfilePeriodId(CommonUtils.convertToInt((BigDecimal) result[10]));
+				profile.setRecommendedQty(CommonUtils.convertToInt((BigDecimal) result[11]));
 				
 				stockingProfiles.add(profile);
 			}
 		} catch (Exception e) {
-			LOG.error(PolarisIdentity.get(), "retrieveSegmentProfilesList", e.getMessage());
+			LOG.error(PolarisIdentity.get(), "retrieveSegmentProfilesList", e);
 		} finally {
 			entityManager.close();
 			LOG.trace(PolarisIdentity.get(), "retrieveSegmentProfilesList", "entityManager closed");

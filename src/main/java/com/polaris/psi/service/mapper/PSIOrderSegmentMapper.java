@@ -73,6 +73,7 @@ public class PSIOrderSegmentMapper {
 		dto.setRecommended(os.getRecommended());
 		dto.setSort(os.getSort());
 		dto.setOsName(os.getOsName());
+		dto.setPeriodId(os.getPeriodId());
 
 		if(detail != null) {
 			dto.setActual(detail.getRequestedQty());
