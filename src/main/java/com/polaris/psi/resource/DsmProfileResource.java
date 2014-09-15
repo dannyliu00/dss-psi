@@ -43,6 +43,7 @@ public class DsmProfileResource {
 	public ProfileDetailsDto approveWithChanges(ProfileDetailsDto dto) {
 		LOG.methodStart(PolarisIdentity.get(), "approveWithChanges");
 		
+		// TODO Move duplicate code from POST methods to re-usable private methods
 		ProfileDetailsDto response = new ProfileDetailsDto();
 		UserData userData = sessionHelper.getUserData();
 		
@@ -78,6 +79,7 @@ public class DsmProfileResource {
 	public ProfileDetailsDto approveAsRequested(ProfileDetailsDto dto) {
 		LOG.methodStart(PolarisIdentity.get(), "approveAsRequested");
 
+		// TODO Move duplicate code from POST methods to re-usable private methods
 		ProfileDetailsDto response = new ProfileDetailsDto();
 		UserData userData = sessionHelper.getUserData();
 		
@@ -113,6 +115,7 @@ public class DsmProfileResource {
 	public ProfileDetailsDto submitForException(ProfileDetailsDto dto) {
 		LOG.methodStart(PolarisIdentity.get(), "submitForException");
 
+		// TODO Move duplicate code from POST methods to re-usable private methods
 		ProfileDetailsDto response = new ProfileDetailsDto();
 		UserData userData = sessionHelper.getUserData();
 		
@@ -148,6 +151,7 @@ public class DsmProfileResource {
 	public ProfileDetailsDto sendToDealer(ProfileDetailsDto dto) {
 		LOG.methodStart(PolarisIdentity.get(), "sendToDealer");
 
+		// TODO Move duplicate code from POST methods to re-usable private methods
 		ProfileDetailsDto response = new ProfileDetailsDto();
 		UserData userData = sessionHelper.getUserData();
 		
@@ -183,6 +187,7 @@ public class DsmProfileResource {
 	public ProfileDetailsDto saveChanges(ProfileDetailsDto dto) {
 		LOG.methodStart(PolarisIdentity.get(), "saveChanges");
 
+		// TODO Move duplicate code from POST methods to re-usable private methods
 		ProfileDetailsDto response = new ProfileDetailsDto();
 		UserData userData = sessionHelper.getUserData();
 		
